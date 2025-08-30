@@ -17,9 +17,9 @@ class Homecontroller extends GetxController {
   BabyModel? selectedBady;
   BabyAnalyticsLog? babyAnalytics;
 
-  fetchBabies({isNew = false}) async {
+  fetchBabies({String? userId,isNew = false}) async {
     await ApiService.request(
-      endpoint: "/babies",
+      endpoint: "/babies/user/$userId",
       method: Api.GET,
       onSuccess: (body) {
         myBabies.clear();

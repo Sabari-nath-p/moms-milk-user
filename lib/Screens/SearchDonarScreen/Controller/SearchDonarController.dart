@@ -81,6 +81,7 @@ class SearchDonarController extends GetxController {
     update();
 
     try {
+      
       // Build query parameters
       Map<String, String> queryParams = {
         'page': currentPage.toString(),
