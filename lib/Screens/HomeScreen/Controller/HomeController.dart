@@ -5,6 +5,7 @@ import 'package:mommilk_user/Models/BabyAnalyticsModel.dart';
 import 'package:mommilk_user/Models/DiaperLogModel.dart';
 import 'package:mommilk_user/Models/SleepLogModel.dart';
 import 'package:mommilk_user/Models/FeedingLogModel.dart';
+import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Views/DiaperChangeBottomSheet.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Views/SleepLogBottomSheet.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Views/FeedingLogBottomSheet.dart';
@@ -17,9 +18,9 @@ class Homecontroller extends GetxController {
   BabyModel? selectedBady;
   BabyAnalyticsLog? babyAnalytics;
 
-  fetchBabies({String? userId,isNew = false}) async {
+  fetchBabies({isNew = false}) async {
     await ApiService.request(
-      endpoint: "/babies/user/$userId",
+      endpoint: "/babies/user/${user.id}",
       method: Api.GET,
       onSuccess: (body) {
         myBabies.clear();
