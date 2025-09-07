@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Models/UserModel.dart';
@@ -136,6 +137,7 @@ class Onboardingcontroller extends GetxController {
           pref.setString("AUTHKEY", body.data["accessToken"]);
           pref.setString("USERKEY", jsonEncode(body.data["user"]));
           user = UserModel.fromJson(body.data["user"]);
+          setFcm();
 
           Get.offAll(
             () => CreateBabyScreen(),
@@ -149,6 +151,19 @@ class Onboardingcontroller extends GetxController {
     );
     isLoading = false;
     update();
+  }
+
+  setFcm() async {
+    try {
+      String? token = await FirebaseMessaging.instance.getToken();
+
+      if (token != null) {
+        ApiService.request(
+          endpoint: "/auth/fcm-token",
+          body: {"fcmToken": token},
+        );
+      }
+    } catch (e) {}
   }
 
   bool validateUserDetails() {

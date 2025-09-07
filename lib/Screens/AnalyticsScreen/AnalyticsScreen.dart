@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:mommilk_user/Models/BabyModel.dart';
@@ -61,29 +62,8 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Baby Analytics'),
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: const [
-            Tab(icon: Icon(Icons.local_drink), text: 'Feeding'),
-            Tab(icon: Icon(Icons.child_care), text: 'Diaper'),
-            Tab(icon: Icon(Icons.bedtime), text: 'Sleep'),
-          ],
-        ),
-        actions: [
-          GetBuilder<Homecontroller>(
-            builder:
-                (controller) => IconButton(
-                  onPressed: () => controller.refreshAnalytics(),
-                  icon: const Icon(Icons.refresh),
-                  tooltip: 'Refresh Analytics',
-                ),
-          ),
-        ],
-      ),
-      body: GetBuilder<Homecontroller>(
+    return Container(
+      child: GetBuilder<Homecontroller>(
         builder: (controller) {
           if (controller.isAnalyticsLoading) {
             return const Center(
@@ -97,9 +77,8 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
               ),
             );
           }
-
           // Handle different states
-          if (controller.myBabies.isEmpty) {
+          else if (controller.myBabies.isEmpty) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -126,33 +105,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
                 ],
               ),
             );
-          }
-
-          if (controller.selectedBady == null) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.analytics,
-                    size: 64,
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.primary.withOpacity(0.5),
-                  ),
-                  const SizedBox(height: 16),
-                  const Text('No baby selected'),
-                  const SizedBox(height: 8),
-                  const Text(
-                    'Please select a baby to view analytics',
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                ],
-              ),
-            );
-          }
-
-          if (controller.babyAnalytics == null) {
+          } else if (controller.babyAnalytics == null) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -184,128 +137,14 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
           return Column(
             children: [
               // Baby Selector
-              if (controller.myBabies.isNotEmpty) ...[
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  child: Row(
-                    children: [
-                      const Text(
-                        'Selected Baby: ',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: DropdownButton<int>(
-                          value:
-                              controller.selectedBady != null &&
-                                      controller.myBabies.any(
-                                        (baby) =>
-                                            baby.id ==
-                                            controller.selectedBady!.id,
-                                      )
-                                  ? controller.selectedBady!.id
-                                  : null,
-                          isExpanded: true,
-                          hint: const Text('Select a baby'),
-                          onChanged: (int? newBabyId) {
-                            if (newBabyId != null) {
-                              try {
-                                // Find the baby with the selected ID
-                                final selectedBaby = controller.myBabies
-                                    .firstWhere((baby) => baby.id == newBabyId);
-                                controller.selectedBady = selectedBaby;
-                                controller.fetchBabyAnalytics(
-                                  babyId: selectedBaby.id!,
-                                );
-                                controller.update();
-                              } catch (e) {
-                                // Handle case where baby is not found
-                                Get.snackbar(
-                                  'Error',
-                                  'Selected baby not found. Please try again.',
-                                  backgroundColor: Colors.red,
-                                  colorText: Colors.white,
-                                );
-                              }
-                            }
-                          },
-                          items:
-                              controller.myBabies.map<DropdownMenuItem<int>>((
-                                BabyModel baby,
-                              ) {
-                                return DropdownMenuItem<int>(
-                                  value: baby.id,
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        width: 32,
-                                        height: 32,
-                                        decoration: BoxDecoration(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary
-                                              .withOpacity(0.1),
-                                          borderRadius: BorderRadius.circular(
-                                            16,
-                                          ),
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            (baby.name?.isNotEmpty ?? false)
-                                                ? baby.name![0].toUpperCase()
-                                                : 'B',
-                                            style: TextStyle(
-                                              color:
-                                                  Theme.of(
-                                                    context,
-                                                  ).colorScheme.primary,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 12),
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text(
-                                              baby.name ?? 'Unknown Baby',
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                            if (baby.deliveryDate != null)
-                                              Text(
-                                                controller.calculateAge(
-                                                  DateTime.parse(
-                                                    baby.deliveryDate!,
-                                                  ),
-                                                ),
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.grey[600],
-                                                ),
-                                              ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }).toList(),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const Divider(height: 1),
-              ],
+              TabBar(
+                controller: _tabController,
+                tabs: const [
+                  Tab(icon: Icon(Icons.local_drink), text: 'Feeding'),
+                  Tab(icon: Icon(Icons.child_care), text: 'Diaper'),
+                  Tab(icon: Icon(Icons.bedtime), text: 'Sleep'),
+                ],
+              ),
 
               // Tab Content
               Expanded(
@@ -1378,6 +1217,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
             padding: const EdgeInsets.all(16),
             child: GridView.builder(
               shrinkWrap: true,
+
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 4,
@@ -1389,7 +1229,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
               itemBuilder: (context, index) {
                 final item = distribution[index];
                 return Container(
-                  padding: const EdgeInsets.all(8),
+                  // padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     color: Colors.purple.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(8),
@@ -1401,16 +1241,16 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
                       Text(
                         '${item.hour ?? 0}h',
                         style: const TextStyle(
-                          fontSize: 12,
+                          fontSize: 10,
                           fontWeight: FontWeight.bold,
                           color: Colors.purple,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: 1),
                       Text(
                         '${item.changeCount ?? 0}',
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 12,
                           fontWeight: FontWeight.bold,
                           color: Colors.purple.shade700,
                         ),

@@ -5,6 +5,7 @@ import 'package:mommilk_user/Models/UserModel.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/AuthenticationScreen.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
+import 'package:mommilk_user/Screens/NotificationSettings/NotificationSettingsScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -94,21 +95,22 @@ class ProfileScreen extends StatelessWidget {
                 ).textTheme.bodyMedium?.color?.withOpacity(0.7),
               ),
             ),
-            const SizedBox(height: 20),
-            SizedBox(
-              width: double.infinity,
-              child: OutlinedButton.icon(
-                onPressed: () => _showEditProfileDialog(context),
-                icon: const Icon(Icons.edit, size: 18),
-                label: const Text('Edit Profile'),
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+            if (false) const SizedBox(height: 20),
+            if (false)
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  onPressed: () => _showEditProfileDialog(context),
+                  icon: const Icon(Icons.edit, size: 18),
+                  label: const Text('Edit Profile'),
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                 ),
               ),
-            ),
           ],
         ),
       ),
@@ -505,22 +507,7 @@ class ProfileScreen extends StatelessWidget {
   }
 
   void _showNotificationSettings(BuildContext context) {
-    showDialog(
-      context: context,
-      builder:
-          (context) => AlertDialog(
-            title: const Text('Notification Settings'),
-            content: const Text(
-              'Notification preferences will be implemented here.',
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('OK'),
-              ),
-            ],
-          ),
-    );
+    Get.to(() => const NotificationSettingsScreen());
   }
 
   void _showPrivacySettings(BuildContext context) {

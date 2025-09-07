@@ -1,4 +1,4 @@
-package com.example.mommilk_user
+package com.app.momsmilk
 
 import io.flutter.embedding.android.FlutterActivity
 

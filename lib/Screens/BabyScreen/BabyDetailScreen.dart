@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:get/get.dart';
 import 'package:mommilk_user/Models/BabyModel.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
 
@@ -12,12 +12,23 @@ class BabyDetailsScreen extends StatefulWidget {
   State<BabyDetailsScreen> createState() => _BabyDetailsScreenState();
 }
 
-class _BabyDetailsScreenState extends State<BabyDetailsScreen>
-    with TickerProviderStateMixin {
+class _BabyDetailsScreenState extends State<BabyDetailsScreen> {
+  int _currentTabIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    // Fetch analytics data for this specific baby
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final controller = Get.find<Homecontroller>();
+      controller.fetchBabyAnalytics(babyId: widget.baby.id!);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("My Baby")),
+      appBar: AppBar(title: Text("My Baby - ${widget.baby.name}")),
       body: GetBuilder<Homecontroller>(
         builder:
             (controller) => Scaffold(
@@ -32,8 +43,8 @@ class _BabyDetailsScreenState extends State<BabyDetailsScreen>
                     ),
                   ),
                   SliverFillRemaining(
-                    child: TabBarView(
-                      controller: TabController(length: 4, vsync: this),
+                    child: IndexedStack(
+                      index: _currentTabIndex,
                       children: [
                         _buildOverviewTab(),
                         _buildFeedingTab(),
@@ -50,65 +61,71 @@ class _BabyDetailsScreenState extends State<BabyDetailsScreen>
   }
 
   Widget _buildQuickStats(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(16),
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Today\'s Summary',
-            style: Theme.of(
-              context,
-            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              Expanded(
-                child: _buildStatCard(
-                  context,
-                  'Feedings',
-                  '8',
-                  Icons.local_drink,
-                  Colors.blue,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _buildStatCard(
-                  context,
-                  'Diapers',
-                  '6',
-                  Icons.child_care,
-                  Colors.orange,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _buildStatCard(
-                  context,
-                  'Sleep',
-                  '12h',
-                  Icons.bedtime,
-                  Colors.purple,
-                ),
+    return GetBuilder<Homecontroller>(
+      builder: (controller) {
+        final analytics = controller.babyAnalytics;
+
+        return Container(
+          margin: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surface,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 10,
+                offset: const Offset(0, 2),
               ),
             ],
           ),
-        ],
-      ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Recent Summary for ${widget.baby.name}',
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildStatCard(
+                      context,
+                      'Feedings',
+                      '${analytics?.feeding?.totalFeeds ?? 0}',
+                      Icons.local_drink,
+                      Colors.blue,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _buildStatCard(
+                      context,
+                      'Diapers',
+                      '${analytics?.diaper?.totalChanges ?? 0}',
+                      Icons.child_care,
+                      Colors.orange,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _buildStatCard(
+                      context,
+                      'Sleep',
+                      '${analytics?.sleep?.totalSleepSessions ?? 0}',
+                      Icons.bedtime,
+                      Colors.purple,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -149,26 +166,53 @@ class _BabyDetailsScreenState extends State<BabyDetailsScreen>
   }
 
   Widget _buildTabBar(BuildContext context) {
+    final tabs = ['Overview', 'Feeding', 'Diaper', 'Sleep'];
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
       ),
-      child: TabBar(
-        controller: TabController(length: 4, vsync: this),
-        indicator: BoxDecoration(
-          color: Theme.of(context).colorScheme.primary,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        labelColor: Colors.white,
-        unselectedLabelColor: Theme.of(context).textTheme.bodyMedium?.color,
-        tabs: const [
-          Tab(text: 'Overview'),
-          Tab(text: 'Feeding'),
-          Tab(text: 'Diaper'),
-          Tab(text: 'Sleep'),
-        ],
+      child: Row(
+        children:
+            tabs.asMap().entries.map((entry) {
+              final index = entry.key;
+              final title = entry.value;
+              final isSelected = _currentTabIndex == index;
+
+              return Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _currentTabIndex = index;
+                    });
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    decoration: BoxDecoration(
+                      color:
+                          isSelected
+                              ? Theme.of(context).colorScheme.primary
+                              : Colors.transparent,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      title,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color:
+                            isSelected
+                                ? Colors.white
+                                : Theme.of(context).textTheme.bodyMedium?.color,
+                        fontWeight:
+                            isSelected ? FontWeight.w600 : FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }).toList(),
       ),
     );
   }

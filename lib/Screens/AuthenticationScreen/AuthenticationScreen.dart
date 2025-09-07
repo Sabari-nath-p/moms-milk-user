@@ -216,9 +216,7 @@ class Authenticationscreen extends StatelessWidget {
                 ),
               ),
             ),
-
             const SizedBox(height: 24),
-
             ElevatedButton(
               onPressed:
                   controller.isLoading

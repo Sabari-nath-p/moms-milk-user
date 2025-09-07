@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1058336253933",
+    "project_id": "momsmilk-8df67",
+    "storage_bucket": "momsmilk-8df67.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1058336253933:android:dd6835e365d2c65747a9e4",
+        "android_client_info": {
+          "package_name": "com.app.momsmilk"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgafsnVA5GdReLpBgJ3FokZqWZ-1pYBPM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

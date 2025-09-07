@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -46,6 +47,7 @@ class AuthenticationController extends GetxController {
             );
             user = UserModel.fromJson(data.data["authData"]["user"]);
             Get.offAll(() => MainDashboard(), transition: Transition.cupertino);
+            setFcm();
           }
         } else {
           Get.snackbar(
@@ -64,6 +66,19 @@ class AuthenticationController extends GetxController {
     );
     isLoading = false;
     update();
+  }
+
+  setFcm() async {
+    try {
+      String? token = await FirebaseMessaging.instance.getToken();
+
+      if (token != null) {
+        ApiService.request(
+          endpoint: "/auth/fcm-token",
+          body: {"fcmToken": token},
+        );
+      }
+    } catch (e) {}
   }
 
   sendOtp() async {
