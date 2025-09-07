@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/state_manager.dart';
 import 'package:mommilk_user/Screens/AnalyticsScreen/AnalyticsScreen.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
 import 'package:mommilk_user/Screens/BabyScreen/BabyScreen.dart';
 import 'package:mommilk_user/Screens/Dashboard/Controller/DashboardController.dart';
-import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/HomeScreen.dart';
 import 'package:mommilk_user/Screens/ProfileScreen/ProfileScreen.dart';
 
@@ -52,11 +50,13 @@ class MainDashboard extends StatelessWidget {
           body:
               (controller.selectedMenu == 0)
                   ? Homescreen()
-                  : (controller.selectedMenu == 3)
-                  ? ProfileScreen()
+                  : (controller.selectedMenu == 1)
+                  ? const AnalyticsScreen()
                   : (controller.selectedMenu == 2)
                   ? BabyScreen()
-                  : AnalyticsScreen(),
+                  : (controller.selectedMenu == 3)
+                  ? ProfileScreen()
+                  : Container(),
 
           bottomNavigationBar: NavigationBar(
             selectedIndex: controller.selectedMenu,
