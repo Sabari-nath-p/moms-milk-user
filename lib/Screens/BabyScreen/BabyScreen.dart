@@ -5,6 +5,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:mommilk_user/Models/BabyModel.dart';
 import 'package:mommilk_user/Screens/BabyScreen/BabyDetailScreen.dart';
+import 'package:mommilk_user/Screens/CreateBabyScreen/Controller/BabyCreateController.dart';
 import 'package:mommilk_user/Screens/CreateBabyScreen/CreateBabyScreen.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
 
@@ -215,61 +216,58 @@ class BabyScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    PopupMenuButton<String>(
-                      onSelected: (value) {
-                        switch (value) {
-                          // case 'view':
-                          //   Get.toNamed(AppRoutes.babyDetail, arguments: baby);
-                          //   break;
-                          // case 'edit':
-                          //   _showEditBabyDialog(context, baby, controller);
-                          //   break;
-                          // case 'delete':
-                          //   _showDeleteConfirmation(context, baby, controller);
-                          //   break;
-                        }
-                      },
-                      itemBuilder:
-                          (context) => [
-                            const PopupMenuItem(
-                              value: 'view',
-                              child: Row(
-                                children: [
-                                  Icon(Icons.visibility, size: 18),
-                                  SizedBox(width: 8),
-                                  Text('View Details'),
-                                ],
-                              ),
-                            ),
-                            const PopupMenuItem(
-                              value: 'edit',
-                              child: Row(
-                                children: [
-                                  Icon(Icons.edit, size: 18),
-                                  SizedBox(width: 8),
-                                  Text('Edit'),
-                                ],
-                              ),
-                            ),
-                            const PopupMenuItem(
-                              value: 'delete',
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.delete,
-                                    size: 18,
-                                    color: Colors.red,
-                                  ),
-                                  SizedBox(width: 8),
-                                  Text(
-                                    'Delete',
-                                    style: TextStyle(color: Colors.red),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                    ),
+                  PopupMenuButton<String>(
+  onSelected: (value) {
+    switch (value) {
+      case 'view':
+        Get.to(
+          () => BabyDetailsScreen(baby: baby),
+          transition: Transition.rightToLeft,
+        );
+        break;
+      case 'edit':
+        // TODO: integrate edit flow if needed
+        break;
+      case 'delete':
+        _showDeleteConfirmation(context, baby);
+        break;
+    }
+  },
+  itemBuilder: (context) => [
+    const PopupMenuItem(
+      value: 'view',
+      child: Row(
+        children: [
+          Icon(Icons.visibility, size: 18),
+          SizedBox(width: 8),
+          Text('View Details'),
+        ],
+      ),
+    ),
+    const PopupMenuItem(
+      value: 'edit',
+      child: Row(
+        children: [
+          Icon(Icons.edit, size: 18),
+          SizedBox(width: 8),
+          Text('Edit'),
+        ],
+      ),
+    ),
+    const PopupMenuItem(
+      value: 'delete',
+      child: Row(
+        children: [
+          Icon(Icons.delete, size: 18, color: Colors.red),
+          SizedBox(width: 8),
+          Text('Delete', style: TextStyle(color: Colors.red)),
+        ],
+      ),
+    ),
+  ],
+),
+
+                    
                   ],
                 ),
                 const SizedBox(height: 20),
@@ -635,37 +633,35 @@ class BabyScreen extends StatelessWidget {
   // }
 
   void _showDeleteConfirmation(BuildContext context, BabyModel baby) {
-    showDialog(
-      context: context,
-      builder:
-          (context) => AlertDialog(
-            title: const Text('Delete Baby Profile'),
-            content: Text(
-              'Are you sure you want to delete ${baby.name}\'s profile? This action cannot be undone.',
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('Cancel'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  //  controller.removeBabyProfile(baby.id);
-                  Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('${baby.name}\'s profile deleted')),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
-                  foregroundColor: Colors.white,
-                ),
-                child: const Text('Delete'),
-              ),
-            ],
+  final createBabyController = Get.put(CreateBabyController()); // ensure controller available
+
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: const Text('Delete Baby Profile'),
+      content: Text(
+        'Are you sure you want to delete ${baby.name}\'s profile? This action cannot be undone.',
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Cancel'),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            Navigator.pop(context); // close dialog first
+            createBabyController.deleteBaby(baby.id!);
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.red,
+            foregroundColor: Colors.white,
           ),
-    );
-  }
+          child: const Text('Delete'),
+        ),
+      ],
+    ),
+  );
+}
 }
 
 String getFormattedAge(BabyModel baby) {

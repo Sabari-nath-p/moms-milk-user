@@ -11,6 +11,7 @@ class Authenticationscreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+     resizeToAvoidBottomInset: true,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Container(
         width: double.infinity,

@@ -48,7 +48,34 @@ class CreateBabyController extends GetxController {
       update();
     }
   }
+Future<void> deleteBaby(int babyId) async {
+    isLoading = true;
+    update();
 
+    await ApiService.request(
+      endpoint: "/babies/$babyId",
+      method: Api.DELETE,
+      onSuccess: (data) {
+        if (data.statusCode == 200 ) {
+          Get.snackbar("Success", "Baby deleted successfully");
+          try {
+            Homecontroller controller = Get.find();
+            controller.fetchBabies();
+            controller.update();
+          } catch (e) {
+            print("HomeController not found: $e");
+          }
+          Get.back(); // Close dialog/screen after delete
+        }
+      },
+      onError: (error) {
+        Get.snackbar("Error", "Failed to delete baby: $error");
+      },
+    );
+
+    isLoading = false;
+    update();
+  }
   bool validateBabyDetails() {
     // Validate baby name (required)
     if (babyNameController.text.trim().isEmpty) {
