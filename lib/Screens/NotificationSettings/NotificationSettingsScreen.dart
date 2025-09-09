@@ -44,157 +44,157 @@ class _NotificationSettingsScreenState
       );
     }
   }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Notification Settings'),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Notification Status
-            Card(
-              child: ListTile(
-                leading: Icon(
-                  _notificationsEnabled
-                      ? Icons.notifications_active
-                      : Icons.notifications_off,
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: const Text('Notification Settings'),
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+    ),
+    body: SingleChildScrollView(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Notification Status
+          Card(
+            child: ListTile(
+              leading: Icon(
+                _notificationsEnabled
+                    ? Icons.notifications_active
+                    : Icons.notifications_off,
+                color: _notificationsEnabled ? Colors.green : Colors.red,
+              ),
+              title: const Text('Push Notifications'),
+              subtitle: Text(
+                _notificationsEnabled ? 'Enabled' : 'Disabled',
+                style: TextStyle(
                   color: _notificationsEnabled ? Colors.green : Colors.red,
                 ),
-                title: const Text('Push Notifications'),
-                subtitle: Text(
-                  _notificationsEnabled ? 'Enabled' : 'Disabled',
-                  style: TextStyle(
-                    color: _notificationsEnabled ? Colors.green : Colors.red,
+              ),
+              trailing: IconButton(
+                icon: const Icon(Icons.refresh),
+                onPressed: _loadNotificationSettings,
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 16),
+
+          // FCM Token
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const Icon(Icons.token),
+                      const SizedBox(width: 8),
+                      const Text(
+                        'FCM Token',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const Spacer(),
+                      if (_fcmToken != null)
+                        IconButton(
+                          icon: const Icon(Icons.copy),
+                          onPressed: _copyTokenToClipboard,
+                          tooltip: 'Copy token',
+                        ),
+                    ],
                   ),
-                ),
-                trailing: IconButton(
-                  icon: const Icon(Icons.refresh),
-                  onPressed: _loadNotificationSettings,
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 16),
-
-            // FCM Token
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        const Icon(Icons.token),
-                        const SizedBox(width: 8),
-                        const Text(
-                          'FCM Token',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const Spacer(),
-                        if (_fcmToken != null)
-                          IconButton(
-                            icon: const Icon(Icons.copy),
-                            onPressed: _copyTokenToClipboard,
-                            tooltip: 'Copy token',
-                          ),
-                      ],
+                  const SizedBox(height: 8),
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Colors.grey.withOpacity(0.3)),
                     ),
-                    const SizedBox(height: 8),
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: Colors.grey.withOpacity(0.3)),
-                      ),
-                      child: Text(
-                        _fcmToken ?? 'Loading...',
-                        style: const TextStyle(
-                          fontFamily: 'monospace',
-                          fontSize: 12,
-                        ),
+                    child: Text(
+                      _fcmToken ?? 'Loading...',
+                      style: const TextStyle(
+                        fontFamily: 'monospace',
+                        fontSize: 12,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
+          ),
 
-            const SizedBox(height: 16),
+          const SizedBox(height: 16),
 
-            // Topic Subscriptions
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Row(
-                      children: [
-                        Icon(Icons.topic),
-                        SizedBox(width: 8),
-                        Text(
-                          'Topic Subscriptions',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
+          // Topic Subscriptions
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Row(
+                    children: [
+                      Icon(Icons.topic),
+                      SizedBox(width: 8),
+                      Text(
+                        'Topic Subscriptions',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
                         ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    _buildTopicSubscription('general', 'General Notifications'),
-                    _buildTopicSubscription(
-                      'feeding_reminders',
-                      'Feeding Reminders',
-                    ),
-                    _buildTopicSubscription(
-                      'diaper_reminders',
-                      'Diaper Reminders',
-                    ),
-                    _buildTopicSubscription(
-                      'sleep_reminders',
-                      'Sleep Reminders',
-                    ),
-                    _buildTopicSubscription(
-                      'analytics_updates',
-                      'Analytics Updates',
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  _buildTopicSubscription('general', 'General Notifications'),
+                  _buildTopicSubscription(
+                    'feeding_reminders',
+                    'Feeding Reminders',
+                  ),
+                  _buildTopicSubscription(
+                    'diaper_reminders',
+                    'Diaper Reminders',
+                  ),
+                  _buildTopicSubscription(
+                    'sleep_reminders',
+                    'Sleep Reminders',
+                  ),
+                  _buildTopicSubscription(
+                    'analytics_updates',
+                    'Analytics Updates',
+                  ),
+                ],
               ),
             ),
+          ),
 
-            const SizedBox(height: 16),
+          const SizedBox(height: 16),
 
-            // Test Notification Button
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: _sendTestNotification,
-                icon: const Icon(Icons.send),
-                label: const Text('Send Test Notification'),
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.all(16),
-                ),
+          // Test Notification Button
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              onPressed: _sendTestNotification,
+              icon: const Icon(Icons.send),
+              label: const Text('Send Test Notification'),
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.all(16),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
+
 
   Widget _buildTopicSubscription(String topic, String displayName) {
     return Padding(

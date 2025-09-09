@@ -7,6 +7,7 @@ import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthControl
 import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
 import 'package:mommilk_user/Screens/NotificationSettings/NotificationSettingsScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -234,12 +235,17 @@ class ProfileScreen extends StatelessWidget {
               () => _showHelpSupport(context),
             ),
             const Divider(height: 24),
-            _buildSettingItem(
+           _buildSettingItem(
               context,
               'Logout',
               'Sign out of your account',
               Icons.logout,
-              () => _showLogoutConfirmation(context),
+              () {
+                // Call logout from AuthenticationController
+                AuthenticationController authController =
+                    Get.put(AuthenticationController());
+                authController.logout();
+              },
               isDestructive: true,
             ),
           ],
@@ -509,25 +515,51 @@ class ProfileScreen extends StatelessWidget {
   void _showNotificationSettings(BuildContext context) {
     Get.to(() => const NotificationSettingsScreen());
   }
+ void _showPrivacySettings(BuildContext context) async {
+  const urlString = 'https://momsmilk.netlify.app';
+  Uri url;
 
-  void _showPrivacySettings(BuildContext context) {
-    showDialog(
-      context: context,
-      builder:
-          (context) => AlertDialog(
-            title: const Text('Privacy & Security'),
-            content: const Text(
-              'Privacy and security settings will be implemented here.',
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('OK'),
-              ),
-            ],
-          ),
+  // Parse URL safely
+  try {
+    url = Uri.parse(urlString);
+  } catch (e) {
+    Get.snackbar(
+      'Error',
+      'Invalid URL',
+      backgroundColor: Colors.red,
+      colorText: Colors.white,
+      duration: const Duration(seconds: 2),
+    );
+    return;
+  }
+
+  try {
+    if (await canLaunchUrl(url)) {
+      await launchUrl(
+        url,
+        mode: LaunchMode.externalApplication,
+      );
+    } else {
+      Get.snackbar(
+        'Error',
+        'Cannot open link. Please check your device.',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        duration: const Duration(seconds: 3),
+      );
+    }
+  } catch (e) {
+    Get.snackbar(
+      'Error',
+      'Failed to open link: $e',
+      backgroundColor: Colors.red,
+      colorText: Colors.white,
+      duration: const Duration(seconds: 3),
     );
   }
+}
+
+
 
   void _showDataExport(BuildContext context) {
     showDialog(
@@ -588,43 +620,49 @@ class ProfileScreen extends StatelessWidget {
       ],
     );
   }
-
-  void _showLogoutConfirmation(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Row(
-            children: [
-              Icon(Icons.logout, color: Colors.red, size: 24),
-              const SizedBox(width: 12),
-              const Text('Logout'),
-            ],
-          ),
-          content: const Text(
-            'Are you sure you want to logout? You will need to sign in again to access your account.',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                _performLogout(context);
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
-                foregroundColor: Colors.white,
-              ),
-              child: const Text('Logout'),
-            ),
+void _showLogoutConfirmation(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Row(
+          children: [
+            Icon(Icons.logout, color: Colors.red, size: 24),
+            const SizedBox(width: 12),
+            const Text('Logout'),
           ],
-        );
-      },
-    );
-  }
+        ),
+        content: const Text(
+          'Are you sure you want to logout? You will need to sign in again to access your account.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              Navigator.of(context).pop(); // Close the dialog first
+
+              // Get the AuthenticationController instance
+             
+              
+              // Perform logout
+              _performLogout(context);
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+              foregroundColor: Colors.white,
+            ),
+            child: const Text('Logout'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+
 
   Future<void> _performLogout(BuildContext context) async {
     try {

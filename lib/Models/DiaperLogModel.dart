@@ -1,59 +1,47 @@
 class DiaperLogModel {
   int? id;
-  DateTime date;
-  DateTime time;
-  DiaperType diaperType;
+  String? diaperType; // Stored as string, can map to enum if needed
   String? note;
   int? babyId;
-  String? createdAt;
+  String? date;      // API returns ISO string
+  String? time;      // API returns ISO string
+  String? createdAt; // Optional timestamp
   String? updatedAt;
 
   DiaperLogModel({
     this.id,
-    required this.date,
-    required this.time,
-    required this.diaperType,
+    this.diaperType,
     this.note,
     this.babyId,
+    this.date,
+    this.time,
     this.createdAt,
     this.updatedAt,
   });
 
-  DiaperLogModel.fromJson(Map<String, dynamic> json)
-    : date = DateTime.parse(json['date']),
-      time = DateTime.parse(json['time']),
-      diaperType = DiaperType.values.firstWhere(
-        (e) =>
-            e.name.toUpperCase() == json['diaperType'].toString().toUpperCase(),
-        orElse: () => DiaperType.SOLID,
-      ) {
-    id = json['id'];
-    note = json['note'];
-    babyId = json['babyId'];
+  factory DiaperLogModel.fromJson(Map<String, dynamic> json) {
+    return DiaperLogModel(
+      id: json['id'],
+      diaperType: json['diaperType'],
+      note: json['note'],
+      babyId: json['babyId'],
+      date: json['date'],
+      time: json['time'],
+      createdAt: json['createdAt'],
+      updatedAt: json['updatedAt'],
+    );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'date': date.toIso8601String().split('T')[0], // YYYY-MM-DD format
-      'time': time.toIso8601String(),
-      'diaperType': diaperType.name.toUpperCase(),
-      'note': note,
-      'babyId': babyId,
+      "id": id,
+      "diaperType": diaperType,
+      "note": note,
+      "babyId": babyId,
+      "date": date,
+      "time": time,
+      "createdAt": createdAt,
+      "updatedAt": updatedAt,
     };
-  }
-}
-
-enum DiaperType { SOLID, LIQUID, BOTH }
-
-extension DiaperTypeExtension on DiaperType {
-  String get displayName {
-    switch (this) {
-      case DiaperType.SOLID:
-        return 'Solid';
-      case DiaperType.LIQUID:
-        return 'Liquid';
-      case DiaperType.BOTH:
-        return 'Both';
-    }
   }
 }

@@ -564,7 +564,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
     }
 
     // Validate amount if provided
-    int? parsedAmount;
+    int ? parsedAmount;
     if (amountController.text.trim().isNotEmpty) {
       parsedAmount = int.tryParse(amountController.text.trim());
       if (parsedAmount == null || parsedAmount <= 0) {

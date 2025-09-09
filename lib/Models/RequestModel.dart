@@ -40,29 +40,30 @@ class RequestModel {
   });
 
   RequestModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    requestType = json['requestType'];
-    status = json['status'];
-    title = json['title'];
-    description = json['description'];
-    quantity = json['quantity'];
-    urgency = json['urgency'];
-    requesterZipcode = json['requesterZipcode'];
-    donorZipcode = json['donorZipcode'];
-    distance = json['distance'];
-    neededBy = json['neededBy'];
-    acceptedAt = json['acceptedAt'];
-    completedAt = json['completedAt'];
-    notes = json['notes'];
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
-    requester =
-        json['requester'] != null
-            ? new Requester.fromJson(json['requester'])
-            : null;
-    donor =
-        json['donor'] != null ? new Requester.fromJson(json['donor']) : null;
-  }
+  id = (json['id'] is int) ? json['id'] : (json['id'] as num?)?.toInt();
+  requestType = json['requestType'];
+  status = json['status'];
+  title = json['title'];
+  description = json['description'];
+  quantity = (json['quantity'] is int) ? json['quantity'] : (json['quantity'] as num?)?.toInt();
+  urgency = json['urgency'];
+  requesterZipcode = json['requesterZipcode'];
+  donorZipcode = json['donorZipcode'];
+  distance = (json['distance'] is int) ? json['distance'] : (json['distance'] as num?)?.toInt();
+  neededBy = json['neededBy'];
+  acceptedAt = json['acceptedAt'];
+  completedAt = json['completedAt'];
+  notes = json['notes'];
+  createdAt = json['createdAt'];
+  updatedAt = json['updatedAt'];
+  requester = json['requester'] != null
+      ? Requester.fromJson(json['requester'])
+      : null;
+  donor = json['donor'] != null
+      ? Requester.fromJson(json['donor'])
+      : null;
+}
+
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();

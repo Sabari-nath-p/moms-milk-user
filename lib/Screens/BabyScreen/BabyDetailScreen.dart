@@ -1,12 +1,16 @@
-import 'package:flutter/cupertino.dart';
+// ---------------- BABY DETAILS SCREEN ----------------
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Models/BabyModel.dart';
+import 'package:mommilk_user/Models/DiaperLogModel.dart';
+import 'package:mommilk_user/Models/FeedingLogModel.dart';
+import 'package:mommilk_user/Models/SleepLogModel.dart';
+import 'package:mommilk_user/Screens/BabyScreen/Controller/BabyDetailController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
 
 class BabyDetailsScreen extends StatefulWidget {
-  BabyModel baby;
-  BabyDetailsScreen({super.key, required this.baby});
+  final BabyModel baby;
+  const BabyDetailsScreen({super.key, required this.baby});
 
   @override
   State<BabyDetailsScreen> createState() => _BabyDetailsScreenState();
@@ -14,15 +18,17 @@ class BabyDetailsScreen extends StatefulWidget {
 
 class _BabyDetailsScreenState extends State<BabyDetailsScreen> {
   int _currentTabIndex = 0;
+  late BabyLogsController logsController;
 
   @override
   void initState() {
     super.initState();
-    // Fetch analytics data for this specific baby
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final controller = Get.find<Homecontroller>();
-      controller.fetchBabyAnalytics(babyId: widget.baby.id!);
-    });
+
+    final homeController = Get.find<Homecontroller>();
+    homeController.fetchBabyAnalytics(babyId: widget.baby.id!);
+
+    // ✅ initialize directly (avoid null issue)
+    logsController = Get.put(BabyLogsController(babyId: widget.baby.id!));
   }
 
   @override
@@ -30,36 +36,34 @@ class _BabyDetailsScreenState extends State<BabyDetailsScreen> {
     return Scaffold(
       appBar: AppBar(title: Text("My Baby - ${widget.baby.name}")),
       body: GetBuilder<Homecontroller>(
-        builder:
-            (controller) => Scaffold(
-              body: CustomScrollView(
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: Column(
-                      children: [
-                        _buildQuickStats(context),
-                        _buildTabBar(context),
-                      ],
-                    ),
-                  ),
-                  SliverFillRemaining(
-                    child: IndexedStack(
-                      index: _currentTabIndex,
-                      children: [
-                        _buildOverviewTab(),
-                        _buildFeedingTab(),
-                        _buildDiaperTab(),
-                        _buildSleepTab(),
-                      ],
-                    ),
-                  ),
+        builder: (controller) => CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: Column(
+                children: [
+                  _buildQuickStats(context),
+                  _buildTabBar(context),
                 ],
               ),
             ),
+            SliverFillRemaining(
+              child: IndexedStack(
+                index: _currentTabIndex,
+                children: [
+                  _buildOverviewTab(),
+                  _buildFeedingTab(),
+                  _buildDiaperTab(),
+                  _buildSleepTab(),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
+  // ---------------- QUICK STATS ----------------
   Widget _buildQuickStats(BuildContext context) {
     return GetBuilder<Homecontroller>(
       builder: (controller) {
@@ -84,9 +88,10 @@ class _BabyDetailsScreenState extends State<BabyDetailsScreen> {
             children: [
               Text(
                 'Recent Summary for ${widget.baby.name}',
-                style: Theme.of(
-                  context,
-                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge
+                    ?.copyWith(fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 16),
               Row(
@@ -156,15 +161,15 @@ class _BabyDetailsScreenState extends State<BabyDetailsScreen> {
           ),
           Text(
             title,
-            style: Theme.of(
-              context,
-            ).textTheme.bodySmall?.copyWith(color: color),
+            style:
+                Theme.of(context).textTheme.bodySmall?.copyWith(color: color),
           ),
         ],
       ),
     );
   }
 
+  // ---------------- TAB BAR ----------------
   Widget _buildTabBar(BuildContext context) {
     final tabs = ['Overview', 'Feeding', 'Diaper', 'Sleep'];
 
@@ -175,48 +180,46 @@ class _BabyDetailsScreenState extends State<BabyDetailsScreen> {
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
-        children:
-            tabs.asMap().entries.map((entry) {
-              final index = entry.key;
-              final title = entry.value;
-              final isSelected = _currentTabIndex == index;
+        children: tabs.asMap().entries.map((entry) {
+          final index = entry.key;
+          final title = entry.value;
+          final isSelected = _currentTabIndex == index;
 
-              return Expanded(
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _currentTabIndex = index;
-                    });
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    decoration: BoxDecoration(
-                      color:
-                          isSelected
-                              ? Theme.of(context).colorScheme.primary
-                              : Colors.transparent,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text(
-                      title,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color:
-                            isSelected
-                                ? Colors.white
-                                : Theme.of(context).textTheme.bodyMedium?.color,
-                        fontWeight:
-                            isSelected ? FontWeight.w600 : FontWeight.normal,
-                      ),
-                    ),
+          return Expanded(
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  _currentTabIndex = index;
+                });
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                decoration: BoxDecoration(
+                  color: isSelected
+                      ? Theme.of(context).colorScheme.primary
+                      : Colors.transparent,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: isSelected
+                        ? Colors.white
+                        : Theme.of(context).textTheme.bodyMedium?.color,
+                    fontWeight:
+                        isSelected ? FontWeight.w600 : FontWeight.normal,
                   ),
                 ),
-              );
-            }).toList(),
+              ),
+            ),
+          );
+        }).toList(),
       ),
     );
   }
 
+  // ---------------- OVERVIEW TAB ----------------
   Widget _buildOverviewTab() {
     return Padding(
       padding: const EdgeInsets.all(16),
@@ -236,347 +239,246 @@ class _BabyDetailsScreenState extends State<BabyDetailsScreen> {
             _buildInfoRow('Weight', '${widget.baby.weight ?? "Not set"} kg'),
             _buildInfoRow('Height', 'Not set cm'),
           ]),
-          const SizedBox(height: 16),
-          _buildInfoCard(context, 'Recent Activity', [
-            _buildActivityItem(
-              'Last feeding',
-              '2 hours ago',
-              Icons.local_drink,
-              Colors.blue,
-            ),
-            _buildActivityItem(
-              'Last diaper change',
-              '45 minutes ago',
-              Icons.child_care,
-              Colors.orange,
-            ),
-            _buildActivityItem(
-              'Sleep started',
-              '3 hours ago',
-              Icons.bedtime,
-              Colors.purple,
-            ),
-          ]),
         ],
       ),
     );
   }
 
+  // ---------------- FEEDING TAB ----------------
   Widget _buildFeedingTab() {
-    final feedings = _getDummyFeedings();
+    return GetBuilder<BabyLogsController>(
+      builder: (controller) {
+        if (controller.isLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Feeding History',
-                style: Theme.of(
-                  context,
-                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
-              ),
-              ElevatedButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.add, size: 16),
-                label: const Text('Add'),
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
+        final List<FeedingLogModel> feedings = controller.feedLogs;
+        if (feedings.isEmpty) {
+          return const Center(child: Text("No feeding logs available"));
+        }
+
+        return ListView.builder(
+          padding: const EdgeInsets.all(16),
+          itemCount: feedings.length,
+          itemBuilder: (context, index) {
+            final log = feedings[index];
+            return Container(
+              margin: const EdgeInsets.only(bottom: 12),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: Theme.of(context).dividerColor.withOpacity(0.1),
                 ),
               ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Expanded(
-            child: ListView.builder(
-              itemCount: feedings.length,
-              itemBuilder: (context, index) {
-                final feeding = feedings[index];
-                return Container(
-                  margin: const EdgeInsets.only(bottom: 12),
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: Theme.of(context).dividerColor.withOpacity(0.1),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.blue.withOpacity(0.1),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(Icons.local_drink, color: Colors.blue),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${(log.amount ?? 0).toInt()} ml - ${log.feedType.displayName}',
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium
+                              ?.copyWith(fontWeight: FontWeight.w600),
+                        ),
+                        Text(
+                          _timeAgo(DateTime.parse(log.createdAt!)),
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.color
+                                    ?.withOpacity(0.7),
+                              ),
+                        ),
+                      ],
                     ),
                   ),
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Colors.blue.withOpacity(0.1),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.local_drink,
-                          color: Colors.blue,
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${feeding['amount']}ml - ${feeding['type']}',
-                              style: Theme.of(context).textTheme.titleMedium
-                                  ?.copyWith(fontWeight: FontWeight.w600),
-                            ),
-                            Text(
-                              feeding['time'],
-                              style: Theme.of(
-                                context,
-                              ).textTheme.bodySmall?.copyWith(
-                                color: Theme.of(
-                                  context,
-                                ).textTheme.bodySmall?.color?.withOpacity(0.7),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      if (feeding['notes'] != null)
-                        const Icon(Icons.note, size: 16, color: Colors.grey),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
+                ],
+              ),
+            );
+          },
+        );
+      },
     );
   }
 
-  Widget _buildDiaperTab() {
-    final diapers = _getDummyDiapers();
+  // ---------------- DIAPER TAB ----------------
+Widget _buildDiaperTab() {
+  return GetBuilder<BabyLogsController>(
+    builder: (controller) {
+      if (controller.isLoading) {
+        return const Center(child: CircularProgressIndicator());
+      }
 
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Diaper Changes',
-                style: Theme.of(
-                  context,
-                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
+      final List<DiaperLogModel> diapers = controller.diaperLogs;
+      if (diapers.isEmpty) {
+        return const Center(child: Text("No diaper logs available"));
+      }
+
+      return ListView.builder(
+        padding: const EdgeInsets.all(16),
+        itemCount: diapers.length,
+        itemBuilder: (context, index) {
+          final log = diapers[index];
+          return Container(
+            margin: const EdgeInsets.only(bottom: 12),
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surface,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: Theme.of(context).dividerColor.withOpacity(0.1),
               ),
-              ElevatedButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.add, size: 16),
-                label: const Text('Add'),
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Expanded(
-            child: ListView.builder(
-              itemCount: diapers.length,
-              itemBuilder: (context, index) {
-                final diaper = diapers[index];
-                return Container(
-                  margin: const EdgeInsets.only(bottom: 12),
-                  padding: const EdgeInsets.all(16),
+            ),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: Theme.of(context).dividerColor.withOpacity(0.1),
-                    ),
+                    color: Colors.orange.withOpacity(0.1),
+                    shape: BoxShape.circle,
                   ),
-                  child: Row(
+                  child: const Icon(Icons.child_care, color: Colors.orange),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Colors.orange.withOpacity(0.1),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.child_care,
-                          color: Colors.orange,
-                        ),
+                      Text(
+                        log.diaperType ?? "Unknown",
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium
+                            ?.copyWith(fontWeight: FontWeight.w600),
                       ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              diaper['type'],
-                              style: Theme.of(context).textTheme.titleMedium
-                                  ?.copyWith(fontWeight: FontWeight.w600),
+                      Text(
+                        log.time != null
+                            ? _timeAgo(DateTime.parse(log.time!))
+                            : "No time available",
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.color
+                                  ?.withOpacity(0.7),
                             ),
-                            Text(
-                              diaper['time'],
-                              style: Theme.of(
-                                context,
-                              ).textTheme.bodySmall?.copyWith(
-                                color: Theme.of(
-                                  context,
-                                ).textTheme.bodySmall?.color?.withOpacity(0.7),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: _getDiaperTypeColor(
-                            diaper['type'],
-                          ).withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                          diaper['type'],
-                          style: TextStyle(
-                            color: _getDiaperTypeColor(diaper['type']),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
                       ),
                     ],
                   ),
-                );
-              },
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
-    );
-  }
+          );
+        },
+      );
+    },
+  );
+}
 
+
+  // ---------------- SLEEP TAB ----------------
   Widget _buildSleepTab() {
-    final sleeps = _getDummySleeps();
+    return GetBuilder<BabyLogsController>(
+      builder: (controller) {
+        if (controller.isLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Sleep Sessions',
-                style: Theme.of(
-                  context,
-                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
-              ),
-              ElevatedButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.add, size: 16),
-                label: const Text('Add'),
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
+        final List<SleepLogModel> sleeps = controller.sleepLogs;
+        if (sleeps.isEmpty) {
+          return const Center(child: Text("No sleep logs available"));
+        }
+
+        return ListView.builder(
+          padding: const EdgeInsets.all(16),
+          itemCount: sleeps.length,
+          itemBuilder: (context, index) {
+            final log = sleeps[index];
+            final start = log.startTime!;
+            final end = log.endTime!;
+
+            final quality = _calculateSleepQuality(start, end);
+
+            return Container(
+              margin: const EdgeInsets.only(bottom: 12),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: Theme.of(context).dividerColor.withOpacity(0.1),
                 ),
               ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Expanded(
-            child: ListView.builder(
-              itemCount: sleeps.length,
-              itemBuilder: (context, index) {
-                final sleep = sleeps[index];
-                return Container(
-                  margin: const EdgeInsets.only(bottom: 12),
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: Theme.of(context).dividerColor.withOpacity(0.1),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.purple.withOpacity(0.1),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(Icons.bedtime, color: Colors.purple),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${_formatDuration(start, end)} - $quality',
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium
+                              ?.copyWith(fontWeight: FontWeight.w600),
+                        ),
+                        Text(
+                          '${_formatTime(start)} - ${_formatTime(end)}',
+                          style:
+                              Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.color
+                                        ?.withOpacity(0.7),
+                                  ),
+                        ),
+                      ],
                     ),
                   ),
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Colors.purple.withOpacity(0.1),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(Icons.bedtime, color: Colors.purple),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${sleep['duration']} - ${sleep['quality']}',
-                              style: Theme.of(context).textTheme.titleMedium
-                                  ?.copyWith(fontWeight: FontWeight.w600),
-                            ),
-                            Text(
-                              '${sleep['startTime']} - ${sleep['endTime']}',
-                              style: Theme.of(
-                                context,
-                              ).textTheme.bodySmall?.copyWith(
-                                color: Theme.of(
-                                  context,
-                                ).textTheme.bodySmall?.color?.withOpacity(0.7),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: _getSleepQualityColor(
-                            sleep['quality'],
-                          ).withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                          sleep['quality'],
-                          style: TextStyle(
-                            color: _getSleepQualityColor(sleep['quality']),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
+                ],
+              ),
+            );
+          },
+        );
+      },
     );
   }
 
+  String _calculateSleepQuality(DateTime start, DateTime end) {
+    final duration = end.difference(start).inMinutes;
+
+    if (duration < 30) return "Poor";
+    if (duration < 90) return "Fair";
+    if (duration < 180) return "Good";
+    return "Excellent";
+  }
+
+  // ---------------- INFO CARD ----------------
   Widget _buildInfoCard(
     BuildContext context,
     String title,
@@ -596,9 +498,10 @@ class _BabyDetailsScreenState extends State<BabyDetailsScreen> {
         children: [
           Text(
             title,
-            style: Theme.of(
-              context,
-            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+            style:
+                Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
           ),
           const SizedBox(height: 12),
           ...children,
@@ -616,113 +519,26 @@ class _BabyDetailsScreenState extends State<BabyDetailsScreen> {
           Text(
             label,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(
-                context,
-              ).textTheme.bodyMedium?.color?.withOpacity(0.7),
-            ),
+                  color: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.color
+                      ?.withOpacity(0.7),
+                ),
           ),
           Text(
             value,
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium
+                ?.copyWith(fontWeight: FontWeight.w600),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildActivityItem(
-    String title,
-    String time,
-    IconData icon,
-    Color color,
-  ) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(6),
-            decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(icon, color: color, size: 16),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Text(title, style: Theme.of(context).textTheme.bodyMedium),
-          ),
-          Text(
-            time,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: Theme.of(
-                context,
-              ).textTheme.bodySmall?.color?.withOpacity(0.7),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildQuickActionButton(
-    BuildContext context,
-    String title,
-    IconData icon,
-    Color color,
-    VoidCallback onTap,
-  ) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.pop(context);
-        onTap();
-      },
-      child: Container(
-        width: 80,
-        height: 80,
-        decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, color: color, size: 32),
-            const SizedBox(height: 4),
-            Text(
-              title,
-              style: TextStyle(
-                color: color,
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _showEditBabyBottomSheet() {
-    // Implementation for editing baby details
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Edit baby functionality will be implemented'),
-      ),
-    );
-  }
-
-  void _showDeleteConfirmation() {
-    // Implementation for deleting baby
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Delete baby functionality will be implemented'),
-      ),
-    );
-  }
-
+  // ---------------- HELPERS ----------------
   String _calculateAge(DateTime birthDate) {
     final now = DateTime.now();
     final difference = now.difference(birthDate);
@@ -743,85 +559,25 @@ class _BabyDetailsScreenState extends State<BabyDetailsScreen> {
     return '${date.day}/${date.month}/${date.year}';
   }
 
-  Color _getDiaperTypeColor(String type) {
-    switch (type.toLowerCase()) {
-      case 'wet':
-        return Colors.blue;
-      case 'dirty':
-        return Colors.brown;
-      case 'both':
-        return Colors.orange;
-      default:
-        return Colors.grey;
-    }
+  String _timeAgo(DateTime dateTime) {
+    final diff = DateTime.now().difference(dateTime);
+    if (diff.inMinutes < 60) return "${diff.inMinutes} minutes ago";
+    if (diff.inHours < 24) return "${diff.inHours} hours ago";
+    return "${diff.inDays} days ago";
   }
 
-  Color _getSleepQualityColor(String quality) {
-    switch (quality.toLowerCase()) {
-      case 'excellent':
-        return Colors.green;
-      case 'good':
-        return Colors.blue;
-      case 'fair':
-        return Colors.orange;
-      case 'poor':
-        return Colors.red;
-      default:
-        return Colors.grey;
-    }
+  String _formatTime(DateTime dateTime) {
+    final hour = dateTime.hour % 12 == 0 ? 12 : dateTime.hour % 12;
+    final minute = dateTime.minute.toString().padLeft(2, '0');
+    final period = dateTime.hour >= 12 ? "PM" : "AM";
+    return "$hour:$minute $period";
   }
 
-  List<Map<String, dynamic>> _getDummyFeedings() {
-    return [
-      {
-        'amount': 120,
-        'type': 'Breast Milk',
-        'time': '2 hours ago',
-        'notes': null,
-      },
-      {
-        'amount': 100,
-        'type': 'Formula',
-        'time': '5 hours ago',
-        'notes': 'Baby seemed extra hungry',
-      },
-      {
-        'amount': 140,
-        'type': 'Breast Milk',
-        'time': '8 hours ago',
-        'notes': null,
-      },
-    ];
-  }
-
-  List<Map<String, dynamic>> _getDummyDiapers() {
-    return [
-      {'type': 'Wet', 'time': '45 minutes ago'},
-      {'type': 'Both', 'time': '3 hours ago'},
-      {'type': 'Dirty', 'time': '6 hours ago'},
-    ];
-  }
-
-  List<Map<String, dynamic>> _getDummySleeps() {
-    return [
-      {
-        'duration': '2h 30m',
-        'quality': 'Good',
-        'startTime': '1:00 PM',
-        'endTime': '3:30 PM',
-      },
-      {
-        'duration': '1h 45m',
-        'quality': 'Excellent',
-        'startTime': '10:00 AM',
-        'endTime': '11:45 AM',
-      },
-      {
-        'duration': '3h 15m',
-        'quality': 'Fair',
-        'startTime': '6:00 AM',
-        'endTime': '9:15 AM',
-      },
-    ];
+  String _formatDuration(DateTime start, DateTime end) {
+    final diff = end.difference(start);
+    final hours = diff.inHours;
+    final minutes = diff.inMinutes % 60;
+    return "${hours}h ${minutes}m";
   }
 }
+
