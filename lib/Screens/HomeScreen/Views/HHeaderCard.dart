@@ -15,14 +15,9 @@ class HHeaderCard extends StatelessWidget {
             padding: const EdgeInsets.all(20),
             margin: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                  Theme.of(context).colorScheme.secondary.withOpacity(0.05),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
+              color: Theme.of(context).colorScheme.background.withOpacity(
+                0.92,
+              ), // Blended Deep Charcoal
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
                 color: Theme.of(context).colorScheme.primary.withOpacity(0.2),

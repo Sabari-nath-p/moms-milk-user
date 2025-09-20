@@ -21,7 +21,7 @@ class MainDashboard extends StatelessWidget {
           appBar: AppBar(
             centerTitle: false,
             title: Text('Moms Milks'),
-            backgroundColor: Theme.of(context).colorScheme.surface,
+            // backgroundColor: Theme.of(context).colorScheme.surface,
             actions: [
               user.userType == 'DONAR'
                   ? IconButton(
@@ -66,7 +66,14 @@ class MainDashboard extends StatelessWidget {
             },
             destinations: _destinations,
             elevation: 8,
-            backgroundColor: Theme.of(context).colorScheme.surface,
+            labelTextStyle: WidgetStateProperty.all(
+              TextStyle(
+                color: Colors.white54,
+                fontWeight: FontWeight.w600,
+                fontSize: 11,
+              ),
+            ),
+            backgroundColor: Color.fromARGB(255, 127, 74, 101).withOpacity(.3),
             indicatorColor: Theme.of(
               context,
             ).colorScheme.primary.withOpacity(0.2),

@@ -2,37 +2,48 @@ import 'package:flutter/material.dart';
 
 class AppTheme {
   // Light Theme Colors
-  static const Color primaryColor = Color(0xFFFFECB3);
-  static const Color secondaryColor = Color(0xFFFFDEB8);
-  static const Color backgroundColor = Color(0xFFF5F5F5);
-  static const Color surfaceColor = Color(0xFFFFFFFF);
-  static const Color errorColor = Color(0xFFE53935);
-  static const Color onPrimaryColor = Color(0xFF8D6E63);
-  static const Color onSecondaryColor = Color(0xFF8D6E63);
-  static const Color onBackgroundColor = Color(0xFF212121);
-  static const Color onSurfaceColor = Color(0xFF212121);
-  static const Color onErrorColor = Color(0xFFFFFFFF);
 
-  // Dark Theme Colors
-  static const Color darkPrimaryColor = Color(0xFFFFECB3); // Warmer gold
-  static const Color darkSecondaryColor = Color(0xFFFFDEB8); // Amber accent
-  static const Color darkBackgroundColor = Color(0xFF121212); // True dark
-  static const Color darkSurfaceColor = Color(0xFF1E1E1E); // Dark surface
-  static const Color darkErrorColor = Color(0xFFCF6679);
-  static const Color darkOnPrimaryColor = Color(0xFF000000);
-  static const Color darkOnSecondaryColor = Color(0xFF000000);
-  static const Color darkOnBackgroundColor = Color(0xFFE0E0E0);
-  static const Color darkOnSurfaceColor = Color(0xFFE0E0E0);
-  static const Color darkOnErrorColor = Color(0xFF000000);
+  // Custom Palette
+  static const Color primaryColor = Color(0xFFF69173); // Warm Coral
+  static const Color secondaryColor = Color(0xFFD66EAB); // Tender Rose
+  static const Color backgroundColor = Color(0xFF3F2F39); // Deep Charcoal
+  static const Color surfaceColor = Color(0xFFF9F1EF); // Soft Cream
+  static const Color errorColor = Color(0xFFE53935);
+  static const Color onPrimaryColor = Color(
+    0xFFF9F1EF,
+  ); // Soft Cream for text on accent
+  static const Color onSecondaryColor = Color(
+    0xFFF9F1EF,
+  ); // Soft Cream for text on accent
+  static const Color onBackgroundColor = Color(
+    0xFFF9F1EF,
+  ); // Soft Cream for text on dark
+  static const Color onSurfaceColor = Color(
+    0xFF3F2F39,
+  ); // Deep Charcoal for text on light
+  static const Color onErrorColor = Color(0xFFF9F1EF);
+
+  // Dark Theme Colors (same palette, but swap background/surface)
+  static const Color darkPrimaryColor = Color(0xFFF69173); // Warm Coral
+  static const Color darkSecondaryColor = Color(0xFFD66EAB); // Tender Rose
+  static const Color darkBackgroundColor = Color(0xFF3F2F39); // Deep Charcoal
+  static const Color darkSurfaceColor = Color(0xFFF9F1EF); // Soft Cream
+  static const Color darkErrorColor = Color(0xFFE53935);
+  static const Color darkOnPrimaryColor = Color(0xFFF9F1EF);
+  static const Color darkOnSecondaryColor = Color(0xFFF9F1EF);
+  static const Color darkOnBackgroundColor = Color(0xFFF9F1EF);
+  static const Color darkOnSurfaceColor = Color(0xFF3F2F39);
+  static const Color darkOnErrorColor = Color(0xFFF9F1EF);
 
   // Text Colors
-  static const Color textPrimaryColor = Color(0xFF212121);
-  static const Color textSecondaryColor = Color(0xFF757575);
+  static const Color textPrimaryColor = Color(0xFFF9F1EF); // Soft Cream
+  static const Color textSecondaryColor =
+      Colors.white12; //Color(0xFFD66EAB); // Tender Rose
   static const Color textDisabledColor = Color(0xFFBDBDBD);
 
   // Dark Text Colors
-  static const Color darkTextPrimaryColor = Color(0xFFE0E0E0);
-  static const Color darkTextSecondaryColor = Color(0xFFB0B0B0);
+  static const Color darkTextPrimaryColor = Color(0xFFF9F1EF); // Soft Cream
+  static const Color darkTextSecondaryColor = Color(0xFFD66EAB); // Tender Rose
   static const Color darkTextDisabledColor = Color(0xFF555555);
 
   // Font Families
@@ -46,10 +57,12 @@ class AppTheme {
     colorScheme: const ColorScheme.light(
       primary: primaryColor,
       secondary: secondaryColor,
+      background: backgroundColor,
       surface: surfaceColor,
       error: errorColor,
       onPrimary: onPrimaryColor,
       onSecondary: onSecondaryColor,
+      onBackground: onBackgroundColor,
       onSurface: onSurfaceColor,
       onError: onErrorColor,
     ),
@@ -226,28 +239,34 @@ class AppTheme {
     useMaterial3: true,
     brightness: Brightness.dark,
     colorScheme: const ColorScheme.dark(
-      primary: primaryColor,
-      secondary: secondaryColor,
+      primary: darkPrimaryColor,
+      secondary: darkSecondaryColor,
+      background: darkBackgroundColor,
       surface: darkSurfaceColor,
       error: darkErrorColor,
       onPrimary: darkOnPrimaryColor,
       onSecondary: darkOnSecondaryColor,
+      onBackground: darkOnBackgroundColor,
       onSurface: darkOnSurfaceColor,
       onError: darkOnErrorColor,
     ),
     scaffoldBackgroundColor: darkBackgroundColor,
 
+    // Ensure all card backgrounds use Soft Cream
+    cardColor: darkSurfaceColor,
+    canvasColor: darkBackgroundColor,
+
     // App Bar Theme
     appBarTheme: const AppBarTheme(
-      backgroundColor: darkSurfaceColor,
-      foregroundColor: darkTextPrimaryColor,
+      backgroundColor: darkBackgroundColor, // Deep Charcoal
+      foregroundColor: darkOnBackgroundColor, // Soft Cream
       elevation: 0,
       centerTitle: true,
       titleTextStyle: TextStyle(
         fontFamily: primaryFont,
         fontSize: 20,
         fontWeight: FontWeight.w600,
-        color: darkTextPrimaryColor,
+        color: darkOnBackgroundColor, // Soft Cream
       ),
     ),
 
@@ -257,99 +276,99 @@ class AppTheme {
         fontFamily: primaryFont,
         fontSize: 32,
         fontWeight: FontWeight.w700,
-        color: darkTextPrimaryColor,
+        color: darkOnBackgroundColor, // Soft Cream
       ),
       displayMedium: TextStyle(
         fontFamily: primaryFont,
         fontSize: 28,
         fontWeight: FontWeight.w600,
-        color: darkTextPrimaryColor,
+        color: darkOnBackgroundColor,
       ),
       displaySmall: TextStyle(
         fontFamily: primaryFont,
         fontSize: 24,
         fontWeight: FontWeight.w600,
-        color: darkTextPrimaryColor,
+        color: darkOnBackgroundColor,
       ),
       headlineLarge: TextStyle(
         fontFamily: primaryFont,
         fontSize: 22,
         fontWeight: FontWeight.w600,
-        color: darkTextPrimaryColor,
+        color: darkOnBackgroundColor,
       ),
       headlineMedium: TextStyle(
         fontFamily: primaryFont,
         fontSize: 20,
         fontWeight: FontWeight.w500,
-        color: darkTextPrimaryColor,
+        color: darkOnBackgroundColor,
       ),
       headlineSmall: TextStyle(
         fontFamily: primaryFont,
         fontSize: 18,
         fontWeight: FontWeight.w500,
-        color: darkTextPrimaryColor,
+        color: darkOnBackgroundColor,
       ),
       titleLarge: TextStyle(
         fontFamily: primaryFont,
         fontSize: 18,
         fontWeight: FontWeight.w600,
-        color: darkTextPrimaryColor,
+        color: darkOnBackgroundColor,
       ),
       titleMedium: TextStyle(
         fontFamily: primaryFont,
         fontSize: 16,
         fontWeight: FontWeight.w500,
-        color: darkTextPrimaryColor,
+        color: darkOnBackgroundColor,
       ),
       titleSmall: TextStyle(
         fontFamily: primaryFont,
         fontSize: 14,
         fontWeight: FontWeight.w500,
-        color: darkTextPrimaryColor,
+        color: darkOnBackgroundColor,
       ),
       bodyLarge: TextStyle(
         fontFamily: secondaryFont,
         fontSize: 16,
         fontWeight: FontWeight.w400,
-        color: darkTextPrimaryColor,
+        color: darkOnBackgroundColor,
       ),
       bodyMedium: TextStyle(
         fontFamily: secondaryFont,
         fontSize: 14,
         fontWeight: FontWeight.w400,
-        color: darkTextSecondaryColor,
+        color: darkSecondaryColor, // Tender Rose
       ),
       bodySmall: TextStyle(
         fontFamily: secondaryFont,
         fontSize: 12,
         fontWeight: FontWeight.w400,
-        color: darkTextSecondaryColor,
+        color: darkSecondaryColor,
       ),
       labelLarge: TextStyle(
         fontFamily: secondaryFont,
         fontSize: 14,
         fontWeight: FontWeight.w500,
-        color: darkTextPrimaryColor,
+        color: darkOnBackgroundColor,
       ),
       labelMedium: TextStyle(
         fontFamily: secondaryFont,
         fontSize: 12,
         fontWeight: FontWeight.w500,
-        color: darkTextSecondaryColor,
+        color: darkSecondaryColor,
       ),
       labelSmall: TextStyle(
         fontFamily: secondaryFont,
         fontSize: 10,
         fontWeight: FontWeight.w500,
-        color: darkTextSecondaryColor,
+        color: darkSecondaryColor,
       ),
     ),
 
     // Elevated Button Theme
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: darkPrimaryColor,
-        foregroundColor: darkOnPrimaryColor,
+        backgroundColor: darkPrimaryColor, // Warm Coral
+        foregroundColor: darkOnPrimaryColor, // Soft Cream
         textStyle: const TextStyle(
           fontFamily: primaryFont,
           fontSize: 16,
@@ -364,11 +383,11 @@ class AppTheme {
     inputDecorationTheme: InputDecorationTheme(
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: Color(0xFF404040)),
+        borderSide: const BorderSide(color: darkSecondaryColor), // Tender Rose
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: Color(0xFF404040)),
+        borderSide: const BorderSide(color: darkSecondaryColor),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
@@ -378,24 +397,24 @@ class AppTheme {
         borderRadius: BorderRadius.circular(12),
         borderSide: const BorderSide(color: darkErrorColor),
       ),
-      fillColor: darkSurfaceColor,
+      fillColor: darkSurfaceColor, // Soft Cream
       filled: true,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       labelStyle: const TextStyle(
         fontFamily: secondaryFont,
         fontSize: 14,
-        color: darkTextSecondaryColor,
+        color: darkSecondaryColor,
       ),
       hintStyle: const TextStyle(
         fontFamily: secondaryFont,
         fontSize: 14,
-        color: darkTextDisabledColor,
+        color: darkOnSurfaceColor, // Deep Charcoal
       ),
     ),
 
     // Card Theme
     cardTheme: CardTheme(
-      color: darkSurfaceColor,
+      color: darkSurfaceColor, // Soft Cream
       elevation: 8,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       margin: const EdgeInsets.all(8),
@@ -403,18 +422,18 @@ class AppTheme {
 
     // Divider Theme
     dividerTheme: const DividerThemeData(
-      color: Color(0xFF404040),
+      color: darkSecondaryColor, // Tender Rose
       thickness: 1,
     ),
 
     // Icon Theme
-    iconTheme: const IconThemeData(color: darkTextSecondaryColor, size: 24),
+    iconTheme: const IconThemeData(color: darkSecondaryColor, size: 24),
 
     // Bottom Navigation Bar Theme
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      backgroundColor: darkSurfaceColor,
-      selectedItemColor: darkPrimaryColor,
-      unselectedItemColor: darkTextSecondaryColor,
+      backgroundColor: darkBackgroundColor, // Deep Charcoal
+      selectedItemColor: darkPrimaryColor, // Warm Coral
+      unselectedItemColor: darkSecondaryColor, // Tender Rose
       type: BottomNavigationBarType.fixed,
     ),
   );

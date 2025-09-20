@@ -15,7 +15,7 @@ class SearchDonarCard extends StatelessWidget {
         return Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            color: Theme.of(context).colorScheme.surface,
+            color: Theme.of(context).colorScheme.primary.withOpacity(.1),
             border: Border.all(
               color: Theme.of(context).dividerColor.withOpacity(0.1),
             ),
@@ -67,7 +67,8 @@ class SearchDonarCard extends StatelessWidget {
                               const SizedBox(width: 4),
                               Text(
                                 "${donar.distance ?? "unknow"} km",
-                                style: Theme.of(context).textTheme.bodySmall,
+                                style: Theme.of(context).textTheme.bodySmall!
+                                    .copyWith(color: Colors.white),
                               ),
                               const SizedBox(width: 8),
                               // Icon(Icons.star, color: Colors.amber, size: 16),
@@ -109,7 +110,9 @@ class SearchDonarCard extends StatelessWidget {
                 if (donar.donor!.description! != null)
                   Text(
                     donar.donor!.description ?? "",
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: Colors.white.withOpacity(.8),
+                    ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),

@@ -8,7 +8,7 @@ class RequestModel {
   String? urgency;
   String? requesterZipcode;
   String? donorZipcode;
-  int? distance;
+  double? distance;
   String? neededBy;
   String? acceptedAt;
   String? completedAt;
@@ -49,7 +49,7 @@ class RequestModel {
     urgency = json['urgency'];
     requesterZipcode = json['requesterZipcode'];
     donorZipcode = json['donorZipcode'];
-    distance = json['distance'];
+    distance = double.parse((json['distance'] ?? 0).toString());
     neededBy = json['neededBy'];
     acceptedAt = json['acceptedAt'];
     completedAt = json['completedAt'];

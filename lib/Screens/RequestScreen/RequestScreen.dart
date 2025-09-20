@@ -5,6 +5,10 @@ import 'package:mommilk_user/Models/RequestModel.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
 import 'package:mommilk_user/Screens/RequestScreen/Controller/RequestController.dart';
+import 'package:mommilk_user/Screens/RequestScreen/Views/HistoryRequestCard.dart';
+import 'package:mommilk_user/Screens/RequestScreen/Views/IncommingRequestCard.dart';
+import 'package:mommilk_user/Screens/RequestScreen/Views/MyRequestCard.dart';
+import 'package:mommilk_user/Screens/RequestScreen/Views/contactBottomSheet.dart';
 
 class RequestScreen extends StatefulWidget {
   RequestScreen({super.key});
@@ -126,17 +130,32 @@ class _RequestScreenState extends State<RequestScreen>
                     0: SizedBox(
                       width: 120,
                       height: 46,
-                      child: Center(child: Text("Incoming")),
+                      child: Center(
+                        child: Text(
+                          "Incoming",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
                     ),
                     1: SizedBox(
                       width: 120,
                       height: 46,
-                      child: Center(child: Text("History")),
+                      child: Center(
+                        child: Text(
+                          "History",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
                     ),
                     2: SizedBox(
                       width: 120,
                       height: 46,
-                      child: Center(child: Text("My Requests")),
+                      child: Center(
+                        child: Text(
+                          "My Requests",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
                     ),
                   }
                   : {
@@ -220,7 +239,10 @@ class _RequestScreenState extends State<RequestScreen>
           final request = controller.incomingRequests[index];
           return Padding(
             padding: EdgeInsets.only(bottom: 12),
-            child: _buildIncomingRequestCard(context, request, controller),
+            child: IncommingRequestCard(
+              controller: controller,
+              request: request,
+            ),
           );
         },
       ),
@@ -262,7 +284,7 @@ class _RequestScreenState extends State<RequestScreen>
           final request = controller.historyRequests[index];
           return Padding(
             padding: EdgeInsets.only(bottom: 12),
-            child: _buildHistoryRequestCard(context, request),
+            child: HistoryRequestCard(request: request),
           );
         },
       ),
@@ -304,7 +326,7 @@ class _RequestScreenState extends State<RequestScreen>
           final request = controller.myRequests[index];
           return Padding(
             padding: EdgeInsets.only(bottom: 12),
-            child: _buildMyRequestCard(context, request, controller),
+            child: MyRequestCard(request: request, controller: controller),
           );
         },
       ),
@@ -380,492 +402,6 @@ class _RequestScreenState extends State<RequestScreen>
   // );
 }
 
-Widget _buildIncomingRequestCard(
-  BuildContext context,
-  RequestModel request,
-  Requestcontroller controller,
-) {
-  return Card(
-    margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-    elevation: 3,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-    child: Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Header Row with Title and Urgency
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      request.title ?? 'No Title',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      request.description ?? 'No description available',
-                      style: TextStyle(color: Colors.grey[600], fontSize: 14),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 12),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 6,
-                ),
-                decoration: BoxDecoration(
-                  color: getUrgencyColor(request.urgency ?? 'low'),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  (request.urgency ?? 'low').toUpperCase(),
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 11,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 12),
-
-          // Requester and Time Info
-          Row(
-            children: [
-              Icon(Icons.person, size: 16, color: Colors.grey[600]),
-              const SizedBox(width: 4),
-              Text(
-                request.requester?.name ?? 'Unknown',
-                style: TextStyle(color: Colors.grey[600], fontSize: 12),
-              ),
-              const SizedBox(width: 16),
-              Icon(Icons.schedule, size: 16, color: Colors.grey[600]),
-              const SizedBox(width: 4),
-              Text(
-                _formatDate(request.createdAt ?? ''),
-                style: TextStyle(color: Colors.grey[600], fontSize: 12),
-              ),
-              const Spacer(),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: Colors.blue.shade50,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.blue.shade300, width: 1),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.local_drink,
-                      size: 14,
-                      color: Colors.blue.shade600,
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      '${request.quantity ?? 0} ml',
-                      style: TextStyle(
-                        color: Colors.blue.shade600,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 12),
-
-          // Action Buttons
-          Row(
-            children: [
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () => controller.declineRequest(request.id ?? 0),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red.shade500,
-                    foregroundColor: Colors.white,
-                    elevation: 2,
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: const Text(
-                    'Decline',
-                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () => controller.acceptRequest(request.id ?? 0),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green.shade500,
-                    foregroundColor: Colors.white,
-                    elevation: 2,
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: const Text(
-                    'Accept',
-                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    ),
-  );
-}
-
-Widget _buildHistoryRequestCard(BuildContext context, RequestModel request) {
-  return Card(
-    margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-    elevation: 3,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-    child: Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Header Row with Title and Status
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      request.title ?? 'No Title',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      request.description ?? 'No description available',
-                      style: TextStyle(color: Colors.grey[600], fontSize: 14),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 12),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 6,
-                ),
-                decoration: BoxDecoration(
-                  color: getStatusColor(request.status ?? 'pending'),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  (request.status ?? 'pending').toUpperCase(),
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 11,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 12),
-
-          // Info Row
-          Row(
-            children: [
-              Icon(Icons.person, size: 16, color: Colors.grey[600]),
-              const SizedBox(width: 4),
-              Text(
-                request.requester?.name ?? 'Unknown',
-                style: TextStyle(color: Colors.grey[600], fontSize: 12),
-              ),
-              const SizedBox(width: 16),
-              Icon(Icons.schedule, size: 16, color: Colors.grey[600]),
-              const SizedBox(width: 4),
-              Text(
-                _formatDate(request.createdAt ?? ''),
-                style: TextStyle(color: Colors.grey[600], fontSize: 12),
-              ),
-              const Spacer(),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: getUrgencyColor(
-                    request.urgency ?? 'low',
-                  ).withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: getUrgencyColor(request.urgency ?? 'low'),
-                    width: 1,
-                  ),
-                ),
-                child: Text(
-                  (request.urgency ?? 'low').toUpperCase(),
-                  style: TextStyle(
-                    color: getUrgencyColor(request.urgency ?? 'low'),
-                    fontSize: 10,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 8),
-
-          // Bottom Row with Quantity
-          Row(
-            children: [
-              Icon(Icons.local_drink, size: 16, color: Colors.grey[600]),
-              const SizedBox(width: 4),
-              Text(
-                '${request.quantity ?? 0} ml',
-                style: TextStyle(
-                  color: Colors.grey[600],
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    ),
-  );
-}
-
-Widget _buildMyRequestCard(
-  BuildContext context,
-  RequestModel request,
-  Requestcontroller controller,
-) {
-  final bool canContact =
-      (request.status?.toLowerCase() ?? 'pending') == 'accepted' &&
-      request.donor != null;
-
-  return Card(
-    margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-    elevation: 3,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-    child: Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Header Row with Title and Status
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      request.title ?? 'No Title',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      request.description ?? 'No description available',
-                      style: TextStyle(color: Colors.grey[600], fontSize: 14),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 12),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 6,
-                ),
-                decoration: BoxDecoration(
-                  color: getStatusColor(request.status ?? 'pending'),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  (request.status ?? 'pending').toUpperCase(),
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 11,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 12),
-
-          // Info Row
-          Row(
-            children: [
-              Icon(Icons.schedule, size: 16, color: Colors.grey[600]),
-              const SizedBox(width: 4),
-              Text(
-                _formatDate(request.createdAt ?? ''),
-                style: TextStyle(color: Colors.grey[600], fontSize: 12),
-              ),
-              const SizedBox(width: 16),
-              Icon(Icons.local_drink, size: 16, color: Colors.grey[600]),
-              const SizedBox(width: 4),
-              Text(
-                '${request.quantity ?? 0} ml',
-                style: TextStyle(
-                  color: Colors.grey[600],
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              const Spacer(),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: getUrgencyColor(
-                    request.urgency ?? 'low',
-                  ).withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: getUrgencyColor(request.urgency ?? 'low'),
-                    width: 1,
-                  ),
-                ),
-                child: Text(
-                  (request.urgency ?? 'low').toUpperCase(),
-                  style: TextStyle(
-                    color: getUrgencyColor(request.urgency ?? 'low'),
-                    fontSize: 10,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-
-          // Contact Section for accepted requests
-          if (canContact) ...[
-            const SizedBox(height: 12),
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.blue.shade50,
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.blue.shade200, width: 1),
-              ),
-              child: Row(
-                children: [
-                  Icon(Icons.person, size: 18, color: Colors.blue.shade600),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Donor Available',
-                          style: TextStyle(
-                            color: Colors.blue.shade600,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        Text(
-                          request.donor?.name ?? 'Unknown Donor',
-                          style: TextStyle(
-                            color: Colors.blue.shade800,
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () => controller.contactUser(request),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue.shade600,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    child: const Text(
-                      'Contact',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ],
-      ),
-    ),
-  );
-}
-
-String _formatDate(String dateString) {
-  try {
-    final date = DateTime.parse(dateString);
-    final now = DateTime.now();
-    final difference = now.difference(date);
-
-    if (difference.inDays > 0) {
-      return '${difference.inDays} day${difference.inDays > 1 ? 's' : ''} ago';
-    } else if (difference.inHours > 0) {
-      return '${difference.inHours} hour${difference.inHours > 1 ? 's' : ''} ago';
-    } else if (difference.inMinutes > 0) {
-      return '${difference.inMinutes} minute${difference.inMinutes > 1 ? 's' : ''} ago';
-    } else {
-      return 'Just now';
-    }
-  } catch (e) {
-    return dateString;
-  }
-}
-
 Widget _buildEmptyState(
   BuildContext context,
   String title,
@@ -936,5 +472,25 @@ Color getStatusColor(String status) {
       return Colors.red;
     default:
       return Colors.grey;
+  }
+}
+
+String formatDate(String dateString) {
+  try {
+    final date = DateTime.parse(dateString);
+    final now = DateTime.now();
+    final difference = now.difference(date);
+
+    if (difference.inDays > 0) {
+      return '${difference.inDays} day${difference.inDays > 1 ? 's' : ''} ago';
+    } else if (difference.inHours > 0) {
+      return '${difference.inHours} hour${difference.inHours > 1 ? 's' : ''} ago';
+    } else if (difference.inMinutes > 0) {
+      return '${difference.inMinutes} minute${difference.inMinutes > 1 ? 's' : ''} ago';
+    } else {
+      return 'Just now';
+    }
+  } catch (e) {
+    return dateString;
   }
 }

@@ -15,6 +15,9 @@ class HBabyCard extends StatelessWidget {
           (controller) =>
               (controller.myBabies.isEmpty)
                   ? Card(
+                    color: Theme.of(context).colorScheme.background.withOpacity(
+                      0.92,
+                    ), // Blended Deep Charcoal
                     child: Padding(
                       padding: const EdgeInsets.all(16),
                       child: Row(
@@ -44,6 +47,9 @@ class HBabyCard extends StatelessWidget {
                     ),
                   )
                   : Card(
+                    color: Theme.of(context).colorScheme.background.withOpacity(
+                      0.92,
+                    ), // Blended Deep Charcoal
                     child: Padding(
                       padding: const EdgeInsets.all(16),
                       child: Column(

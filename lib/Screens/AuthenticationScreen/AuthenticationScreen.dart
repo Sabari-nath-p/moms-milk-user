@@ -11,7 +11,7 @@ class Authenticationscreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: true,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Container(
         width: double.infinity,
@@ -21,9 +21,9 @@ class Authenticationscreen extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
+              Theme.of(context).colorScheme.primary.withOpacity(0.05),
               Theme.of(context).scaffoldBackgroundColor,
-              Theme.of(context).colorScheme.surface,
-              Theme.of(context).colorScheme.surface,
+              Theme.of(context).colorScheme.secondary.withOpacity(0.03),
             ],
           ),
         ),
@@ -37,135 +37,21 @@ class Authenticationscreen extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    const SizedBox(height: 40), // Logo and Title
-                    // Logo and Title
-                    Container(
-                      width: 100,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.surface,
-                        borderRadius: BorderRadius.circular(50),
-                        border: Border.all(
-                          color: Theme.of(context).colorScheme.primary,
-                          width: 2,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.primary.withOpacity(0.3),
-                            blurRadius: 20,
-                            offset: const Offset(0, 5),
-                          ),
-                        ],
-                      ),
-                      child: Icon(
-                        Icons.child_care,
-                        size: 50,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
+                    const SizedBox(height: 60),
 
-                    const SizedBox(height: 24),
-
-                    Text(
-                      'Mom\'s Milk',
-                      style: Theme.of(
-                        context,
-                      ).textTheme.displayMedium?.copyWith(
-                        color: Theme.of(context).colorScheme.primary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-
-                    const SizedBox(height: 8),
-
-                    Text(
-                      'Connect. Share. Care.',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.onSurface.withOpacity(0.8),
-                      ),
-                    ),
+                    // Enhanced Logo Section
+                    _buildLogoSection(context),
 
                     const SizedBox(height: 60),
 
-                    // Auth Form
-                    Container(
-                      padding: const EdgeInsets.all(24),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.surface,
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.primary.withOpacity(0.2),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.primary.withOpacity(0.1),
-                            blurRadius: 20,
-                            offset: const Offset(0, 10),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            // controller.isLogin.value
-                            //     ? 'Welcome Back'
-                            'Join Our Community',
-                            style: Theme.of(context).textTheme.headlineMedium
-                                ?.copyWith(fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.center,
-                          ),
-
-                          const SizedBox(height: 8),
-
-                          Text(
-                            //     controller.isLogin.value
-                            'Sign in to continue your journey',
-                            // : 'Create account to get started',
-                            style: Theme.of(context).textTheme.bodyMedium
-                                ?.copyWith(color: Colors.grey[600]),
-                            textAlign: TextAlign.center,
-                          ),
-
-                          const SizedBox(height: 32),
-
-                          !controller.isOtpSent
-                              ? _buildEmailForm(
-                                context,
-                                controller.emailController,
-                              )
-                              : _buildOtpForm(
-                                context,
-                                controller.otpController,
-                              ),
-
-                          const SizedBox(height: 24),
-                        ],
-                      ),
-                    ),
+                    // Enhanced Auth Form
+                    _buildAuthForm(context, controller),
 
                     const SizedBox(height: 40),
 
-                    Text(
-                      'By continuing, you agree to our Terms & Privacy Policy',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.onSurface.withOpacity(0.7),
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-
-                    const SizedBox(height: 20),
+                    // Professional Footer
+                    //    _buildFooter(context),
+                    const SizedBox(height: 30),
                   ],
                 ),
               );
@@ -173,6 +59,194 @@ class Authenticationscreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildLogoSection(BuildContext context) {
+    return Column(
+      children: [
+        // Enhanced Logo Container
+        Container(
+          width: 120,
+          height: 120,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Theme.of(context).colorScheme.primary,
+                Theme.of(context).colorScheme.primary.withOpacity(0.8),
+              ],
+            ),
+            borderRadius: BorderRadius.circular(30),
+            boxShadow: [
+              BoxShadow(
+                color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+                blurRadius: 25,
+                offset: const Offset(0, 10),
+                spreadRadius: 0,
+              ),
+              BoxShadow(
+                color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.1),
+                blurRadius: 10,
+                offset: const Offset(-5, -5),
+                spreadRadius: 0,
+              ),
+            ],
+          ),
+          child: Icon(
+            Icons.child_care,
+            size: 60,
+            color: Theme.of(context).colorScheme.onPrimary,
+          ),
+        ),
+
+        const SizedBox(height: 32),
+
+        // Enhanced Title
+        Text(
+          'Mom\'s Milk',
+          style: Theme.of(context).textTheme.displayMedium?.copyWith(
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).colorScheme.onBackground,
+            letterSpacing: 1.2,
+          ),
+        ),
+
+        const SizedBox(height: 12),
+
+        // Enhanced Subtitle
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.primary.withOpacity(0.15),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+              width: 1,
+            ),
+          ),
+          child: Text(
+            'Connect. Share. Care.',
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              color: Theme.of(context).colorScheme.onBackground,
+              fontWeight: FontWeight.w500,
+              letterSpacing: 0.5,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAuthForm(
+    BuildContext context,
+    AuthenticationController controller,
+  ) {
+    return Container(
+      padding: const EdgeInsets.all(32),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(
+          color: Theme.of(context).colorScheme.outline.withOpacity(0.1),
+          width: 1,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Theme.of(context).colorScheme.primary.withOpacity(0.08),
+            blurRadius: 30,
+            offset: const Offset(0, 15),
+            spreadRadius: 0,
+          ),
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 5),
+            spreadRadius: 0,
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Enhanced Header
+          Column(
+            children: [
+              Text(
+                'Join Our Community',
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 0.5,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Sign in to continue your journey',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withOpacity(0.8),
+                  fontSize: 15,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 30),
+
+          // Form Content
+          !controller.isOtpSent
+              ? _buildEmailForm(context, controller.emailController)
+              : _buildOtpForm(context, controller.otpController),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFooter(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surface.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.security,
+                size: 16,
+                color: Theme.of(
+                  context,
+                ).colorScheme.onBackground.withOpacity(0.8),
+              ),
+              const SizedBox(width: 8),
+              Flexible(
+                child: Text(
+                  'By continuing, you agree to our Terms & Privacy Policy',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onBackground.withOpacity(0.8),
+                    fontSize: 13,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -185,16 +259,17 @@ class Authenticationscreen extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // Enhanced Email Input
             Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
                     color: Theme.of(
                       context,
                     ).colorScheme.primary.withOpacity(0.1),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
                   ),
                 ],
               ),
@@ -205,41 +280,157 @@ class Authenticationscreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16,
                   color: Theme.of(context).colorScheme.onSurface,
+                  fontWeight: FontWeight.w500,
                 ),
                 decoration: InputDecoration(
                   labelText: 'Email Address',
-                  hintText: 'Enter your email',
-                  prefixIcon: Icon(
-                    Icons.email_outlined,
-                    color: Theme.of(context).colorScheme.primary,
+                  hintText: 'Enter your email address',
+                  prefixIcon: Container(
+                    padding: const EdgeInsets.all(12),
+                    child: Icon(
+                      Icons.email_outlined,
+                      color: Theme.of(context).colorScheme.primary,
+                      size: 22,
+                    ),
+                  ),
+                  filled: true,
+                  fillColor: Theme.of(context).colorScheme.surface,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide.none,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide(
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.primary.withOpacity(0.3),
+                      width: 1,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                      width: 2,
+                    ),
+                  ),
+                  labelStyle: TextStyle(
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withOpacity(0.8),
+                    fontWeight: FontWeight.w500,
+                  ),
+                  hintStyle: TextStyle(
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withOpacity(0.5),
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: 24),
-            ElevatedButton(
-              onPressed:
-                  controller.isLoading
-                      ? null
-                      : () {
-                        if (emailController.text.isNotEmpty) {
-                          controller.sendOtp();
-                        } else {
-                          Get.snackbar(
-                            'Missing Email',
-                            'Email id is required to sent otp',
-                            snackPosition: SnackPosition.BOTTOM,
-                          );
-                        }
-                      },
-              child:
-                  controller.isLoading
-                      ? const SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                      : Text('Send OTP'),
+
+            const SizedBox(height: 32),
+
+            // Enhanced Send OTP Button
+            Container(
+              height: 56,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                gradient: LinearGradient(
+                  colors:
+                      controller.isLoading
+                          ? [
+                            Theme.of(
+                              context,
+                            ).colorScheme.primary.withOpacity(0.5),
+                            Theme.of(
+                              context,
+                            ).colorScheme.primary.withOpacity(0.3),
+                          ]
+                          : [
+                            Theme.of(context).colorScheme.primary,
+                            Theme.of(
+                              context,
+                            ).colorScheme.primary.withOpacity(0.8),
+                          ],
+                ),
+                boxShadow:
+                    controller.isLoading
+                        ? []
+                        : [
+                          BoxShadow(
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.primary.withOpacity(0.3),
+                            blurRadius: 15,
+                            offset: const Offset(0, 8),
+                          ),
+                        ],
+              ),
+              child: ElevatedButton(
+                onPressed:
+                    controller.isLoading
+                        ? null
+                        : () {
+                          if (emailController.text.isNotEmpty) {
+                            controller.sendOtp();
+                          } else {
+                            Get.snackbar(
+                              'Missing Email',
+                              'Email id is required to send otp',
+                              snackPosition: SnackPosition.BOTTOM,
+                              backgroundColor:
+                                  Theme.of(
+                                    Get.context!,
+                                  ).colorScheme.errorContainer,
+                              colorText:
+                                  Theme.of(
+                                    Get.context!,
+                                  ).colorScheme.onErrorContainer,
+                            );
+                          }
+                        },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
+                child:
+                    controller.isLoading
+                        ? const SizedBox(
+                          height: 24,
+                          width: 24,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2.5,
+                            // valueColor: AlwaysStoppedAnimation<Color>(
+                            //   Theme.of(context).colorScheme.onPrimary,
+                            // ),
+                          ),
+                        )
+                        : Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.send_rounded,
+                              size: 20,
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              'Send OTP',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: Theme.of(context).colorScheme.onPrimary,
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                          ],
+                        ),
+              ),
             ),
           ],
         );
@@ -256,6 +447,7 @@ class Authenticationscreen extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // Enhanced OTP Instructions
             Text(
               'Enter the 6-digit code sent to',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -263,9 +455,7 @@ class Authenticationscreen extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
-
             const SizedBox(height: 4),
-
             Text(
               controller.emailController.text,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -274,19 +464,19 @@ class Authenticationscreen extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
+            const SizedBox(height: 20),
 
-            const SizedBox(height: 24),
-
+            // Enhanced OTP Input
             Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
                     color: Theme.of(
                       context,
                     ).colorScheme.primary.withOpacity(0.1),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
                   ),
                 ],
               ),
@@ -297,65 +487,181 @@ class Authenticationscreen extends StatelessWidget {
                 textAlign: TextAlign.center,
                 maxLength: 6,
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  letterSpacing: 8,
-                  color: Theme.of(context).colorScheme.onSurface,
+                  letterSpacing: 12,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Verification Code',
                   hintText: '000000',
                   counterText: '',
+                  filled: true,
+                  fillColor: Theme.of(context).colorScheme.surface,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide.none,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide(
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.primary.withOpacity(0.3),
+                      width: 1,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                      width: 2,
+                    ),
+                  ),
+                  labelStyle: TextStyle(
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withOpacity(0.8),
+                    fontWeight: FontWeight.w500,
+                  ),
+                  hintStyle: TextStyle(
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withOpacity(0.4),
+                    letterSpacing: 8,
+                  ),
                 ),
               ),
             ),
 
-            const SizedBox(height: 16),
+            //  const SizedBox(height: 24),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Didn\'t receive code? ',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.onSurface.withOpacity(0.7),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: controller.sendOtp,
-                  child: Text(
-                    'Resend',
+            // Enhanced Resend Section
+            if (false)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Didn\'t receive the code? ',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontWeight: FontWeight.bold,
-                      decoration: TextDecoration.underline,
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onBackground.withOpacity(0.8),
                     ),
                   ),
+                  GestureDetector(
+                    onTap: controller.sendOtp,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.primary.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        'Resend',
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+            const SizedBox(height: 32),
+
+            // Enhanced Verify Button
+            Container(
+              height: 56,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                gradient: LinearGradient(
+                  colors:
+                      controller.isLoading
+                          ? [
+                            Theme.of(
+                              context,
+                            ).colorScheme.primary.withOpacity(0.5),
+                            Theme.of(
+                              context,
+                            ).colorScheme.primary.withOpacity(0.3),
+                          ]
+                          : [
+                            Theme.of(context).colorScheme.primary,
+                            Theme.of(
+                              context,
+                            ).colorScheme.primary.withOpacity(0.8),
+                          ],
                 ),
-              ],
-            ),
-
-            const SizedBox(height: 24),
-
-            ElevatedButton(
-              onPressed:
-                  controller.isLoading
-                      ? null
-                      : () {
-                        if (otpController.text.length == 6) {
-                          controller.verifyOtp();
-                        }
-                      },
-              child:
-                  controller.isLoading
-                      ? const SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                      : const Text('Verify & Continue'),
+                boxShadow:
+                    controller.isLoading
+                        ? []
+                        : [
+                          BoxShadow(
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.primary.withOpacity(0.3),
+                            blurRadius: 15,
+                            offset: const Offset(0, 8),
+                          ),
+                        ],
+              ),
+              child: ElevatedButton(
+                onPressed:
+                    controller.isLoading
+                        ? null
+                        : () {
+                          if (otpController.text.length == 6) {
+                            controller.verifyOtp();
+                          }
+                        },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
+                child:
+                    controller.isLoading
+                        ? const SizedBox(
+                          height: 24,
+                          width: 24,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2.5,
+                            // valueColor: AlwaysStoppedAnimation<Color>(
+                            //   Theme.of(context).colorScheme.onPrimary,
+                            // ),
+                          ),
+                        )
+                        : Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.verified_user_rounded,
+                              size: 20,
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              'Verify & Continue',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: Theme.of(context).colorScheme.onPrimary,
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                          ],
+                        ),
+              ),
             ),
           ],
         );

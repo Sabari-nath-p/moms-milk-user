@@ -75,63 +75,62 @@ class Requestcontroller extends GetxController {
 
     update();
 
-    try {
-      Map<String, String> queryParams = {
-        'status': 'PENDING',
-        'page': incomingPage.toString(),
-        'limit': limit.toString(),
-      };
+    Map<String, String> queryParams = {
+      'status': 'PENDING',
+      'page': incomingPage.toString(),
+      'limit': limit.toString(),
+    };
 
-      String endpoint = "/requests/incoming";
-      String queryString = queryParams.entries
-          .map(
-            (e) =>
-                '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}',
-          )
-          .join('&');
-      endpoint = "$endpoint?$queryString";
+    String endpoint = "/requests/incoming";
+    String queryString = queryParams.entries
+        .map(
+          (e) =>
+              '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}',
+        )
+        .join('&');
+    endpoint = "$endpoint?$queryString";
 
-      print('Fetching incoming requests: $endpoint');
+    print('Fetching incoming requests: $endpoint');
 
-      await ApiService.request(
-        endpoint: endpoint,
-        method: Api.GET,
-        onSuccess: (data) {
-          print('Incoming requests API success: ${data.data}');
-          List<dynamic> requestsData = data.data['data'] ?? [];
-          Map<String, dynamic>? paginationData = data.data['pagination'];
+    await ApiService.request(
+      endpoint: endpoint,
+      method: Api.GET,
+      onSuccess: (data) {
+        print('Incoming requests API success: ${data.data}');
+        List<dynamic> requestsData = data.data['data'] ?? [];
+        Map<String, dynamic>? paginationData = data.data['pagination'];
 
-          List<RequestModel> newRequests =
-              requestsData.map((item) => RequestModel.fromJson(item)).toList();
+        List<RequestModel> newRequests =
+            requestsData.map((item) => RequestModel.fromJson(item)).toList();
 
-          if (loadMore) {
-            incomingRequests.addAll(newRequests);
-          } else {
-            incomingRequests = newRequests;
-          }
+        if (loadMore) {
+          incomingRequests.addAll(newRequests);
+        } else {
+          incomingRequests = newRequests;
+        }
 
-          print('Loaded ${newRequests.length} incoming requests');
+        print('Loaded ${newRequests.length} incoming requests');
 
-          // Update pagination
-          if (paginationData != null) {
-            hasMoreIncoming = paginationData['hasNextPage'] ?? false;
-          } else {
-            hasMoreIncoming = newRequests.length >= limit;
-          }
-        },
-        onError: (error) {
-          print('Incoming requests API error: $error');
-          Get.snackbar('Error', 'Failed to load incoming requests: $error');
-        },
-      );
-    } catch (e) {
-      print('Exception in fetchIncomingRequests: $e');
-      Get.snackbar('Error', 'Failed to load incoming requests: $e');
-    } finally {
-      isLoadingIncoming = false;
-      isLoadingMoreIncoming = false;
-      update();
-    }
+        // Update pagination
+        if (paginationData != null) {
+          hasMoreIncoming = paginationData['hasNextPage'] ?? false;
+        } else {
+          hasMoreIncoming = newRequests.length >= limit;
+        }
+      },
+      onError: (error) {
+        print('Incoming requests API error: $error');
+        Get.snackbar('Error', 'Failed to load incoming requests: $error');
+      },
+    );
+    // } catch (e) {
+    //   print('Exception in fetchIncomingRequests: $e');
+    //   Get.snackbar('Error', 'Failed to load incoming requests: $e');
+    // } finally {
+    isLoadingIncoming = false;
+    isLoadingMoreIncoming = false;
+    update();
+    //}
   }
 
   // Fetch history requests for donors
@@ -154,63 +153,63 @@ class Requestcontroller extends GetxController {
 
     update();
 
-    try {
-      Map<String, String> queryParams = {
-        // 'status': 'ACCEPTED,DECLINED,COMPLETED,CANCELLED',
-        'page': historyPage.toString(),
-        'limit': limit.toString(),
-      };
+    //  try {
+    Map<String, String> queryParams = {
+      // 'status': 'ACCEPTED,DECLINED,COMPLETED,CANCELLED',
+      'page': historyPage.toString(),
+      'limit': limit.toString(),
+    };
 
-      String endpoint = "/requests/incoming";
-      String queryString = queryParams.entries
-          .map(
-            (e) =>
-                '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}',
-          )
-          .join('&');
-      endpoint = "$endpoint?$queryString";
+    String endpoint = "/requests/incoming";
+    String queryString = queryParams.entries
+        .map(
+          (e) =>
+              '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}',
+        )
+        .join('&');
+    endpoint = "$endpoint?$queryString";
 
-      print('Fetching history requests: $endpoint');
+    print('Fetching history requests: $endpoint');
 
-      await ApiService.request(
-        endpoint: endpoint,
-        method: Api.GET,
-        onSuccess: (data) {
-          print('History requests API success: ${data.data}');
-          List<dynamic> requestsData = data.data['data'] ?? [];
-          Map<String, dynamic>? paginationData = data.data['pagination'];
+    await ApiService.request(
+      endpoint: endpoint,
+      method: Api.GET,
+      onSuccess: (data) {
+        print('History requests API success: ${data.data}');
+        List<dynamic> requestsData = data.data['data'] ?? [];
+        Map<String, dynamic>? paginationData = data.data['pagination'];
 
-          List<RequestModel> newRequests =
-              requestsData.map((item) => RequestModel.fromJson(item)).toList();
+        List<RequestModel> newRequests =
+            requestsData.map((item) => RequestModel.fromJson(item)).toList();
 
-          if (loadMore) {
-            historyRequests.addAll(newRequests);
-          } else {
-            historyRequests = newRequests;
-          }
+        if (loadMore) {
+          historyRequests.addAll(newRequests);
+        } else {
+          historyRequests = newRequests;
+        }
 
-          print('Loaded ${newRequests.length} history requests');
+        print('Loaded ${newRequests.length} history requests');
 
-          // Update pagination
-          if (paginationData != null) {
-            hasMoreHistory = paginationData['hasNextPage'] ?? false;
-          } else {
-            hasMoreHistory = newRequests.length >= limit;
-          }
-        },
-        onError: (error) {
-          print('History requests API error: $error');
-          Get.snackbar('Error', 'Failed to load history requests: $error');
-        },
-      );
-    } catch (e) {
-      print('Exception in fetchHistoryRequests: $e');
-      Get.snackbar('Error', 'Failed to load history requests: $e');
-    } finally {
-      isLoadingHistory = false;
-      isLoadingMoreHistory = false;
-      update();
-    }
+        // Update pagination
+        if (paginationData != null) {
+          hasMoreHistory = paginationData['hasNextPage'] ?? false;
+        } else {
+          hasMoreHistory = newRequests.length >= limit;
+        }
+      },
+      onError: (error) {
+        print('History requests API error: $error');
+        Get.snackbar('Error', 'Failed to load history requests: $error');
+      },
+    );
+    // } catch (e) {
+    //   print('Exception in fetchHistoryRequests: $e');
+    //   Get.snackbar('Error', 'Failed to load history requests: $e');
+    // } finally {
+    isLoadingHistory = false;
+    isLoadingMoreHistory = false;
+    update();
+    // }
   }
 
   // Fetch my requests for buyers and donors
@@ -228,114 +227,114 @@ class Requestcontroller extends GetxController {
 
     update();
 
-    try {
-      Map<String, String> queryParams = {
-        'page': myRequestsPage.toString(),
-        'limit': limit.toString(),
-      };
+    //try {
+    Map<String, String> queryParams = {
+      'page': myRequestsPage.toString(),
+      'limit': limit.toString(),
+    };
 
-      String endpoint = "/requests/my-requests";
-      String queryString = queryParams.entries
-          .map(
-            (e) =>
-                '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}',
-          )
-          .join('&');
-      endpoint = "$endpoint?$queryString";
+    String endpoint = "/requests/my-requests";
+    String queryString = queryParams.entries
+        .map(
+          (e) =>
+              '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}',
+        )
+        .join('&');
+    endpoint = "$endpoint?$queryString";
 
-      print('Fetching my requests: $endpoint');
+    print('Fetching my requests: $endpoint');
 
-      await ApiService.request(
-        endpoint: endpoint,
-        method: Api.GET,
-        onSuccess: (data) {
-          print('My requests API success: ${data.data}');
-          List<dynamic> requestsData = data.data['data'] ?? [];
-          Map<String, dynamic>? paginationData = data.data['pagination'];
+    await ApiService.request(
+      endpoint: endpoint,
+      method: Api.GET,
+      onSuccess: (data) {
+        print('My requests API success: ${data.data}');
+        List<dynamic> requestsData = data.data['data'] ?? [];
+        Map<String, dynamic>? paginationData = data.data['pagination'];
 
-          List<RequestModel> newRequests =
-              requestsData.map((item) => RequestModel.fromJson(item)).toList();
+        List<RequestModel> newRequests =
+            requestsData.map((item) => RequestModel.fromJson(item)).toList();
 
-          if (loadMore) {
-            myRequests.addAll(newRequests);
-          } else {
-            myRequests = newRequests;
-          }
+        if (loadMore) {
+          myRequests.addAll(newRequests);
+        } else {
+          myRequests = newRequests;
+        }
 
-          print('Loaded ${newRequests.length} my requests');
+        print('Loaded ${newRequests.length} my requests');
 
-          // Update pagination
-          if (paginationData != null) {
-            hasMoreMyRequests = paginationData['hasNextPage'] ?? false;
-          } else {
-            hasMoreMyRequests = newRequests.length >= limit;
-          }
-        },
-        onError: (error) {
-          print('My requests API error: $error');
-          Get.snackbar('Error', 'Failed to load my requests: $error');
-        },
-      );
-    } catch (e) {
-      print('Exception in fetchMyRequests: $e');
-      Get.snackbar('Error', 'Failed to load my requests: $e');
-    } finally {
-      isLoadingMyRequests = false;
-      isLoadingMoreMyRequests = false;
-      update();
-    }
+        // Update pagination
+        if (paginationData != null) {
+          hasMoreMyRequests = paginationData['hasNextPage'] ?? false;
+        } else {
+          hasMoreMyRequests = newRequests.length >= limit;
+        }
+      },
+      onError: (error) {
+        print('My requests API error: $error');
+        Get.snackbar('Error', 'Failed to load my requests: $error');
+      },
+    );
+    // } catch (e) {
+    //   print('Exception in fetchMyRequests: $e');
+    //   Get.snackbar('Error', 'Failed to load my requests: $e');
+    // } finally {
+    isLoadingMyRequests = false;
+    isLoadingMoreMyRequests = false;
+    update();
+    // }
   }
 
   // Accept a request (for donors)
   Future<void> acceptRequest(int requestId) async {
-    try {
-      await ApiService.request(
-        endpoint: '/requests/$requestId/accept',
-        method: Api.POST,
-        onSuccess: (data) {
-          Get.snackbar(
-            'Success',
-            'Request accepted successfully!',
-            backgroundColor: Colors.green,
-            colorText: Colors.white,
-          );
-          // Refresh incoming requests
-          fetchIncomingRequests();
-          fetchHistoryRequests();
-        },
-        onError: (error) {
-          Get.snackbar('Error', 'Failed to accept request: $error');
-        },
-      );
-    } catch (e) {
-      Get.snackbar('Error', 'Failed to accept request: $e');
-    }
+    //  try {
+    await ApiService.request(
+      endpoint: '/requests/$requestId/accept',
+      method: Api.POST,
+      onSuccess: (data) {
+        Get.snackbar(
+          'Success',
+          'Request accepted successfully!',
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
+        // Refresh incoming requests
+        fetchIncomingRequests();
+        fetchHistoryRequests();
+      },
+      onError: (error) {
+        Get.snackbar('Error', 'Failed to accept request: $error');
+      },
+    );
+    // } catch (e) {
+    //   Get.snackbar('Error', 'Failed to accept request: $e');
+    // }
   }
 
   // Decline a request (for donors)
   Future<void> declineRequest(int requestId) async {
-    try {
-      await ApiService.request(
-        endpoint: '/requests/$requestId/decline',
-        method: Api.POST,
-        onSuccess: (data) {
-          Get.snackbar(
-            'Success',
-            'Request declined successfully!',
-            backgroundColor: Colors.orange,
-            colorText: Colors.white,
-          );
-          // Refresh incoming requests
-          fetchIncomingRequests();
-          fetchHistoryRequests();
-        },
-        onError: (error) {
-          Get.snackbar('Error', 'Failed to decline request: $error');
-        },
-      );
-    } catch (e) {
-      Get.snackbar('Error', 'Failed to decline request: $e');
-    }
+    //try {
+    await ApiService.request(
+      endpoint: '/requests/$requestId/decline',
+      method: Api.POST,
+      onSuccess: (data) {
+        Get.snackbar(
+          'Success',
+          'Request declined successfully!',
+          backgroundColor: Colors.orange,
+          colorText: Colors.white,
+        );
+        // Refresh incoming requests
+        fetchIncomingRequests();
+        fetchHistoryRequests();
+      },
+      onError: (error) {
+        Get.snackbar('Error', 'Failed to decline request: $error');
+      },
+    );
+    // } catch (e) {
+    //   Get.snackbar('Error', 'Failed to decline request: $e');
+    // }
   }
 
   // Utility methods
