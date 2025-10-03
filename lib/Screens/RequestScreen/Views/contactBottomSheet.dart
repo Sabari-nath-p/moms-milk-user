@@ -423,29 +423,3 @@ class ContactBottomSheet extends StatelessWidget {
     }
   }
 }
-
-// Example usage class
-class ContactBottomSheetDemo extends StatelessWidget {
-  const ContactBottomSheetDemo({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Contact Bottom Sheet Demo')),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            ContactBottomSheet.show(
-              context,
-              name: 'Sarah Johnson',
-              email: 'sarah.johnson@example.com',
-              phoneNumber: '+1 (555) 123-4567',
-              profileImageUrl: null, // Add image URL here if available
-            );
-          },
-          child: const Text('Show Contact Bottom Sheet'),
-        ),
-      ),
-    );
-  }
-}

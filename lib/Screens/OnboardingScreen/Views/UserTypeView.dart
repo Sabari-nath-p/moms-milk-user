@@ -26,9 +26,9 @@ class UserTypeStep extends StatelessWidget {
 
               Text(
                 'Choose your role to personalize your experience.',
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyLarge?.copyWith(color: Colors.grey[600]),
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: Colors.white.withOpacity(.7),
+                ),
               ),
 
               const SizedBox(height: 40),
@@ -227,13 +227,13 @@ class UserTypeStep extends StatelessWidget {
                           color:
                               isSelected
                                   ? Theme.of(context).colorScheme.primary
-                                  : Colors.grey[600],
+                                  : Colors.white.withOpacity(.9),
                         ),
                         const SizedBox(width: 8),
                         Text(
                           benefit,
                           style: Theme.of(context).textTheme.bodySmall
-                              ?.copyWith(color: Colors.grey[600]),
+                              ?.copyWith(color: Colors.white.withOpacity(.9)),
                         ),
                       ],
                     ),

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Models/SleepLogModel.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
+import 'package:mommilk_user/Utils/DateSelectionField.dart';
+import 'package:mommilk_user/Utils/TimeSelectionField.dart';
 
 class SleepLogBottomSheet extends StatefulWidget {
   const SleepLogBottomSheet({super.key});
@@ -13,7 +15,8 @@ class SleepLogBottomSheet extends StatefulWidget {
 class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
   DateTime selectedDate = DateTime.now();
   TimeOfDay startTime = TimeOfDay.now();
-  TimeOfDay endTime = TimeOfDay.now().replacing(hour: TimeOfDay.now().hour + 1);
+  TimeOfDay endTime =
+      TimeOfDay.now(); //TimeOfDay.now().replacing(hour: TimeOfDay.now().hour + 1);
   SleepQuality selectedSleepQuality = SleepQuality.good;
   SleepLocation selectedLocation = SleepLocation.CRIB;
   final TextEditingController noteController = TextEditingController();
@@ -72,46 +75,11 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
               const SizedBox(height: 24),
 
               // Date Selection
-              GestureDetector(
-                onTap: () => _selectDate(context),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 16,
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.grey[300]!),
-                    color: Theme.of(context).colorScheme.surface,
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.calendar_today_outlined,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Date',
-                              style: Theme.of(context).textTheme.bodySmall
-                                  ?.copyWith(color: Colors.grey[600]),
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              _formatDate(selectedDate),
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                          ],
-                        ),
-                      ),
-                      const Icon(Icons.arrow_drop_down),
-                    ],
-                  ),
-                ),
+              DatePickerField(
+                title: "Date",
+                onDateSelected: (value) {
+                  selectedDate = value;
+                },
               ),
 
               const SizedBox(height: 16),
@@ -121,93 +89,21 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                 children: [
                   // Start Time
                   Expanded(
-                    child: GestureDetector(
-                      onTap: () => _selectStartTime(context),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 16,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.grey[300]!),
-                          color: Theme.of(context).colorScheme.surface,
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.access_time_outlined,
-                              color: Theme.of(context).colorScheme.primary,
-                              size: 20,
-                            ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Start Time',
-                                    style: Theme.of(context).textTheme.bodySmall
-                                        ?.copyWith(color: Colors.grey[600]),
-                                  ),
-                                  const SizedBox(height: 2),
-                                  Text(
-                                    _formatTime(startTime),
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                    child: TimePickerField(
+                      title: "Start Time",
+                      onTimeSelected: (value) {
+                        startTime = value;
+                      },
                     ),
                   ),
                   const SizedBox(width: 12),
                   // End Time
                   Expanded(
-                    child: GestureDetector(
-                      onTap: () => _selectEndTime(context),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 16,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.grey[300]!),
-                          color: Theme.of(context).colorScheme.surface,
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.access_time_filled_outlined,
-                              color: Theme.of(context).colorScheme.primary,
-                              size: 20,
-                            ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'End Time',
-                                    style: Theme.of(context).textTheme.bodySmall
-                                        ?.copyWith(color: Colors.grey[600]),
-                                  ),
-                                  const SizedBox(height: 2),
-                                  Text(
-                                    _formatTime(endTime),
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                    child: TimePickerField(
+                      title: "End Time",
+                      onTimeSelected: (value) {
+                        endTime = value;
+                      },
                     ),
                   ),
                 ],

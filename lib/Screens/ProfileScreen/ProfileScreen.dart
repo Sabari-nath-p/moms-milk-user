@@ -6,6 +6,7 @@ import 'package:mommilk_user/Screens/AuthenticationScreen/AuthenticationScreen.d
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
 import 'package:mommilk_user/Screens/NotificationSettings/NotificationSettingsScreen.dart';
+import 'package:mommilk_user/Utils/ApiService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -30,7 +31,7 @@ class ProfileScreen extends StatelessWidget {
                         _buildUserCard(context),
                         const SizedBox(height: 24),
                         if (user.userType == "DONOR")
-                          _buildUserTypeSection(context),
+                          buildUserTypeSection(context),
                         if (user.userType == "DONOR")
                           const SizedBox(height: 24),
                         _buildSettingsSection(context),
@@ -117,67 +118,6 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildUserTypeSection(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        color: Theme.of(context).colorScheme.surface,
-        border: Border.all(
-          color: Theme.of(context).dividerColor.withOpacity(0.1),
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 16),
-
-            // Column(
-            //   children: [
-            //     _buildUserTypeOption(
-            //       context,
-            //       'Milk Donor',
-            //       'Share breast milk with other mothers',
-            //       Icons.volunteer_activism,
-            //       Colors.pink,
-            //       controller.isDonor,
-            //       () => controller.toggleUserType('donor'),
-            //     ),
-            //     const SizedBox(height: 12),
-            //     _buildUserTypeOption(
-            //       context,
-            //       'Milk Buyer',
-            //       'Request breast milk from donors',
-            //       Icons.shopping_cart,
-            //       Colors.blue,
-            //       !controller.isDonor,
-            //       () => controller.toggleUserType('buyer'),
-            //     ),
-            //   ],
-            // ),
-            const SizedBox(height: 16),
-            if (user.userType == "DONOR") ...[
-              GetBuilder<Homecontroller>(
-                builder:
-                    (controller) => SwitchListTile(
-                      title: const Text('Available for Donations'),
-                      subtitle: const Text(
-                        'Allow others to see your donation availability',
-                      ),
-                      value: false,
-                      onChanged: (value) {},
-                      // (value) => controller.toggleDonorAvailability(),
-                      contentPadding: EdgeInsets.zero,
-                    ),
-              ),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _buildSettingsSection(
     BuildContext context,
     // HomeController controller,
@@ -185,7 +125,7 @@ class ProfileScreen extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        color: Theme.of(context).colorScheme.surface,
+        color: Theme.of(context).primaryColor.withOpacity(.05),
         border: Border.all(
           color: Theme.of(context).dividerColor.withOpacity(0.1),
         ),
@@ -690,4 +630,90 @@ class ProfileScreen extends StatelessWidget {
       );
     }
   }
+}
+
+
+
+
+Widget buildUserTypeSection(BuildContext context) {
+  return Container(
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(16),
+      color: Theme.of(context).primaryColor.withOpacity(.1),
+      border: Border.all(
+        color: Theme.of(context).dividerColor.withOpacity(0.1),
+      ),
+    ),
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Column(
+          //   children: [
+          //     _buildUserTypeOption(
+          //       context,
+          //       'Milk Donor',
+          //       'Share breast milk with other mothers',
+          //       Icons.volunteer_activism,
+          //       Colors.pink,
+          //       controller.isDonor,
+          //       () => controller.toggleUserType('donor'),
+          //     ),
+          //     const SizedBox(height: 12),
+          //     _buildUserTypeOption(
+          //       context,
+          //       'Milk Buyer',
+          //       'Request breast milk from donors',
+          //       Icons.shopping_cart,
+          //       Colors.blue,
+          //       !controller.isDonor,
+          //       () => controller.toggleUserType('buyer'),
+          //     ),
+          //   ],
+          // ),
+          const SizedBox(height: 16),
+          if (user.userType == "DONOR") ...[
+            GetBuilder<Homecontroller>(
+              builder:
+                  (controller) => SwitchListTile(
+                    title: const Text(
+                      'Available for Donations',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    subtitle: const Text(
+                      'Allow others to see your donation availability',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    activeColor: Theme.of(context).primaryColor,
+
+                    inactiveThumbColor: Colors.white24,
+                    inactiveTrackColor: Colors.white30,
+                    value: user.isAvailable ?? false,
+                    onChanged: (value) async {
+                      user.isAvailable = value;
+                      controller.update();
+                      print(await ApiService.getAuthToken());
+                      ApiService.request(
+                        endpoint: "/requests/availability",
+                        body: {"isAvailable": value},
+                        method: Api.PATCH,
+                      );
+                    },
+                    // (value) => controller.toggleDonorAvailability(),
+                    contentPadding: EdgeInsets.zero,
+                  ),
+            ),
+          ],
+        ],
+      ),
+    ),
+  );
 }

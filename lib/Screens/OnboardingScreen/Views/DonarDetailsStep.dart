@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:mommilk_user/Screens/OnboardingScreen/Controller/OnboardingController.dart';
+import 'package:mommilk_user/Utils/DateSelectionField.dart';
 
 class DonarDetailsStep extends StatelessWidget {
   const DonarDetailsStep({super.key});
@@ -28,9 +29,9 @@ class DonarDetailsStep extends StatelessWidget {
 
               Text(
                 'Please provide additional information to help ensure safe milk donation.',
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyLarge?.copyWith(color: Colors.grey[600]),
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: Colors.white.withOpacity(.9),
+                ),
               ),
 
               const SizedBox(height: 32),
@@ -61,56 +62,13 @@ class DonarDetailsStep extends StatelessWidget {
               //   ),
               //   onChanged: (value) => controller.deliveryLocation.value = value,
               // ),
-              GestureDetector(
-                onTap: () => _selectDate(context),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 16,
-                  ),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey[400]!),
-                    borderRadius: BorderRadius.circular(12),
-                    color: Color(0xFF212121),
-                  ),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.calendar_today_outlined),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Delivery Date *',
-                              style: Theme.of(context).textTheme.bodySmall
-                                  ?.copyWith(color: Colors.grey[600]),
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              controller.babyDeliveryDate != null
-                                  ? _formatDate(controller.babyDeliveryDate!)
-                                  : 'Select delivery date',
-                              style: Theme.of(
-                                context,
-                              ).textTheme.bodyLarge?.copyWith(
-                                color:
-                                    controller.babyDeliveryDate != null
-                                        ? Colors.white
-                                        : Colors.grey[500],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const Icon(Icons.arrow_drop_down),
-                    ],
-                  ),
-                ),
+              DatePickerField(
+                title: "Select Delivery Date",
+                onDateSelected: (date) {
+                  controller.babyDeliveryDate = date;
+                },
               ),
-
               const SizedBox(height: 24),
-
               // Blood Group
               Text(
                 'Your Blood Group *',
@@ -129,7 +87,10 @@ class DonarDetailsStep extends StatelessWidget {
                       final isSelected =
                           controller.seletecBloodGroup == bloodGroup;
                       return FilterChip(
-                        label: Text(getBloodGroupText(bloodGroup)),
+                        label: Text(
+                          getBloodGroupText(bloodGroup),
+                          style: TextStyle(color: Colors.white),
+                        ),
                         selected: isSelected,
                         onSelected: (selected) {
                           controller.seletecBloodGroup =
@@ -139,8 +100,8 @@ class DonarDetailsStep extends StatelessWidget {
                         },
                         selectedColor: Theme.of(
                           context,
-                        ).colorScheme.primary.withOpacity(0.2),
-                        checkmarkColor: Theme.of(context).colorScheme.primary,
+                        ).colorScheme.primary.withOpacity(0.9),
+                        checkmarkColor: Colors.white,
                       );
                     }).toList(),
               ),
@@ -159,9 +120,9 @@ class DonarDetailsStep extends StatelessWidget {
 
               Text(
                 'Select all that apply to you (optional but recommended):',
-                style: Theme.of(
-                  context,
-                ).textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Colors.white.withOpacity(.8),
+                ),
               ),
 
               const SizedBox(height: 16),
@@ -173,8 +134,12 @@ class DonarDetailsStep extends StatelessWidget {
                         quality,
                       );
                       return CheckboxListTile(
-                        title: Text(getDonorQualityText(quality)),
+                        title: Text(
+                          getDonorQualityText(quality),
+                          style: TextStyle(color: Colors.white),
+                        ),
                         subtitle: _getQualityDescription(quality),
+
                         value: isSelected,
                         onChanged: (selected) {
                           if (selected ?? false)
@@ -184,6 +149,11 @@ class DonarDetailsStep extends StatelessWidget {
 
                           controller.update();
                         },
+                        side: const BorderSide(
+                          color: Colors.white,
+                          width:
+                              1.5, // You can adjust the width for better visibility
+                        ),
                         controlAffinity: ListTileControlAffinity.leading,
                         contentPadding: EdgeInsets.zero,
                         activeColor: Theme.of(context).colorScheme.primary,
@@ -230,23 +200,37 @@ class DonarDetailsStep extends StatelessWidget {
                       children: [
                         Expanded(
                           child: RadioListTile<bool>(
-                            title: const Text('Yes'),
+                            title: const Text(
+                              'Yes',
+                              style: TextStyle(color: Colors.white),
+                            ),
                             value: true,
                             groupValue:
                                 controller.isWillingToShareMedicalReport,
                             onChanged: (value) {
                               controller.isWillingToShareMedicalReport =
                                   value ?? false;
-
                               controller.update();
                             },
                             contentPadding: EdgeInsets.zero,
-                            activeColor: Theme.of(context).colorScheme.primary,
+                            // Use fillColor to control the color in different states.
+                            fillColor: MaterialStateProperty.resolveWith<
+                              Color
+                            >((states) {
+                              if (states.contains(MaterialState.selected)) {
+                                return Theme.of(context).colorScheme.primary;
+                              }
+                              // This sets the unselected circle's border color to white.
+                              return Colors.white;
+                            }),
                           ),
                         ),
                         Expanded(
                           child: RadioListTile<bool>(
-                            title: const Text('No'),
+                            title: const Text(
+                              'No',
+                              style: TextStyle(color: Colors.white),
+                            ),
                             value: false,
                             groupValue:
                                 controller.isWillingToShareMedicalReport,
@@ -257,7 +241,16 @@ class DonarDetailsStep extends StatelessWidget {
                               controller.update();
                             },
                             contentPadding: EdgeInsets.zero,
-                            activeColor: Theme.of(context).colorScheme.primary,
+                            // Use fillColor to control the color in different states.
+                            fillColor: MaterialStateProperty.resolveWith<
+                              Color
+                            >((states) {
+                              if (states.contains(MaterialState.selected)) {
+                                return Theme.of(context).colorScheme.primary;
+                              }
+                              // This sets the unselected circle's border color to white.
+                              return Colors.white;
+                            }),
                           ),
                         ),
                       ],
@@ -327,7 +320,7 @@ class DonarDetailsStep extends StatelessWidget {
 
     return Text(
       description,
-      style: Get.textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
+      style: Get.textTheme.bodySmall?.copyWith(color: Colors.white70),
     );
   }
 

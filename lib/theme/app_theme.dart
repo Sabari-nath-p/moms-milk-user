@@ -25,7 +25,12 @@ class AppTheme {
 
   // Dark Theme Colors (same palette, but swap background/surface)
   static const Color darkPrimaryColor = Color(0xFFF69173); // Warm Coral
-  static const Color darkSecondaryColor = Color(0xFFD66EAB); // Tender Rose
+  static const Color darkSecondaryColor = Color.fromARGB(
+    255,
+    214,
+    214,
+    214,
+  ); // Tender Rose
   static const Color darkBackgroundColor = Color(0xFF3F2F39); // Deep Charcoal
   static const Color darkSurfaceColor = Color(0xFFF9F1EF); // Soft Cream
   static const Color darkErrorColor = Color(0xFFE53935);
@@ -43,7 +48,12 @@ class AppTheme {
 
   // Dark Text Colors
   static const Color darkTextPrimaryColor = Color(0xFFF9F1EF); // Soft Cream
-  static const Color darkTextSecondaryColor = Color(0xFFD66EAB); // Tender Rose
+  static const Color darkTextSecondaryColor = Color.fromARGB(
+    255,
+    226,
+    226,
+    226,
+  ); // Tender Rose
   static const Color darkTextDisabledColor = Color(0xFF555555);
 
   // Font Families
@@ -224,7 +234,7 @@ class AppTheme {
 
     // Card Theme
     cardTheme: CardTheme(
-      color: surfaceColor,
+      color: primaryColor.withOpacity(.1),
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       margin: const EdgeInsets.all(8),
@@ -397,24 +407,25 @@ class AppTheme {
         borderRadius: BorderRadius.circular(12),
         borderSide: const BorderSide(color: darkErrorColor),
       ),
-      fillColor: darkSurfaceColor, // Soft Cream
+      fillColor: Colors.white.withOpacity(.05), // Soft Cream
       filled: true,
+      prefixIconColor: primaryColor,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       labelStyle: const TextStyle(
         fontFamily: secondaryFont,
         fontSize: 14,
         color: darkSecondaryColor,
       ),
-      hintStyle: const TextStyle(
+      hintStyle: TextStyle(
         fontFamily: secondaryFont,
         fontSize: 14,
-        color: darkOnSurfaceColor, // Deep Charcoal
+        color: Colors.white.withOpacity(.8), // Deep Charcoal
       ),
     ),
 
     // Card Theme
     cardTheme: CardTheme(
-      color: darkSurfaceColor, // Soft Cream
+      color: primaryColor.withOpacity(.1), // Soft Cream
       elevation: 8,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       margin: const EdgeInsets.all(8),
@@ -431,6 +442,7 @@ class AppTheme {
 
     // Bottom Navigation Bar Theme
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      unselectedIconTheme: IconThemeData(color: primaryColor),
       backgroundColor: darkBackgroundColor, // Deep Charcoal
       selectedItemColor: darkPrimaryColor, // Warm Coral
       unselectedItemColor: darkSecondaryColor, // Tender Rose

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
+import 'package:mommilk_user/Screens/Dashboard/MainDashBoard.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/HomeScreen.dart';
 import 'package:mommilk_user/Screens/OnboardingScreen/Controller/OnboardingController.dart';
@@ -34,7 +35,7 @@ class CreateBabyController extends GetxController {
           print(data.data);
           if (data.statusCode == 201) {
             if (skip)
-              Get.off(() => Homescreen());
+              Get.off(() => MainDashboard());
             else {
               Homecontroller controller = Get.find();
               controller.fetchBabies();
@@ -48,7 +49,8 @@ class CreateBabyController extends GetxController {
       update();
     }
   }
-Future<void> deleteBaby(int babyId) async {
+
+  Future<void> deleteBaby(int babyId) async {
     isLoading = true;
     update();
 
@@ -56,7 +58,7 @@ Future<void> deleteBaby(int babyId) async {
       endpoint: "/babies/$babyId",
       method: Api.DELETE,
       onSuccess: (data) {
-        if (data.statusCode == 200 ) {
+        if (data.statusCode == 200) {
           Get.snackbar("Success", "Baby deleted successfully");
           try {
             Homecontroller controller = Get.find();
@@ -76,6 +78,7 @@ Future<void> deleteBaby(int babyId) async {
     isLoading = false;
     update();
   }
+
   bool validateBabyDetails() {
     // Validate baby name (required)
     if (babyNameController.text.trim().isEmpty) {

@@ -6,6 +6,7 @@ import 'package:mommilk_user/Screens/CreateBabyScreen/Controller/BabyCreateContr
 import 'package:mommilk_user/Screens/Dashboard/MainDashBoard.dart';
 import 'package:mommilk_user/Screens/HomeScreen/HomeScreen.dart';
 import 'package:mommilk_user/Screens/OnboardingScreen/Controller/OnboardingController.dart';
+import 'package:mommilk_user/Utils/DateSelectionField.dart';
 
 class CreateBabyScreen extends StatelessWidget {
   bool skip = true;
@@ -114,6 +115,7 @@ class CreateBabyScreen extends StatelessWidget {
                                   child: Text(
                                     gender.name,
                                     textAlign: TextAlign.center,
+                                    style: TextStyle(color: Colors.white),
                                   ),
                                 ),
                                 selected: isSelected,
@@ -137,54 +139,11 @@ class CreateBabyScreen extends StatelessWidget {
                   const SizedBox(height: 24),
 
                   // Delivery Date
-                  GestureDetector(
-                    onTap: () => _selectDate(context),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 16,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey[400]!),
-                        borderRadius: BorderRadius.circular(12),
-                        color: Color(0xFF212121),
-                      ),
-                      child: Row(
-                        children: [
-                          const Icon(Icons.calendar_today_outlined),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Delivery Date *',
-                                  style: Theme.of(context).textTheme.bodySmall
-                                      ?.copyWith(color: Colors.grey[600]),
-                                ),
-                                const SizedBox(height: 2),
-                                Text(
-                                  controller.babyDeliveryDate != null
-                                      ? _formatDate(
-                                        controller.babyDeliveryDate!,
-                                      )
-                                      : 'Select delivery date',
-                                  style: Theme.of(
-                                    context,
-                                  ).textTheme.bodyLarge?.copyWith(
-                                    color:
-                                        controller.babyDeliveryDate != null
-                                            ? Colors.white
-                                            : Colors.grey[500],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const Icon(Icons.arrow_drop_down),
-                        ],
-                      ),
-                    ),
+                  DatePickerField(
+                    title: "Delivery Date",
+                    onDateSelected: (value) {
+                      controller.babyDeliveryDate = value;
+                    },
                   ),
 
                   // const SizedBox(height: 24),
@@ -256,7 +215,7 @@ class CreateBabyScreen extends StatelessWidget {
                     onChanged: (value) {},
                   ),
 
-                  const SizedBox(height: 24),
+                  //const SizedBox(height: 24),
 
                   // Baby Height
                   TextField(
@@ -290,7 +249,7 @@ class CreateBabyScreen extends StatelessWidget {
                     onChanged: (value) {},
                   ),
 
-                  const SizedBox(height: 32),
+                  //  const SizedBox(height: 32),
 
                   // Validate Button
                   SizedBox(

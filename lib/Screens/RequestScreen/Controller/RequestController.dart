@@ -315,7 +315,7 @@ class Requestcontroller extends GetxController {
   Future<void> declineRequest(int requestId) async {
     //try {
     await ApiService.request(
-      endpoint: '/requests/$requestId/decline',
+      endpoint: '/requests/$requestId/reject',
       method: Api.POST,
       onSuccess: (data) {
         Get.snackbar(

@@ -27,9 +27,9 @@ class UserDetailsStep extends StatelessWidget {
 
               Text(
                 'Please provide your basic information to create your profile.',
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyLarge?.copyWith(color: Colors.grey[600]),
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: Colors.white.withOpacity(.8),
+                ),
               ),
 
               const SizedBox(height: 32),
@@ -228,9 +228,9 @@ class UserDetailsStep extends StatelessWidget {
                     Expanded(
                       child: Text(
                         'Your information is secure and will only be used to connect you with other verified users.',
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodySmall?.copyWith(color: Colors.white),
                       ),
                     ),
                   ],

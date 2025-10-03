@@ -19,17 +19,7 @@ class HQuickActions extends StatelessWidget {
               const SizedBox(height: 16),
 
               if (controller.selectedBady == null)
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(24),
-                    child: Center(
-                      child: Text(
-                        'Select a baby to start tracking',
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                    ),
-                  ),
-                )
+                Container()
               else
                 Column(
                   children: [

@@ -6,6 +6,7 @@ import 'package:mommilk_user/Screens/BabyScreen/BabyScreen.dart';
 import 'package:mommilk_user/Screens/Dashboard/Controller/DashboardController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/HomeScreen.dart';
 import 'package:mommilk_user/Screens/ProfileScreen/ProfileScreen.dart';
+import 'package:mommilk_user/Utils/Constants.dart';
 
 class MainDashboard extends StatelessWidget {
   const MainDashboard({super.key});
@@ -20,31 +21,11 @@ class MainDashboard extends StatelessWidget {
 
           appBar: AppBar(
             centerTitle: false,
-            title: Text('Moms Milks'),
-            // backgroundColor: Theme.of(context).colorScheme.surface,
-            actions: [
-              user.userType == 'DONAR'
-                  ? IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      user.isAvailable ?? false
-                          ? Icons.toggle_on
-                          : Icons.toggle_off,
-                      color:
-                          user.isAvailable ?? false
-                              ? Theme.of(context).colorScheme.primary
-                              : Theme.of(context).disabledColor,
-                      size: 32,
-                    ),
-                    tooltip:
-                        user.isAvailable ?? false
-                            ? 'Available for donations'
-                            : 'Not available',
-                  )
-                  : const SizedBox.shrink(),
+            title: Image.asset(fullIcon),
 
-              IconButton(onPressed: () {}, icon: const Icon(Icons.person)),
-            ],
+            // backgroundColor: Theme.of(context).colorScheme.surface,
+
+            //  IconButton(onPressed: () {}, icon: const Icon(Icons.person)),
           ),
 
           body:

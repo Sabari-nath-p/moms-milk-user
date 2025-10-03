@@ -7,6 +7,8 @@ import 'package:mommilk_user/Screens/HomeScreen/Views/HBabyListCard.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Views/HHeaderCard.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Views/HQuickActions.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Views/HRequestCard.dart';
+import 'package:mommilk_user/Screens/OnboardingScreen/Controller/OnboardingController.dart';
+import 'package:mommilk_user/Screens/ProfileScreen/ProfileScreen.dart';
 
 class Homescreen extends StatelessWidget {
   Homescreen({super.key});
@@ -41,10 +43,16 @@ class Homescreen extends StatelessWidget {
             // _buildUserTypeSpecificSection(context),
             SizedBox(height: 10),
             HRequestCard(),
+            if (user.userType == "DONOR") const SizedBox(height: 20),
+            if (user.userType == "DONOR")
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: buildUserTypeSection(context),
+              ),
             const SizedBox(height: 10),
             HBabyCard(),
             const SizedBox(height: 24),
-            if (controller.selectedBady != null) HQuickActions(),
+            HQuickActions(),
             // const SizedBox(height: 24),
             // _buildTodayStats(context),
             // const SizedBox(height: 24),

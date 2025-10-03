@@ -13,7 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 enum UserType { donor, buyer }
 
-enum Gender { BOY, GIRL, OTHER }
+enum Gender { BOY, GIRL }
 
 enum BloodGroup {
   aPositive,

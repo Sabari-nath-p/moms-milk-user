@@ -16,6 +16,7 @@ dependencies:
   flutter_screenutil: ^5.9.3
   get: ^4.7.2
   http: ^1.5.0
+  intl: ^0.20.2
   shared_preferences: ^2.5.3
   url_launcher: ^6.3.2
 
@@ -26,3 +27,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - lib/Assets/AppIcon.png
+    - lib/Assets/fullIcon.png

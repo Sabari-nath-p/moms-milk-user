@@ -97,13 +97,15 @@ class Requester {
   String? name;
   String? email;
   String? userType;
+  String? phone;
 
-  Requester({this.id, this.name, this.email, this.userType});
+  Requester({this.id, this.name, this.email, this.userType, this.phone});
 
   Requester.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     email = json['email'];
+    phone = json['phone'];
     userType = json['userType'];
   }
 

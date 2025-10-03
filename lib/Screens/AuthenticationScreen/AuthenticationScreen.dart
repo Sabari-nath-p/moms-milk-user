@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/route_manager.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
+import 'package:mommilk_user/Utils/Constants.dart';
 
 class Authenticationscreen extends StatelessWidget {
   Authenticationscreen({super.key});
@@ -69,6 +70,7 @@ class Authenticationscreen extends StatelessWidget {
         Container(
           width: 120,
           height: 120,
+          padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
@@ -94,11 +96,7 @@ class Authenticationscreen extends StatelessWidget {
               ),
             ],
           ),
-          child: Icon(
-            Icons.child_care,
-            size: 60,
-            color: Theme.of(context).colorScheme.onPrimary,
-          ),
+          child: Image.asset(appIcon, color: Colors.white),
         ),
 
         const SizedBox(height: 32),

@@ -139,6 +139,8 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
               // Baby Selector
               TabBar(
                 controller: _tabController,
+                //labelStyle: TextStyle(color: Colors.white),
+                unselectedLabelColor: Colors.white,
                 tabs: const [
                   Tab(icon: Icon(Icons.local_drink), text: 'Feeding'),
                   Tab(icon: Icon(Icons.child_care), text: 'Diaper'),
@@ -192,11 +194,13 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
     }
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      //   padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Summary Cards
+          SizedBox(height: 20),
+
           _buildSummaryCards([
             _SummaryCardData(
               'Total Feeds',
@@ -218,31 +222,40 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
             ),
           ]),
 
-          const SizedBox(height: 24),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 24),
 
-          // Feeding Method Breakdown
-          if (feeding.feedMethodCount != null) ...[
-            _buildSectionTitle('Feeding Method Distribution'),
-            const SizedBox(height: 16),
-            _buildFeedingMethodChart(feeding.feedMethodCount!),
-            const SizedBox(height: 24),
-          ],
+                // Feeding Method Breakdown
+                if (feeding.feedMethodCount != null) ...[
+                  _buildSectionTitle('Feeding Method Distribution'),
+                  const SizedBox(height: 16),
+                  _buildFeedingMethodChart(feeding.feedMethodCount!),
+                  const SizedBox(height: 24),
+                ],
 
-          // Position Breakdown
-          if (feeding.positionBreakdown != null) ...[
-            _buildSectionTitle('Position Distribution'),
-            const SizedBox(height: 16),
-            _buildPositionChart(feeding.positionBreakdown!),
-            const SizedBox(height: 24),
-          ],
+                // Position Breakdown
+                if (feeding.positionBreakdown != null) ...[
+                  _buildSectionTitle('Position Distribution'),
+                  const SizedBox(height: 16),
+                  _buildPositionChart(feeding.positionBreakdown!),
+                  const SizedBox(height: 24),
+                ],
 
-          // Daily Patterns
-          if (feeding.feedingPatterns != null &&
-              feeding.feedingPatterns!.isNotEmpty) ...[
-            _buildSectionTitle('Daily Feeding Patterns'),
-            const SizedBox(height: 16),
-            _buildFeedingPatternsList(feeding.feedingPatterns!),
-          ],
+                // Daily Patterns
+                if (feeding.feedingPatterns != null &&
+                    feeding.feedingPatterns!.isNotEmpty) ...[
+                  _buildSectionTitle('Daily Feeding Patterns'),
+                  const SizedBox(height: 16),
+                  _buildFeedingPatternsList(feeding.feedingPatterns!),
+                ],
+              ],
+            ),
+          ),
+          SizedBox(height: 10),
         ],
       ),
     );
@@ -313,11 +326,12 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
     }
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      //  padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Summary Cards
+          SizedBox(height: 24),
           _buildSummaryCards([
             _SummaryCardData(
               'Total Sessions',
@@ -339,32 +353,40 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
             ),
           ]),
 
-          const SizedBox(height: 24),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 24),
 
-          // Location Breakdown
-          if (sleep.locationBreakdown != null) ...[
-            _buildSectionTitle('Sleep Location Distribution'),
-            const SizedBox(height: 16),
-            _buildLocationList(sleep.locationBreakdown!),
-            const SizedBox(height: 24),
-          ],
+                // Location Breakdown
+                if (sleep.locationBreakdown != null) ...[
+                  _buildSectionTitle('Sleep Location Distribution'),
+                  const SizedBox(height: 16),
+                  _buildLocationList(sleep.locationBreakdown!),
+                  const SizedBox(height: 24),
+                ],
 
-          // Sleep Quality Trends
-          if (sleep.sleepQualityTrends != null &&
-              sleep.sleepQualityTrends!.isNotEmpty) ...[
-            _buildSectionTitle('Sleep Quality Trends'),
-            const SizedBox(height: 16),
-            _buildSleepQualityList(sleep.sleepQualityTrends!),
-            const SizedBox(height: 24),
-          ],
+                // Sleep Quality Trends
+                if (sleep.sleepQualityTrends != null &&
+                    sleep.sleepQualityTrends!.isNotEmpty) ...[
+                  _buildSectionTitle('Sleep Quality Trends'),
+                  const SizedBox(height: 16),
+                  _buildSleepQualityList(sleep.sleepQualityTrends!),
+                  const SizedBox(height: 24),
+                ],
 
-          // Daily Sleep Patterns
-          if (sleep.dailyPatterns != null &&
-              sleep.dailyPatterns!.isNotEmpty) ...[
-            _buildSectionTitle('Daily Sleep Patterns'),
-            const SizedBox(height: 16),
-            _buildSleepPatternsList(sleep.dailyPatterns!),
-          ],
+                // Daily Sleep Patterns
+                if (sleep.dailyPatterns != null &&
+                    sleep.dailyPatterns!.isNotEmpty) ...[
+                  _buildSectionTitle('Daily Sleep Patterns'),
+                  const SizedBox(height: 16),
+                  _buildSleepPatternsList(sleep.dailyPatterns!),
+                ],
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -455,8 +477,9 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
 
     return Container(
       height: 200,
+      padding: EdgeInsets.only(bottom: 10, top: 10),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
+        color: Theme.of(context).primaryColor.withOpacity(.1),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -475,7 +498,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
                     child: PieChart(
                       PieChartData(
                         sections: sections,
-                        centerSpaceRadius: 40,
+                        // centerSpaceRadius: 20,
                         sectionsSpace: 2,
                       ),
                     ),
@@ -529,7 +552,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
       height: 200,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
+        color: Theme.of(context).primaryColor.withOpacity(.1),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -593,7 +616,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
   Widget _buildFeedingPatternsList(List<FeedingPatterns> patterns) {
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
+        color: Theme.of(context).primaryColor.withOpacity(.1),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -688,11 +711,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
                         children: [
                           Row(
                             children: [
-                              Icon(
-                                Icons.numbers,
-                                size: 16,
-                                color: Colors.grey[600],
-                              ),
+                              Icon(Icons.numbers, size: 16),
                               const SizedBox(width: 4),
                               Text(
                                 'Feeds: ${pattern.feedCount ?? 0}',
@@ -706,36 +725,22 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
                           const SizedBox(height: 4),
                           Row(
                             children: [
-                              Icon(
-                                Icons.access_time,
-                                size: 16,
-                                color: Colors.grey[600],
-                              ),
+                              Icon(Icons.access_time, size: 16),
                               const SizedBox(width: 4),
                               Text(
                                 'Duration: ${pattern.totalTimeMinutes?.toStringAsFixed(0) ?? 0} min',
-                                style: TextStyle(
-                                  color: Colors.grey[600],
-                                  fontSize: 13,
-                                ),
+                                style: TextStyle(fontSize: 13),
                               ),
                             ],
                           ),
                           const SizedBox(height: 4),
                           Row(
                             children: [
-                              Icon(
-                                Icons.water_drop,
-                                size: 16,
-                                color: Colors.grey[600],
-                              ),
+                              Icon(Icons.water_drop, size: 16),
                               const SizedBox(width: 4),
                               Text(
                                 'Amount: ${pattern.totalAmountMl?.toStringAsFixed(0) ?? 0} ml',
-                                style: TextStyle(
-                                  color: Colors.grey[600],
-                                  fontSize: 13,
-                                ),
+                                style: TextStyle(fontSize: 13),
                               ),
                             ],
                           ),
@@ -767,7 +772,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
   Widget _buildDiaperPatternsList(List<DailyPatterns> patterns) {
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
+        color: Theme.of(context).primaryColor.withOpacity(.1),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -884,17 +889,17 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
                               _buildDiaperTypeChip(
                                 'Solid',
                                 pattern.solidCount ?? 0,
-                                Colors.brown,
+                                Colors.orange,
                               ),
                               _buildDiaperTypeChip(
                                 'Liquid',
                                 pattern.liquidCount ?? 0,
-                                Colors.blue,
+                                Colors.lightBlue,
                               ),
                               _buildDiaperTypeChip(
                                 'Both',
                                 pattern.bothCount ?? 0,
-                                Colors.purple,
+                                Colors.green,
                               ),
                             ],
                           ),
@@ -1174,7 +1179,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
   Widget _buildHourlyDistributionList(List<HourlyDistribution> distribution) {
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
+        color: Theme.of(context).primaryColor.withOpacity(.1),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -1190,7 +1195,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.purple.withOpacity(0.1),
+              color: Colors.orange.withOpacity(0.1),
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(16),
                 topRight: Radius.circular(16),
@@ -1198,13 +1203,13 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
             ),
             child: Row(
               children: [
-                Icon(Icons.schedule, color: Colors.purple, size: 20),
+                Icon(Icons.schedule, color: Colors.orange, size: 20),
                 const SizedBox(width: 8),
                 Text(
                   'Hourly Distribution',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: Colors.purple,
+                    color: Colors.orange,
                     fontSize: 16,
                   ),
                 ),
@@ -1231,9 +1236,9 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
                 return Container(
                   // padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.purple.withOpacity(0.1),
+                    color: Colors.orange.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.purple.withOpacity(0.3)),
+                    border: Border.all(color: Colors.orange.withOpacity(0.3)),
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -1243,7 +1248,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
                         style: const TextStyle(
                           fontSize: 10,
                           fontWeight: FontWeight.bold,
-                          color: Colors.purple,
+                          color: Colors.orange,
                         ),
                       ),
                       const SizedBox(height: 1),
@@ -1252,14 +1257,14 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
-                          color: Colors.purple.shade700,
+                          color: Colors.orange.shade700,
                         ),
                       ),
                       Text(
                         'changes',
                         style: TextStyle(
                           fontSize: 9,
-                          color: Colors.purple.shade600,
+                          color: Colors.orange.shade600,
                         ),
                       ),
                     ],
@@ -1612,7 +1617,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
     return Container(
       height: 200,
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
+        color: Theme.of(context).primaryColor.withOpacity(.1),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -1631,7 +1636,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
                     child: PieChart(
                       PieChartData(
                         sections: sections,
-                        centerSpaceRadius: 40,
+                        centerSpaceRadius: 30,
                         sectionsSpace: 2,
                       ),
                     ),
@@ -1640,6 +1645,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
+
                       children:
                           data.asMap().entries.map((entry) {
                             final index = entry.key;
