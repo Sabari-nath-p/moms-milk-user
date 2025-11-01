@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
+import 'package:mommilk_user/Screens/TimeLineScreen/ActivityTimeLineScreen.dart';
+import 'package:mommilk_user/theme/app_theme.dart';
 
 class HQuickActions extends StatelessWidget {
   const HQuickActions({super.key});
@@ -12,9 +14,31 @@ class HQuickActions extends StatelessWidget {
           (controller) => Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Quick Actions',
-                style: Theme.of(context).textTheme.headlineSmall,
+              Row(
+                children: [
+                  Text(
+                    'Quick Actions',
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                  Spacer(),
+                  Icon(
+                    Icons.visibility,
+                    size: 15,
+                    color: AppTheme.primaryColor,
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Get.to(
+                        () => Activitytimelinescreen(),
+                        transition: Transition.rightToLeft,
+                      );
+                    },
+                    child: Text(
+                      "View Baby Activity",
+                      style: TextStyle(decoration: TextDecoration.underline),
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 16),
 

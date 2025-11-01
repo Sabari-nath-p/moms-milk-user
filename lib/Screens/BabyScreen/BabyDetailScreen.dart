@@ -14,21 +14,43 @@ class BabyDetailsScreen extends StatefulWidget {
 
 class _BabyDetailsScreenState extends State<BabyDetailsScreen> {
   int _currentTabIndex = 0;
+  late Homecontroller controller;
+
+  // Date range state
+  DateTime? selectedStartDate;
+  DateTime? selectedEndDate;
 
   @override
   void initState() {
     super.initState();
-    // Fetch analytics data for this specific baby
+    controller = Get.find<Homecontroller>();
+    _setDefaultDateRange();
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final controller = Get.find<Homecontroller>();
+      controller.selectedBady = widget.baby;
       controller.fetchBabyAnalytics(babyId: widget.baby.id!);
+      controller.fetchAllLogsForBaby(widget.baby.id!);
     });
+  }
+
+  void _setDefaultDateRange() {
+    selectedEndDate = DateTime.now();
+    selectedStartDate = selectedEndDate!.subtract(const Duration(days: 2));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("My Baby - ${widget.baby.name}")),
+      appBar: AppBar(
+        title: Text("My Baby - ${widget.baby.name}"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.calendar_today),
+            onPressed: () => _showDatePicker(context),
+            tooltip: 'Select Date',
+          ),
+        ],
+      ),
       body: GetBuilder<Homecontroller>(
         builder:
             (controller) => Scaffold(
@@ -37,7 +59,7 @@ class _BabyDetailsScreenState extends State<BabyDetailsScreen> {
                   SliverToBoxAdapter(
                     child: Column(
                       children: [
-                        _buildQuickStats(context),
+                        _buildQuickStats(context, controller),
                         _buildTabBar(context),
                       ],
                     ),
@@ -46,10 +68,10 @@ class _BabyDetailsScreenState extends State<BabyDetailsScreen> {
                     child: IndexedStack(
                       index: _currentTabIndex,
                       children: [
-                        _buildOverviewTab(),
-                        _buildFeedingTab(),
-                        _buildDiaperTab(),
-                        _buildSleepTab(),
+                        _buildOverviewTab(controller),
+                        _buildFeedingTab(controller),
+                        _buildDiaperTab(controller),
+                        _buildSleepTab(controller),
                       ],
                     ),
                   ),
@@ -60,72 +82,118 @@ class _BabyDetailsScreenState extends State<BabyDetailsScreen> {
     );
   }
 
-  Widget _buildQuickStats(BuildContext context) {
-    return GetBuilder<Homecontroller>(
-      builder: (controller) {
-        final analytics = controller.babyAnalytics;
-
-        return Container(
-          margin: const EdgeInsets.all(16),
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.05),
-                blurRadius: 10,
-                offset: const Offset(0, 2),
-              ),
-            ],
+  void _showDatePicker(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2020),
+      lastDate: DateTime.now(),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: Theme.of(context).colorScheme.copyWith(
+              primary: Theme.of(context).colorScheme.primary,
+              onPrimary: Colors.white,
+              surface: Theme.of(context).colorScheme.surface,
+              onSurface: Theme.of(context).colorScheme.onSurface,
+            ),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Recent Summary for ${widget.baby.name}',
-                style: Theme.of(
-                  context,
-                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
-              ),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildStatCard(
-                      context,
-                      'Feedings',
-                      '${analytics?.feeding?.totalFeeds ?? 0}',
-                      Icons.local_drink,
-                      Colors.blue,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _buildStatCard(
-                      context,
-                      'Diapers',
-                      '${analytics?.diaper?.totalChanges ?? 0}',
-                      Icons.child_care,
-                      Colors.orange,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _buildStatCard(
-                      context,
-                      'Sleep',
-                      '${analytics?.sleep?.totalSleepSessions ?? 0}',
-                      Icons.bedtime,
-                      Colors.purple,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+          child: child!,
         );
       },
+    );
+
+    if (picked != null) {
+      setState(() {
+        selectedStartDate = picked;
+        selectedEndDate = picked;
+      });
+
+      // controller.fetchBabyAnalytics(
+      //   babyId: widget.baby.id!,
+      //   startDate: picked,
+      //   endDate: picked,
+      // );
+
+      controller.fetchAllLogsForBaby(
+        widget.baby.id!,
+        startDate: picked,
+        endDate: picked,
+      );
+    }
+  }
+
+  Widget _buildQuickStats(BuildContext context, Homecontroller controller) {
+    final analytics = controller.babyAnalytics;
+    final isLoading = controller.isAnalyticsLoading;
+
+    return Container(
+      margin: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Theme.of(context).primaryColor.withOpacity(.1),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Recent Summary for ${widget.baby.name}',
+            style: Theme.of(
+              context,
+            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: 16),
+          if (isLoading)
+            const Center(
+              child: Padding(
+                padding: EdgeInsets.all(20.0),
+                child: CircularProgressIndicator(),
+              ),
+            )
+          else
+            Row(
+              children: [
+                Expanded(
+                  child: _buildStatCard(
+                    context,
+                    'Feedings',
+                    '${analytics?.feeding?.totalFeeds ?? 0}',
+                    Icons.local_drink,
+                    Colors.blue,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: _buildStatCard(
+                    context,
+                    'Diapers',
+                    '${analytics?.diaper?.totalChanges ?? 0}',
+                    Icons.child_care,
+                    Colors.orange,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: _buildStatCard(
+                    context,
+                    'Sleep',
+                    '${analytics?.sleep?.totalSleepSessions ?? 0}',
+                    Icons.bedtime,
+                    Colors.green,
+                  ),
+                ),
+              ],
+            ),
+        ],
+      ),
     );
   }
 
@@ -171,7 +239,7 @@ class _BabyDetailsScreenState extends State<BabyDetailsScreen> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
+        color: Theme.of(context).primaryColor.withOpacity(.1),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -217,53 +285,74 @@ class _BabyDetailsScreenState extends State<BabyDetailsScreen> {
     );
   }
 
-  Widget _buildOverviewTab() {
+  Widget _buildOverviewTab(Homecontroller controller) {
+    final analytics = controller.babyAnalytics;
+
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildInfoCard(context, 'Baby Information', [
-            _buildInfoRow('Name', widget.baby.name ?? ""),
-            _buildInfoRow(
-              'Date of Birth',
-              _formatDate(DateTime.parse(widget.baby.deliveryDate!)),
-            ),
-            _buildInfoRow(
-              'Age',
-              _calculateAge(DateTime.parse(widget.baby.deliveryDate!)),
-            ),
+            _buildInfoRow('Name', widget.baby.name ?? "Not set"),
+            _buildInfoRow('Gender', widget.baby.gender ?? "Not set"),
+            if (widget.baby.deliveryDate != null) ...[
+              _buildInfoRow(
+                'Date of Birth',
+                _formatDate(DateTime.parse(widget.baby.deliveryDate!)),
+              ),
+              _buildInfoRow(
+                'Age',
+                controller.calculateAge(
+                  DateTime.parse(widget.baby.deliveryDate!),
+                ),
+              ),
+            ],
             _buildInfoRow('Weight', '${widget.baby.weight ?? "Not set"} kg'),
-            _buildInfoRow('Height', 'Not set cm'),
+            _buildInfoRow('Blood Group', widget.baby.bloodGroup ?? "Not set"),
           ]),
           const SizedBox(height: 16),
-          _buildInfoCard(context, 'Recent Activity', [
-            _buildActivityItem(
-              'Last feeding',
-              '2 hours ago',
-              Icons.local_drink,
-              Colors.blue,
-            ),
-            _buildActivityItem(
-              'Last diaper change',
-              '45 minutes ago',
-              Icons.child_care,
-              Colors.orange,
-            ),
-            _buildActivityItem(
-              'Sleep started',
-              '3 hours ago',
-              Icons.bedtime,
-              Colors.purple,
-            ),
+          _buildInfoCard(context, 'Analytics Summary', [
+            if (analytics != null) ...[
+              _buildInfoRow(
+                'Total Feedings',
+                '${analytics.feeding?.totalFeeds ?? 0}',
+              ),
+              _buildInfoRow(
+                'Average Feed Amount',
+                '${analytics.feeding?.averageAmountMl?.toStringAsFixed(1) ?? "0.0"} ml',
+              ),
+              _buildInfoRow(
+                'Total Sleep Hours',
+                '${analytics.sleep?.totalSleepHours?.toStringAsFixed(1) ?? "0.0"} hours',
+              ),
+              _buildInfoRow(
+                'Average Sleep Session',
+                '${analytics.sleep?.averageSessionDurationMinutes?.toStringAsFixed(1) ?? "0"} minutes',
+              ),
+              _buildInfoRow(
+                'Total Diaper Changes',
+                '${analytics.diaper?.totalChanges ?? 0}',
+              ),
+              _buildInfoRow(
+                'Average Changes/Day',
+                '${analytics.diaper?.averageChangesPerDay?.toStringAsFixed(1) ?? "0.0"}',
+              ),
+            ] else ...[
+              const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text('No analytics data available'),
+              ),
+            ],
           ]),
         ],
       ),
     );
   }
 
-  Widget _buildFeedingTab() {
-    final feedings = _getDummyFeedings();
+  Widget _buildFeedingTab(Homecontroller controller) {
+    final analytics = controller.babyAnalytics;
+    final feedingLogs = controller.feedingLogs;
 
     return Padding(
       padding: const EdgeInsets.all(16),
@@ -279,85 +368,209 @@ class _BabyDetailsScreenState extends State<BabyDetailsScreen> {
                   context,
                 ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
               ),
-              ElevatedButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.add, size: 16),
-                label: const Text('Add'),
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-              ),
             ],
           ),
           const SizedBox(height: 16),
-          Expanded(
-            child: ListView.builder(
-              itemCount: feedings.length,
-              itemBuilder: (context, index) {
-                final feeding = feedings[index];
-                return Container(
-                  margin: const EdgeInsets.only(bottom: 12),
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: Theme.of(context).dividerColor.withOpacity(0.1),
+          if (analytics?.feeding != null) ...[
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor.withOpacity(.1),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: Theme.of(context).dividerColor.withOpacity(0.1),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Text(
+                          '${analytics!.feeding?.totalFeeds ?? 0}',
+                          style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue,
+                          ),
+                        ),
+                        const Text('Total Feeds'),
+                      ],
                     ),
                   ),
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Colors.blue.withOpacity(0.1),
-                          shape: BoxShape.circle,
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Text(
+                          '${analytics.feeding?.averageAmountMl?.toStringAsFixed(0) ?? "0"}ml',
+                          style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green,
+                          ),
                         ),
-                        child: const Icon(
-                          Icons.local_drink,
-                          color: Colors.blue,
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${feeding['amount']}ml - ${feeding['type']}',
-                              style: Theme.of(context).textTheme.titleMedium
-                                  ?.copyWith(fontWeight: FontWeight.w600),
-                            ),
-                            Text(
-                              feeding['time'],
-                              style: Theme.of(
-                                context,
-                              ).textTheme.bodySmall?.copyWith(
-                                color: Theme.of(
-                                  context,
-                                ).textTheme.bodySmall?.color?.withOpacity(0.7),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      if (feeding['notes'] != null)
-                        const Icon(Icons.note, size: 16, color: Colors.grey),
-                    ],
+                        const Text('Avg Amount'),
+                      ],
+                    ),
                   ),
-                );
-              },
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Text(
+                          '${analytics.feeding?.averageFeedTimeMinutes?.toStringAsFixed(0) ?? "0"}m',
+                          style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.orange,
+                          ),
+                        ),
+                        const Text('Avg Time'),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
+            const SizedBox(height: 16),
+          ],
+
+          Expanded(
+            child:
+                controller.isFeedingLogsLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : feedingLogs.isNotEmpty
+                    ? ListView.builder(
+                      itemCount: feedingLogs.length,
+                      itemBuilder: (context, index) {
+                        final log = feedingLogs[index];
+                        final duration = controller.getFeedingDurationString(
+                          log,
+                        );
+
+                        return Container(
+                          margin: const EdgeInsets.only(bottom: 12),
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: Theme.of(
+                              context,
+                            ).primaryColor.withOpacity(.1),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: Theme.of(
+                                context,
+                              ).dividerColor.withOpacity(0.1),
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              // Icon Circle
+                              Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: Colors.blue.withOpacity(0.1),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(
+                                  Icons.local_drink,
+                                  color: Colors.blue,
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+
+                              // Log Details
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    // ⏰ Start - End Time
+                                    Text(
+                                      log.startTime != null &&
+                                              log.endTime != null
+                                          ? "Start Time: ${_formatDateTime(log.startTime!)}"
+                                          : log.startTime != null
+                                          ? "Start Time: ${_formatDateTime(log.startTime!)}"
+                                          : "Unknown time",
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.bodyMedium?.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white, // subtle highlight
+                                      ),
+                                    ),
+
+                                    const SizedBox(height: 10),
+
+                                    // Amount
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Amount: ${log.amount ?? 0} ml",
+                                          style: Theme.of(
+                                            context,
+                                          ).textTheme.bodySmall?.copyWith(
+                                            color: Colors.white70,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+
+                                        Text(
+                                          "Type : ${log.feedType.name ?? "Unknown"}",
+                                          style: Theme.of(
+                                            context,
+                                          ).textTheme.bodySmall?.copyWith(
+                                            color: Colors.white70,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 4),
+
+                                    // Feed Type
+                                    const SizedBox(height: 4),
+
+                                    // Duration
+                                    Text(
+                                      "Duration: $duration",
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.bodySmall?.copyWith(
+                                        color: Colors.white.withOpacity(.8),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    )
+                    : const Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.local_drink, size: 48, color: Colors.grey),
+                          SizedBox(height: 16),
+                          Text(
+                            'No feeding logs available',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ],
+                      ),
+                    ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildDiaperTab() {
-    final diapers = _getDummyDiapers();
+  // 🔧 CORRECTED: Diaper Tab with enum handling
+  Widget _buildDiaperTab(Homecontroller controller) {
+    final analytics = controller.babyAnalytics;
+    final diaperLogs = controller.diaperLogs;
 
     return Padding(
       padding: const EdgeInsets.all(16),
@@ -373,103 +586,190 @@ class _BabyDetailsScreenState extends State<BabyDetailsScreen> {
                   context,
                 ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
               ),
-              ElevatedButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.add, size: 16),
-                label: const Text('Add'),
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-              ),
             ],
           ),
           const SizedBox(height: 16),
-          Expanded(
-            child: ListView.builder(
-              itemCount: diapers.length,
-              itemBuilder: (context, index) {
-                final diaper = diapers[index];
-                return Container(
-                  margin: const EdgeInsets.only(bottom: 12),
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: Theme.of(context).dividerColor.withOpacity(0.1),
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Colors.orange.withOpacity(0.1),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.child_care,
-                          color: Colors.orange,
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              diaper['type'],
-                              style: Theme.of(context).textTheme.titleMedium
-                                  ?.copyWith(fontWeight: FontWeight.w600),
-                            ),
-                            Text(
-                              diaper['time'],
-                              style: Theme.of(
-                                context,
-                              ).textTheme.bodySmall?.copyWith(
-                                color: Theme.of(
-                                  context,
-                                ).textTheme.bodySmall?.color?.withOpacity(0.7),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: _getDiaperTypeColor(
-                            diaper['type'],
-                          ).withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                          diaper['type'],
-                          style: TextStyle(
-                            color: _getDiaperTypeColor(diaper['type']),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
+          if (analytics?.diaper != null) ...[
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor.withOpacity(.1),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: Theme.of(context).dividerColor.withOpacity(0.1),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Text(
+                          '${analytics!.diaper?.totalChanges ?? 0}',
+                          style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.orange,
                           ),
                         ),
-                      ),
-                    ],
+                        const Text('Total Changes'),
+                      ],
+                    ),
                   ),
-                );
-              },
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Text(
+                          '${analytics.diaper?.averageChangesPerDay?.toStringAsFixed(1) ?? "0.0"}',
+                          style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.purple,
+                          ),
+                        ),
+                        const Text('Avg Per Day'),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
+            const SizedBox(height: 16),
+          ],
+
+          Expanded(
+            child:
+                controller.isDiaperLogsLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : diaperLogs.isNotEmpty
+                    ? ListView.builder(
+                      itemCount: diaperLogs.length,
+                      itemBuilder: (context, index) {
+                        final log = diaperLogs[index];
+                        final diaperTypeString =
+                            log.diaperType?.toString().split('.').last ??
+                            "Unknown";
+
+                        return Container(
+                          margin: const EdgeInsets.only(bottom: 12),
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: Theme.of(
+                              context,
+                            ).primaryColor.withOpacity(.1),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: Theme.of(
+                                context,
+                              ).dividerColor.withOpacity(0.1),
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              // Icon circle
+                              Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: Colors.orange.withOpacity(0.1),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(
+                                  Icons.child_care,
+                                  color: Colors.orange,
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+
+                              // Log details
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    // Time
+                                    Text(
+                                      log.time != null
+                                          ? 'Change Time:    ${_formatTime(log.time!)}'
+                                          : "Unknown time",
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.bodyMedium?.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white70, // highlight
+                                      ),
+                                    ),
+                                    const SizedBox(height: 6),
+
+                                    // Diaper type with label
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "Type: ",
+                                          style: Theme.of(
+                                            context,
+                                          ).textTheme.bodySmall?.copyWith(
+                                            color: Colors.white70,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                        SizedBox(width: 20),
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 8,
+                                            vertical: 4,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: _getChangeTypeColor(
+                                              diaperTypeString,
+                                            ).withOpacity(0.1),
+                                            borderRadius: BorderRadius.circular(
+                                              8,
+                                            ),
+                                          ),
+                                          child: Text(
+                                            diaperTypeString,
+                                            style: TextStyle(
+                                              color: _getChangeTypeColor(
+                                                diaperTypeString,
+                                              ),
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    )
+                    : const Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.child_care, size: 48, color: Colors.grey),
+                          SizedBox(height: 16),
+                          Text(
+                            'No diaper logs available',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ],
+                      ),
+                    ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildSleepTab() {
-    final sleeps = _getDummySleeps();
+  // 🔧 CORRECTED: Sleep Tab with enum handling
+  Widget _buildSleepTab(Homecontroller controller) {
+    final analytics = controller.babyAnalytics;
+    final sleepLogs = controller.sleepLogs;
 
     return Padding(
       padding: const EdgeInsets.all(16),
@@ -485,96 +785,286 @@ class _BabyDetailsScreenState extends State<BabyDetailsScreen> {
                   context,
                 ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
               ),
-              ElevatedButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.add, size: 16),
-                label: const Text('Add'),
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-              ),
             ],
           ),
           const SizedBox(height: 16),
-          Expanded(
-            child: ListView.builder(
-              itemCount: sleeps.length,
-              itemBuilder: (context, index) {
-                final sleep = sleeps[index];
-                return Container(
-                  margin: const EdgeInsets.only(bottom: 12),
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: Theme.of(context).dividerColor.withOpacity(0.1),
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Colors.purple.withOpacity(0.1),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(Icons.bedtime, color: Colors.purple),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${sleep['duration']} - ${sleep['quality']}',
-                              style: Theme.of(context).textTheme.titleMedium
-                                  ?.copyWith(fontWeight: FontWeight.w600),
-                            ),
-                            Text(
-                              '${sleep['startTime']} - ${sleep['endTime']}',
-                              style: Theme.of(
-                                context,
-                              ).textTheme.bodySmall?.copyWith(
-                                color: Theme.of(
-                                  context,
-                                ).textTheme.bodySmall?.color?.withOpacity(0.7),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: _getSleepQualityColor(
-                            sleep['quality'],
-                          ).withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                          sleep['quality'],
-                          style: TextStyle(
-                            color: _getSleepQualityColor(sleep['quality']),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
+          if (analytics?.sleep != null) ...[
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor.withOpacity(.1),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: Theme.of(context).dividerColor.withOpacity(0.1),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Text(
+                          '${analytics!.sleep?.totalSleepSessions ?? 0}',
+                          style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.orange,
                           ),
                         ),
-                      ),
-                    ],
+                        const Text('Total Sessions'),
+                      ],
+                    ),
                   ),
-                );
-              },
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Text(
+                          '${analytics.sleep?.totalSleepHours?.toStringAsFixed(1) ?? "0.0"}h',
+                          style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green,
+                          ),
+                        ),
+                        const Text('Total Hours'),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Text(
+                          '${analytics.sleep?.averageSessionDurationMinutes?.toStringAsFixed(0) ?? "0"}m',
+                          style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue,
+                          ),
+                        ),
+                        const Text('Avg Session'),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
+            const SizedBox(height: 16),
+          ],
+
+          Expanded(
+            child:
+                controller.isSleepLogsLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : sleepLogs.isNotEmpty
+                    ? ListView.builder(
+                      itemCount: sleepLogs.length,
+                      itemBuilder: (context, index) {
+                        final log = sleepLogs[index];
+                        final duration = controller.getSleepDurationString(log);
+
+                        // Extract values safely
+                        final locationString =
+                            log.location?.toString().split('.').last ??
+                            "Unknown";
+                        final qualityString =
+                            log.sleepQuality?.toString().split('.').last ??
+                            "Unknown";
+
+                        return Container(
+                          margin: const EdgeInsets.only(bottom: 12),
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: Theme.of(
+                              context,
+                            ).primaryColor.withOpacity(.1),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: Theme.of(
+                                context,
+                              ).dividerColor.withOpacity(0.1),
+                            ),
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Icon circle
+                              Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: Colors.blue.withOpacity(0.1),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(
+                                  Icons.bedtime,
+                                  color: Colors.blue,
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+
+                              // Main details
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    // 🕒 Sleep Time Range
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        if (log.startTime != null)
+                                          Text(
+                                            'Start Time: ${_formatTime(log.startTime!)}',
+                                            style: Theme.of(
+                                              context,
+                                            ).textTheme.titleMedium?.copyWith(
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.white70,
+                                            ),
+                                          ),
+                                        if (false)
+                                          if (log.endTime != null)
+                                            const SizedBox(width: 30),
+                                        if (false)
+                                          Text(
+                                            'End Time: ${_formatTime(log.endTime!)}',
+                                            style: Theme.of(
+                                              context,
+                                            ).textTheme.titleMedium?.copyWith(
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.white70,
+                                            ),
+                                          ),
+
+                                        if (log.startTime == null &&
+                                            log.endTime == null)
+                                          const Text(
+                                            "Unknown time",
+                                            style: TextStyle(
+                                              color: Colors.white70,
+                                            ),
+                                          ),
+                                      ],
+                                    ),
+
+                                    const SizedBox(height: 10),
+
+                                    // 🛏️ Duration + Location
+                                    Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.schedule,
+                                          size: 14,
+                                          color: Colors.grey,
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          "Duration: $duration",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall
+                                              ?.copyWith(color: Colors.white70),
+                                        ),
+                                        const SizedBox(width: 20),
+                                        const Icon(
+                                          Icons.star,
+                                          size: 14,
+                                          color: Colors.amber,
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 8,
+                                            vertical: 4,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: _getQualityColor(
+                                              qualityString,
+                                            ).withOpacity(0.1), // ✅ fixed
+                                            borderRadius: BorderRadius.circular(
+                                              8,
+                                            ),
+                                          ),
+                                          child: Text(
+                                            qualityString,
+                                            style: TextStyle(
+                                              color: _getQualityColor(
+                                                qualityString,
+                                              ), // ✅ consistent
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: 20),
+
+                                        const Icon(
+                                          Icons.location_on,
+                                          size: 14,
+                                          color: Colors.white70,
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Text(
+                                          locationString,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall
+                                              ?.copyWith(color: Colors.white70),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    )
+                    : const Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.bedtime, size: 48, color: Colors.grey),
+                          SizedBox(height: 16),
+                          Text(
+                            'No sleep logs available',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ],
+                      ),
+                    ),
           ),
         ],
       ),
     );
+  }
+
+  // Helper methods
+  String _formatDateTime(DateTime dateTime) {
+    return '${dateTime.hour.toString().padLeft(2, '0')}:'
+        '${dateTime.minute.toString().padLeft(2, '0')}';
+  }
+
+  String _formatTime(DateTime dateTime) {
+    return '${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
+  }
+
+  // 🔧 FIXED: Updated to handle enum string values
+  Color _getChangeTypeColor(String changeType) {
+    switch (changeType.toLowerCase()) {
+      case 'wet':
+        return Colors.blue;
+      case 'dirty':
+      case 'soiled':
+        return Colors.brown;
+      case 'mixed':
+      case 'both':
+        return Colors.orange;
+      case 'clean':
+        return Colors.green;
+      default:
+        return Colors.grey;
+    }
   }
 
   Widget _buildInfoCard(
@@ -585,7 +1075,7 @@ class _BabyDetailsScreenState extends State<BabyDetailsScreen> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
+        color: Theme.of(context).primaryColor.withOpacity(.1),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: Theme.of(context).dividerColor.withOpacity(0.1),
@@ -632,196 +1122,20 @@ class _BabyDetailsScreenState extends State<BabyDetailsScreen> {
     );
   }
 
-  Widget _buildActivityItem(
-    String title,
-    String time,
-    IconData icon,
-    Color color,
-  ) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(6),
-            decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(icon, color: color, size: 16),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Text(title, style: Theme.of(context).textTheme.bodyMedium),
-          ),
-          Text(
-            time,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: Theme.of(
-                context,
-              ).textTheme.bodySmall?.color?.withOpacity(0.7),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildQuickActionButton(
-    BuildContext context,
-    String title,
-    IconData icon,
-    Color color,
-    VoidCallback onTap,
-  ) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.pop(context);
-        onTap();
-      },
-      child: Container(
-        width: 80,
-        height: 80,
-        decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, color: color, size: 32),
-            const SizedBox(height: 4),
-            Text(
-              title,
-              style: TextStyle(
-                color: color,
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _showEditBabyBottomSheet() {
-    // Implementation for editing baby details
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Edit baby functionality will be implemented'),
-      ),
-    );
-  }
-
-  void _showDeleteConfirmation() {
-    // Implementation for deleting baby
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Delete baby functionality will be implemented'),
-      ),
-    );
-  }
-
-  String _calculateAge(DateTime birthDate) {
-    final now = DateTime.now();
-    final difference = now.difference(birthDate);
-
-    if (difference.inDays < 30) {
-      return '${difference.inDays} days';
-    } else if (difference.inDays < 365) {
-      final months = (difference.inDays / 30).floor();
-      return '$months months';
-    } else {
-      final years = (difference.inDays / 365).floor();
-      final months = ((difference.inDays % 365) / 30).floor();
-      return '$years years, $months months';
-    }
-  }
-
   String _formatDate(DateTime date) {
     return '${date.day}/${date.month}/${date.year}';
   }
 
-  Color _getDiaperTypeColor(String type) {
-    switch (type.toLowerCase()) {
-      case 'wet':
-        return Colors.blue;
-      case 'dirty':
-        return Colors.brown;
-      case 'both':
-        return Colors.orange;
-      default:
-        return Colors.grey;
-    }
-  }
-
-  Color _getSleepQualityColor(String quality) {
+  Color _getQualityColor(String quality) {
     switch (quality.toLowerCase()) {
-      case 'excellent':
+      case "good":
         return Colors.green;
-      case 'good':
-        return Colors.blue;
-      case 'fair':
+      case "fair":
         return Colors.orange;
-      case 'poor':
+      case "poor":
         return Colors.red;
       default:
         return Colors.grey;
     }
-  }
-
-  List<Map<String, dynamic>> _getDummyFeedings() {
-    return [
-      {
-        'amount': 120,
-        'type': 'Breast Milk',
-        'time': '2 hours ago',
-        'notes': null,
-      },
-      {
-        'amount': 100,
-        'type': 'Formula',
-        'time': '5 hours ago',
-        'notes': 'Baby seemed extra hungry',
-      },
-      {
-        'amount': 140,
-        'type': 'Breast Milk',
-        'time': '8 hours ago',
-        'notes': null,
-      },
-    ];
-  }
-
-  List<Map<String, dynamic>> _getDummyDiapers() {
-    return [
-      {'type': 'Wet', 'time': '45 minutes ago'},
-      {'type': 'Both', 'time': '3 hours ago'},
-      {'type': 'Dirty', 'time': '6 hours ago'},
-    ];
-  }
-
-  List<Map<String, dynamic>> _getDummySleeps() {
-    return [
-      {
-        'duration': '2h 30m',
-        'quality': 'Good',
-        'startTime': '1:00 PM',
-        'endTime': '3:30 PM',
-      },
-      {
-        'duration': '1h 45m',
-        'quality': 'Excellent',
-        'startTime': '10:00 AM',
-        'endTime': '11:45 AM',
-      },
-      {
-        'duration': '3h 15m',
-        'quality': 'Fair',
-        'startTime': '6:00 AM',
-        'endTime': '9:15 AM',
-      },
-    ];
   }
 }

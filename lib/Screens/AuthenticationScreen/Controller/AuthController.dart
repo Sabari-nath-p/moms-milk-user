@@ -15,10 +15,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 late UserModel user;
 
 class AuthenticationController extends GetxController {
-  TextEditingController emailController = TextEditingController(
-    text: "sabarinath5604@gmail.com",
-  );
-  TextEditingController otpController = TextEditingController(text: "759409");
+  TextEditingController emailController = TextEditingController(text: "");
+  TextEditingController otpController = TextEditingController(text: "");
 
   bool isOtpSent = false;
   bool isLoading = false;

@@ -14,9 +14,9 @@ class FeedingLogBottomSheet extends StatefulWidget {
 }
 
 class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
-  DateTime selectedDate = DateTime.now();
-  TimeOfDay startTime = TimeOfDay.now();
-  TimeOfDay endTime = TimeOfDay.now();
+  DateTime? selectedDate; // = DateTime.now();
+  TimeOfDay? startTime; // = TimeOfDay.now();
+  TimeOfDay? endTime; //= TimeOfDay.now();
   FeedType selectedFeedType = FeedType.BREAST;
   FeedPosition? selectedPosition = FeedPosition.LEFT;
   final TextEditingController amountController = TextEditingController();
@@ -363,22 +363,46 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
   }
 
   void _saveFeedingLog() {
+    if (selectedDate == null) {
+      Get.snackbar(
+        'Log Failed',
+        'Please select feeding date before submission',
+      );
+      return;
+    }
+
+    if (startTime == null) {
+      Get.snackbar(
+        'Log Failed',
+        'Please select feeding start time before submission',
+      );
+      return;
+    }
+
+    if (endTime == null) {
+      Get.snackbar(
+        'Log Failed',
+        'Please select feeding end time before submission',
+      );
+      return;
+    }
+
     Homecontroller hctrl = Get.put(Homecontroller());
 
     final startDateTime = DateTime(
-      selectedDate.year,
-      selectedDate.month,
-      selectedDate.day,
-      startTime.hour,
-      startTime.minute,
+      selectedDate!.year,
+      selectedDate!.month,
+      selectedDate!.day,
+      startTime!.hour,
+      startTime!.minute,
     );
 
     DateTime? endDateTime;
     if (endTime != null) {
       endDateTime = DateTime(
-        selectedDate.year,
-        selectedDate.month,
-        selectedDate.day,
+        selectedDate!.year,
+        selectedDate!.month,
+        selectedDate!.day,
         endTime!.hour,
         endTime!.minute,
       );
@@ -417,7 +441,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
 
     // Create the feeding log
     final feedingLog = FeedingLogModel(
-      feedingDate: selectedDate,
+      feedingDate: selectedDate!,
       startTime: startDateTime,
       endTime: endDateTime,
       feedType: selectedFeedType,

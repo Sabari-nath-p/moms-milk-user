@@ -378,12 +378,12 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
                 ],
 
                 // Daily Sleep Patterns
-                if (sleep.dailyPatterns != null &&
-                    sleep.dailyPatterns!.isNotEmpty) ...[
-                  _buildSectionTitle('Daily Sleep Patterns'),
-                  const SizedBox(height: 16),
-                  _buildSleepPatternsList(sleep.dailyPatterns!),
-                ],
+                // if (sleep.dailyPatterns != null &&
+                //     sleep.dailyPatterns!.isNotEmpty) ...[
+                //   _buildSectionTitle('Daily Sleep Patterns'),
+                //   const SizedBox(height: 16),
+                //   _buildSleepPatternsList(sleep.dailyPatterns!),
+                //  ],
               ],
             ),
           ),
@@ -1288,7 +1288,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
 
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
+        color: Theme.of(context).primaryColor.withOpacity(.1),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -1304,7 +1304,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.indigo.withOpacity(0.1),
+              color: Colors.blue.withOpacity(0.1),
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(16),
                 topRight: Radius.circular(16),
@@ -1312,13 +1312,13 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
             ),
             child: Row(
               children: [
-                Icon(Icons.location_on, color: Colors.indigo, size: 20),
+                Icon(Icons.location_on, color: Colors.blue, size: 20),
                 const SizedBox(width: 8),
                 Text(
                   'Sleep Locations',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: Colors.indigo,
+                    color: Colors.blue,
                     fontSize: 16,
                   ),
                 ),
@@ -1408,7 +1408,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
   Widget _buildSleepQualityList(List<SleepQualityTrends> trends) {
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
+        color: Theme.of(context).primaryColor.withOpacity(.1),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -1424,7 +1424,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.indigo.withOpacity(0.1),
+              color: Colors.orange.withOpacity(0.1),
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(16),
                 topRight: Radius.circular(16),
@@ -1432,13 +1432,13 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
             ),
             child: Row(
               children: [
-                Icon(Icons.trending_up, color: Colors.indigo, size: 20),
+                Icon(Icons.trending_up, color: Colors.orange, size: 20),
                 const SizedBox(width: 8),
                 Text(
                   'Sleep Quality Trends',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: Colors.indigo,
+                    color: Colors.orange,
                     fontSize: 16,
                   ),
                 ),
@@ -1470,7 +1470,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
                         horizontal: 12,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.indigo.withOpacity(0.1),
+                        color: Colors.orange.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Column(
@@ -1480,14 +1480,14 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: Colors.indigo,
+                              color: Colors.orange,
                             ),
                           ),
                           Text(
                             _getMonthName(date.month).substring(0, 3),
                             style: TextStyle(
                               fontSize: 12,
-                              color: Colors.indigo.withOpacity(0.7),
+                              color: Colors.orange.withOpacity(0.7),
                             ),
                           ),
                         ],
@@ -1506,7 +1506,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
                               Icon(
                                 Icons.hotel,
                                 size: 16,
-                                color: Colors.grey[600],
+                                color: Colors.white.withOpacity(.8),
                               ),
                               const SizedBox(width: 4),
                               Text(
@@ -1524,13 +1524,13 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
                               Icon(
                                 Icons.access_time,
                                 size: 16,
-                                color: Colors.grey[600],
+                                color: Colors.white.withOpacity(.8),
                               ),
                               const SizedBox(width: 4),
                               Text(
                                 'Total: ${trend.totalHours?.toStringAsFixed(1) ?? 0} hours',
                                 style: TextStyle(
-                                  color: Colors.grey[600],
+                                  color: Colors.white.withOpacity(.8),
                                   fontSize: 13,
                                 ),
                               ),
@@ -1542,13 +1542,13 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
                               Icon(
                                 Icons.star,
                                 size: 16,
-                                color: Colors.grey[600],
+                                color: Colors.white.withOpacity(.8),
                               ),
                               const SizedBox(width: 4),
                               Text(
                                 'Quality: ${trend.averageQuality ?? 'Unknown'}',
                                 style: TextStyle(
-                                  color: Colors.grey[600],
+                                  color: Colors.white.withOpacity(.8),
                                   fontSize: 13,
                                 ),
                               ),

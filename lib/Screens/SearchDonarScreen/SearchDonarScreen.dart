@@ -112,8 +112,17 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
               child: TextField(
                 controller: controller.zipSearchText,
                 textInputAction: TextInputAction.next,
+
+                style: TextStyle(color: Colors.black87),
                 decoration: InputDecoration(
-                  labelText: 'Zip Code',
+                  hintStyle: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 12,
+                  ),
+                  labelStyle: TextStyle(color: Colors.black),
+                  hintText: "Zip Code",
+                  //  labelText: 'Zip Code',
                   prefixIcon: const Icon(Icons.location_on),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -130,8 +139,11 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
               child: TextField(
                 controller: controller.donarSearchText,
                 textInputAction: TextInputAction.search,
+
+                style: TextStyle(color: Colors.black87),
                 decoration: InputDecoration(
-                  labelText: 'Search donors...',
+                  hintText: 'Search donors...',
+                  hintStyle: TextStyle(color: Colors.black, fontSize: 12),
                   prefixIcon: const Icon(Icons.search),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),

@@ -14,8 +14,8 @@ class DiaperChangeBottomSheet extends StatefulWidget {
 }
 
 class _DiaperChangeBottomSheetState extends State<DiaperChangeBottomSheet> {
-  DateTime selectedDate = DateTime.now();
-  TimeOfDay selectedTime = TimeOfDay.now();
+  DateTime? selectedDate; //= DateTime.now();
+  TimeOfDay? selectedTime; //= TimeOfDay.now();
   DiaperType selectedDiaperType = DiaperType.SOLID;
   final TextEditingController noteController = TextEditingController();
 
@@ -258,7 +258,7 @@ class _DiaperChangeBottomSheetState extends State<DiaperChangeBottomSheet> {
   Future<void> _selectTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialTime: selectedTime,
+      initialTime: selectedTime ?? TimeOfDay.now(),
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
@@ -279,16 +279,30 @@ class _DiaperChangeBottomSheetState extends State<DiaperChangeBottomSheet> {
   }
 
   void _saveDiaperLog() {
+    if (selectedDate == null) {
+      Get.snackbar(
+        'Log Failed',
+        'Please select diaper change date before submission',
+      );
+      return;
+    }
+    if (selectedTime == null) {
+      Get.snackbar(
+        'Log Failed',
+        'Please select diaper change time before submission',
+      );
+      return;
+    }
     // Create the diaper log
     Homecontroller hctrl = Get.find();
     final diaperLog = DiaperLogModel(
-      date: selectedDate,
+      date: selectedDate!,
       time: DateTime(
-        selectedDate.year,
-        selectedDate.month,
-        selectedDate.day,
-        selectedTime.hour,
-        selectedTime.minute,
+        selectedDate!.year,
+        selectedDate!.month,
+        selectedDate!.day,
+        selectedTime!.hour,
+        selectedTime!.minute,
       ),
       diaperType: selectedDiaperType,
       babyId: hctrl.selectedBady!.id,

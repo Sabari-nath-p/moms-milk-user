@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
 import 'package:mommilk_user/Models/SearchDonarModel.dart';
+import 'package:mommilk_user/Screens/RequestScreen/Views/contactBottomSheet.dart';
 import 'package:mommilk_user/Screens/SearchDonarScreen/Controller/SearchDonarController.dart';
 import 'package:mommilk_user/Screens/SearchDonarScreen/Views/SendRequestBottomSheet.dart';
 
@@ -141,6 +142,13 @@ class SearchDonarCard extends StatelessWidget {
                         child: OutlinedButton.icon(
                           onPressed: () {
                             //controller.viewDonorProfile(donor);
+
+                            ContactBottomSheet.show(
+                              context,
+                              name: donar.donor!.name ?? "",
+                              email: donar.donor!.email ?? "",
+                              phoneNumber: "",
+                            );
                           },
                           icon: const Icon(Icons.person, size: 16),
                           label: const Text('View Profile'),

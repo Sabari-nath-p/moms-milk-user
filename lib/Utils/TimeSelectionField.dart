@@ -27,6 +27,7 @@ class _TimePickerFieldState extends State<TimePickerField> {
   void initState() {
     super.initState();
     _textController = TextEditingController();
+    print("hit here 1");
     _updateTextController(widget.initialTime);
   }
 
@@ -40,9 +41,12 @@ class _TimePickerFieldState extends State<TimePickerField> {
   }
 
   void _updateTextController(TimeOfDay? time) {
+    print("hitig here 02");
+
     if (time != null) {
       // Use context to format the time in a locale-appropriate way (e.g., 10:30 PM or 22:30)
       _textController.text = time.format(context);
+      print("hitig here");
     } else {
       _textController.clear();
     }
@@ -82,7 +86,7 @@ class _TimePickerFieldState extends State<TimePickerField> {
             labelText: widget.title,
             hintText: widget.hintText ?? widget.title,
             // Use the provided icon or a default clock icon.
-            prefixIcon: Icon(widget.icon ?? Icons.access_time_outlined ,),
+            prefixIcon: Icon(widget.icon ?? Icons.access_time_outlined),
             //   suffixIcon: const Icon(Icons.arrow_drop_down),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
             enabledBorder: OutlineInputBorder(

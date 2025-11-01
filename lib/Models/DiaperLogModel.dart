@@ -43,7 +43,7 @@ class DiaperLogModel {
   }
 }
 
-enum DiaperType { SOLID, LIQUID, BOTH }
+enum DiaperType { SOLID, LIQUID, BOTH, EMPTY }
 
 extension DiaperTypeExtension on DiaperType {
   String get displayName {
@@ -54,6 +54,8 @@ extension DiaperTypeExtension on DiaperType {
         return 'Liquid';
       case DiaperType.BOTH:
         return 'Both';
+      case DiaperType.EMPTY:
+        return "Empty";
     }
   }
 }

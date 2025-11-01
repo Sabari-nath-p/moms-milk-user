@@ -20,7 +20,16 @@ class CreateBabyScreen extends StatelessWidget {
         title: const Text('Setup Your Profile'),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: Container(),
+        leading: InkWell(
+          onTap: () {
+            if (skip) {
+              Get.offAll(MainDashboard(), transition: Transition.leftToRight);
+            } else {
+              Get.back();
+            }
+          },
+          child: Icon(Icons.arrow_back_ios_new_outlined, color: Colors.white),
+        ),
         actions: [
           if (skip)
             InkWell(

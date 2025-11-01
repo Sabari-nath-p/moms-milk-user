@@ -6,6 +6,7 @@ import 'package:mommilk_user/Screens/BabyScreen/BabyScreen.dart';
 import 'package:mommilk_user/Screens/Dashboard/Controller/DashboardController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/HomeScreen.dart';
 import 'package:mommilk_user/Screens/ProfileScreen/ProfileScreen.dart';
+import 'package:mommilk_user/Screens/TrackerScreen/TrackerScreen.dart';
 import 'package:mommilk_user/Utils/Constants.dart';
 
 class MainDashboard extends StatelessWidget {
@@ -22,9 +23,7 @@ class MainDashboard extends StatelessWidget {
           appBar: AppBar(
             centerTitle: false,
             title: Image.asset(fullIcon),
-
             // backgroundColor: Theme.of(context).colorScheme.surface,
-
             //  IconButton(onPressed: () {}, icon: const Icon(Icons.person)),
           ),
 
@@ -32,7 +31,8 @@ class MainDashboard extends StatelessWidget {
               (controller.selectedMenu == 0)
                   ? Homescreen()
                   : (controller.selectedMenu == 1)
-                  ? const AnalyticsScreen()
+                  ? //AnalyticsScreen()
+                  Trackerscreen()
                   : (controller.selectedMenu == 2)
                   ? BabyScreen()
                   : (controller.selectedMenu == 3)

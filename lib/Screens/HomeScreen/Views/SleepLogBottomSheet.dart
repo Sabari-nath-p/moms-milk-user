@@ -13,10 +13,12 @@ class SleepLogBottomSheet extends StatefulWidget {
 }
 
 class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
-  DateTime selectedDate = DateTime.now();
-  TimeOfDay startTime = TimeOfDay.now();
-  TimeOfDay endTime =
-      TimeOfDay.now(); //TimeOfDay.now().replacing(hour: TimeOfDay.now().hour + 1);
+  DateTime? selectedDate; //= DateTime.now();
+  TimeOfDay? startTime; //= TimeOfDay.now();
+  TimeOfDay? endTime;
+  //=
+  //  TimeOfDay.now(); //TimeOfDay.now().replacing(hour: TimeOfDay.now().hour + 1);
+
   SleepQuality selectedSleepQuality = SleepQuality.good;
   SleepLocation selectedLocation = SleepLocation.CRIB;
   final TextEditingController noteController = TextEditingController();
@@ -101,6 +103,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                   Expanded(
                     child: TimePickerField(
                       title: "End Time",
+
                       onTimeSelected: (value) {
                         endTime = value;
                       },
@@ -109,58 +112,57 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                 ],
               ),
 
-              const SizedBox(height: 16),
+              //  const SizedBox(height: 16),
 
               // Sleep Quality Selection
-              Text(
-                'Sleep Quality',
-                style: Theme.of(
-                  context,
-                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
-              ),
+              // Text(
+              //   'Sleep Quality',
+              //   style: Theme.of(
+              //     context,
+              //   ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+              // ),
 
-              const SizedBox(height: 12),
+              // const SizedBox(height: 12),
 
-              Row(
-                children:
-                    SleepQuality.values.map((quality) {
-                      final isSelected = selectedSleepQuality == quality;
-                      return Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 8),
-                          child: FilterChip(
-                            label: SizedBox(
-                              width: double.infinity,
-                              child: Text(
-                                quality.displayName,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            selected: isSelected,
-                            onSelected: (selected) {
-                              setState(() {
-                                selectedSleepQuality = quality;
-                              });
-                            },
-                            selectedColor: Theme.of(
-                              context,
-                            ).colorScheme.primary.withOpacity(0.2),
-                            checkmarkColor:
-                                Theme.of(context).colorScheme.primary,
-                            backgroundColor:
-                                Theme.of(context).colorScheme.surface,
-                            side: BorderSide(
-                              color:
-                                  isSelected
-                                      ? Theme.of(context).colorScheme.primary
-                                      : Colors.grey[300]!,
-                            ),
-                          ),
-                        ),
-                      );
-                    }).toList(),
-              ),
-
+              // Row(
+              //   children:
+              //       SleepQuality.values.map((quality) {
+              //         final isSelected = selectedSleepQuality == quality;
+              //         return Expanded(
+              //           child: Padding(
+              //             padding: const EdgeInsets.only(right: 8),
+              //             child: FilterChip(
+              //               label: SizedBox(
+              //                 width: double.infinity,
+              //                 child: Text(
+              //                   quality.displayName,
+              //                   textAlign: TextAlign.center,
+              //                 ),
+              //               ),
+              //               selected: isSelected,
+              //               onSelected: (selected) {
+              //                 setState(() {
+              //                   selectedSleepQuality = quality;
+              //                 });
+              //               },
+              //               selectedColor: Theme.of(
+              //                 context,
+              //               ).colorScheme.primary.withOpacity(0.2),
+              //               checkmarkColor:
+              //                   Theme.of(context).colorScheme.primary,
+              //               backgroundColor:
+              //                   Theme.of(context).colorScheme.surface,
+              //               side: BorderSide(
+              //                 color:
+              //                     isSelected
+              //                         ? Theme.of(context).colorScheme.primary
+              //                         : Colors.grey[300]!,
+              //               ),
+              //             ),
+              //           ),
+              //         );
+              //       }).toList(),
+              // ),
               const SizedBox(height: 16),
 
               // Sleep Location Selection
@@ -326,7 +328,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
   Future<void> _selectStartTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialTime: startTime,
+      initialTime: startTime ?? TimeOfDay.now(),
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
@@ -349,7 +351,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
   Future<void> _selectEndTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialTime: endTime,
+      initialTime: endTime ?? TimeOfDay.now(),
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
@@ -372,21 +374,36 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
   void _saveSleepLog() {
     // Validate that end time is after start time
 
+    if (selectedDate == null) {
+      Get.snackbar('Log Failed', 'Please select sleep date before submission');
+      return;
+    }
+
+    if (startTime == null) {
+      Get.snackbar('Log Failed', 'Please select start time before submission');
+      return;
+    }
+
+    if (endTime == null) {
+      Get.snackbar('Log Failed', 'Please select end time before submission');
+      return;
+    }
+
     Homecontroller hctrl = Get.put(Homecontroller());
     final startDateTime = DateTime(
-      selectedDate.year,
-      selectedDate.month,
-      selectedDate.day,
-      startTime.hour,
-      startTime.minute,
+      selectedDate!.year,
+      selectedDate!.month,
+      selectedDate!.day,
+      startTime!.hour,
+      startTime!.minute,
     );
 
     final endDateTime = DateTime(
-      selectedDate.year,
-      selectedDate.month,
-      selectedDate.day,
-      endTime.hour,
-      endTime.minute,
+      selectedDate!.year,
+      selectedDate!.month,
+      selectedDate!.day,
+      endTime!.hour,
+      endTime!.minute,
     );
 
     // If end time is before start time, assume it's next day
@@ -402,7 +419,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
 
     // Create the sleep log
     final sleepLog = SleepLogModel(
-      date: selectedDate,
+      date: selectedDate!,
       startTime: startDateTime,
       endTime: adjustedEndDateTime,
       sleepQuality: selectedSleepQuality,

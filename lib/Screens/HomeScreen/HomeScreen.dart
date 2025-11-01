@@ -52,6 +52,8 @@ class Homescreen extends StatelessWidget {
             const SizedBox(height: 10),
             HBabyCard(),
             const SizedBox(height: 24),
+
+            const SizedBox(height: 24),
             HQuickActions(),
             // const SizedBox(height: 24),
             // _buildTodayStats(context),

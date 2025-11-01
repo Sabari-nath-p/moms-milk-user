@@ -233,12 +233,12 @@ class AppTheme {
     ),
 
     // Card Theme
-    cardTheme: CardTheme(
-      color: primaryColor.withOpacity(.1),
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      margin: const EdgeInsets.all(8),
-    ),
+    // cardTheme: CardTheme(
+    //   color: primaryColor.withOpacity(.1),
+    //   elevation: 2,
+    //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+    //   margin: const EdgeInsets.all(8),
+    // ),
 
     // Divider Theme
     dividerTheme: const DividerThemeData(color: Colors.grey, thickness: 1),
@@ -424,12 +424,12 @@ class AppTheme {
     ),
 
     // Card Theme
-    cardTheme: CardTheme(
-      color: primaryColor.withOpacity(.1), // Soft Cream
-      elevation: 8,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      margin: const EdgeInsets.all(8),
-    ),
+    // cardTheme: CardTheme(
+    //   color: primaryColor.withOpacity(.1), // Soft Cream
+    //   elevation: 8,
+    //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+    //   margin: const EdgeInsets.all(8),
+    // ),
 
     // Divider Theme
     dividerTheme: const DividerThemeData(
