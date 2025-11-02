@@ -81,6 +81,7 @@ class OnboardingScreen extends StatelessWidget {
               // Navigation Buttons
               Container(
                 padding: const EdgeInsets.all(16),
+                margin: EdgeInsets.only(bottom: 20),
                 child: Row(
                   children: [
                     if (controller.currentStep > 0)

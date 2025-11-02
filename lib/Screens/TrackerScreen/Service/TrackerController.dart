@@ -24,7 +24,7 @@ class TrackerController extends GetxController {
   DateTime activityStartDate = DateTime.now();
   DateTime activityEndDate = DateTime.now().add(Duration(days: 4));
   DateTime overviewEndDate = DateTime.now();
-  DateTime overviewStartDate = DateTime.now().add(Duration(hours: 24));
+  DateTime overviewStartDate = DateTime.now();
 
   Homecontroller hctrl = Get.find();
   int selectedbaby = 0;
@@ -36,14 +36,42 @@ class TrackerController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    
-    selectedbaby = hctrl.selectedBady!.id!;
-    fetchFeedingLogs(startDate: activityStartDate, endDate: activityEndDate);
-    fetchDiaperLogs(startDate: activityStartDate, endDate: activityEndDate);
-    fetchSleepLog(startDate: activityStartDate, endDate: activityEndDate);
-    ganttChartController.scrollToDate(DateTime.now());
-    ganttChartController.scrollToCurrentTime();
-    fetchBabyOverview();
+
+    // selectedbaby = hctrl.selectedBady!.id!;
+    // fetchFeedingLogs(startDate: activityStartDate, endDate: activityEndDate);
+    // fetchDiaperLogs(startDate: activityStartDate, endDate: activityEndDate);
+    // fetchSleepLog(startDate: activityStartDate, endDate: activityEndDate);
+    // ganttChartController.scrollToDate(DateTime.now());
+    // ganttChartController.scrollToCurrentTime();
+    // fetchBabyOverview();
+  }
+
+  void fetchAnalytics() {
+    isLoading = false;
+    isOverviewLoading = true;
+    selectedTrackerMenu = 0;
+    selectedDateOption = 0;
+    ganttChartController = TimeGanttChartController();
+
+    activityList = [];
+
+    activityStartDate = DateTime.now().subtract(Duration(days: 2));
+    activityEndDate = DateTime.now().add(Duration(days: 4));
+    overviewEndDate = DateTime.now();
+    overviewStartDate = DateTime.now();
+
+    hctrl = Get.find();
+    selectedbaby = 0;
+
+    if (hctrl.selectedBady != null) {
+      selectedbaby = hctrl.selectedBady!.id!;
+      fetchFeedingLogs(startDate: activityStartDate, endDate: activityEndDate);
+      fetchDiaperLogs(startDate: activityStartDate, endDate: activityEndDate);
+      fetchSleepLog(startDate: activityStartDate, endDate: activityEndDate);
+      ganttChartController.scrollToDate(DateTime.now());
+      ganttChartController.scrollToCurrentTime();
+      fetchBabyOverview();
+    }
   }
 
   Future<void> fetchBabyOverview() async {
@@ -51,8 +79,9 @@ class TrackerController extends GetxController {
       endpoint: "/babies/analytics",
       body: {
         "babyId": selectedbaby,
-        "startDate": overviewStartDate.toString(),
-        "endDate": overviewEndDate.toString(),
+        "startDate": DateFormat("yyyy-MM-dd").format(overviewStartDate),
+        "endDate":
+            "${DateFormat("yyyy-MM-dd").format(overviewEndDate)} 23:59:59",
       },
 
       onSuccess: (data) {
@@ -127,7 +156,7 @@ class TrackerController extends GetxController {
   }) async {
     await ApiService.request(
       endpoint:
-          "/feed-logs/baby/${selectedbaby}/date-range?startDate=${DateFormat("yyyy-MM-dd").format(startDate)}&endDate=${DateFormat("yyyy-MM-dd").format(endDate)}",
+          "/feed-logs/baby/${selectedbaby}/date-range?startDate=${DateFormat("yyyy-MM-dd").format(startDate)}&endDate=${DateFormat("yyyy-MM-dd").format(endDate)} 23:59:59",
       method: Api.GET,
       onSuccess: (body) {
         if (body.statusCode == 200) {
@@ -155,7 +184,7 @@ class TrackerController extends GetxController {
   }) async {
     await ApiService.request(
       endpoint:
-          "/diaper-logs/baby/${selectedbaby}/date-range?startDate=${DateFormat("yyyy-MM-dd").format(startDate)}&endDate=${DateFormat("yyyy-MM-dd").format(endDate)}",
+          "/diaper-logs/baby/${selectedbaby}/date-range?startDate=${DateFormat("yyyy-MM-dd").format(startDate)}&endDate=${DateFormat("yyyy-MM-dd").format(endDate)} 23:59:59",
       method: Api.GET,
       onSuccess: (body) {
         if (body.statusCode == 200) {
@@ -183,7 +212,7 @@ class TrackerController extends GetxController {
   }) async {
     await ApiService.request(
       endpoint:
-          "/sleep-logs/baby/${selectedbaby}/date-range?startDate=${DateFormat("yyyy-MM-dd").format(startDate)}&endDate=${DateFormat("yyyy-MM-dd").format(endDate)}",
+          "/sleep-logs/baby/${selectedbaby}/date-range?startDate=${DateFormat("yyyy-MM-dd").format(startDate)} 00:00:00&endDate=${DateFormat("yyyy-MM-dd").format(endDate)} 23:59:59",
 
       method: Api.GET,
       onSuccess: (body) {

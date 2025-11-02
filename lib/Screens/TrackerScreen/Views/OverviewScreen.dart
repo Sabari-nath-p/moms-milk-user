@@ -44,16 +44,14 @@ class Overviewscreen extends StatelessWidget {
                           onValueChanged: (int? value) async {
                             __.selectedDateOption = value ?? 0;
                             if (value == 0) {
-                              __.overviewStartDate = DateTime.now().subtract(
-                                Duration(days: 1),
-                              );
+                              __.overviewStartDate = DateTime.now();
                             } else if (value == 1) {
                               __.overviewStartDate = DateTime.now().subtract(
                                 Duration(days: 7),
                               );
                             } else {
                               __.overviewStartDate = DateTime.now().subtract(
-                                Duration(days: 1),
+                                Duration(days: 30),
                               );
                             }
                             Get.dialog(

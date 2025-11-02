@@ -43,23 +43,48 @@ class Homescreen extends StatelessWidget {
             // _buildUserTypeSpecificSection(context),
             SizedBox(height: 10),
             HRequestCard(),
-            if (user.userType == "DONOR") const SizedBox(height: 20),
-            if (user.userType == "DONOR")
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: buildUserTypeSection(context),
-              ),
+            // if (user.userType == "DONOR") const SizedBox(height: 20),
+            // if (user.userType == "DONOR")
+            //   Padding(
+            //     padding: EdgeInsets.symmetric(horizontal: 10),
+            //     child: buildUserTypeSection(context),
+            //   ),
             const SizedBox(height: 10),
             HBabyCard(),
             const SizedBox(height: 24),
-
-            const SizedBox(height: 24),
             HQuickActions(),
-            // const SizedBox(height: 24),
+            const SizedBox(height: 24),
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.privacy_tip_outlined,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      'We’re actively welcoming milk donors. If no donors appear in your area yet, don’t worry — more will be joining shortly. Thank you for your patience and support',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             // _buildTodayStats(context),
             // const SizedBox(height: 24),
             // _buildRecentActivity(context),
-            const SizedBox(height: 100), // Bottom padding for navigation
+            const SizedBox(height: 40), // Bottom padding for navigation
           ],
         ),
       ),

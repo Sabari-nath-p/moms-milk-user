@@ -144,7 +144,7 @@ class Authenticationscreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(32),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
+        color: Theme.of(context).primaryColor.withOpacity(.05),
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
           color: Theme.of(context).colorScheme.outline.withOpacity(0.1),
@@ -175,7 +175,7 @@ class Authenticationscreen extends StatelessWidget {
               Text(
                 'Join Our Community',
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurface,
+                  color: Colors.white,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 0.5,
                 ),
@@ -185,17 +185,16 @@ class Authenticationscreen extends StatelessWidget {
               Text(
                 'Sign in to continue your journey',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.onSurface.withOpacity(0.8),
+                  color: Colors.white,
                   fontSize: 15,
                 ),
+
                 textAlign: TextAlign.center,
               ),
             ],
           ),
 
-          const SizedBox(height: 30),
+          const SizedBox(height: 20),
 
           // Form Content
           !controller.isOtpSent
@@ -281,7 +280,7 @@ class Authenticationscreen extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                 ),
                 decoration: InputDecoration(
-                  labelText: 'Email Address',
+                  //  labelText: 'Email Address',
                   hintText: 'Enter your email address',
                   prefixIcon: Container(
                     padding: const EdgeInsets.all(12),
@@ -328,7 +327,7 @@ class Authenticationscreen extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 32),
+            const SizedBox(height: 15),
 
             // Enhanced Send OTP Button
             Container(
@@ -448,9 +447,9 @@ class Authenticationscreen extends StatelessWidget {
             // Enhanced OTP Instructions
             Text(
               'Enter the 6-digit code sent to',
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.8),
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: Colors.white),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 4),
@@ -484,6 +483,7 @@ class Authenticationscreen extends StatelessWidget {
                 textInputAction: TextInputAction.done,
                 textAlign: TextAlign.center,
                 maxLength: 6,
+
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
@@ -491,7 +491,7 @@ class Authenticationscreen extends StatelessWidget {
                   color: Theme.of(context).colorScheme.primary,
                 ),
                 decoration: InputDecoration(
-                  labelText: 'Verification Code',
+                  // labelText: 'Verification Code',
                   hintText: '000000',
                   counterText: '',
                   filled: true,
@@ -573,7 +573,7 @@ class Authenticationscreen extends StatelessWidget {
                 ],
               ),
 
-            const SizedBox(height: 32),
+            const SizedBox(height: 20),
 
             // Enhanced Verify Button
             Container(

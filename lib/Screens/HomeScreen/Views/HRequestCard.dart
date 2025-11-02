@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/utils.dart';
+import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
 import 'package:mommilk_user/Screens/RequestScreen/RequestScreen.dart';
 import 'package:mommilk_user/Screens/SearchDonarScreen/SearchDonarScreen.dart';
 
@@ -24,23 +25,24 @@ class HRequestCard extends StatelessWidget {
                       transition: Transition.rightToLeft,
                     );
                   },
-                  icon: const Icon(Icons.add),
-                  label: const Text('Milk Request'),
+                  //    icon: const Icon(Icons.add),
+                  label: const Text('My Connection'),
                 ),
               ),
               const SizedBox(width: 12),
-              Expanded(
-                child: OutlinedButton.icon(
-                  onPressed: () {
-                    Get.to(
-                      () => Searchdonarscreen(),
-                      transition: Transition.rightToLeft,
-                    );
-                  },
-                  icon: const Icon(Icons.search),
-                  label: const Text('Find Donors'),
+              if (user.userType != "DONOR")
+                Expanded(
+                  child: OutlinedButton.icon(
+                    onPressed: () {
+                      Get.to(
+                        () => Searchdonarscreen(),
+                        transition: Transition.rightToLeft,
+                      );
+                    },
+                    //  icon: const Icon(Icons.search),
+                    label: const Text('Find Donors'),
+                  ),
                 ),
-              ),
             ],
           ),
         ],

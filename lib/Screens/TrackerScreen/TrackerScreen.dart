@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:get/get_state_manager/src/simple/list_notifier.dart';
 import 'package:mommilk_user/Screens/TrackerScreen/Service/TrackerController.dart';
 import 'package:mommilk_user/Screens/TrackerScreen/Views/ActivityChartScreen.dart';
 import 'package:mommilk_user/Screens/TrackerScreen/Views/OverviewScreen.dart';
@@ -21,9 +22,11 @@ Map<int, Widget> menus = <int, Widget>{
 
 class Trackerscreen extends StatelessWidget {
   Trackerscreen({super.key});
-  TrackerController tctrl = Get.put(TrackerController());
+
   @override
   Widget build(BuildContext context) {
+    TrackerController tctrl = Get.put(TrackerController());
+    tctrl.fetchAnalytics();
     return GetBuilder<TrackerController>(
       builder: (__) {
         return Column(
@@ -42,8 +45,45 @@ class Trackerscreen extends StatelessWidget {
             ),
 
             SizedBox(height: 20),
-
-            if (tctrl.selectedTrackerMenu == 0)
+            if (tctrl.selectedbaby == 0)
+              Container(
+                child: Column(
+                  children: [
+                    SizedBox(height: 100),
+                    Container(
+                      padding: const EdgeInsets.all(24),
+                      decoration: BoxDecoration(
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.primary.withOpacity(0.1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.child_care,
+                        size: 64,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    Text(
+                      'No Babies Added Yet',
+                      style: Theme.of(context).textTheme.headlineSmall
+                          ?.copyWith(fontWeight: FontWeight.w600),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Add your first baby profile to start tracking',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Theme.of(
+                          context,
+                        ).textTheme.bodyMedium?.color?.withOpacity(0.7),
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              )
+            else if (tctrl.selectedTrackerMenu == 0)
               ActivityChartScreen()
             else
               Expanded(child: Overviewscreen()),

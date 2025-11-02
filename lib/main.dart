@@ -46,7 +46,7 @@ class MomsMilkApp extends StatelessWidget {
       theme: AppTheme.darkTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.dark, // Force dark them,
-
+      debugShowCheckedModeBanner: false,
       home: (isLogIn) ? MainDashboard() : Authenticationscreen(),
     );
   }

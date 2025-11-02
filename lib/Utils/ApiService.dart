@@ -21,7 +21,7 @@ enum Api { POST, GET, PATCH, PUT, DELETE }
 class ApiService {
   static String baseUrl =
       (true)
-          ? "http://localhost:3001"
+          ? "https://api.momsmilk.app"
           : "http://145.223.19.248:3001"; // "http://145.223.19.248:3001";
 
   static Future<String?> getAuthToken() async {

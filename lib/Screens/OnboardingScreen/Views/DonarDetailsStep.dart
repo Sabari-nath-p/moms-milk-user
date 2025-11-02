@@ -282,7 +282,7 @@ class DonarDetailsStep extends StatelessWidget {
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
-                        'All donors undergo medical screening and verification before being approved to ensure recipient safety.',
+                        'All donors join to support babies in need. We encourage a safe, honest, and trust-based community built on helping families.',
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: Theme.of(context).colorScheme.primary,
                         ),

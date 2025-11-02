@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -5,9 +7,9 @@ import 'package:mommilk_user/Models/UserModel.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/AuthenticationScreen.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
-import 'package:mommilk_user/Screens/NotificationSettings/NotificationSettingsScreen.dart';
 import 'package:mommilk_user/Utils/ApiService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -142,28 +144,36 @@ class ProfileScreen extends StatelessWidget {
               ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 16),
-            _buildSettingItem(
-              context,
-              'Notifications',
-              'Manage your notification preferences',
-              Icons.notifications,
-              () => _showNotificationSettings(context),
-            ),
-            const Divider(height: 24),
+            // _buildSettingItem(
+            //   context,
+            //   'Notifications',
+            //   'Manage your notification preferences',
+            //   Icons.notifications,
+            //   () => _showNotificationSettings(context),
+            // ),
+            //  const Divider(height: 24),
             _buildSettingItem(
               context,
               'Privacy & Security',
               'Control your privacy settings',
               Icons.security,
-              () => _showPrivacySettings(context),
+              () {
+                launchUrl(Uri.parse("https://momsmilk.app/privacy-policy"));
+              },
             ),
             const Divider(height: 24),
             _buildSettingItem(
               context,
-              'Data Export',
-              'Export your baby tracking data',
-              Icons.download,
-              () => _showDataExport(context),
+              'Rate Us',
+              'Help us improve with your feedback',
+              Icons.rate_review,
+              () {
+                if (Platform.isAndroid) {
+                  launchUrl(Uri.parse("https://momsmilk.app/privacy-policy"));
+                } else {
+                  launchUrl(Uri.parse("https://momsmilk.app/privacy-policy"));
+                }
+              },
             ),
             const Divider(height: 24),
             _buildSettingItem(
@@ -171,7 +181,9 @@ class ProfileScreen extends StatelessWidget {
               'Help & Support',
               'Get help and contact support',
               Icons.help,
-              () => _showHelpSupport(context),
+              () {
+                launchUrl(Uri.parse("https://momsmilk.app/privacy-policy"));
+              },
             ),
             const Divider(height: 24),
             _buildSettingItem(
@@ -251,7 +263,7 @@ class ProfileScreen extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        color: Theme.of(context).colorScheme.surface,
+        color: Theme.of(context).primaryColor.withOpacity(.05),
         border: Border.all(
           color: Theme.of(context).dividerColor.withOpacity(0.1),
         ),
@@ -301,7 +313,9 @@ class ProfileScreen extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: OutlinedButton(
-                onPressed: () => _showAboutDialog(context),
+                onPressed: () {
+                  launchUrl(Uri.parse("https://momsmilk.app"));
+                },
                 child: const Text('About Mom\'s Milk'),
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 12),
@@ -446,10 +460,6 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  void _showNotificationSettings(BuildContext context) {
-    Get.to(() => const NotificationSettingsScreen());
-  }
-
   void _showPrivacySettings(BuildContext context) {
     showDialog(
       context: context,
@@ -534,6 +544,7 @@ class ProfileScreen extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           title: Row(
             children: [
               Icon(Icons.logout, color: Colors.red, size: 24),
@@ -598,7 +609,7 @@ class ProfileScreen extends StatelessWidget {
 
       // Close loading dialog
       Get.back();
-
+      await Get.deleteAll();
       // Navigate to authentication screen and clear all previous routes
       Get.offAll(
         () => Authenticationscreen(),
@@ -631,9 +642,6 @@ class ProfileScreen extends StatelessWidget {
     }
   }
 }
-
-
-
 
 Widget buildUserTypeSection(BuildContext context) {
   return Container(

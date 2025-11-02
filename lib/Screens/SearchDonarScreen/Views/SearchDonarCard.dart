@@ -147,7 +147,7 @@ class SearchDonarCard extends StatelessWidget {
                               context,
                               name: donar.donor!.name ?? "",
                               email: donar.donor!.email ?? "",
-                              phoneNumber: "",
+                              phoneNumber: donar.donorPhoneNumber ?? "",
                             );
                           },
                           icon: const Icon(Icons.person, size: 16),
@@ -164,18 +164,22 @@ class SearchDonarCard extends StatelessWidget {
                       Expanded(
                         child: ElevatedButton.icon(
                           onPressed: () {
-                            showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              backgroundColor: Colors.transparent,
-                              builder:
-                                  (context) =>
-                                      SendRequestBottomSheet(donar: donar),
-                            );
+                            if (!(donar.hasPendingRequest ?? false))
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                builder:
+                                    (context) =>
+                                        SendRequestBottomSheet(donar: donar),
+                              );
                           },
 
                           icon: const Icon(Icons.send, size: 16),
-                          label: const Text('Connect'),
+                          label:
+                              (!(donar.hasPendingRequest ?? false))
+                                  ? Text('Connect')
+                                  : Text('Requested'),
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),

@@ -143,9 +143,6 @@ class HBabyCard extends StatelessWidget {
                                 controller.selectedBady = value;
                                 controller.update();
 
-                                controller.fetchBabyAnalytics(
-                                  babyId: value.id!,
-                                );
                                 controller.update();
                               }
                             },

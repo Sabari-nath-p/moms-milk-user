@@ -120,7 +120,7 @@ class Onboardingcontroller extends GetxController {
         'zipcode': zipCodeController.text,
         'userType': userType.name.toUpperCase(),
         'description': '',
-        'bloodGroup': getBloodGroupText(seletecBloodGroup!!),
+        'bloodGroup': '', //getBloodGroupText(seletecBloodGroup!!),
         if (userType == UserType.donor)
           'babyDeliveryDate': babyDeliveryDate!.toUtc().toString(),
         if (userType == UserType.donor)

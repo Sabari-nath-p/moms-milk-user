@@ -75,8 +75,11 @@ class AuthenticationController extends GetxController {
           endpoint: "/auth/fcm-token",
           body: {"fcmToken": token},
         );
-      }
-    } catch (e) {}
+      } else {}
+      print(token.toString() + " token value");
+    } catch (e) {
+      print(e);
+    }
   }
 
   sendOtp() async {

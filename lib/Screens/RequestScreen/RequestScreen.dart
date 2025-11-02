@@ -128,35 +128,35 @@ class _RequestScreenState extends State<RequestScreen>
               user.userType == 'DONOR'
                   ? {
                     0: SizedBox(
-                      width: 120,
+                      width: 150,
                       height: 46,
                       child: Center(
                         child: Text(
-                          "Incoming",
+                          "Pending (${controller.incomingRequests.length})",
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
                     ),
                     1: SizedBox(
-                      width: 120,
+                      width: 150,
                       height: 46,
                       child: Center(
                         child: Text(
-                          "History",
+                          "Connection",
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
                     ),
-                    2: SizedBox(
-                      width: 120,
-                      height: 46,
-                      child: Center(
-                        child: Text(
-                          "My Requests",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
+                    // 2: SizedBox(
+                    //   width: 120,
+                    //   height: 46,
+                    //   child: Center(
+                    //     child: Text(
+                    //       "My Requests",
+                    //       style: TextStyle(color: Colors.white),
+                    //     ),
+                    //   ),
+                    // ),
                   }
                   : {
                     0: SizedBox(
@@ -411,6 +411,7 @@ Widget _buildEmptyState(
   return Center(
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
+
       children: [
         Container(
           padding: const EdgeInsets.all(24),
@@ -432,14 +433,17 @@ Widget _buildEmptyState(
           ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 8),
-        Text(
-          subtitle,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            color: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.color?.withOpacity(0.7),
+        Padding(
+          padding: EdgeInsetsGeometry.symmetric(horizontal: 20),
+          child: Text(
+            subtitle,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.color?.withOpacity(0.7),
+            ),
+            textAlign: TextAlign.center,
           ),
-          textAlign: TextAlign.center,
         ),
       ],
     ),

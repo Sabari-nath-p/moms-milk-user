@@ -3,6 +3,8 @@ class SearchDonarModel {
   double? distance;
   String? distanceText;
   bool? hasAcceptedRequest;
+  bool? hasPendingRequest;
+  String? donorPhoneNumber;
   Location? location;
 
   SearchDonarModel({
@@ -10,6 +12,7 @@ class SearchDonarModel {
     this.distance,
     this.distanceText,
     this.hasAcceptedRequest,
+    this.hasPendingRequest,
     this.location,
   });
 
@@ -18,6 +21,8 @@ class SearchDonarModel {
     distance = double.parse((json['distance'] ?? 0).toString());
     distanceText = json['distanceText'];
     hasAcceptedRequest = json['hasAcceptedRequest'];
+    hasPendingRequest = json['hasPendingRequest'];
+    donorPhoneNumber = json['donorPhoneNumber'];
     location =
         json['location'] != null
             ? new Location.fromJson(json['location'])
@@ -32,6 +37,7 @@ class SearchDonarModel {
     data['distance'] = this.distance;
     data['distanceText'] = this.distanceText;
     data['hasAcceptedRequest'] = this.hasAcceptedRequest;
+    data['hasPendingRequest'] = this.hasPendingRequest;
     if (this.location != null) {
       data['location'] = this.location!.toJson();
     }

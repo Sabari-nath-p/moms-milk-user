@@ -35,7 +35,7 @@ dev_dependencies:
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/AppIcon.png"
+  image_path: "assets/momsmilk-launcher.png"
   remove_alpha_ios: true
 
 flutter:
@@ -44,6 +44,7 @@ flutter:
   assets:
     - lib/Assets/AppIcon.png
     - lib/Assets/fullIcon.png
+    - assets/momsmilk-launcher.png
     - assets/AppIcon.png
     - lib/Assets/breastFeeding.png
     - lib/Assets/feedingBottle.png

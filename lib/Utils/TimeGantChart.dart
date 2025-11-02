@@ -780,7 +780,7 @@ class _TimeGanttChartState extends State<TimeGanttChart> {
               ),
               child: Center(
                 child: Text(
-                  activity.type,
+                  "", //   activity.type,
                   style:
                       _style.activityTextStyle ??
                       TextStyle(

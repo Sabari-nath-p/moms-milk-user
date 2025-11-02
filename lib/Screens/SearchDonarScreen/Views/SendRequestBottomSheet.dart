@@ -287,6 +287,9 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                           neededBy: selectedDate,
                         );
 
+                        widget.donar.hasPendingRequest = true;
+                        controller.update();
+
                         Navigator.pop(context);
                       },
                       style: ElevatedButton.styleFrom(

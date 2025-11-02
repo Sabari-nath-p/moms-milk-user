@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:mommilk_user/Models/BabyModel.dart';
-import 'package:mommilk_user/Screens/BabyScreen/BabyDetailScreen.dart';
 import 'package:mommilk_user/Screens/CreateBabyScreen/Controller/BabyCreateController.dart';
 import 'package:mommilk_user/Screens/CreateBabyScreen/CreateBabyScreen.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
@@ -132,10 +131,6 @@ class BabyScreen extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
           onTap: () {
-            Get.to(
-              () => BabyDetailsScreen(baby: baby),
-              transition: Transition.rightToLeft,
-            );
             // controller.selectedBady = baby;
             // controller.update();
           },
@@ -220,10 +215,6 @@ class BabyScreen extends StatelessWidget {
                       onSelected: (value) {
                         switch (value) {
                           case 'view':
-                            Get.to(
-                              () => BabyDetailsScreen(baby: baby),
-                              transition: Transition.rightToLeft,
-                            );
                             break;
                           case 'edit':
                             // TODO: integrate edit flow if needed
@@ -235,26 +226,6 @@ class BabyScreen extends StatelessWidget {
                       },
                       itemBuilder:
                           (context) => [
-                            const PopupMenuItem(
-                              value: 'view',
-                              child: Row(
-                                children: [
-                                  Icon(Icons.visibility, size: 18),
-                                  SizedBox(width: 8),
-                                  Text('View Details'),
-                                ],
-                              ),
-                            ),
-                            const PopupMenuItem(
-                              value: 'edit',
-                              child: Row(
-                                children: [
-                                  Icon(Icons.edit, size: 18),
-                                  SizedBox(width: 8),
-                                  Text('Edit'),
-                                ],
-                              ),
-                            ),
                             const PopupMenuItem(
                               value: 'delete',
                               child: Row(
@@ -645,8 +616,10 @@ class BabyScreen extends StatelessWidget {
 
     showDialog(
       context: context,
+
       builder:
           (context) => AlertDialog(
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             title: const Text('Delete Baby Profile'),
             content: Text(
               'Are you sure you want to delete ${baby.name}\'s profile? This action cannot be undone.',
