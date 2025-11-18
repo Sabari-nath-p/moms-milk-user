@@ -201,11 +201,10 @@ class CreateBabyScreen extends StatelessWidget {
                     textInputAction: TextInputAction.next,
                     style: const TextStyle(fontSize: 16),
                     decoration: InputDecoration(
-                      labelText: 'Birth Weight (kg)',
-                      hintText: 'e.g., 3.2 (Optional)',
+                      labelText: 'Birth Weight (kg)*',
+                      hintText: 'e.g., 3.2',
                       prefixIcon: const Icon(Icons.monitor_weight_outlined),
-                      helperText:
-                          'Enter baby\'s weight in kilograms (Optional)',
+                      helperText: 'Enter baby\'s weight in kilograms',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -236,10 +235,9 @@ class CreateBabyScreen extends StatelessWidget {
                     style: const TextStyle(fontSize: 16),
                     decoration: InputDecoration(
                       labelText: 'Birth Height (cm)',
-                      hintText: 'e.g., 50.5 (Optional)',
+                      hintText: 'e.g., 50.5*',
                       prefixIcon: const Icon(Icons.height_outlined),
-                      helperText:
-                          'Enter baby\'s height in centimeters (Optional)',
+                      helperText: 'Enter baby\'s height in centimeters',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),

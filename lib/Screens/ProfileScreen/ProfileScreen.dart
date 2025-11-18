@@ -188,6 +188,16 @@ class ProfileScreen extends StatelessWidget {
             const Divider(height: 24),
             _buildSettingItem(
               context,
+              'Delete Account',
+              'Delete your mom\'s account',
+              Icons.delete,
+              () {
+                _showDeleteAccount(context);
+              },
+            ),
+            const Divider(height: 24),
+            _buildSettingItem(
+              context,
               'Logout',
               'Sign out of your account',
               Icons.logout,
@@ -479,19 +489,27 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  void _showDataExport(BuildContext context) {
+  void _showDeleteAccount(BuildContext context) {
     showDialog(
       context: context,
       builder:
           (context) => AlertDialog(
-            title: const Text('Data Export'),
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+
+            title: const Text('Delete Mom\'s Account'),
             content: const Text(
-              'Data export functionality will be implemented here.',
+              'Your account is scheduled for deletion in 60 days and will be reactivated automatically if you log in again within this period.',
             ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('OK'),
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () {
+                  _performDelete(context);
+                },
+                child: const Text('Delete'),
               ),
             ],
           ),
@@ -577,7 +595,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Future<void> _performLogout(BuildContext context) async {
+  Future<void> _performDelete(BuildContext context) async {
     try {
       // Show loading indicator
       Get.dialog(
@@ -590,7 +608,7 @@ class ProfileScreen extends StatelessWidget {
                 children: [
                   CircularProgressIndicator(),
                   SizedBox(height: 16),
-                  Text('Logging out...'),
+                  Text('Account Delete'),
                 ],
               ),
             ),
@@ -618,13 +636,13 @@ class ProfileScreen extends StatelessWidget {
       );
 
       // Show success message
-      Get.snackbar(
-        'Success',
-        'You have been logged out successfully',
-        backgroundColor: Colors.green,
-        colorText: Colors.white,
-        duration: const Duration(seconds: 2),
-      );
+      // Get.snackbar(
+      //   'Success',
+      //   'You account have been deleted successfully',
+      //   backgroundColor: Colors.green,
+      //   colorText: Colors.white,
+      //   duration: const Duration(seconds: 2),
+      // );
     } catch (e) {
       // Close loading dialog if it's still showing
       if (Get.isDialogOpen ?? false) {
@@ -634,12 +652,77 @@ class ProfileScreen extends StatelessWidget {
       // Show error message
       Get.snackbar(
         'Error',
-        'Failed to logout. Please try again.',
+        'Failed to delete. Please try again.',
         backgroundColor: Colors.red,
         colorText: Colors.white,
         duration: const Duration(seconds: 3),
       );
     }
+  }
+}
+
+Future<void> _performLogout(BuildContext context) async {
+  try {
+    // Show loading indicator
+    Get.dialog(
+      const Center(
+        child: Card(
+          child: Padding(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(height: 16),
+                Text('Logging out...'),
+              ],
+            ),
+          ),
+        ),
+      ),
+      barrierDismissible: false,
+    );
+
+    // Clear user data from SharedPreferences
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('USERKEY');
+    await prefs.remove('AUTHKEY');
+
+    // Clear the global user variable (reset to an empty instance)
+    user = UserModel();
+
+    // Close loading dialog
+    Get.back();
+    await Get.deleteAll();
+    // Navigate to authentication screen and clear all previous routes
+    Get.offAll(
+      () => Authenticationscreen(),
+      transition: Transition.fadeIn,
+      duration: const Duration(milliseconds: 300),
+    );
+
+    // Show success message
+    Get.snackbar(
+      'Success',
+      'You have been logged out successfully',
+      backgroundColor: Colors.green,
+      colorText: Colors.white,
+      duration: const Duration(seconds: 2),
+    );
+  } catch (e) {
+    // Close loading dialog if it's still showing
+    if (Get.isDialogOpen ?? false) {
+      Get.back();
+    }
+
+    // Show error message
+    Get.snackbar(
+      'Error',
+      'Failed to logout. Please try again.',
+      backgroundColor: Colors.red,
+      colorText: Colors.white,
+      duration: const Duration(seconds: 3),
+    );
   }
 }
 

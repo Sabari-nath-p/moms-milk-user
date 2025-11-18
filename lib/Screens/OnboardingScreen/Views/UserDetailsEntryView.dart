@@ -206,6 +206,63 @@ class UserDetailsStep extends StatelessWidget {
 
               const SizedBox(height: 32),
 
+              TextField(
+                controller: controller.facebookLinkController,
+                textInputAction: TextInputAction.next,
+                style: const TextStyle(fontSize: 16),
+                decoration: InputDecoration(
+                  labelText: 'Facebook Profile link',
+                  hintText: 'Enter your facebook profile link',
+                  prefixIcon: const Icon(Icons.person_outline),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.grey[300]!),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                      width: 2,
+                    ),
+                  ),
+                ),
+                // onChanged: (value) => controller.name.value = value,
+              ),
+
+              const SizedBox(height: 20),
+
+              TextField(
+                controller: controller.instagramLinkController,
+                textInputAction: TextInputAction.next,
+                style: const TextStyle(fontSize: 16),
+                decoration: InputDecoration(
+                  labelText: 'Instagran Profile Link',
+                  hintText: 'Enter you instagram profile link',
+                  prefixIcon: const Icon(Icons.person_outline),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.grey[300]!),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                      width: 2,
+                    ),
+                  ),
+                ),
+                // onChanged: (value) => controller.name.value = value,
+              ),
+
+              // ),
+              const SizedBox(height: 32),
+
               // Info Card
               Container(
                 padding: const EdgeInsets.all(16),

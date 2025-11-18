@@ -33,6 +33,7 @@ class Homecontroller extends GetxController {
       method: Api.GET,
       onSuccess: (body) {
         myBabies.clear();
+        print(body.data);
         for (var data in body.data) {
           myBabies.add(BabyModel.fromJson(data));
         }

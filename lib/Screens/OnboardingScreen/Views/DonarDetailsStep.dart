@@ -138,8 +138,8 @@ class DonarDetailsStep extends StatelessWidget {
                           getDonorQualityText(quality),
                           style: TextStyle(color: Colors.white),
                         ),
-                        subtitle: _getQualityDescription(quality),
 
+                        //   subtitle: _getQualityDescription(quality),
                         value: isSelected,
                         onChanged: (selected) {
                           if (selected ?? false)
