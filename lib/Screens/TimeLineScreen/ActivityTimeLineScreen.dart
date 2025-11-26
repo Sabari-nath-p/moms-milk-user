@@ -43,16 +43,19 @@ class Activitytimelinescreen extends StatelessWidget {
               fontSize: 20,
               fontWeight: FontWeight.w600,
               color: Colors.grey,
+              height: 1.2, // line height fixed
             ),
             dayTextStyle: TextStyle(
               fontSize: 10,
               fontWeight: FontWeight.w500,
               color: Colors.grey,
+              height: 1.2,
             ),
             monthTextStyle: TextStyle(
               fontSize: 10,
               fontWeight: FontWeight.w500,
               color: Colors.grey,
+              height: 1.2,
             ),
             onDateChange: (date) {
               tcltr.fetchTimeLogs(date);
@@ -94,6 +97,7 @@ class Activitytimelinescreen extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.grey.shade600,
+                              height: 1.3, // fixed line height
                             ),
                           ),
                         ],
@@ -128,6 +132,7 @@ class Activitytimelinescreen extends StatelessWidget {
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.grey.shade700,
+                                  height: 1.2,
                                 ),
                               ),
                               Text(
@@ -135,20 +140,13 @@ class Activitytimelinescreen extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: Colors.grey.shade500,
+                                  height: 1.2,
                                 ),
                               ),
                             ],
                           ),
                         );
                       },
-                      // : (context, index) {
-                      //     final item = __.filteredTimeDataList[index];
-                      //     return DotIndicator(
-                      //       size: 40,
-                      //       color: item.color,
-                      //       child: Icon(item.icon, size: 20, color: Colors.white),
-                      //     );
-                      //   },
                       contentsBuilder: (context, index) {
                         final item = __.filteredTimeDataList[index];
                         return _buildTimelineCard(context, item, index);
@@ -204,11 +202,7 @@ class Activitytimelinescreen extends StatelessWidget {
   }
 
   Widget _buildStatCard(
-    IconData icon,
-    String value,
-    String label,
-    Color color,
-  ) {
+      IconData icon, String value, String label, Color color) {
     return Container(
       padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -226,11 +220,12 @@ class Activitytimelinescreen extends StatelessWidget {
               fontSize: 16,
               fontWeight: FontWeight.bold,
               color: color,
+              height: 1.2,
             ),
           ),
           Text(
             label,
-            style: TextStyle(fontSize: 11, color: Colors.white.withOpacity(.8)),
+            style: TextStyle(fontSize: 11, color: Colors.white.withOpacity(.8), height: 1.2),
           ),
         ],
       ),
@@ -273,12 +268,7 @@ class Activitytimelinescreen extends StatelessWidget {
   }
 
   Widget _buildFilterChip(
-    String label,
-    IconData icon,
-    Color color,
-    bool isSelected,
-    VoidCallback onTap,
-  ) {
+      String label, IconData icon, Color color, bool isSelected, VoidCallback onTap) {
     return Expanded(
       child: GestureDetector(
         onTap: onTap,
@@ -302,8 +292,9 @@ class Activitytimelinescreen extends StatelessWidget {
                     fontSize: 11,
                     fontWeight: FontWeight.w600,
                     color: isSelected ? Colors.white : color,
+                    height: 1.2,
                   ),
-                  overflow: TextOverflow.ellipsis,
+                  overflow: TextOverflow.visible,
                 ),
               ),
             ],
@@ -313,11 +304,7 @@ class Activitytimelinescreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTimelineCard(
-    BuildContext context,
-    TimeLineData item,
-    int index,
-  ) {
+  Widget _buildTimelineCard(BuildContext context, TimeLineData item, int index) {
     return GestureDetector(
       onTap: () => _showActivityDetails(context, item),
       child: Padding(
@@ -351,7 +338,10 @@ class Activitytimelinescreen extends StatelessWidget {
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
                           color: Colors.white.withOpacity(.6),
+                          height: 1.3, // fix overlap
                         ),
+                        maxLines: 2,
+                        overflow: TextOverflow.visible,
                       ),
                     ),
                   ],
@@ -363,8 +353,10 @@ class Activitytimelinescreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 13,
                       color: Colors.white.withOpacity(.6),
-                      height: 1.4,
+                      height: 1.4, // fix overlap
                     ),
+                    softWrap: true,
+                    overflow: TextOverflow.visible,
                   ),
                 ],
               ],
@@ -379,134 +371,137 @@ class Activitytimelinescreen extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
-      builder:
-          (context) => Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).scaffoldBackgroundColor,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      builder: (context) => Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        padding: EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade300,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
             ),
-            padding: EdgeInsets.all(24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
+            SizedBox(height: 20),
+            Row(
               children: [
-                Center(
-                  child: Container(
-                    width: 40,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade300,
-                      borderRadius: BorderRadius.circular(2),
-                    ),
+                Container(
+                  padding: EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: item.color.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(item.icon, color: item.color, size: 28),
+                ),
+                SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        item.activity,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          height: 1.3,
+                        ),
+                      ),
+                      SizedBox(height: 4),
+                      Text(
+                        DateFormat(
+                          "MMMM dd, yyyy 'at' hh:mm a",
+                        ).format(item.dateTime),
+                        style: TextStyle(
+                          color: Colors.white.withOpacity(.7),
+                          fontSize: 14,
+                          height: 1.2,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                SizedBox(height: 20),
-                Row(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: item.color.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Icon(item.icon, color: item.color, size: 28),
-                    ),
-                    SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            item.activity,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            DateFormat(
-                              "MMMM dd, yyyy 'at' hh:mm a",
-                            ).format(item.dateTime),
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(.7),
-                              fontSize: 14,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                if (item.descirpiton.isNotEmpty) ...[
-                  SizedBox(height: 24),
-                  Text(
-                    'Details',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white.withOpacity(.7),
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    item.descirpiton,
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.white.withOpacity(.7),
-                      height: 1.5,
-                    ),
-                  ),
-                ],
-                SizedBox(height: 24),
               ],
             ),
-          ),
+            if (item.descirpiton.isNotEmpty) ...[
+              SizedBox(height: 24),
+              Text(
+                'Details',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white.withOpacity(.7),
+                  height: 1.3,
+                ),
+              ),
+              SizedBox(height: 8),
+              Text(
+                item.descirpiton,
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Colors.white.withOpacity(.7),
+                  height: 1.4,
+                ),
+                softWrap: true,
+                overflow: TextOverflow.visible,
+              ),
+            ],
+            SizedBox(height: 24),
+          ],
+        ),
+      ),
     );
   }
 
   void _showFilterDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder:
-          (context) => AlertDialog(
-            title: Text('Filter Activities'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Obx(
-                  () => CheckboxListTile(
-                    title: Text('Feeding'),
-                    value: tcltr.showFeeding.value,
-                    onChanged: (_) => tcltr.toggleFilter('feeding'),
-                    activeColor: Colors.orange.shade400,
-                  ),
-                ),
-                Obx(
-                  () => CheckboxListTile(
-                    title: Text('Diaper Changes'),
-                    value: tcltr.showDiaper.value,
-                    onChanged: (_) => tcltr.toggleFilter('diaper'),
-                    activeColor: Colors.blue.shade400,
-                  ),
-                ),
-                Obx(
-                  () => CheckboxListTile(
-                    title: Text('Sleep'),
-                    value: tcltr.showSleep.value,
-                    onChanged: (_) => tcltr.toggleFilter('sleep'),
-                    activeColor: Colors.purple.shade400,
-                  ),
-                ),
-              ],
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text('Close'),
+      builder: (context) => AlertDialog(
+        title: Text('Filter Activities'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Obx(
+              () => CheckboxListTile(
+                title: Text('Feeding'),
+                value: tcltr.showFeeding.value,
+                onChanged: (_) => tcltr.toggleFilter('feeding'),
+                activeColor: Colors.orange.shade400,
               ),
-            ],
+            ),
+            Obx(
+              () => CheckboxListTile(
+                title: Text('Diaper Changes'),
+                value: tcltr.showDiaper.value,
+                onChanged: (_) => tcltr.toggleFilter('diaper'),
+                activeColor: Colors.blue.shade400,
+              ),
+            ),
+            Obx(
+              () => CheckboxListTile(
+                title: Text('Sleep'),
+                value: tcltr.showSleep.value,
+                onChanged: (_) => tcltr.toggleFilter('sleep'),
+                activeColor: Colors.purple.shade400,
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Close'),
           ),
+        ],
+      ),
     );
   }
 }

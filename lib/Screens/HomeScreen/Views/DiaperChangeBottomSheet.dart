@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Models/DiaperLogModel.dart';
+import 'package:mommilk_user/Screens/Dashboard/MainDashBoard.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
 import 'package:mommilk_user/Utils/DateSelectionField.dart';
 import 'package:mommilk_user/Utils/TimeSelectionField.dart';
@@ -59,9 +60,15 @@ class _DiaperChangeBottomSheetState extends State<DiaperChangeBottomSheet> {
                   ),
                   const Spacer(),
                   IconButton(
-                    onPressed: () => Get.back(),
-                    icon: const Icon(Icons.close),
-                  ),
+  onPressed: () {
+    if (Get.key.currentState!.canPop()) {
+      Get.back();
+    } else {
+      Get.offAll(() => MainDashboard());
+    }
+  },
+  icon: const Icon(Icons.close),
+),
                 ],
               ),
 

@@ -483,6 +483,14 @@ class Authenticationscreen extends StatelessWidget {
                 textInputAction: TextInputAction.done,
                 textAlign: TextAlign.center,
                 maxLength: 6,
+                onChanged: (value) {
+    if (value.length == 6) {
+      FocusScope.of(context).unfocus(); // Auto hide keyboard when full
+    }
+  },
+  onSubmitted: (value) {
+    FocusScope.of(context).unfocus(); // Hide keyboard on submit
+  },
 
                 style: TextStyle(
                   fontSize: 28,

@@ -33,10 +33,19 @@ class HQuickActions extends StatelessWidget {
                         transition: Transition.rightToLeft,
                       );
                     },
-                    child: Text(
-                      "View Baby Activity",
-                      style: TextStyle(decoration: TextDecoration.underline),
-                    ),
+                    child:Text(
+  "View Baby Activity",
+  style: TextStyle(
+    decoration: TextDecoration.underline,
+    decorationThickness: 1, // makes the underline thicker
+    decorationColor: Colors.white.withOpacity(0.8), // optional color
+    height: 1.5, // ensures enough line spacing
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: Colors.white, // text color
+  ),
+),
+
                   ),
                 ],
               ),

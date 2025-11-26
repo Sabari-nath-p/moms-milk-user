@@ -56,6 +56,10 @@ class Onboardingcontroller extends GetxController {
   BloodGroup? seletecBloodGroup;
   List<DonorQuality> selectedQualities = [];
   bool isWillingToShareMedicalReport = false;
+    RxString nameError = ''.obs;
+  RxString phoneError = ''.obs;
+  RxString zipError = ''.obs;
+
 
   void previousStep() {
     if (currentStep > 0) {
@@ -214,73 +218,62 @@ class Onboardingcontroller extends GetxController {
     } catch (e) {}
   }
 
-  bool validateUserDetails() {
-    // Validate name
+ bool validateUserDetails() {
+    // Clear previous errors
+    nameError.value = '';
+    phoneError.value = '';
+    zipError.value = '';
+
+    bool isValid = true;
+
+    // Name validation
     if (nameController.text.trim().isEmpty) {
-      Get.snackbar('Validation Error', 'Please enter your full name');
-      return false;
+      nameError.value = 'Please enter your full name';
+      isValid = false;
+    } else if (nameController.text.trim().length < 2) {
+      nameError.value = 'Name must be at least 2 characters long';
+      isValid = false;
     }
 
-    if (nameController.text.trim().length < 2) {
-      Get.snackbar(
-        'Validation Error',
-        'Name must be at least 2 characters long',
-      );
-      return false;
-    }
+    // Phone validation
+    // Phone validation
+if (phoneController.text.trim().isEmpty) {
+  phoneError.value = 'Please enter your phone number';
+  isValid = false;
+} else if (!RegExp(r'^[0-9]+$').hasMatch(phoneController.text.trim())) {
+  phoneError.value = 'Phone number should contain only digits';
+  isValid = false;
+} else if (phoneController.text.trim().length < 10) {
+  phoneError.value = 'Phone number must be at least 10 digits long';
+  isValid = false;
+} else if (phoneController.text.trim().length > 10) {
+  phoneError.value = 'Phone number cannot exceed 10 digits';
+  isValid = false;
+}
 
-    // Validate phone number
-    if (phoneController.text.trim().isEmpty) {
-      Get.snackbar('Validation Error', 'Please enter your phone number');
-      return false;
-    }
 
-    // Check if phone number contains only digits
-    if (!RegExp(r'^[0-9]+$').hasMatch(phoneController.text.trim())) {
-      Get.snackbar(
-        'Validation Error',
-        'Phone number should contain only digits',
-      );
-      return false;
-    }
-
-    // Check phone number length (assuming 10 digits for most countries)
-    if (phoneController.text.trim().length < 10) {
-      Get.snackbar(
-        'Validation Error',
-        'Phone number must be at least 10 digits long',
-      );
-      return false;
-    }
-
-    // Validate zip code
+    // Zip code validation
     if (zipCodeController.text.trim().isEmpty) {
-      Get.snackbar('Validation Error', 'Please enter your zip code');
-      return false;
+      zipError.value = 'Please enter your zip code';
+      isValid = false;
+    } else if (!RegExp(r'^[0-9A-Za-z\s-]+$').hasMatch(zipCodeController.text.trim())) {
+      zipError.value = 'Please enter a valid zip code';
+      isValid = false;
+    } else if (zipCodeController.text.trim().length < 3) {
+      zipError.value = 'Zip code must be at least 3 characters long';
+      isValid = false;
     }
 
-    // Check if zip code is valid (allowing alphanumeric for international support)
-    if (!RegExp(r'^[0-9A-Za-z\s-]+$').hasMatch(zipCodeController.text.trim())) {
-      Get.snackbar('Validation Error', 'Please enter a valid zip code');
-      return false;
-    }
-
-    if (zipCodeController.text.trim().length < 3) {
-      Get.snackbar(
-        'Validation Error',
-        'Zip code must be at least 3 characters long',
-      );
-      return false;
-    }
-
-    // Validate country code selection
+    // Country code validation
     if (selectedCountryCode.isEmpty) {
       Get.snackbar('Validation Error', 'Please select a country code');
-      return false;
+      isValid = false;
     }
-    return true;
+
+    return isValid;
   }
 
+ 
   bool validateDonorDetails() {
     // Validate blood group selection
     // if (seletecBloodGroup == null) {
