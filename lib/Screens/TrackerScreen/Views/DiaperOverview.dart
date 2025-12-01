@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:mommilk_user/Screens/TrackerScreen/Models/AnalyticsOverviewModel.dart';
+import 'package:mommilk_user/theme/app_theme.dart';
 
 class DiaperOverviewCard extends StatelessWidget {
   DiaperAnalytics model;
@@ -59,15 +60,15 @@ Widget _buildDiaperTypeChart(BuildContext context, DiaperTypeBreakdown model) {
   return Container(
     height: 200,
     decoration: BoxDecoration(
-      color: Theme.of(context).primaryColor.withOpacity(.1),
+     // gradient: AppTheme.CardGradient,
       borderRadius: BorderRadius.circular(16),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black.withOpacity(0.05),
-          blurRadius: 10,
-          offset: const Offset(0, 2),
-        ),
-      ],
+      //boxShadow: [
+        //BoxShadow(
+          //color: Colors.black.withOpacity(0.05),
+          //blurRadius: 10,
+        //  offset: const Offset(0, 2),
+       // ),
+     // ],
     ),
     child:
         sections.isNotEmpty

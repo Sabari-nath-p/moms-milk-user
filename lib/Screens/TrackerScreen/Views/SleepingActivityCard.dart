@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mommilk_user/Screens/TrackerScreen/Models/AnalyticsOverviewModel.dart';
+import 'package:mommilk_user/theme/app_theme.dart';
 
 class SleepingActivityCard extends StatelessWidget {
   SleepAnalytics model;
@@ -25,7 +26,7 @@ class SleepingActivityCard extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor.withOpacity(.1),
+          
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
               color: Theme.of(context).dividerColor.withOpacity(0.1),

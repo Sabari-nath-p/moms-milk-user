@@ -79,31 +79,38 @@ class _TimePickerFieldState extends State<TimePickerField> {
       child: AbsorbPointer(
         // AbsorbPointer prevents the keyboard from appearing
         // when the user taps on the text field.
-        child: TextFormField(
-          controller: _textController, // Use the internal controller
-          readOnly: true, // Makes the field not editable by keyboard
-          decoration: InputDecoration(
-            labelText: widget.title,
-            hintText: widget.hintText ?? widget.title,
-            // Use the provided icon or a default clock icon.
-            prefixIcon: Icon(widget.icon ?? Icons.access_time_outlined),
-            //   suffixIcon: const Icon(Icons.arrow_drop_down),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(
-                color: Theme.of(context).colorScheme.outline,
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(
-                color: Theme.of(context).colorScheme.primary,
-                width: 2,
-              ),
-            ),
-          ),
+        child:  TextFormField(
+    controller: _textController,
+    readOnly: true,
+    onTap: () => _selectTime(context),
+
+    decoration: InputDecoration(
+      labelText: widget.title,
+      floatingLabelStyle: TextStyle(
+        color: Theme.of(context).colorScheme.primary,
+        fontWeight: FontWeight.w600,
+      ),
+      prefixIcon: Icon(
+        widget.icon ?? Icons.access_time_outlined,
+        color: Theme.of(context).colorScheme.primary,
+      ),
+
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: Theme.of(context).colorScheme.outline),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(
+          color: Theme.of(context).colorScheme.primary,
+          width: 2,
         ),
+      ),
+    ),
+  ),
+
+
       ),
     );
   }

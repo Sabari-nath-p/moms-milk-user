@@ -8,62 +8,84 @@ import 'package:mommilk_user/Screens/AuthenticationScreen/AuthenticationScreen.d
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
 import 'package:mommilk_user/Utils/ApiService.dart';
+import 'package:mommilk_user/theme/app_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<Homecontroller>(
-      builder:
-          (controller) => Scaffold(
-            body: RefreshIndicator(
-              onRefresh: () async {
-                // Simulate refresh
-                await Future.delayed(const Duration(milliseconds: 500));
-              },
-              child: CustomScrollView(
-                slivers: [
-                  SliverPadding(
-                    padding: const EdgeInsets.all(16),
-                    sliver: SliverList(
-                      delegate: SliverChildListDelegate([
-                        _buildUserCard(context),
-                        const SizedBox(height: 24),
-                        if (user.userType == "DONOR")
-                          buildUserTypeSection(context),
-                        if (user.userType == "DONOR")
-                          const SizedBox(height: 24),
-                        _buildSettingsSection(context),
-                        const SizedBox(height: 24),
-                        _buildAppInfoSection(context),
-                      ]),
-                    ),
-                  ),
-                ],
+    return SafeArea(
+      child: GetBuilder<Homecontroller>(
+        builder: (controller) => Scaffold(
+          backgroundColor: Colors.white,
+
+          // -------------------------------
+          // ✅ PINK THEME APP BAR ADDED HERE
+          // -------------------------------
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            elevation: 0,
+            title: Text(
+              "Profile",
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w600,
+                fontSize: 24,
               ),
             ),
+            centerTitle: true,
+
+            iconTheme: const IconThemeData(
+              color: Color(0xFFFB7185),
+            ),
           ),
+
+          body: RefreshIndicator(
+            onRefresh: () async {
+              await Future.delayed(const Duration(milliseconds: 500));
+            },
+            child: CustomScrollView(
+              slivers: [
+                SliverPadding(
+                  padding: const EdgeInsets.all(16),
+                  sliver: SliverList(
+                    delegate: SliverChildListDelegate([
+                      _buildUserCard(context),
+                      const SizedBox(height: 20),
+
+                      if (user.userType == "DONOR")
+                        buildUserTypeSection(context),
+
+                      if (user.userType == "DONOR")
+                        const SizedBox(height: 20),
+
+                      _buildSettingsSection(context),
+                      const SizedBox(height: 20),
+                      _buildAppInfoSection(context),
+                    ]),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
+
+  // ------- your existing widgets below (NO CHANGE) ---------
+
 
   Widget _buildUserCard(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        gradient: LinearGradient(
-          colors: [
-            Theme.of(context).colorScheme.primary.withOpacity(0.05),
-            Theme.of(context).colorScheme.primary.withOpacity(0.02),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        gradient: AppTheme.CardGradient,
         border: Border.all(
-          color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
-          width: 1,
+          color: AppTheme.borderColor,
+          width: 1.5,
         ),
       ),
       child: Padding(
@@ -74,29 +96,24 @@ class ProfileScreen extends StatelessWidget {
               width: 80,
               height: 80,
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary.withOpacity(0.15),
+               gradient: AppTheme.buttonCardGradient,
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 Icons.person,
                 size: 40,
-                color: Theme.of(context).colorScheme.primary,
+                color: Colors.white,
               ),
             ),
             const SizedBox(height: 16),
             Text(
               '${user.name}',
-              style: Theme.of(
-                context,
-              ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600),
+               style: Theme.of(context).textTheme.bodyLarge,
             ),
             Text(
               '${user.email}',
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Theme.of(
-                  context,
-                ).textTheme.bodyMedium?.color?.withOpacity(0.7),
-              ),
+             style: Theme.of(context).textTheme.bodyMedium,
+              
             ),
             if (false) const SizedBox(height: 20),
             if (false)
@@ -128,8 +145,9 @@ class ProfileScreen extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         color: Theme.of(context).primaryColor.withOpacity(.05),
-        border: Border.all(
-          color: Theme.of(context).dividerColor.withOpacity(0.1),
+       border: Border.all(
+         color:  Color(0xFFFFE4E6),
+          width: 1.5,
         ),
       ),
       child: Padding(
@@ -219,7 +237,7 @@ class ProfileScreen extends StatelessWidget {
     bool isDestructive = false,
   }) {
     final colorScheme = Theme.of(context).colorScheme;
-    final settingColor = isDestructive ? Colors.red : colorScheme.primary;
+    final settingColor = isDestructive ?  Color(0xFFFB7185): Color(0xFFFB7185);
 
     return Material(
       color: Colors.transparent,
@@ -274,8 +292,9 @@ class ProfileScreen extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         color: Theme.of(context).primaryColor.withOpacity(.05),
-        border: Border.all(
-          color: Theme.of(context).dividerColor.withOpacity(0.1),
+       border: Border.all(
+         color:   Color(0xFFFFE4E6),
+          width: 1.5,
         ),
       ),
       child: Padding(
@@ -321,20 +340,25 @@ class ProfileScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             SizedBox(
-              width: double.infinity,
-              child: OutlinedButton(
-                onPressed: () {
-                  launchUrl(Uri.parse("https://momsmilk.app"));
-                },
-                child: const Text('About Mom\'s Milk'),
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-              ),
-            ),
+  width: double.infinity,
+  child: OutlinedButton(
+    onPressed: () {
+      launchUrl(Uri.parse("https://momsmilk.app"));
+    },
+    child: const Text(
+      "About Mom's Milk",
+      style: TextStyle(color: Colors.white), // Text color white on colored background
+    ),
+    style: OutlinedButton.styleFrom(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      backgroundColor: Color(0xFFFB7185), // Fill color inside button
+    ),
+  ),
+),
+
           ],
         ),
       ),
@@ -732,7 +756,8 @@ Widget buildUserTypeSection(BuildContext context) {
       borderRadius: BorderRadius.circular(16),
       color: Theme.of(context).primaryColor.withOpacity(.1),
       border: Border.all(
-        color: Theme.of(context).dividerColor.withOpacity(0.1),
+        color: AppTheme.borderColor,
+        width: 1.5,
       ),
     ),
     child: Padding(
@@ -740,67 +765,51 @@ Widget buildUserTypeSection(BuildContext context) {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Column(
-          //   children: [
-          //     _buildUserTypeOption(
-          //       context,
-          //       'Milk Donor',
-          //       'Share breast milk with other mothers',
-          //       Icons.volunteer_activism,
-          //       Colors.pink,
-          //       controller.isDonor,
-          //       () => controller.toggleUserType('donor'),
-          //     ),
-          //     const SizedBox(height: 12),
-          //     _buildUserTypeOption(
-          //       context,
-          //       'Milk Buyer',
-          //       'Request breast milk from donors',
-          //       Icons.shopping_cart,
-          //       Colors.blue,
-          //       !controller.isDonor,
-          //       () => controller.toggleUserType('buyer'),
-          //     ),
-          //   ],
-          // ),
           const SizedBox(height: 16),
+
+          // Show switch only for DONOR
           if (user.userType == "DONOR") ...[
             GetBuilder<Homecontroller>(
-              builder:
-                  (controller) => SwitchListTile(
-                    title: const Text(
-                      'Available for Donations',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    subtitle: const Text(
-                      'Allow others to see your donation availability',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    activeColor: Theme.of(context).primaryColor,
-
-                    inactiveThumbColor: Colors.white24,
-                    inactiveTrackColor: Colors.white30,
-                    value: user.isAvailable ?? false,
-                    onChanged: (value) async {
-                      user.isAvailable = value;
-                      controller.update();
-                      print(await ApiService.getAuthToken());
-                      ApiService.request(
-                        endpoint: "/requests/availability",
-                        body: {"isAvailable": value},
-                        method: Api.PATCH,
-                      );
-                    },
-                    // (value) => controller.toggleDonorAvailability(),
-                    contentPadding: EdgeInsets.zero,
+              builder: (controller) => SwitchListTile(
+                title: const Text(
+                  'Available for Donations',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
                   ),
+                ),
+                subtitle: const Text(
+                  'Allow others to see your donation availability',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+
+                // ----------------------------
+                // 🔥 PINK THEMED SWITCH COLORS
+                // ----------------------------
+                activeColor: Colors.white,
+                activeTrackColor: Colors.pink,
+                inactiveThumbColor: Colors.pink,
+                inactiveTrackColor: Colors.pinkAccent.shade100,
+
+                value: user.isAvailable ?? false,
+
+                onChanged: (value) async {
+                  user.isAvailable = value;
+                  controller.update();
+
+                  ApiService.request(
+                    endpoint: "/requests/availability",
+                    body: {"isAvailable": value},
+                    method: Api.PATCH,
+                  );
+                },
+
+                contentPadding: EdgeInsets.zero,
+              ),
             ),
           ],
         ],

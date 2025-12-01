@@ -34,7 +34,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
+        color: Colors.white,
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
@@ -195,6 +195,12 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                               child: Text(
                                 '${location.icon} ${location.displayName}',
                                 textAlign: TextAlign.center,
+                             style: TextStyle(
+                color: isSelected
+                    ? Theme.of(context).colorScheme.primary   // Pink text
+                    : Colors.black,
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+              ),
                               ),
                             ),
                             selected: isSelected,
@@ -293,7 +299,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                         'Save Log',
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
-                          color: Colors.black,
+                          color: Colors.white,
                         ),
                       ),
                     ),

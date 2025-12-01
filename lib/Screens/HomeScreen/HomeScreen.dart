@@ -16,10 +16,36 @@ class Homescreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        centerTitle: true,
+
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.favorite,
+              color: Color(0xffFB7185),
+              size: 28,
+            ),
+            const SizedBox(width: 6),
+            Text(
+              "Mom's Milk",
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w600,
+                fontSize: 24,
+              ),
+            ),
+          ],
+        ),
+      ),
+      body:SafeArea(child: 
           controller.isLoading
               ? const Center(child: CircularProgressIndicator())
-              : _buildBody(context),
+              : _buildBody(context),),
 
       //   bottomNavigationBar: _buildBottomNav(context),
     );
@@ -33,7 +59,7 @@ class Homescreen extends StatelessWidget {
       },
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -41,7 +67,7 @@ class Homescreen extends StatelessWidget {
 
             //const SizedBox(height: 20),
             // _buildUserTypeSpecificSection(context),
-            SizedBox(height: 10),
+            SizedBox(height: 20),
             HRequestCard(),
             // if (user.userType == "DONOR") const SizedBox(height: 20),
             // if (user.userType == "DONOR")
@@ -49,7 +75,7 @@ class Homescreen extends StatelessWidget {
             //     padding: EdgeInsets.symmetric(horizontal: 10),
             //     child: buildUserTypeSection(context),
             //   ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
             HBabyCard(),
             const SizedBox(height: 24),
             HQuickActions(),

@@ -3,6 +3,7 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/HomeScreen.dart';
+import 'package:mommilk_user/theme/app_theme.dart';
 
 class HHeaderCard extends StatelessWidget {
   const HHeaderCard({super.key});
@@ -12,16 +13,16 @@ class HHeaderCard extends StatelessWidget {
     return GetBuilder<Homecontroller>(
       builder:
           (controller) => Container(
-            padding: const EdgeInsets.all(20),
-            margin: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(24),
+           // margin: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.background.withOpacity(
-                0.92,
-              ), // Blended Deep Charcoal
-              borderRadius: BorderRadius.circular(16),
+            gradient:AppTheme.CardGradient,
+ borderRadius: BorderRadius.circular(24),
+               // Blended Deep Charcoal
+             
               border: Border.all(
-                color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
-                width: 1,
+                 color: AppTheme.borderColor,
+          width: 1.5,
               ),
             ),
             child: Row(
@@ -29,7 +30,7 @@ class HHeaderCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primary,
+                      gradient: AppTheme.buttonCardGradient,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Icon(

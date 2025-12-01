@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
 import 'package:mommilk_user/Screens/BabyScreen/BabyScreen.dart';
 import 'package:mommilk_user/Screens/Dashboard/Controller/DashboardController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/HomeScreen.dart';
@@ -14,76 +13,90 @@ class MainDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DashboardController controller = Get.put(DashboardController());
+
     return GetBuilder<DashboardController>(
       builder: (controller) {
+        Widget currentScreen;
+
+        // Each screen has its own Scaffold with AppBar
+        switch (controller.selectedMenu) {
+          case 0:
+            currentScreen = Homescreen(); // Homescreen should have its own AppBar
+            break;
+          case 1:
+            currentScreen = Trackerscreen(); // TrackerScreen should have its own AppBar
+            break;
+          case 2:
+            currentScreen = BabyScreen(); // BabyScreen should have its own AppBar
+            break;
+          case 3:
+            currentScreen = ProfileScreen(); // ProfileScreen should have its own AppBar
+            break;
+          default:
+            currentScreen = Container();
+        }
+
         return Scaffold(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          body: currentScreen,
+       bottomNavigationBar: NavigationBarTheme(
+  data: NavigationBarThemeData(
+    // Selected label color
+    labelTextStyle: WidgetStateProperty.resolveWith(
+      (states) {
+        if (states.contains(WidgetState.selected)) {
+          return const TextStyle(
+            color: Color(0xffFB7185),
+            fontWeight: FontWeight.w600,
+          );
+        }
+        return const TextStyle(
+          color: Colors.grey,
+          fontWeight: FontWeight.w500,
+        );
+      },
+    ),
+  ),
+  child: NavigationBar(
+    selectedIndex: controller.selectedMenu,
+    onDestinationSelected: (index) {
+      controller.selectedMenu = index;
+      controller.update();
+    },
 
-          appBar: AppBar(
-            centerTitle: false,
-            title: Image.asset(fullIcon),
-            // backgroundColor: Theme.of(context).colorScheme.surface,
-            //  IconButton(onPressed: () {}, icon: const Icon(Icons.person)),
-          ),
+    backgroundColor: const Color(0xFFFDF2F6),
+    indicatorColor: const Color(0xFFFFE4EA),
+    elevation: 0,
+    labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
 
-          body:
-              (controller.selectedMenu == 0)
-                  ? Homescreen()
-                  : (controller.selectedMenu == 1)
-                  ? //AnalyticsScreen()
-                  Trackerscreen()
-                  : (controller.selectedMenu == 2)
-                  ? BabyScreen()
-                  : (controller.selectedMenu == 3)
-                  ? ProfileScreen()
-                  : Container(),
+    destinations: const [
+      NavigationDestination(
+        icon: Icon(Icons.home_outlined, color: Colors.grey),
+        selectedIcon: Icon(Icons.home, color: Color(0xffFB7185)),
+        label: 'Home',
+      ),
 
-          bottomNavigationBar: NavigationBar(
-            selectedIndex: controller.selectedMenu,
-            onDestinationSelected: (index) {
-              controller.selectedMenu = index;
-              controller.update();
-            },
-            destinations: _destinations,
-            elevation: 8,
-            labelTextStyle: WidgetStateProperty.all(
-              TextStyle(
-                color: Colors.white54,
-                fontWeight: FontWeight.w600,
-                fontSize: 11,
-              ),
-            ),
-            backgroundColor: Color.fromARGB(255, 127, 74, 101).withOpacity(.3),
-            indicatorColor: Theme.of(
-              context,
-            ).colorScheme.primary.withOpacity(0.2),
-            labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-          ),
+      NavigationDestination(
+        icon: Icon(Icons.analytics_outlined, color: Colors.grey),
+        selectedIcon: Icon(Icons.analytics, color: Color(0xffFB7185)),
+        label: 'Analytics',
+      ),
+
+      NavigationDestination(
+        icon: Icon(Icons.child_care_outlined, color: Colors.grey),
+        selectedIcon: Icon(Icons.child_care, color: Color(0xffFB7185)),
+        label: 'Babies',
+      ),
+
+      NavigationDestination(
+        icon: Icon(Icons.person_outline, color: Colors.grey),
+        selectedIcon: Icon(Icons.person, color: Color(0xffFB7185)),
+        label: 'Profile',
+      ),
+    ],
+  ),
+),
         );
       },
     );
   }
-}
-
-final List<NavigationDestination> _destinations = [
-  const NavigationDestination(
-    icon: Icon(Icons.home_outlined),
-    selectedIcon: Icon(Icons.home),
-    label: 'Home',
-  ),
-  const NavigationDestination(
-    icon: Icon(Icons.analytics_outlined),
-    selectedIcon: Icon(Icons.analytics),
-    label: 'Analytics',
-  ),
-  const NavigationDestination(
-    icon: Icon(Icons.child_care_outlined),
-    selectedIcon: Icon(Icons.child_care),
-    label: 'Babies',
-  ),
-  const NavigationDestination(
-    icon: Icon(Icons.person_outline),
-    selectedIcon: Icon(Icons.person),
-    label: 'Profile',
-  ),
-];
+}   

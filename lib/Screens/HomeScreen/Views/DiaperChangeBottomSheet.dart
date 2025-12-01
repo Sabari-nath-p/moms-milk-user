@@ -29,8 +29,9 @@ class _DiaperChangeBottomSheetState extends State<DiaperChangeBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
+
       decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
+        color: Colors.white,
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
@@ -104,45 +105,53 @@ class _DiaperChangeBottomSheetState extends State<DiaperChangeBottomSheet> {
 
               const SizedBox(height: 12),
 
-              Row(
-                children:
-                    DiaperType.values.map((type) {
-                      final isSelected = selectedDiaperType == type;
-                      return Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 8),
-                          child: FilterChip(
-                            label: SizedBox(
-                              width: double.infinity,
-                              child: Text(
-                                type.displayName,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            selected: isSelected,
-                            onSelected: (selected) {
-                              setState(() {
-                                selectedDiaperType = type;
-                              });
-                            },
-                            selectedColor: Theme.of(
-                              context,
-                            ).colorScheme.primary.withOpacity(0.2),
-                            checkmarkColor:
-                                Theme.of(context).colorScheme.primary,
-                            backgroundColor:
-                                Theme.of(context).colorScheme.surface,
-                            side: BorderSide(
-                              color:
-                                  isSelected
-                                      ? Theme.of(context).colorScheme.primary
-                                      : Colors.grey[300]!,
-                            ),
-                          ),
-                        ),
-                      );
-                    }).toList(),
+             Row(
+  children: DiaperType.values.map((type) {
+    final isSelected = selectedDiaperType == type;
+
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.only(right: 8),
+        child: FilterChip(
+          label: SizedBox(
+            width: double.infinity,
+            child: Text(
+              type.displayName,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: isSelected
+                    ? Theme.of(context).colorScheme.primary // Pink
+                    : Colors.black, // Normal
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
               ),
+            ),
+          ),
+
+          selected: isSelected,
+          onSelected: (selected) {
+            setState(() {
+              selectedDiaperType = type;
+            });
+          },
+
+          selectedColor:
+              Theme.of(context).colorScheme.primary.withOpacity(0.15),
+
+          checkmarkColor: Theme.of(context).colorScheme.primary,
+
+          backgroundColor: Theme.of(context).colorScheme.surface,
+
+          side: BorderSide(
+            color: isSelected
+                ? Theme.of(context).colorScheme.primary
+                : Colors.grey[300]!,
+          ),
+        ),
+      ),
+    );
+  }).toList(),
+),
+
 
               const SizedBox(height: 16),
 
@@ -153,7 +162,7 @@ class _DiaperChangeBottomSheetState extends State<DiaperChangeBottomSheet> {
                 textInputAction: TextInputAction.done,
                 style: const TextStyle(fontSize: 16),
                 decoration: InputDecoration(
-                  labelText: 'Note (Optional)',
+                  labelText: 'Note ',
                   hintText: 'Add any additional notes...',
                   prefixIcon: const Icon(Icons.note_outlined),
                   border: OutlineInputBorder(
@@ -221,7 +230,7 @@ class _DiaperChangeBottomSheetState extends State<DiaperChangeBottomSheet> {
                                     'Save Log',
                                     style: TextStyle(
                                       fontWeight: FontWeight.w600,
-                                      color: Colors.black,
+                                      color: Colors.white,
                                     ),
                                   ),
                         );

@@ -7,65 +7,101 @@ import 'package:mommilk_user/Models/BabyModel.dart';
 import 'package:mommilk_user/Screens/CreateBabyScreen/Controller/BabyCreateController.dart';
 import 'package:mommilk_user/Screens/CreateBabyScreen/CreateBabyScreen.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
+import 'package:mommilk_user/theme/app_theme.dart';
 
 class BabyScreen extends StatelessWidget {
   const BabyScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return GetBuilder<Homecontroller>(
-      builder:
-          (controller) => Scaffold(
-            body: CustomScrollView(
-              slivers: [
-                SliverPadding(
-                  padding: const EdgeInsets.all(16),
-                  sliver:
-                      (controller.myBabies.isEmpty)
-                          ? SliverFillRemaining(
-                            child: _buildEmptyState(context),
-                          )
-                          : SliverList(
-                            delegate: SliverChildBuilderDelegate((
-                              context,
-                              index,
-                            ) {
-                              final baby = controller.myBabies[index];
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 16),
-                                child: _buildBabyCard(context, baby),
-                              );
-                            }, childCount: controller.myBabies.length),
-                          ),
-                ),
-              ],
-            ),
-            floatingActionButton: FloatingActionButton.extended(
-              onPressed: () {
-                Get.to(() => CreateBabyScreen(skip: false));
-              },
-              icon: const Icon(Icons.add),
-              label: const Text('Add Baby'),
+Widget build(BuildContext context) {
+  return SafeArea(
+    child: GetBuilder<Homecontroller>(
+      builder: (controller) => Scaffold(
+        backgroundColor: Colors.white,
+
+        appBar: AppBar(
+          title: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: const Text(
+              "Babies",
+              style: TextStyle(fontWeight: FontWeight.w600,fontFamily: "Inter", fontSize: 24),
             ),
           ),
-    );
-  }
+          centerTitle: true,
+          backgroundColor: Colors.white,
+          elevation: 0,
+          scrolledUnderElevation: 0,
+        ),
+
+        body: SafeArea(
+          child: CustomScrollView(
+            slivers: [
+              SliverPadding(
+                padding: const EdgeInsets.all(16),
+                sliver: (controller.myBabies.isEmpty)
+                    ? SliverFillRemaining(
+                        child: _buildEmptyState(context),
+                      )
+                    : SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) {
+                            final baby = controller.myBabies[index];
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 16),
+                              child: _buildBabyCard(context, baby),
+                            );
+                          },
+                          childCount: controller.myBabies.length,
+                        ),
+                      ),
+              ),
+            ],
+          ),
+        ),
+
+        floatingActionButton: Container(
+          decoration: BoxDecoration(
+            gradient: AppTheme.roundButtonGradient,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: FloatingActionButton.extended(
+            onPressed: () {
+              Get.to(() => CreateBabyScreen(skip: false));
+            },
+            icon: const Icon(Icons.add, color: Colors.white),
+            label: const Text('Add Baby', style: TextStyle(color: Colors.white)),
+            backgroundColor: Colors.transparent,
+            foregroundColor: Colors.white,
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
 
   Widget _buildEmptyState(BuildContext context) {
     return Center(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      // mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          SizedBox(height: 80),
           Container(
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+           gradient:
+          
+           AppTheme.CardGradient,
               shape: BoxShape.circle,
             ),
             child: Icon(
               Icons.child_care,
               size: 64,
-              color: Theme.of(context).colorScheme.primary,
+              color: Color(0xFFFDA4AF),
             ),
           ),
           const SizedBox(height: 24),
@@ -86,16 +122,40 @@ class BabyScreen extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 32),
-          ElevatedButton.icon(
-            onPressed: () {
-              Get.to(() => CreateBabyScreen(skip: false));
-            },
-            icon: const Icon(Icons.add),
-            label: const Text('Add Your First Baby'),
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-            ),
+         ElevatedButton(
+  onPressed: () {
+    Get.to(() => CreateBabyScreen(skip: false));
+  },
+  style: ElevatedButton.styleFrom(
+    padding: EdgeInsets.zero,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(12),
+    ),
+    backgroundColor: Colors.transparent,
+    shadowColor: Colors.transparent,
+  ),
+  child: Ink(
+    decoration: BoxDecoration(
+      gradient: AppTheme.roundButtonGradient,       
+      borderRadius: BorderRadius.circular(12),
+    ),
+    child: Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: const [
+          Icon(Icons.add, color: Colors.white),
+          SizedBox(width: 8),
+          Text(
+            'Add Your First Baby',
+            style: TextStyle(color: Colors.white),
           ),
+        ],
+      ),
+    ),
+  ),
+),
+
         ],
       ),
     );
@@ -108,21 +168,12 @@ class BabyScreen extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        gradient: LinearGradient(
-          colors: [
-            (isSelected ? Theme.of(context).colorScheme.primary : Colors.pink)
-                .withOpacity(0.05),
-            (isSelected ? Theme.of(context).colorScheme.primary : Colors.pink)
-                .withOpacity(0.02),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        gradient: AppTheme.CardGradient,
         border: Border.all(
           color: (isSelected
                   ? Theme.of(context).colorScheme.primary
                   : Colors.pink)
-              .withOpacity(isSelected ? 0.5 : 0.2),
+              .withOpacity(isSelected ? 0.4 : 0.2),
           width: isSelected ? 2 : 1,
         ),
       ),
@@ -145,8 +196,8 @@ class BabyScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         color: (isSelected
-                                ? Theme.of(context).colorScheme.primary
-                                : Colors.pink)
+                                ? Colors.pink
+                                :Theme.of(context).colorScheme.primary )
                             .withOpacity(0.15),
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -212,6 +263,10 @@ class BabyScreen extends StatelessWidget {
                       ),
                     ),
                     PopupMenuButton<String>(
+                      icon: const Icon(
+    Icons.more_horiz,
+    color: Colors.pink,     // <-- DOT COLOR PINK
+  ),
                       onSelected: (value) {
                         switch (value) {
                           case 'view':

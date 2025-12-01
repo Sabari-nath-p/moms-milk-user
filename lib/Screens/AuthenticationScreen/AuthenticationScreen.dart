@@ -4,6 +4,7 @@ import 'package:get/get_instance/get_instance.dart';
 import 'package:get/route_manager.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
 import 'package:mommilk_user/Utils/Constants.dart';
+import 'package:mommilk_user/theme/app_theme.dart';
 
 class Authenticationscreen extends StatelessWidget {
   Authenticationscreen({super.key});
@@ -18,15 +19,7 @@ class Authenticationscreen extends StatelessWidget {
         width: double.infinity,
         height: double.infinity,
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Theme.of(context).colorScheme.primary.withOpacity(0.05),
-              Theme.of(context).scaffoldBackgroundColor,
-              Theme.of(context).colorScheme.secondary.withOpacity(0.03),
-            ],
-          ),
+          color: Colors.white
         ),
         child: SafeArea(
           child: GetBuilder<AuthenticationController>(
@@ -72,14 +65,7 @@ class Authenticationscreen extends StatelessWidget {
           height: 120,
           padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Theme.of(context).colorScheme.primary,
-                Theme.of(context).colorScheme.primary.withOpacity(0.8),
-              ],
-            ),
+             gradient: AppTheme.buttonCardGradient,
             borderRadius: BorderRadius.circular(30),
             boxShadow: [
               BoxShadow(
@@ -102,22 +88,24 @@ class Authenticationscreen extends StatelessWidget {
         const SizedBox(height: 32),
 
         // Enhanced Title
-        Text(
-          'Mom\'s Milk',
-          style: Theme.of(context).textTheme.displayMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-            color: Theme.of(context).colorScheme.onBackground,
-            letterSpacing: 1.2,
+        Center(
+          child: Text(
+            'Mom\'s Milk',
+            style: Theme.of(context).textTheme.displayMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+              letterSpacing: 1.2,
+            ),
           ),
         ),
 
-        const SizedBox(height: 12),
+        const SizedBox(height: 30),
 
         // Enhanced Subtitle
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primary.withOpacity(0.15),
+             gradient: AppTheme.CardGradient,
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
               color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
@@ -127,8 +115,8 @@ class Authenticationscreen extends StatelessWidget {
           child: Text(
             'Connect. Share. Care.',
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              color: Theme.of(context).colorScheme.onBackground,
-              fontWeight: FontWeight.w500,
+              color: Colors.black,
+              fontWeight: FontWeight.w300,
               letterSpacing: 0.5,
             ),
           ),
@@ -144,10 +132,10 @@ class Authenticationscreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(32),
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor.withOpacity(.05),
+      gradient:AppTheme.CardGradient,
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: Theme.of(context).colorScheme.outline.withOpacity(0.1),
+         color: AppTheme.borderColor,
           width: 1,
         ),
         boxShadow: [
@@ -175,8 +163,8 @@ class Authenticationscreen extends StatelessWidget {
               Text(
                 'Join Our Community',
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF1E2939),
+                  fontWeight: FontWeight.normal,
                   letterSpacing: 0.5,
                 ),
                 textAlign: TextAlign.center,
@@ -185,7 +173,7 @@ class Authenticationscreen extends StatelessWidget {
               Text(
                 'Sign in to continue your journey',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Colors.white,
+                  color: Color(0xFF6A7282),
                   fontSize: 15,
                 ),
 
@@ -334,24 +322,7 @@ class Authenticationscreen extends StatelessWidget {
               height: 56,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
-                gradient: LinearGradient(
-                  colors:
-                      controller.isLoading
-                          ? [
-                            Theme.of(
-                              context,
-                            ).colorScheme.primary.withOpacity(0.5),
-                            Theme.of(
-                              context,
-                            ).colorScheme.primary.withOpacity(0.3),
-                          ]
-                          : [
-                            Theme.of(context).colorScheme.primary,
-                            Theme.of(
-                              context,
-                            ).colorScheme.primary.withOpacity(0.8),
-                          ],
-                ),
+                gradient: AppTheme.roundButtonGradient,
                 boxShadow:
                     controller.isLoading
                         ? []
@@ -449,7 +420,7 @@ class Authenticationscreen extends StatelessWidget {
               'Enter the 6-digit code sent to',
               style: Theme.of(
                 context,
-              ).textTheme.bodyMedium?.copyWith(color: Colors.white),
+              ).textTheme.bodyMedium?.copyWith(color: Color(0xFF1E2939)),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 4),
@@ -457,7 +428,7 @@ class Authenticationscreen extends StatelessWidget {
               controller.emailController.text,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.primary,
+                color: Color(0xFFF43F5E),
               ),
               textAlign: TextAlign.center,
             ),
@@ -483,14 +454,6 @@ class Authenticationscreen extends StatelessWidget {
                 textInputAction: TextInputAction.done,
                 textAlign: TextAlign.center,
                 maxLength: 6,
-                onChanged: (value) {
-    if (value.length == 6) {
-      FocusScope.of(context).unfocus(); // Auto hide keyboard when full
-    }
-  },
-  onSubmitted: (value) {
-    FocusScope.of(context).unfocus(); // Hide keyboard on submit
-  },
 
                 style: TextStyle(
                   fontSize: 28,
@@ -588,24 +551,7 @@ class Authenticationscreen extends StatelessWidget {
               height: 56,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
-                gradient: LinearGradient(
-                  colors:
-                      controller.isLoading
-                          ? [
-                            Theme.of(
-                              context,
-                            ).colorScheme.primary.withOpacity(0.5),
-                            Theme.of(
-                              context,
-                            ).colorScheme.primary.withOpacity(0.3),
-                          ]
-                          : [
-                            Theme.of(context).colorScheme.primary,
-                            Theme.of(
-                              context,
-                            ).colorScheme.primary.withOpacity(0.8),
-                          ],
-                ),
+                gradient: AppTheme.roundButtonGradient,
                 boxShadow:
                     controller.isLoading
                         ? []
@@ -661,7 +607,7 @@ class Authenticationscreen extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
-                                color: Theme.of(context).colorScheme.onPrimary,
+                               color: Colors.white,
                                 letterSpacing: 0.5,
                               ),
                             ),

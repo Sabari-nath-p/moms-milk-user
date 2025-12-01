@@ -225,7 +225,7 @@ class Activitytimelinescreen extends StatelessWidget {
           ),
           Text(
             label,
-            style: TextStyle(fontSize: 11, color: Colors.white.withOpacity(.8), height: 1.2),
+            style: TextStyle(fontSize: 11, color:  Colors.black,fontWeight: FontWeight.w500, height: 1.2),
           ),
         ],
       ),
@@ -337,7 +337,7 @@ class Activitytimelinescreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
-                          color: Colors.white.withOpacity(.6),
+                          color: Colors.black,
                           height: 1.3, // fix overlap
                         ),
                         maxLines: 2,
@@ -352,7 +352,7 @@ class Activitytimelinescreen extends StatelessWidget {
                     item.descirpiton,
                     style: TextStyle(
                       fontSize: 13,
-                      color: Colors.white.withOpacity(.6),
+                      color: Colors.black,
                       height: 1.4, // fix overlap
                     ),
                     softWrap: true,

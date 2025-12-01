@@ -7,6 +7,8 @@ import 'package:mommilk_user/Screens/Dashboard/MainDashBoard.dart';
 import 'package:mommilk_user/Screens/HomeScreen/HomeScreen.dart';
 import 'package:mommilk_user/Screens/OnboardingScreen/Controller/OnboardingController.dart';
 import 'package:mommilk_user/Utils/DateSelectionField.dart';
+import 'package:mommilk_user/Utils/UnitInputField.dart';
+import 'package:mommilk_user/theme/app_theme.dart';
 
 class CreateBabyScreen extends StatelessWidget {
   bool skip = true;
@@ -15,21 +17,33 @@ class CreateBabyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Setup Your Profile'),
+        title: const Text('Setup Your Profile',style: TextStyle(fontWeight: FontWeight.w400,fontFamily: "Inter",fontSize: 22),),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: InkWell(
-          onTap: () {
-            if (skip) {
-              Get.offAll(MainDashboard(), transition: Transition.leftToRight);
-            } else {
-              Get.back();
-            }
-          },
-          child: Icon(Icons.arrow_back_ios_new_outlined, color: Colors.white),
-        ),
+     leading: InkWell(
+  onTap: () {
+    if (skip || controller.babySaved.value) {
+      Get.offAll(MainDashboard(), transition: Transition.leftToRight);
+    } else {
+      Get.back();
+    }
+  },
+  child: Padding(
+    padding: const EdgeInsets.all(10.0),
+    child: Container(
+      height: 20, width: 20,
+      decoration: BoxDecoration(
+        color: Color.fromARGB(255, 239, 212, 214),
+        shape: BoxShape.circle,
+      ),
+      child: Icon(Icons.arrow_back_ios_new_outlined, color: Color(0xFFF43F5E), size: 20),
+    ),
+  ),
+),
+
+
         actions: [
           if (skip)
             InkWell(
@@ -81,18 +95,19 @@ class CreateBabyScreen extends StatelessWidget {
                     decoration: InputDecoration(
                       labelText: 'Baby\'s Name *',
                       hintText: 'Enter baby\'s name',
-                      prefixIcon: const Icon(Icons.child_care),
+                      prefixIcon:  Icon(Icons.child_care,color: Color(0xffFDA4AF),),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
+                    
                         borderSide: BorderSide(color: Colors.grey[300]!),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.primary,
+                           color: Theme.of(context).colorScheme.primary,
                           width: 2,
                         ),
                       ),
@@ -111,39 +126,45 @@ class CreateBabyScreen extends StatelessWidget {
 
                   const SizedBox(height: 12),
 
-                  Row(
-                    children:
-                        Gender.values.map((gender) {
-                          final isSelected = controller.babyGender == gender;
-                          return Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 8),
-                              child: FilterChip(
-                                label: SizedBox(
-                                  width: double.infinity,
-                                  child: Text(
-                                    gender.name,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ),
-                                selected: isSelected,
-                                onSelected: (selected) {
-                                  controller.babyGender =
-                                      selected ? gender : null;
+                Row(
+  children: Gender.values.map((gender) {
+    final isSelected = controller.babyGender == gender;
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.only(right: 8),
+        child: FilterChip(
+  label: SizedBox(
+    width: double.infinity,
+    child: Text(
+      gender.name,
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        color: isSelected ? Colors.white : Colors.black,   // text color change
+      ),
+    ),
+  ),
+  selected: isSelected,
 
-                                  controller.update();
-                                },
-                                selectedColor: Theme.of(
-                                  context,
-                                ).colorScheme.primary.withOpacity(0.2),
-                                checkmarkColor:
-                                    Theme.of(context).colorScheme.primary,
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                  ),
+  onSelected: (selected) {
+    controller.babyGender = selected ? gender : null;
+    controller.update();
+  },
+
+  // 🔥 SELECTED STATE → Dark Pink background
+  selectedColor: Theme.of(context).colorScheme.primary,
+
+  // 🔥 UNSELECTED STATE → White background
+  backgroundColor: Colors.white,
+
+  checkmarkColor: Colors.white, // checkmark stays white
+  side: const BorderSide(color: Color.fromARGB(255, 224, 220, 220)), // optional border
+)
+
+      ),
+    );
+  }).toList(),
+),
+
 
                   const SizedBox(height: 24),
 
@@ -193,96 +214,80 @@ class CreateBabyScreen extends StatelessWidget {
                   const SizedBox(height: 24),
 
                   // Baby Weight
-                  TextField(
-                    controller: controller.babbyWeightController,
-                    keyboardType: const TextInputType.numberWithOptions(
-                      decimal: true,
-                    ),
-                    textInputAction: TextInputAction.next,
-                    style: const TextStyle(fontSize: 16),
-                    decoration: InputDecoration(
-                      labelText: 'Birth Weight (kg)*',
-                      hintText: 'e.g., 3.2',
-                      prefixIcon: const Icon(Icons.monitor_weight_outlined),
-                      helperText: 'Enter baby\'s weight in kilograms',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.grey[300]!),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.primary,
-                          width: 2,
-                        ),
-                      ),
-                    ),
-                    onChanged: (value) {},
-                  ),
-
+                 UnitInputField(
+  controller: controller.babbyWeightController,
+  title: "Birth Weight",
+  icon: const Icon(Icons.monitor_weight_outlined, color: Color(0xffFDA4AF)),
+  inputUnitList: const [
+    Unit(name: "kg", conversionFactorToMl: 1.0),
+    Unit(name: "lb", conversionFactorToMl: 0.453592), // 1 lb = 0.453592 kg
+  ],
+),
                   //const SizedBox(height: 24),
-
+ const SizedBox(height: 24),
                   // Baby Height
-                  TextField(
-                    controller: controller.babyHeightController,
-                    keyboardType: const TextInputType.numberWithOptions(
-                      decimal: true,
-                    ),
-                    textInputAction: TextInputAction.done,
-                    style: const TextStyle(fontSize: 16),
-                    decoration: InputDecoration(
-                      labelText: 'Birth Height (cm)',
-                      hintText: 'e.g., 50.5*',
-                      prefixIcon: const Icon(Icons.height_outlined),
-                      helperText: 'Enter baby\'s height in centimeters',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.grey[300]!),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.primary,
-                          width: 2,
-                        ),
-                      ),
-                    ),
-                    onChanged: (value) {},
-                  ),
+                 UnitInputField(
+  controller: controller.babyHeightController,
+  title: "Birth Height",
+  icon: const Icon(Icons.height_outlined, color: Color(0xffFDA4AF)),
+  inputUnitList: const [
+    Unit(name: "cm", conversionFactorToMl: 1.0),
+    Unit(name: "in", conversionFactorToMl: 2.54), // 1 inch = 2.54 cm
+  ],
+),
 
-                  //  const SizedBox(height: 32),
-
-                  // Validate Button
-                  SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        controller.CreateNewBaby(skip: skip);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                        //foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: const Text(
-                        'Save Baby Details',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
+                    const SizedBox(height: 32),
+Obx(
+  () => SizedBox(
+    width: double.infinity,
+    height: 50,
+    child: ElevatedButton(
+      onPressed: controller.isLoading.value
+          ? null
+          : () {
+              controller.createNewBaby(skip: skip);
+            },
+      style: ElevatedButton.styleFrom(
+        padding: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        backgroundColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+      ),
+      child: Ink(
+        decoration: BoxDecoration(
+          gradient: controller.isLoading.value
+              ? LinearGradient(colors: [Colors.grey, Colors.grey])
+              : AppTheme.roundButtonGradient,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Container(
+          alignment: Alignment.center,
+          child: controller.isLoading.value
+              ? const SizedBox(
+                  height: 20,
+                  width: 20,
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(Colors.white),
+                    strokeWidth: 2,
                   ),
+                )
+              : const Text(
+                  'Save Baby Details',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+        ),
+      ),
+    ),
+  ),
+),
+
+
 
                   const SizedBox(height: 24),
 

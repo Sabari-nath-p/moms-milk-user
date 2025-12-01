@@ -23,7 +23,7 @@ class Overviewscreen extends StatelessWidget {
     return GetBuilder<TrackerController>(
       builder: (__) {
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 25),
           child:
               (__.isOverviewLoading)
                   ? Center(
@@ -40,7 +40,7 @@ class Overviewscreen extends StatelessWidget {
                         CupertinoSlidingSegmentedControl(
                           groupValue: __.selectedDateOption,
                           backgroundColor: AppTheme.darkBackgroundColor,
-                          thumbColor: AppTheme.primaryColor,
+                          thumbColor: Theme.of(context).colorScheme.primary,
                           onValueChanged: (int? value) async {
                             __.selectedDateOption = value ?? 0;
                             if (value == 0) {

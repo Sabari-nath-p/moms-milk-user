@@ -9,57 +9,94 @@ import 'package:mommilk_user/Utils/ApiService.dart';
 
 class CreateBabyController extends GetxController {
   final babyNameController = TextEditingController();
-  Gender? babyGender = null;
+  Gender? babyGender;
   DateTime? babyDeliveryDate = DateTime.now();
   final babbyWeightController = TextEditingController();
   final babyHeightController = TextEditingController();
-  bool isLoading = false;
+ var isLoading = false.obs;
+  var babySaved = false.obs;
 
-  CreateNewBaby({bool skip = true}) async {
-    if (validateBabyDetails()) {
-      isLoading = true;
-      update();
-      print(babyGender!.name.toUpperCase());
-      ApiService.request(
-        endpoint: "/babies",
-        body: {
-          "name": "${babyNameController.text}",
-          "gender": babyGender!.name.toUpperCase(),
-          "deliveryDate": babyDeliveryDate!.toUtc().toString(),
-          //"bloodGroup":  getBloodGroupText(),
-          "weight": double.parse(babbyWeightController.text),
-          "height": double.parse(babyHeightController.text),
-          "userId": user.id,
-        },
-        onSuccess: (data) {
-          print(data.data);
-          if (data.statusCode == 201) {
-            if (skip)
-              Get.off(() => MainDashboard());
-            else {
+Future<void> createNewBaby({bool skip = true}) async {
+  if (!validateBabyDetails()) return;
+
+  isLoading.value = true;
+
+  ApiService.request(
+    endpoint: "/babies",
+    body: {
+      "name": babyNameController.text.trim(),
+      "gender": babyGender!.name.toUpperCase(),
+      "deliveryDate": babyDeliveryDate!.toUtc().toString(),
+      "weight": double.tryParse(babbyWeightController.text) ?? 0,
+      "height": double.tryParse(babyHeightController.text) ?? 0,
+      "userId": user.id,
+    },
+    onSuccess: (data) {
+      isLoading.value = false;
+
+      if (data.statusCode == 201) {
+        babySaved.value = true; // ← mark as saved
+
+        Get.snackbar(
+          "Success",
+          "Baby profile created successfully!",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+          duration: const Duration(seconds: 2),
+        );
+
+        // Navigate after short delay to let snackbar show
+        Future.delayed(const Duration(milliseconds: 500), () {
+          if (skip) {
+            Get.offAll(MainDashboard());
+          } else {
+            try {
               Homecontroller controller = Get.find();
               controller.fetchBabies();
               controller.update();
-              Get.back();
+            } catch (e) {
+              print("HomeController not found: $e");
             }
+            Get.back();
           }
-        },
+        });
+      } else {
+        Get.snackbar(
+          "Error",
+          "Failed to create baby profile. Please try again.",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+      }
+    },
+    onError: (error) {
+      isLoading.value = false;
+      Get.snackbar(
+        "Network Error",
+        "Unable to create baby profile. Please check your internet connection.",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
       );
-      isLoading = false;
-      update();
-    }
-  }
+      print("Error creating baby: $error");
+    },
+  );
+}
 
+  /// Delete a baby profile
   Future<void> deleteBaby(int babyId) async {
-    isLoading = true;
-    update();
+    isLoading.value = true;
 
     await ApiService.request(
       endpoint: "/babies/$babyId",
       method: Api.DELETE,
       onSuccess: (data) {
+        isLoading.value = false;
         if (data.statusCode == 200) {
           Get.snackbar("Success", "Baby deleted successfully");
+
           try {
             Homecontroller controller = Get.find();
             controller.fetchBabies();
@@ -67,20 +104,19 @@ class CreateBabyController extends GetxController {
           } catch (e) {
             print("HomeController not found: $e");
           }
+
           Get.back(); // Close dialog/screen after delete
         }
       },
       onError: (error) {
+        isLoading.value = false;
         Get.snackbar("Error", "Failed to delete baby: $error");
       },
     );
-
-    isLoading = false;
-    update();
   }
 
+  /// Validate user input
   bool validateBabyDetails() {
-    // Validate baby name (required)
     if (babyNameController.text.trim().isEmpty) {
       Get.snackbar('Validation Error', 'Please enter baby\'s name');
       return false;
@@ -94,46 +130,32 @@ class CreateBabyController extends GetxController {
       return false;
     }
 
-    // Validate gender (required)
     if (babyGender == null) {
       Get.snackbar('Validation Error', 'Please select baby\'s gender');
       return false;
     }
 
-    // Validate delivery date (required)
     if (babyDeliveryDate == null) {
       Get.snackbar('Validation Error', 'Please select delivery date');
       return false;
     }
 
-    // Validate weight (optional, but if provided must be valid)
     if (babbyWeightController.text.trim().isNotEmpty) {
       final weight = double.tryParse(babbyWeightController.text.trim());
-      if (weight == null) {
-        Get.snackbar('Validation Error', 'Please enter a valid weight');
-        return false;
-      }
-      if (weight <= 0 || weight > 10) {
-        Get.snackbar(
-          'Validation Error',
-          'Weight must be between 0.1 and 10 kg',
-        );
+      if (weight == null || weight <= 0 || weight > 10) {
+        Get.snackbar('Validation Error', 'Weight must be between 0.1 and 10 kg');
         return false;
       }
     }
 
-    // Validate height (optional, but if provided must be valid)
     if (babyHeightController.text.trim().isNotEmpty) {
       final height = double.tryParse(babyHeightController.text.trim());
-      if (height == null) {
-        Get.snackbar('Validation Error', 'Please enter a valid height');
-        return false;
-      }
-      if (height <= 0 || height > 100) {
+      if (height == null || height <= 0 || height > 100) {
         Get.snackbar('Validation Error', 'Height must be between 1 and 100 cm');
         return false;
       }
     }
+
     return true;
   }
 }
