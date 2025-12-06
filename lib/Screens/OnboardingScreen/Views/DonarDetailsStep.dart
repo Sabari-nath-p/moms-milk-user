@@ -30,7 +30,7 @@ class DonarDetailsStep extends StatelessWidget {
               Text(
                 'Please provide additional information to help ensure safe milk donation.',
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Colors.white.withOpacity(.9),
+                  color: Colors.black.withOpacity(.9),
                 ),
               ),
 
@@ -78,33 +78,46 @@ class DonarDetailsStep extends StatelessWidget {
               ),
 
               const SizedBox(height: 12),
+Wrap(
+  spacing: 8,
+  runSpacing: 8,
+  children: BloodGroup.values.map((bloodGroup) {
+    final isSelected = controller.seletecBloodGroup == bloodGroup;
 
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children:
-                    BloodGroup.values.map((bloodGroup) {
-                      final isSelected =
-                          controller.seletecBloodGroup == bloodGroup;
-                      return FilterChip(
-                        label: Text(
-                          getBloodGroupText(bloodGroup),
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        selected: isSelected,
-                        onSelected: (selected) {
-                          controller.seletecBloodGroup =
-                              selected ? bloodGroup : null;
+    return FilterChip(
+      label: Text(
+        getBloodGroupText(bloodGroup),
+        style: TextStyle(
+          color: isSelected ? Colors.white : Colors.black,   // TEXT COLOR
+          fontWeight: FontWeight.w500,
+        ),
+      ),
 
-                          controller.update();
-                        },
-                        selectedColor: Theme.of(
-                          context,
-                        ).colorScheme.primary.withOpacity(0.9),
-                        checkmarkColor: Colors.white,
-                      );
-                    }).toList(),
-              ),
+      // SELECTED STATE
+      selected: isSelected,
+      selectedColor: Theme.of(context).colorScheme.primary.withOpacity(0.9),
+
+      // UNSELECTED STATE → make background white
+      backgroundColor: Colors.white,
+
+      // BORDER FOR UNSELECTED
+      shape: StadiumBorder(
+        side: BorderSide(
+          color: isSelected ? Theme.of(context).colorScheme.primary.withOpacity(0.5) : Colors.black,   // BORDER COLOR
+          width: 1,
+        ),
+      ),
+
+      checkmarkColor: Colors.white, // selected checkmark
+
+      onSelected: (selected) {
+        controller.seletecBloodGroup = selected ? bloodGroup : null;
+        controller.update();
+      },
+    );
+  }).toList(),
+),
+
 
               const SizedBox(height: 32),
 
@@ -121,7 +134,7 @@ class DonarDetailsStep extends StatelessWidget {
               Text(
                 'Select all that apply to you (optional but recommended):',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Colors.white.withOpacity(.8),
+                  color: Colors.black.withOpacity(.8),
                 ),
               ),
 
@@ -136,10 +149,10 @@ class DonarDetailsStep extends StatelessWidget {
                       return CheckboxListTile(
                         title: Text(
                           getDonorQualityText(quality),
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: Colors.black),
                         ),
+                        subtitle: _getQualityDescription(quality),
 
-                        //   subtitle: _getQualityDescription(quality),
                         value: isSelected,
                         onChanged: (selected) {
                           if (selected ?? false)
@@ -150,9 +163,9 @@ class DonarDetailsStep extends StatelessWidget {
                           controller.update();
                         },
                         side: const BorderSide(
-                          color: Colors.white,
+                          color: Colors.black,
                           width:
-                              1.5, // You can adjust the width for better visibility
+                              1, // You can adjust the width for better visibility
                         ),
                         controlAffinity: ListTileControlAffinity.leading,
                         contentPadding: EdgeInsets.zero,
@@ -202,7 +215,7 @@ class DonarDetailsStep extends StatelessWidget {
                           child: RadioListTile<bool>(
                             title: const Text(
                               'Yes',
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(color: Colors.black),
                             ),
                             value: true,
                             groupValue:
@@ -221,7 +234,7 @@ class DonarDetailsStep extends StatelessWidget {
                                 return Theme.of(context).colorScheme.primary;
                               }
                               // This sets the unselected circle's border color to white.
-                              return Colors.white;
+                              return Colors.black;
                             }),
                           ),
                         ),
@@ -229,7 +242,7 @@ class DonarDetailsStep extends StatelessWidget {
                           child: RadioListTile<bool>(
                             title: const Text(
                               'No',
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(color: Colors.black),
                             ),
                             value: false,
                             groupValue:
@@ -249,7 +262,7 @@ class DonarDetailsStep extends StatelessWidget {
                                 return Theme.of(context).colorScheme.primary;
                               }
                               // This sets the unselected circle's border color to white.
-                              return Colors.white;
+                              return Colors.black;
                             }),
                           ),
                         ),

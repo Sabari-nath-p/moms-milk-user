@@ -3,6 +3,7 @@ import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:mommilk_user/Models/SearchDonarModel.dart';
 import 'package:mommilk_user/Screens/SearchDonarScreen/Controller/SearchDonarController.dart';
+import 'package:mommilk_user/theme/app_theme.dart' show AppTheme;
 
 class SendRequestBottomSheet extends StatefulWidget {
   SearchDonarModel donar;
@@ -103,18 +104,30 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  TextField(
-                    controller: descriptionController,
-                    maxLines: 3,
-                    textInputAction: TextInputAction.next,
-                    decoration: InputDecoration(
-                      hintText: 'Please describe your milk request...',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      contentPadding: const EdgeInsets.all(16),
-                    ),
-                  ),
+                 TextField(
+  controller: descriptionController,
+  maxLines: 3,
+  textInputAction: TextInputAction.next,
+  decoration: InputDecoration(
+    hintText: 'Please describe your milk request...',
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(
+        color: Colors.grey.shade400,
+        width: 1.2,
+      ),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(
+        color: Theme.of(context).colorScheme.primary,
+        width: 1.8,
+      ),
+    ),
+    contentPadding: const EdgeInsets.all(16),
+  ),
+),
+
                   const SizedBox(height: 20),
 
                   // Quantity field
@@ -125,19 +138,31 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  TextField(
-                    controller: quantityController,
-                    keyboardType: TextInputType.number,
-                    textInputAction: TextInputAction.done,
-                    decoration: InputDecoration(
-                      hintText: '500',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      contentPadding: const EdgeInsets.all(16),
-                      suffixText: 'ml',
-                    ),
-                  ),
+                 TextField(
+  controller: quantityController,
+  keyboardType: TextInputType.number,
+  textInputAction: TextInputAction.done,
+  decoration: InputDecoration(
+    hintText: '500',
+    suffixText: 'ml',
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(
+        color: Colors.grey.shade400,
+        width: 1.2,
+      ),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(
+        color: Theme.of(context).colorScheme.primary,
+        width: 1.8,
+      ),
+    ),
+    contentPadding: const EdgeInsets.all(16),
+  ),
+),
+
                   const SizedBox(height: 20),
 
                   // Urgency selector
@@ -265,48 +290,52 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                   const SizedBox(height: 30),
 
                   // Send button
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (descriptionController.text.trim().isEmpty) {
-                          Get.snackbar('Error', 'Please enter a description');
-                          return;
-                        }
-                        if (quantityController.text.trim().isEmpty) {
-                          Get.snackbar('Error', 'Please enter quantity needed');
-                          return;
-                        }
+                 SizedBox(
+  width: double.infinity,
+  child: InkWell(
+    onTap: () {
+      if (descriptionController.text.trim().isEmpty) {
+        Get.snackbar('Error', 'Please enter a description');
+        return;
+      }
+      if (quantityController.text.trim().isEmpty) {
+        Get.snackbar('Error', 'Please enter quantity needed');
+        return;
+      }
 
-                        // Send request
-                        controller.sendRequestToDonor(
-                          donorId: widget.donar.donor!.id!,
-                          description: descriptionController.text.trim(),
-                          quantity: int.tryParse(quantityController.text) ?? 0,
-                          urgency: selectedUrgency,
-                          neededBy: selectedDate,
-                        );
+      // Send request
+      controller.sendRequestToDonor(
+        donorId: widget.donar.donor!.id!,
+        description: descriptionController.text.trim(),
+        quantity: int.tryParse(quantityController.text) ?? 0,
+        urgency: selectedUrgency,
+        neededBy: selectedDate,
+      );
 
-                        widget.donar.hasPendingRequest = true;
-                        controller.update();
+      widget.donar.hasPendingRequest = true;
+      controller.update();
 
-                        Navigator.pop(context);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: const Text(
-                        'Send Request',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ),
+      Navigator.pop(context);
+    },
+    child: Container(
+      height: 48,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        gradient: AppTheme.roundButtonGradient
+      ),
+      alignment: Alignment.center,
+      child: const Text(
+        'Send Request',
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
+        ),
+      ),
+    ),
+  ),
+)
+
                 ],
               ),
             ),

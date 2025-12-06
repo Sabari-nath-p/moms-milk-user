@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:mommilk_user/Screens/OnboardingScreen/Controller/OnboardingController.dart';
+import 'package:mommilk_user/theme/app_theme.dart';
 
 class UserTypeStep extends StatelessWidget {
   const UserTypeStep({super.key});
@@ -27,7 +28,7 @@ class UserTypeStep extends StatelessWidget {
               Text(
                 'Choose your role to personalize your app experience.',
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Colors.white.withOpacity(.7),
+                  color: Colors.black.withOpacity(.7),
                 ),
               ),
 
@@ -86,28 +87,31 @@ class UserTypeStep extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.secondary.withOpacity(0.1),
+                  gradient: AppTheme.buttonCardGradient,
+                   color: Theme.of(context)
+                      .colorScheme
+                      .primary
+                      .withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.secondary.withOpacity(0.2),
+                    color: Theme.of(context)
+                        .colorScheme
+                        .primary
+                        .withOpacity(0.3),
                   ),
                 ),
                 child: Row(
                   children: [
                     Icon(
                       Icons.security,
-                      color: Theme.of(context).colorScheme.secondary,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
                         'Find milk donors near you. Review profiles and connect safely based on your comfort and judgment.',
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Theme.of(context).colorScheme.secondary,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                       ),
                     ),
@@ -136,7 +140,8 @@ class UserTypeStep extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+         // color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+          gradient: AppTheme.CardGradient,
 
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
@@ -170,7 +175,7 @@ class UserTypeStep extends StatelessWidget {
                   ),
                   child: Icon(
                     icon,
-                    color: isSelected ? Colors.white : Colors.grey[600],
+                    color: isSelected ? Colors.white : Color(0xffF43F5E),
                     size: 24,
                   ),
                 ),
@@ -194,7 +199,7 @@ class UserTypeStep extends StatelessWidget {
                       Text(
                         subtitle,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Colors.white.withOpacity(.8),
+                          color: Colors.black.withOpacity(.8),
                         ),
                       ),
                     ],

@@ -10,6 +10,7 @@ import 'package:mommilk_user/Screens/OnboardingScreen/Views/BabyDetailsStep.dart
 import 'package:mommilk_user/Screens/OnboardingScreen/Views/DonarDetailsStep.dart';
 import 'package:mommilk_user/Screens/OnboardingScreen/Views/UserDetailsEntryView.dart';
 import 'package:mommilk_user/Screens/OnboardingScreen/Views/UserTypeView.dart';
+import 'package:mommilk_user/theme/app_theme.dart';
 
 class OnboardingScreen extends StatelessWidget {
   String emailID;
@@ -19,7 +20,7 @@ class OnboardingScreen extends StatelessWidget {
     Onboardingcontroller controller = Get.put(Onboardingcontroller(emailID));
 
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('Setup Your Profile'),
         backgroundColor: Colors.transparent,
@@ -81,7 +82,7 @@ class OnboardingScreen extends StatelessWidget {
               // Navigation Buttons
               Container(
                 padding: const EdgeInsets.all(16),
-                margin: EdgeInsets.only(bottom: 20),
+                margin: EdgeInsets.only(bottom: 20,left: 16,right: 16),
                 child: Row(
                   children: [
                     if (controller.currentStep > 0)
@@ -92,23 +93,40 @@ class OnboardingScreen extends StatelessWidget {
                         ),
                       ),
                     if (controller.currentStep > 0) const SizedBox(width: 16),
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          controller.nextStep();
-                        },
-                        child:
-                            controller.isLoading
-                                ? const SizedBox(
-                                  height: 20,
-                                  width: 20,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                  ),
-                                )
-                                : Text("Continue"),
-                      ),
-                    ),
+                   Expanded(
+  child: Container(
+    decoration: BoxDecoration(
+      gradient: AppTheme.roundButtonGradient,
+      borderRadius: BorderRadius.circular(8),
+    ),
+    child: ElevatedButton(
+      onPressed: () {
+        controller.nextStep();
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
+      child: controller.isLoading
+          ? const SizedBox(
+              height: 20,
+              width: 20,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: Colors.white,
+              ),
+            )
+          : Text(
+              "Continue",
+              style: TextStyle(color: Colors.white),
+            ),
+    ),
+  ),
+),
+
                   ],
                 ),
               ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mommilk_user/Screens/BabyScreen/BabyScreen.dart';
+import 'package:mommilk_user/Screens/ConnectScreen/ConnectScreen.dart';
+import 'package:mommilk_user/Screens/ChatScreen/ChatScreen.dart';
 import 'package:mommilk_user/Screens/Dashboard/Controller/DashboardController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/HomeScreen.dart';
 import 'package:mommilk_user/Screens/ProfileScreen/ProfileScreen.dart';
@@ -27,10 +28,13 @@ class MainDashboard extends StatelessWidget {
             currentScreen = Trackerscreen(); // TrackerScreen should have its own AppBar
             break;
           case 2:
-            currentScreen = BabyScreen(); // BabyScreen should have its own AppBar
+            currentScreen = ConnectScreen(); // BabyScreen should have its own AppBar
             break;
           case 3:
             currentScreen = ProfileScreen(); // ProfileScreen should have its own AppBar
+            break;
+            case 4:
+            currentScreen = ChatScreen(); // ProfileScreen should have its own AppBar
             break;
           default:
             currentScreen = Container();
@@ -72,25 +76,30 @@ class MainDashboard extends StatelessWidget {
       NavigationDestination(
         icon: Icon(Icons.home_outlined, color: Colors.grey),
         selectedIcon: Icon(Icons.home, color: Color(0xffFB7185)),
-        label: 'Home',
+        label: 'Log',
       ),
 
       NavigationDestination(
         icon: Icon(Icons.analytics_outlined, color: Colors.grey),
         selectedIcon: Icon(Icons.analytics, color: Color(0xffFB7185)),
-        label: 'Analytics',
+        label: 'Report',
       ),
 
       NavigationDestination(
         icon: Icon(Icons.child_care_outlined, color: Colors.grey),
         selectedIcon: Icon(Icons.child_care, color: Color(0xffFB7185)),
-        label: 'Babies',
+        label: 'Connect',
       ),
 
       NavigationDestination(
-        icon: Icon(Icons.person_outline, color: Colors.grey),
-        selectedIcon: Icon(Icons.person, color: Color(0xffFB7185)),
-        label: 'Profile',
+        icon: Icon(Icons.child_care_outlined, color: Colors.grey),
+        selectedIcon: Icon(Icons.child_care_outlined, color: Color(0xffFB7185)),
+        label: 'Babies',
+      ),
+      NavigationDestination(
+        icon: Icon(Icons.notes, color: Colors.grey),
+        selectedIcon: Icon(Icons.notes, color: Color(0xffFB7185)),
+        label: 'Chat',
       ),
     ],
   ),

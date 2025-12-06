@@ -4,6 +4,7 @@ import 'package:mommilk_user/Models/SearchDonarModel.dart';
 import 'package:mommilk_user/Screens/RequestScreen/Views/contactBottomSheet.dart';
 import 'package:mommilk_user/Screens/SearchDonarScreen/Controller/SearchDonarController.dart';
 import 'package:mommilk_user/Screens/SearchDonarScreen/Views/SendRequestBottomSheet.dart';
+import 'package:mommilk_user/theme/app_theme.dart';
 
 class SearchDonarCard extends StatelessWidget {
   SearchDonarModel donar;
@@ -16,17 +17,11 @@ class SearchDonarCard extends StatelessWidget {
         return Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            color: Theme.of(context).colorScheme.primary.withOpacity(.1),
+           // gradient: AppTheme.CardGradient,
             border: Border.all(
-              color: Theme.of(context).dividerColor.withOpacity(0.1),
+              color: Color( 0xffFB7185).withOpacity(0.5),
             ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.05),
-                blurRadius: 10,
-                offset: const Offset(0, 2),
-              ),
-            ],
+           
           ),
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -37,13 +32,11 @@ class SearchDonarCard extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 25,
-                      backgroundColor: Theme.of(
-                        context,
-                      ).colorScheme.primary.withOpacity(0.1),
+                      backgroundColor: AppTheme.primaryColor.withOpacity(.4),
                       child: Text(
                         (donar.donor!.name ?? "U")[0],
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
+                          color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -69,7 +62,7 @@ class SearchDonarCard extends StatelessWidget {
                               Text(
                                 "${donar.distance ?? "unknow"} km",
                                 style: Theme.of(context).textTheme.bodySmall!
-                                    .copyWith(color: Colors.white),
+                                    .copyWith(color: Colors.black),
                               ),
                               const SizedBox(width: 8),
                               // Icon(Icons.star, color: Colors.amber, size: 16),
@@ -112,7 +105,7 @@ class SearchDonarCard extends StatelessWidget {
                   Text(
                     donar.donor!.description ?? "",
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: Colors.white.withOpacity(.8),
+                      color: Colors.black.withOpacity(.8),
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -135,60 +128,82 @@ class SearchDonarCard extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 16),
-                Row(
-                  children: [
-                    if (donar.hasAcceptedRequest ?? false)
-                      Expanded(
-                        child: OutlinedButton.icon(
-                          onPressed: () {
-                            //controller.viewDonorProfile(donor);
+               Row(
+  children: [
+    // --------------------- VIEW PROFILE BUTTON ---------------------
+    if (donar.hasAcceptedRequest ?? false)
+      Expanded(
+        child: OutlinedButton.icon(
+          onPressed: () {
+            ContactBottomSheet.show(
+              context,
+              name: donar.donor!.name ?? "",
+              email: donar.donor!.email ?? "",
+              phoneNumber: donar.donorPhoneNumber ?? "",
+            );
+          },
+          icon: const Icon(Icons.person, size: 16),
+          label: const Text('View Profile'),
+          style: OutlinedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
+        ),
+      ),
 
-                            ContactBottomSheet.show(
-                              context,
-                              name: donar.donor!.name ?? "",
-                              email: donar.donor!.email ?? "",
-                              phoneNumber: donar.donorPhoneNumber ?? "",
-                            );
-                          },
-                          icon: const Icon(Icons.person, size: 16),
-                          label: const Text('View Profile'),
-                          style: OutlinedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                        ),
-                      ),
-                    const SizedBox(width: 8),
-                    if (!(donar.hasAcceptedRequest ?? false))
-                      Expanded(
-                        child: ElevatedButton.icon(
-                          onPressed: () {
-                            if (!(donar.hasPendingRequest ?? false))
-                              showModalBottomSheet(
-                                context: context,
-                                isScrollControlled: true,
-                                backgroundColor: Colors.transparent,
-                                builder:
-                                    (context) =>
-                                        SendRequestBottomSheet(donar: donar),
-                              );
-                          },
+    const SizedBox(width: 8),
 
-                          icon: const Icon(Icons.send, size: 16),
-                          label:
-                              (!(donar.hasPendingRequest ?? false))
-                                  ? Text('Connect')
-                                  : Text('Requested'),
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                        ),
-                      ),
-                  ],
+    // --------------------- CONNECT BUTTON WITH GRADIENT ---------------------
+    if (!(donar.hasAcceptedRequest ?? false))
+      Expanded(
+        child: GestureDetector(
+          onTap: () {
+            if (!(donar.hasPendingRequest ?? false)) {
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: Colors.transparent,
+                builder: (context) => SendRequestBottomSheet(donar: donar),
+              );
+            }
+          },
+          child: Container(
+            height: 48,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              gradient: (donar.hasPendingRequest ?? false)
+                  ? const LinearGradient(
+                      colors: [
+                        Colors.grey,
+                        Colors.grey,
+                      ],
+                    ) // disabled grey
+                  : AppTheme.buttonCardGradient,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.send, size: 16, color: Colors.white),
+                const SizedBox(width: 6),
+                Text(
+                  (donar.hasPendingRequest ?? false)
+                      ? 'Requested'
+                      : 'Connect',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
+              ],
+            ),
+          ),
+        ),
+      ),
+  ],
+)
+
+                ,
               ],
             ),
           ),

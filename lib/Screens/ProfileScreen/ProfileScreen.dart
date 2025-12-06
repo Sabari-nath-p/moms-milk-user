@@ -7,6 +7,7 @@ import 'package:mommilk_user/Models/UserModel.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/AuthenticationScreen.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
+import 'package:mommilk_user/Screens/HomeScreen/Views/HBabyListCard.dart';
 import 'package:mommilk_user/Utils/ApiService.dart';
 import 'package:mommilk_user/theme/app_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -58,9 +59,11 @@ class ProfileScreen extends StatelessWidget {
                       if (user.userType == "DONOR")
                         buildUserTypeSection(context),
 
-                      if (user.userType == "DONOR")
+                        if  (user.userType == "BUYER")
+                        const HBabyCard(),
+                      
                         const SizedBox(height: 20),
-
+                     
                       _buildSettingsSection(context),
                       const SizedBox(height: 20),
                       _buildAppInfoSection(context),
@@ -187,9 +190,9 @@ class ProfileScreen extends StatelessWidget {
               Icons.rate_review,
               () {
                 if (Platform.isAndroid) {
-                  launchUrl(Uri.parse("https://momsmilk.app/privacy-policy"));
+                  launchUrl(Uri.parse("https://momsmilk.app/contacts"));
                 } else {
-                  launchUrl(Uri.parse("https://momsmilk.app/privacy-policy"));
+                  launchUrl(Uri.parse("https://momsmilk.app"));
                 }
               },
             ),

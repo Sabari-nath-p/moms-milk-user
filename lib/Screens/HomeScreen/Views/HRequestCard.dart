@@ -1,82 +1,89 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
-import 'package:mommilk_user/Screens/RequestScreen/RequestScreen.dart';
-import 'package:mommilk_user/Screens/SearchDonarScreen/SearchDonarScreen.dart';
+import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
 
 class HRequestCard extends StatelessWidget {
-  const HRequestCard({super.key});
+  final Homecontroller controller;
+  const HRequestCard({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
-    // Colors
-    final Color textColor = const Color(0xFFE11D48);
-    final Color backgroundColor = const Color(0xFFFFE4E6);
+    final Color selectedColor = const Color(0xFFE11D48);
+    final Color unselectedColor = Colors.black87;
+    final Color bg = const Color(0xFFFFE4E6);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          Row(
-            children: [
-              // My Connection Button
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Get.to(
-                      () => RequestScreen(),
-                      transition: Transition.rightToLeft,
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: backgroundColor,
-                    foregroundColor: textColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    elevation: 0,
+          // -----------------------------------
+          // MY CONNECTIONS TAB BUTTON
+          // -----------------------------------
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                controller.connectionTabIndex = 0;
+                controller.update();
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                decoration: BoxDecoration(
+                  color: controller.connectionTabIndex == 0 ? bg : Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: selectedColor.withOpacity(0.4),
+                    width: 1,
                   ),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  "My Connection",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    color: controller.connectionTabIndex == 0
+                        ? selectedColor
+                        : unselectedColor,
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+          const SizedBox(width: 12),
+
+          // -----------------------------------
+          // FIND DONORS TAB BUTTON
+          // -----------------------------------
+          if (user.userType != "DONOR")
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  controller.connectionTabIndex = 1;
+                  controller.update();
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  decoration: BoxDecoration(
+                    color: controller.connectionTabIndex == 1 ? bg : Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: selectedColor.withOpacity(0.4),
+                      width: 1,
+                    ),
+                  ),
+                  alignment: Alignment.center,
                   child: Text(
-                    'My Connection',
+                    "Find Donors",
                     style: TextStyle(
-                      color: textColor,
                       fontWeight: FontWeight.w600,
+                      color: controller.connectionTabIndex == 1
+                          ? selectedColor
+                          : unselectedColor,
                     ),
                   ),
                 ),
               ),
-              const SizedBox(width: 12),
-
-              // Find Donors Button (if not a donor)
-              if (user.userType != "DONOR")
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Get.to(
-                        () => Searchdonarscreen(),
-                        transition: Transition.rightToLeft,
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: backgroundColor,
-                      foregroundColor: textColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      elevation: 0,
-                    ),
-                    child: Text(
-                      'Find Donors',
-                      style: TextStyle(
-                        color: textColor,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ),
-            ],
-          ),
+            ),
         ],
       ),
     );

@@ -16,7 +16,7 @@ class Trackerscreen extends StatelessWidget {
         height: 46,
         decoration: BoxDecoration(
           color: selectedIndex == 0
-              ? Theme.of(context).colorScheme.primary
+              ?  Color(0xffFB7185)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
         ),
@@ -37,7 +37,7 @@ class Trackerscreen extends StatelessWidget {
         height: 46,
         decoration: BoxDecoration(
           color: selectedIndex == 1
-              ? Theme.of(context).colorScheme.primary
+              ?   Color(0xffFB7185)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
         ),
@@ -72,7 +72,7 @@ class Trackerscreen extends StatelessWidget {
           scrolledUnderElevation: 0,
           centerTitle: true,
           title: const Text(
-            "Analytics",
+            "Report",
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.w600,

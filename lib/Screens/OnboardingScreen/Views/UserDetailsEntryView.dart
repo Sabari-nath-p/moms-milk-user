@@ -27,7 +27,7 @@ class UserDetailsStep extends StatelessWidget {
               Text(
                 'Please provide your basic information to create your profile.',
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Colors.white.withOpacity(.8),
+                      color: Colors.black.withOpacity(.8),
                     ),
               ),
 
@@ -107,6 +107,7 @@ class UserDetailsStep extends StatelessWidget {
                       icon: const Icon(Icons.arrow_drop_down),
                     ),
                   ),
+
                   const SizedBox(width: 16),
 
                   // Phone Number
@@ -123,11 +124,24 @@ class UserDetailsStep extends StatelessWidget {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: Colors.grey[300]!),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: Theme.of(context).colorScheme.primary,
+                            width: 2,
+                          ),
+                        ),
                       ),
+                      //onChanged: (value) => controller.phone.value = value,
                     ),
                   ),
                 ],
               ),
+
               Obx(() => controller.phoneError.value.isNotEmpty
                   ? Padding(
                       padding: const EdgeInsets.only(top: 6, left: 4),
@@ -141,7 +155,7 @@ class UserDetailsStep extends StatelessWidget {
               const SizedBox(height: 20),
 
               // Zip Code
-              TextField(
+             TextField(
                 controller: controller.zipCodeController,
                 keyboardType: TextInputType.number,
                 textInputAction: TextInputAction.done,
@@ -153,7 +167,19 @@ class UserDetailsStep extends StatelessWidget {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.grey[300]!),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                      width: 2,
+                    ),
+                  ),
                 ),
+                //  onChanged: (value) => controller.zipCode.value = value,
               ),
               Obx(() => controller.zipError.value.isNotEmpty
                   ? Padding(
@@ -230,7 +256,7 @@ class UserDetailsStep extends StatelessWidget {
                         style: Theme.of(context)
                             .textTheme
                             .bodySmall
-                            ?.copyWith(color: Colors.white),
+                            ?.copyWith(color: Theme.of(context).colorScheme.primary),
                       ),
                     ),
                   ],

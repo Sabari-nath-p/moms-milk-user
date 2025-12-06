@@ -46,9 +46,8 @@ class ActivityChartScreen extends StatelessWidget {
                     activities: __.activityList,
                     controller: __.ganttChartController,
                     style: GanttChartStyle(
-                      chartBackgroundColor: AppTheme.primaryColor.withOpacity(
-                        .1,
-                      ),
+                      chartBackgroundColor: AppTheme.primaryColor
+                          .withOpacity(.05),
                       timeAxisBackgroundColor: AppTheme.primaryColor
                           .withOpacity(.1),
                       headerBackgroundColor: AppTheme.primaryColor.withOpacity(

@@ -17,6 +17,9 @@ class Homecontroller extends GetxController {
   bool isLoading = false;
   bool isAnalyticsLoading = false;
   bool isSubmitLoading = false;
+int connectionTabIndex = 0; // 0 = My Connections, 1 = Find Donors
+
+
 
   // 🔧 NEW: Individual loading states for logs
 

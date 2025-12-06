@@ -8,7 +8,7 @@ import 'package:mommilk_user/Screens/RequestScreen/Controller/RequestController.
 import 'package:mommilk_user/Screens/RequestScreen/Views/HistoryRequestCard.dart';
 import 'package:mommilk_user/Screens/RequestScreen/Views/IncommingRequestCard.dart';
 import 'package:mommilk_user/Screens/RequestScreen/Views/MyRequestCard.dart';
-import 'package:mommilk_user/Screens/RequestScreen/Views/contactBottomSheet.dart';
+import 'package:mommilk_user/theme/app_theme.dart';
 
 class RequestScreen extends StatefulWidget {
   RequestScreen({super.key});
@@ -21,30 +21,21 @@ class _RequestScreenState extends State<RequestScreen>
     with TickerProviderStateMixin {
   late Requestcontroller controller;
   late Homecontroller homecontroller;
-  late TabController tabController;
+
   late ScrollController incomingScrollController;
   late ScrollController historyScrollController;
   late ScrollController myRequestsScrollController;
 
-  // Menu segments for CupertinoSegmentedControl
-  //
-
   @override
   void initState() {
     super.initState();
+
     controller = Get.put(Requestcontroller());
     homecontroller = Get.find();
-    tabController = TabController(length: 2, vsync: this);
 
-    // Initialize scroll controllers
-    incomingScrollController = ScrollController();
-    historyScrollController = ScrollController();
-    myRequestsScrollController = ScrollController();
-
-    // Add scroll listeners for pagination
-    incomingScrollController.addListener(_onIncomingScroll);
-    historyScrollController.addListener(_onHistoryScroll);
-    myRequestsScrollController.addListener(_onMyRequestsScroll);
+    incomingScrollController = ScrollController()..addListener(_onIncomingScroll);
+    historyScrollController = ScrollController()..addListener(_onHistoryScroll);
+    myRequestsScrollController = ScrollController()..addListener(_onMyRequestsScroll);
   }
 
   void _onIncomingScroll() {
@@ -70,7 +61,6 @@ class _RequestScreenState extends State<RequestScreen>
 
   @override
   void dispose() {
-    tabController.dispose();
     incomingScrollController.dispose();
     historyScrollController.dispose();
     myRequestsScrollController.dispose();
@@ -79,107 +69,78 @@ class _RequestScreenState extends State<RequestScreen>
 
   @override
   Widget build(BuildContext context) {
+    
+    
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Moms Connect"),
-        actions: [
-          // Debug buttons for testing user types
-          // PopupMenuButton<String>(
-          //   icon: Icon(Icons.person),
-          //   onSelected: (String userType) {
-          //     controller.setUserType(userType);
-          //   },
-          //   itemBuilder:
-          //       (BuildContext context) => <PopupMenuEntry<String>>[
-          //         PopupMenuItem<String>(
-          //           value: 'DONOR',
-          //           child: Text('Set as Donor'),
-          //         ),
-          //         PopupMenuItem<String>(
-          //           value: 'BUYER',
-          //           child: Text('Set as Buyer'),
-          //         ),
-          //       ],
-          // ),
-          IconButton(
-            onPressed: () => controller.refreshData(),
-            icon: Icon(Icons.refresh),
-          ),
-        ],
-      ),
+      backgroundColor:  Colors.white,
       body: GetBuilder<Requestcontroller>(
         builder: (controller) {
-          // Show loading screen while user data is being fetched
           if (controller.isLoadingUserData || !controller.isUserDataLoaded) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: const [
                   CircularProgressIndicator(),
                   SizedBox(height: 16),
-                  Text('Loading user data...'),
+                  Text("Loading user data...")
                 ],
               ),
             );
           }
 
-          // Update menus based on user type
-          Map<int, Widget> dynamicMenus =
-              user.userType == 'DONOR'
-                  ? {
-                    0: SizedBox(
-                      width: 150,
-                      height: 46,
-                      child: Center(
-                        child: Text(
-                          "Pending (${controller.incomingRequests.length})",
-                          style: TextStyle(color: Colors.white),
-                        ),
+          /// -----------------------------
+          /// BUILD THE SEGMENTED MENU
+          /// -----------------------------
+          Map<int, Widget> buildMenus(int selectedIndex) {
+            return {
+              for (int key in (user.userType == "DONOR" ? [0, 1] : [0]))
+                key: Container(
+                  width: 160,
+                  height: 46,
+                  decoration: BoxDecoration(
+                    color: selectedIndex == key ? Color(0xffFB7185): Colors.transparent,
+                    borderRadius: BorderRadius.circular(10),
+                   
+                  ),
+                  child: Center(
+                    child: Text(
+                      user.userType == "DONOR"
+                          ? (key == 0
+                              ? "Pending (${controller.incomingRequests.length})"
+                              : "Connections")
+                          : "My Requests",
+                      style: TextStyle(
+                        color: selectedIndex == key ? Colors.white : Colors.black,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                    1: SizedBox(
-                      width: 150,
-                      height: 46,
-                      child: Center(
-                        child: Text(
-                          "Connection",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                    // 2: SizedBox(
-                    //   width: 120,
-                    //   height: 46,
-                    //   child: Center(
-                    //     child: Text(
-                    //       "My Requests",
-                    //       style: TextStyle(color: Colors.white),
-                    //     ),
-                    //   ),
-                    // ),
-                  }
-                  : {
-                    0: SizedBox(
-                      width: 120,
-                      height: 46,
-                      child: Center(child: Text("My Requests")),
-                    ),
-                  };
+                  ),
+                ),
+            };
+          }
 
           return Column(
             children: [
-              SizedBox(height: 10),
+              const SizedBox(height: 12),
+
+              // DONOR → Sliding tabs
               if (user.userType == "DONOR")
-                CupertinoSlidingSegmentedControl(
-                  children: dynamicMenus,
+                CupertinoSlidingSegmentedControl<int>(
+                  children: buildMenus(controller.selectedValue),
                   groupValue: controller.selectedValue,
                   onValueChanged: (value) {
                     controller.selectedValue = value ?? 0;
                     controller.update();
                   },
+                  thumbColor:  Color(0xffFB7185)
                 ),
-              SizedBox(height: 16),
-              Expanded(child: _buildSelectedContent(controller)),
+
+              const SizedBox(height: 16),
+
+              Expanded(
+                child: _buildSelectedContent(controller),
+              ),
             ],
           );
         },
@@ -187,23 +148,24 @@ class _RequestScreenState extends State<RequestScreen>
     );
   }
 
+  /// -----------------------------
+  /// SELECTED CONTENT BASED ON TAB
+  /// -----------------------------
   Widget _buildSelectedContent(Requestcontroller controller) {
     if (user.userType == 'DONOR') {
-      switch (controller.selectedValue) {
-        case 0:
-          return _buildIncomingRequests(controller);
-        case 1:
-          return _buildHistoryRequests(controller);
-        case 2:
-          return _buildMyRequests(controller);
-        default:
-          return _buildIncomingRequests(controller);
+      if (controller.selectedValue == 0) {
+        return _buildIncomingRequests(controller);
+      } else {
+        return _buildHistoryRequests(controller);
       }
     } else {
       return _buildMyRequests(controller);
     }
   }
 
+  /// -----------------------------
+  /// INCOMING REQUESTS (DONOR)
+  /// -----------------------------
   Widget _buildIncomingRequests(Requestcontroller controller) {
     if (controller.isLoadingIncoming) {
       return Center(child: CircularProgressIndicator());
@@ -212,8 +174,8 @@ class _RequestScreenState extends State<RequestScreen>
     if (controller.incomingRequests.isEmpty) {
       return _buildEmptyState(
         context,
-        'No Incoming Requests',
-        'You don\'t have any pending milk requests at the moment.',
+        "No Incoming Requests",
+        "You don’t have any pending milk requests.",
         Icons.inbox,
       );
     }
@@ -223,16 +185,14 @@ class _RequestScreenState extends State<RequestScreen>
       child: ListView.builder(
         controller: incomingScrollController,
         padding: EdgeInsets.all(16),
-        itemCount:
-            controller.incomingRequests.length +
+        itemCount: controller.incomingRequests.length +
             (controller.hasMoreIncoming ? 1 : 0),
         itemBuilder: (context, index) {
           if (index == controller.incomingRequests.length) {
             return controller.isLoadingMoreIncoming
-                ? Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Center(child: CircularProgressIndicator()),
-                )
+                ? Center(child: Padding(
+                    padding: EdgeInsets.all(16),
+                    child: CircularProgressIndicator()))
                 : SizedBox.shrink();
           }
 
@@ -249,6 +209,9 @@ class _RequestScreenState extends State<RequestScreen>
     );
   }
 
+  /// -----------------------------
+  /// HISTORY (DONOR)
+  /// -----------------------------
   Widget _buildHistoryRequests(Requestcontroller controller) {
     if (controller.isLoadingHistory) {
       return Center(child: CircularProgressIndicator());
@@ -257,8 +220,8 @@ class _RequestScreenState extends State<RequestScreen>
     if (controller.historyRequests.isEmpty) {
       return _buildEmptyState(
         context,
-        'No History',
-        'You don\'t have any request history yet.',
+        "No History",
+        "No previous request activity available.",
         Icons.history,
       );
     }
@@ -269,15 +232,13 @@ class _RequestScreenState extends State<RequestScreen>
         controller: historyScrollController,
         padding: EdgeInsets.all(16),
         itemCount:
-            controller.historyRequests.length +
-            (controller.hasMoreHistory ? 1 : 0),
+            controller.historyRequests.length + (controller.hasMoreHistory ? 1 : 0),
         itemBuilder: (context, index) {
           if (index == controller.historyRequests.length) {
             return controller.isLoadingMoreHistory
-                ? Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Center(child: CircularProgressIndicator()),
-                )
+                ? Center(child: Padding(
+                    padding: EdgeInsets.all(16),
+                    child: CircularProgressIndicator()))
                 : SizedBox.shrink();
           }
 
@@ -291,6 +252,9 @@ class _RequestScreenState extends State<RequestScreen>
     );
   }
 
+  /// -----------------------------
+  /// MY REQUESTS (BUYER)
+  /// -----------------------------
   Widget _buildMyRequests(Requestcontroller controller) {
     if (controller.isLoadingMyRequests) {
       return Center(child: CircularProgressIndicator());
@@ -299,9 +263,9 @@ class _RequestScreenState extends State<RequestScreen>
     if (controller.myRequests.isEmpty) {
       return _buildEmptyState(
         context,
-        'No Requests Yet',
-        'You haven\'t made any milk requests. Create your first request!',
-        Icons.help_outline,
+        "No Requests Yet",
+        "You have not placed any requests yet.",
+        Icons.list_alt,
       );
     }
 
@@ -311,143 +275,77 @@ class _RequestScreenState extends State<RequestScreen>
         controller: myRequestsScrollController,
         padding: EdgeInsets.all(16),
         itemCount:
-            controller.myRequests.length +
-            (controller.hasMoreMyRequests ? 1 : 0),
+            controller.myRequests.length + (controller.hasMoreMyRequests ? 1 : 0),
         itemBuilder: (context, index) {
           if (index == controller.myRequests.length) {
             return controller.isLoadingMoreMyRequests
-                ? Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Center(child: CircularProgressIndicator()),
-                )
+                ? Center(child: Padding(
+                    padding: EdgeInsets.all(16),
+                    child: CircularProgressIndicator()))
                 : SizedBox.shrink();
           }
 
           final request = controller.myRequests[index];
           return Padding(
             padding: EdgeInsets.only(bottom: 12),
-            child: MyRequestCard(request: request, controller: controller),
+            child: MyRequestCard(
+              request: request,
+              controller: controller,
+            ),
           );
         },
       ),
     );
   }
 
-  // return Scaffold(
-  //   body: CustomScrollView(
-  //     slivers: [
-  //       SliverAppBar(
-  //         expandedHeight: 80,
-  //         floating: false,
-  //         pinned: true,
-  //         leading: IconButton(
-  //           onPressed: () => Navigator.pop(context),
-  //           icon: const Icon(Icons.arrow_back),
-  //         ),
-  //         flexibleSpace: FlexibleSpaceBar(
-  //           title: Text(
-  //             user['userType'] == "DONAR" ? 'Milk Requests' : 'My Requests',
-  //             style: TextStyle(
-  //               fontWeight: FontWeight.bold,
-  //               color: Theme.of(context).colorScheme.onPrimary,
-  //             ),
-  //           ),
-  //           centerTitle: true,
-  //           background: Container(
-  //             decoration: BoxDecoration(
-  //               gradient: LinearGradient(
-  //                 colors: [
-  //                   Theme.of(context).colorScheme.primary,
-  //                   Theme.of(context).colorScheme.primary.withOpacity(0.8),
-  //                 ],
-  //                 begin: Alignment.topLeft,
-  //                 end: Alignment.bottomRight,
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //         bottom:
-  //             user['userType'] == "DONAR"
-  //                 ? TabBar(
-  //                   controller: tabController,
-  //                   tabs: const [Tab(text: 'Incoming'), Tab(text: 'History')],
-  //                   indicatorColor: Theme.of(context).colorScheme.onPrimary,
-  //                   labelColor: Theme.of(context).colorScheme.onPrimary,
-  //                   unselectedLabelColor: Theme.of(
-  //                     context,
-  //                   ).colorScheme.onPrimary.withOpacity(0.7),
-  //                 )
-  //                 : null,
-  //       ),
-  //       SliverPadding(
-  //         padding: const EdgeInsets.all(16),
-  //         sliver:
-  //             user['userType'] == "DONAR"
-  //                 ? SliverFillRemaining(
-  //                   child: TabBarView(
-  //                     controller: tabController,
-  //                     children: [
-  //                       _buildDonorIncomingRequests(context),
-  //                     ],
-  //                   ),
-  //                 )
-  //                 : SliverList(
-  //                   delegate: SliverChildListDelegate([
-  //                     _buildBuyerRequests(context),
-  //                   ]),
-  //                 ),
-  //       ),
-  //     ],
-  //   ),
-  // );
-}
-
-Widget _buildEmptyState(
-  BuildContext context,
-  String title,
-  String subtitle,
-  IconData icon,
-) {
-  return Center(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-
-      children: [
-        Container(
-          padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-            shape: BoxShape.circle,
-          ),
-          child: Icon(
-            icon,
-            size: 64,
-            color: Theme.of(context).colorScheme.primary,
-          ),
-        ),
-        const SizedBox(height: 24),
-        Text(
-          title,
-          style: Theme.of(
-            context,
-          ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600),
-        ),
-        const SizedBox(height: 8),
-        Padding(
-          padding: EdgeInsetsGeometry.symmetric(horizontal: 20),
-          child: Text(
-            subtitle,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(
-                context,
-              ).textTheme.bodyMedium?.color?.withOpacity(0.7),
+  /// -----------------------------
+  /// EMPTY STATE UI
+  /// -----------------------------
+  Widget _buildEmptyState(
+    BuildContext context,
+    String title,
+    String subtitle,
+    IconData icon,
+  ) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              gradient: AppTheme.CardGradient,
+              shape: BoxShape.circle,
             ),
-            textAlign: TextAlign.center,
+            child: Icon(icon, size: 45, color: Color(0xFFF43F5E)),
           ),
-        ),
-      ],
-    ),
-  );
+          const SizedBox(height: 24),
+          Text(
+            title,
+            style: Theme.of(context)
+                .textTheme
+                .headlineSmall
+                ?.copyWith(fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: 8),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Text(
+              subtitle,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.color
+                        ?.withOpacity(0.7),
+                  ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 Color getUrgencyColor(String urgency) {

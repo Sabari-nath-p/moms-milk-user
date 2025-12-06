@@ -14,32 +14,32 @@ class HQuickActions extends StatelessWidget {
           (controller) => Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Text(
-                    'Quick Actions',
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
-                  Spacer(),
-                  Icon(
-                    Icons.visibility,
-                    size: 15,
-                    color: Color(0xffF43F5E),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Get.to(
-                        () => Activitytimelinescreen(),
-                        transition: Transition.rightToLeft,
-                      );
-                    },
-                    child: Text(
-                      "View Baby Activity",
-                      style: TextStyle(decoration: TextDecoration.underline, color: Color(0xff6A7282)),
-                    ),
-                  ),
-                ],
-              ),
+              //Row(
+                //children: [
+               //   Text(
+                 //   'Quick Actions',
+                   // style: Theme.of(context).textTheme.headlineSmall,
+                 // ),
+                 // Spacer(),
+                 // Icon(
+                   // Icons.visibility,
+                   // size: 15,
+                   // color: Color(0xffF43F5E),
+                  //),
+                 // TextButton(
+                   // onPressed: () {
+                   //   Get.to(
+                       // () => Activitytimelinescreen(),
+                     //   transition: Transition.rightToLeft,
+                      //);
+                   // },
+                   // child: Text(
+                     // "View Baby Activity",
+                     // style: TextStyle(decoration: TextDecoration.underline, color: Color(0xff6A7282)),
+                    //),
+                  //),
+                ///],
+              //),
               const SizedBox(height: 16),
 
               if (controller.selectedBady == null)
