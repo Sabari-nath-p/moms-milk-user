@@ -22,26 +22,34 @@ class CreateBabyScreen extends StatelessWidget {
         title: const Text('Setup Your Profile',style: TextStyle(fontWeight: FontWeight.w400,fontFamily: "Inter",fontSize: 22),),
         backgroundColor: Colors.transparent,
         elevation: 0,
-     leading: InkWell(
+    leading: InkWell(
   onTap: () {
-    if (skip || controller.babySaved.value) {
+    if (controller.babySaved.value) {
+      // Baby already saved → go to dashboard
       Get.offAll(MainDashboard(), transition: Transition.leftToRight);
     } else {
+      // Normal back
       Get.back();
     }
   },
   child: Padding(
     padding: const EdgeInsets.all(10.0),
     child: Container(
-      height: 20, width: 20,
+      height: 20,
+      width: 20,
       decoration: BoxDecoration(
         color: Color.fromARGB(255, 239, 212, 214),
         shape: BoxShape.circle,
       ),
-      child: Icon(Icons.arrow_back_ios_new_outlined, color: Color(0xFFF43F5E), size: 20),
+      child: Icon(
+        Icons.arrow_back_ios_new_outlined,
+        color: Color(0xFFF43F5E),
+        size: 20,
+      ),
     ),
   ),
 ),
+
 
 
         actions: [
@@ -102,7 +110,7 @@ class CreateBabyScreen extends StatelessWidget {
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                     
-                        borderSide: BorderSide(color: Colors.grey[300]!),
+                        borderSide: BorderSide(color: Colors.grey[400]!),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -157,7 +165,7 @@ class CreateBabyScreen extends StatelessWidget {
   backgroundColor: Colors.white,
 
   checkmarkColor: Colors.white, // checkmark stays white
-  side: const BorderSide(color: Color.fromARGB(255, 224, 220, 220)), // optional border
+  side: const BorderSide(color: Colors.grey), // optional border
 )
 
       ),
