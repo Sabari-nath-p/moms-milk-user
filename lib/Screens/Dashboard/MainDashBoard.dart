@@ -1,12 +1,18 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:mommilk_user/Screens/ChatListScreen/Controller/ChatController.dart';
 import 'package:mommilk_user/Screens/ConnectScreen/ConnectScreen.dart';
-import 'package:mommilk_user/Screens/ChatScreen/ChatScreen.dart';
+import 'package:mommilk_user/Screens/ChatListScreen/ChatScreen.dart';
 import 'package:mommilk_user/Screens/Dashboard/Controller/DashboardController.dart';
+import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/HomeScreen.dart';
 import 'package:mommilk_user/Screens/ProfileScreen/ProfileScreen.dart';
+import 'package:mommilk_user/Screens/RequestScreen/Controller/RequestController.dart';
 import 'package:mommilk_user/Screens/TrackerScreen/TrackerScreen.dart';
 import 'package:mommilk_user/Utils/Constants.dart';
+import 'package:mommilk_user/theme/app_theme.dart';
 
 class MainDashboard extends StatelessWidget {
   const MainDashboard({super.key});
@@ -22,19 +28,27 @@ class MainDashboard extends StatelessWidget {
         // Each screen has its own Scaffold with AppBar
         switch (controller.selectedMenu) {
           case 0:
-            currentScreen = Homescreen(); // Homescreen should have its own AppBar
+            currentScreen =
+                Homescreen(); // Homescreen should have its own AppBar
             break;
           case 1:
-            currentScreen = Trackerscreen(); // TrackerScreen should have its own AppBar
+            currentScreen =
+                Trackerscreen(); // TrackerScreen should have its own AppBar
             break;
           case 2:
-            currentScreen = ConnectScreen(); // BabyScreen should have its own AppBar
+            var rctrl = Get.put(Requestcontroller());
+            rctrl.fetchIncomingRequests();
+            rctrl.fetchHistoryRequests();
+            currentScreen =
+                ConnectScreen(); // BabyScreen should have its own AppBar
             break;
           case 3:
-            currentScreen = ProfileScreen(); // ProfileScreen should have its own AppBar
+            currentScreen =
+                ChatListScreen(); // ProfileScreen should have its own AppBar
             break;
-            case 4:
-            currentScreen = ChatScreen(); // ProfileScreen should have its own AppBar
+          case 4:
+            currentScreen =
+                ProfileScreen(); // ProfileScreen should have its own AppBar
             break;
           default:
             currentScreen = Container();
@@ -42,70 +56,168 @@ class MainDashboard extends StatelessWidget {
 
         return Scaffold(
           body: currentScreen,
-       bottomNavigationBar: NavigationBarTheme(
-  data: NavigationBarThemeData(
-    // Selected label color
-    labelTextStyle: WidgetStateProperty.resolveWith(
-      (states) {
-        if (states.contains(WidgetState.selected)) {
-          return const TextStyle(
-            color: Color(0xffFB7185),
-            fontWeight: FontWeight.w600,
-          );
-        }
-        return const TextStyle(
-          color: Colors.grey,
-          fontWeight: FontWeight.w500,
-        );
-      },
-    ),
-  ),
-  child: NavigationBar(
-    selectedIndex: controller.selectedMenu,
-    onDestinationSelected: (index) {
-      controller.selectedMenu = index;
-      controller.update();
-    },
+          backgroundColor: Colors.white,
 
-    backgroundColor: const Color(0xFFFDF2F6),
-    indicatorColor: const Color(0xFFFFE4EA),
-    elevation: 0,
-    labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+          appBar:
+              (controller.selectedMenu != 0)
+                  ? (controller.selectedMenu == 3)
+                      ? AppBar(
+                        backgroundColor: Colors.white,
+                        elevation: 0,
+                        scrolledUnderElevation: 0,
+                        centerTitle: true,
+                        title: const Text(
+                          "My Connections",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                            fontFamily: "Inter",
+                          ),
+                        ),
+                      )
+                      : null
+                  : AppBar(
+                    elevation: 0,
+                    centerTitle: true,
 
-    destinations: const [
-      NavigationDestination(
-        icon: Icon(Icons.home_outlined, color: Colors.grey),
-        selectedIcon: Icon(Icons.home, color: Color(0xffFB7185)),
-        label: 'Log',
-      ),
+                    title: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Image.asset(
+                          "lib/Assets/fullIcon.png",
+                          height: 200,
+                          color: AppTheme.primaryColor,
+                        ),
+                      ],
+                    ),
+                  ),
+          bottomNavigationBar: NavigationBarTheme(
+            data: NavigationBarThemeData(
+              // Selected label color
+              labelTextStyle: WidgetStateProperty.resolveWith((states) {
+                if (states.contains(WidgetState.selected)) {
+                  return TextStyle(
+                    color: AppTheme.primaryColor,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                  );
+                }
+                return TextStyle(
+                  color: Colors.black.withOpacity(.6),
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                );
+              }),
+            ),
+            child: NavigationBar(
+              selectedIndex: controller.selectedMenu,
+              onDestinationSelected: (index) {
+                controller.selectedMenu = index;
+                controller.update();
+              },
 
-      NavigationDestination(
-        icon: Icon(Icons.analytics_outlined, color: Colors.grey),
-        selectedIcon: Icon(Icons.analytics, color: Color(0xffFB7185)),
-        label: 'Report',
-      ),
+              backgroundColor: const Color(0xFFFFF0EC).withOpacity(1),
+              indicatorColor: const Color(0xFFFFE4EA),
+              elevation: 0,
+              labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
 
-      NavigationDestination(
-        icon: Icon(Icons.child_care_outlined, color: Colors.grey),
-        selectedIcon: Icon(Icons.child_care, color: Color(0xffFB7185)),
-        label: 'Connect',
-      ),
+              destinations: [
+                NavigationDestination(
+                  icon: FaIcon(
+                    FontAwesomeIcons.home,
+                    size: 20,
+                    color: Colors.black.withOpacity(.5),
+                  ),
+                  selectedIcon: FaIcon(
+                    FontAwesomeIcons.home,
+                    size: 20,
+                    color: AppTheme.primaryColor,
+                  ),
+                  label: 'Home',
+                ),
 
-      NavigationDestination(
-        icon: Icon(Icons.child_care_outlined, color: Colors.grey),
-        selectedIcon: Icon(Icons.child_care_outlined, color: Color(0xffFB7185)),
-        label: 'Babies',
-      ),
-      NavigationDestination(
-        icon: Icon(Icons.notes, color: Colors.grey),
-        selectedIcon: Icon(Icons.notes, color: Color(0xffFB7185)),
-        label: 'Chat',
-      ),
-    ],
-  ),
-),
+                NavigationDestination(
+                  icon: FaIcon(
+                    FontAwesomeIcons.squarePollVertical,
+                    size: 20,
+                    color: Colors.black.withOpacity(.3),
+                  ),
+                  selectedIcon: FaIcon(
+                    FontAwesomeIcons.squarePollVertical,
+                    size: 20,
+                    color: AppTheme.primaryColor,
+                  ),
+                  label: 'Report',
+                ),
+
+                NavigationDestination(
+                  icon: GetBuilder<Homecontroller>(
+                    builder: (__) {
+                      return Badge(
+                        label: Text(__.pendingRequest.toString()),
+                        textStyle: TextStyle(fontSize: 10),
+                        largeSize: 10,
+                        smallSize: 10,
+                        isLabelVisible: __.pendingRequest != 0,
+                        child: Image.asset(
+                          "lib/Assets/AppIcon.png",
+                          width: 25,
+                          color: Colors.black.withOpacity(.3),
+                        ),
+                      );
+                    },
+                  ),
+                  selectedIcon: Image.asset(
+                    "lib/Assets/AppIcon.png",
+                    width: 25,
+                    color: AppTheme.primaryColor,
+                  ),
+                  label: 'Connect',
+                ),
+
+                NavigationDestination(
+                  icon: GetBuilder<Chatcontroller>(
+                    builder: (__) {
+                      return Badge(
+                        label: Text(__.unReadMessage.toString()),
+                        textStyle: TextStyle(fontSize: 10),
+                        largeSize: 10,
+                        smallSize: 6,
+                        isLabelVisible: __.unReadMessage != 0,
+                        child: FaIcon(
+                          FontAwesomeIcons.squareEnvelope,
+                          size: 25,
+                          color: Colors.black.withOpacity(.3),
+                        ),
+                      );
+                    },
+                  ),
+                  selectedIcon: FaIcon(
+                    FontAwesomeIcons.squareEnvelope,
+                    size: 20,
+                    color: AppTheme.primaryColor,
+                  ),
+                  label: 'Message',
+                ),
+                NavigationDestination(
+                  icon: FaIcon(
+                    FontAwesomeIcons.gear,
+                    size: 20,
+                    color: Colors.black.withOpacity(.3),
+                  ),
+                  selectedIcon: FaIcon(
+                    FontAwesomeIcons.gear,
+                    size: 20,
+                    color: AppTheme.primaryColor,
+                  ),
+                  label: 'Profile',
+                ),
+              ],
+            ),
+          ),
         );
       },
     );
   }
-}   
+}

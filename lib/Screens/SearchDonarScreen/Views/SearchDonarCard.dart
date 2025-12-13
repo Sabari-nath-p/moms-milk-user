@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
 import 'package:mommilk_user/Models/SearchDonarModel.dart';
+import 'package:mommilk_user/Screens/ChatListScreen/Controller/ChatController.dart';
 import 'package:mommilk_user/Screens/RequestScreen/Views/contactBottomSheet.dart';
 import 'package:mommilk_user/Screens/SearchDonarScreen/Controller/SearchDonarController.dart';
 import 'package:mommilk_user/Screens/SearchDonarScreen/Views/SendRequestBottomSheet.dart';
@@ -17,11 +18,8 @@ class SearchDonarCard extends StatelessWidget {
         return Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-           // gradient: AppTheme.CardGradient,
-            border: Border.all(
-              color: Color( 0xffFB7185).withOpacity(0.5),
-            ),
-           
+            // gradient: AppTheme.CardGradient,
+            border: Border.all(color: Color(0xffFB7185).withOpacity(0.5)),
           ),
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -101,109 +99,113 @@ class SearchDonarCard extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 12),
-                if (donar.donor!.description! != null)
-                  Text(
-                    donar.donor!.description ?? "",
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: Colors.black.withOpacity(.8),
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                const SizedBox(height: 12),
-                Wrap(
-                  spacing: 8,
+                // if (donar.donor!.description! != null)
+                //   Text(
+                //     donar.donor!.description ?? "",
+                //     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                //       color: Colors.black.withOpacity(.8),
+                //     ),
+                //     maxLines: 2,
+                //     overflow: TextOverflow.ellipsis,
+                //   ),
+                // if (donar.donor!.ableToShareMedicalRecord ?? false)
+                //   const SizedBox(height: 12),
+                // if (donar.donor!.ableToShareMedicalRecord ?? false)
+                //   Wrap(
+                //     spacing: 8,
+                //     children: [
+                //       if (donar.donor!.ableToShareMedicalRecord == true)
+                //         _buildInfoChip(
+                //           'Medical Records',
+                //           Icons.medical_services,
+                //           Colors.green,
+                //         ),
+                //       // _buildInfoChip(
+                //       //   'Blood: ${donar.donor!.bloodGroup ?? 'N/A'}',
+                //       //   Icons.bloodtype,
+                //       //   Colors.red,
+                //       // ),
+                //     ],
+                //   ),
+                // const SizedBox(height: 16),
+                Row(
                   children: [
-                    if (donar.donor!.ableToShareMedicalRecord == true)
-                      _buildInfoChip(
-                        'Medical Records',
-                        Icons.medical_services,
-                        Colors.green,
+                    // --------------------- VIEW PROFILE BUTTON ---------------------
+                    if (donar.hasAcceptedRequest ?? false)
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          onPressed: () {
+                            Chatcontroller cctrl = Get.put(Chatcontroller());
+                            cctrl.OpenChatUser(
+                              userID: donar.donor!.id!,
+                              isDonar: true,
+                              userName: donar.donor!.name!!,
+                            );
+                          },
+                          icon: const Icon(Icons.person, size: 16),
+                          label: const Text('View Profile'),
+                          style: OutlinedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                        ),
                       ),
-                    _buildInfoChip(
-                      'Blood: ${donar.donor!.bloodGroup ?? 'N/A'}',
-                      Icons.bloodtype,
-                      Colors.red,
-                    ),
+
+                    const SizedBox(width: 8),
+
+                    // --------------------- CONNECT BUTTON WITH GRADIENT ---------------------
+                    if (!(donar.hasAcceptedRequest ?? false))
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            if (!(donar.hasPendingRequest ?? false)) {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                builder:
+                                    (context) =>
+                                        SendRequestBottomSheet(donar: donar),
+                              );
+                            }
+                          },
+                          child: Container(
+                            height: 48,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              gradient:
+                                  (donar.hasPendingRequest ?? false)
+                                      ? const LinearGradient(
+                                        colors: [Colors.grey, Colors.grey],
+                                      ) // disabled grey
+                                      : AppTheme.buttonCardGradient,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(
+                                  Icons.send,
+                                  size: 16,
+                                  color: Colors.white,
+                                ),
+                                const SizedBox(width: 6),
+                                Text(
+                                  (donar.hasPendingRequest ?? false)
+                                      ? 'Requested'
+                                      : 'Connect',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
                   ],
                 ),
-                const SizedBox(height: 16),
-               Row(
-  children: [
-    // --------------------- VIEW PROFILE BUTTON ---------------------
-    if (donar.hasAcceptedRequest ?? false)
-      Expanded(
-        child: OutlinedButton.icon(
-          onPressed: () {
-            ContactBottomSheet.show(
-              context,
-              name: donar.donor!.name ?? "",
-              email: donar.donor!.email ?? "",
-              phoneNumber: donar.donorPhoneNumber ?? "",
-            );
-          },
-          icon: const Icon(Icons.person, size: 16),
-          label: const Text('View Profile'),
-          style: OutlinedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-        ),
-      ),
-
-    const SizedBox(width: 8),
-
-    // --------------------- CONNECT BUTTON WITH GRADIENT ---------------------
-    if (!(donar.hasAcceptedRequest ?? false))
-      Expanded(
-        child: GestureDetector(
-          onTap: () {
-            if (!(donar.hasPendingRequest ?? false)) {
-              showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                backgroundColor: Colors.transparent,
-                builder: (context) => SendRequestBottomSheet(donar: donar),
-              );
-            }
-          },
-          child: Container(
-            height: 48,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              gradient: (donar.hasPendingRequest ?? false)
-                  ? const LinearGradient(
-                      colors: [
-                        Colors.grey,
-                        Colors.grey,
-                      ],
-                    ) // disabled grey
-                  : AppTheme.buttonCardGradient,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.send, size: 16, color: Colors.white),
-                const SizedBox(width: 6),
-                Text(
-                  (donar.hasPendingRequest ?? false)
-                      ? 'Requested'
-                      : 'Connect',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-  ],
-)
-
-                ,
               ],
             ),
           ),

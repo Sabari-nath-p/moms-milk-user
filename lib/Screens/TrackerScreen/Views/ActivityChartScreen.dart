@@ -35,7 +35,7 @@ class ActivityChartScreen extends StatelessWidget {
               ),
 
               Container(
-                height: 500,
+                height: 600,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -46,14 +46,14 @@ class ActivityChartScreen extends StatelessWidget {
                     activities: __.activityList,
                     controller: __.ganttChartController,
                     style: GanttChartStyle(
-                      chartBackgroundColor: AppTheme.primaryColor
-                          .withOpacity(.05),
-                      timeAxisBackgroundColor: AppTheme.primaryColor
-                          .withOpacity(.1),
-                      headerBackgroundColor: AppTheme.primaryColor.withOpacity(
-                        .1,
-                      ),
-                      gridColor: Colors.white10,
+                      chartBackgroundColor: Color.fromARGB(255, 255, 245, 227),
+                      timeAxisBackgroundColor: Color(0xFFFFEBD3),
+                      headerBackgroundColor: Color(0xFFFFEBD3),
+                      dateTextColor: Colors.black,
+                      headerTextColor: Colors.black,
+                      timeAxisTextColor: Colors.black,
+                      timeAxisTextStyle: TextStyle(fontSize: 12),
+                      gridColor: Colors.black12,
                     ),
                     onReachEnd: () {
                       __.getLogs(isForward: true);

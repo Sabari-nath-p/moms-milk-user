@@ -26,11 +26,9 @@ class SleepingActivityCard extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-          
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: Theme.of(context).dividerColor.withOpacity(0.1),
-            ),
+            border: Border.all(color: const Color(0xFFFFF0EC).withOpacity(1)),
+            color: const Color(0xFFFFF0EC).withOpacity(1),
           ),
           child: Row(
             children: [
@@ -45,7 +43,11 @@ class SleepingActivityCard extends StatelessWidget {
                         color: Colors.orange,
                       ),
                     ),
-                    const Text('Total Sessions'),
+                    const Text(
+                      'Total\nSessions',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 12),
+                    ),
                   ],
                 ),
               ),
@@ -60,7 +62,11 @@ class SleepingActivityCard extends StatelessWidget {
                         color: Colors.green,
                       ),
                     ),
-                    const Text('Total Hours'),
+                    const Text(
+                      'Total\nHours',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 12),
+                    ),
                   ],
                 ),
               ),
@@ -75,7 +81,11 @@ class SleepingActivityCard extends StatelessWidget {
                         color: Colors.blue,
                       ),
                     ),
-                    const Text('Avg Sleep/day'),
+                    const Text(
+                      'Average\nSleep/day',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 12),
+                    ),
                   ],
                 ),
               ),

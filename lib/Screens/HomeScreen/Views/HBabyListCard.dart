@@ -13,13 +13,13 @@ class HBabyCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<Homecontroller>(
       builder: (controller) {
-
         /// 🔥 Fix 1: Ensure selected baby is NOT null
         if (controller.myBabies.isNotEmpty && controller.selectedBady == null) {
           controller.selectedBady = controller.myBabies.first;
         }
 
-        final gradientBox = (Widget child) => ClipRRect(
+        final gradientBox =
+            (Widget child) => ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Container(
                 decoration: BoxDecoration(
@@ -67,9 +67,12 @@ class HBabyCard extends StatelessWidget {
                         backgroundColor: Colors.transparent,
                         shadowColor: Colors.transparent,
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 2),
+                          horizontal: 20,
+                          vertical: 2,
+                        ),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24)),
+                          borderRadius: BorderRadius.circular(24),
+                        ),
                       ),
                       onPressed: () {
                         Get.to(
@@ -77,8 +80,10 @@ class HBabyCard extends StatelessWidget {
                           transition: Transition.rightToLeft,
                         );
                       },
-                      child: const Text('Add Baby',
-                          style: TextStyle(color: Colors.white)),
+                      child: const Text(
+                        'Add Baby',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ),
                 ],
@@ -96,7 +101,7 @@ class HBabyCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.baby_changing_station, color: Colors.pink),
+                    //   const Icon(Icons.baby_changing_station, color: Colors.pink),
                     const SizedBox(width: 8),
                     Text(
                       'Baby Profile',
@@ -113,16 +118,23 @@ class HBabyCard extends StatelessWidget {
                           backgroundColor: Colors.transparent,
                           shadowColor: Colors.transparent,
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 2),
+                            horizontal: 20,
+                            vertical: 2,
+                          ),
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(24)),
+                            borderRadius: BorderRadius.circular(24),
+                          ),
                         ),
                         onPressed: () {
-                          Get.to(() => CreateBabyScreen(skip: false),
-                              transition: Transition.rightToLeft);
+                          Get.to(
+                            () => CreateBabyScreen(skip: false),
+                            transition: Transition.rightToLeft,
+                          );
                         },
-                        child: const Text('Add Baby',
-                            style: TextStyle(color: Colors.white)),
+                        child: const Text(
+                          'Add Baby',
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ),
                   ],
@@ -132,7 +144,10 @@ class HBabyCard extends StatelessWidget {
 
                 // ▼▼ Dropdown ▼▼
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(color: Colors.pink.withOpacity(0.4)),
@@ -144,42 +159,52 @@ class HBabyCard extends StatelessWidget {
                           value: controller.selectedBady,
                           isExpanded: true,
                           underline: const SizedBox(),
-                          icon: const Icon(Icons.arrow_drop_down, color: Colors.pink),
-                          items: controller.myBabies.map((baby) {
-                            return DropdownMenuItem<BabyModel>(
-                              value: baby,
-                              child: Row(
-                                children: [
-                                  CircleAvatar(
-                                    radius: 16,
-                                    backgroundColor: Colors.pink,
-                                    child: Text(
-                                      baby.name![0],
-                                      style: const TextStyle(
-                                          color: Colors.white, fontSize: 12),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 12),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                          icon: const Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.pink,
+                          ),
+                          items:
+                              controller.myBabies.map((baby) {
+                                return DropdownMenuItem<BabyModel>(
+                                  value: baby,
+                                  child: Row(
                                     children: [
-                                      Text(baby.name ?? "--"),
-                                      Text(
-                                        baby.deliveryDate != null
-                                            ? controller.calculateAge(
-                                                DateTime.parse(baby.deliveryDate!),
-                                              )
-                                            : 'Unknown age',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
+                                      CircleAvatar(
+                                        radius: 16,
+                                        backgroundColor: Colors.pink,
+                                        child: Text(
+                                          baby.name![0],
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 12),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(baby.name ?? "--"),
+                                          Text(
+                                            baby.deliveryDate != null
+                                                ? controller.calculateAge(
+                                                  DateTime.parse(
+                                                    baby.deliveryDate!,
+                                                  ),
+                                                )
+                                                : 'Unknown age',
+                                            style:
+                                                Theme.of(
+                                                  context,
+                                                ).textTheme.bodySmall,
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
-                                ],
-                              ),
-                            );
-                          }).toList(),
+                                );
+                              }).toList(),
 
                           onChanged: (value) {
                             controller.selectedBady = value!;
@@ -194,24 +219,31 @@ class HBabyCard extends StatelessWidget {
                         onSelected: (value) {
                           if (value == 'delete') {
                             _showDeleteConfirmation(
-                                context, controller.selectedBady!);
+                              context,
+                              controller.selectedBady!,
+                            );
                           }
                         },
-                        itemBuilder: (context) => [
-                          const PopupMenuItem(
-                            value: 'delete',
-                            child: Row(
-                              children: [
-                                Icon(Icons.delete, color: Colors.red, size: 18),
-                                SizedBox(width: 8),
-                                Text(
-                                  "Delete",
-                                  style: TextStyle(color: Colors.red),
+                        itemBuilder:
+                            (context) => [
+                              const PopupMenuItem(
+                                value: 'delete',
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                      size: 18,
+                                    ),
+                                    SizedBox(width: 8),
+                                    Text(
+                                      "Delete",
+                                      style: TextStyle(color: Colors.red),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
-                        ],
+                              ),
+                            ],
                       ),
                     ],
                   ),
@@ -229,28 +261,30 @@ class HBabyCard extends StatelessWidget {
 
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Delete Baby Profile'),
-        content:
-            Text('Are you sure you want to delete ${baby.name}? This cannot be undone.'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-              createBabyController.deleteBaby(baby.id!);
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Delete Baby Profile'),
+            content: Text(
+              'Are you sure you want to delete ${baby.name}? This cannot be undone.',
             ),
-            child: const Text('Delete'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Cancel'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  createBabyController.deleteBaby(baby.id!);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  foregroundColor: Colors.white,
+                ),
+                child: const Text('Delete'),
+              ),
+            ],
           ),
-        ],
-      ),
     );
   }
 }

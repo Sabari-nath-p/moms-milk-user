@@ -5,7 +5,11 @@ class AppTheme {
   //  LIGHT THEME COLORS  (UPDATED)
   // ------------------------------------------------------------
 
-  static const Color primaryColor = Color(0xFFF47458); // Warm Coral
+  static const Color primaryColor =
+  // Color(
+  //   0xffFB7185,
+  // );
+  Color(0xFFF47458); // Warm Coral
   static const Color secondaryColor = Color(0xFFD66EAB); // Tender Rose
 
   static const Color backgroundColor = Colors.white;
@@ -19,29 +23,24 @@ class AppTheme {
   static const Color onSurfaceColor = Color(0xFF3F2F39);
   static const Color onErrorColor = Color(0xFFF9F1EF);
 
-
   // ------------------ ROUND BUTTON GRADIENT ----------------
-static const Color roundButtonGradientTop = Color(0xFFFB7185);
-static const Color roundButtonGradientBottom = Color(0xFFFB923C);
+  static const Color roundButtonGradientTop = Color(0xFFFB7185);
+  static const Color roundButtonGradientBottom = Color(0xFFFB923C);
 
-static const LinearGradient roundButtonGradient = LinearGradient(
-  colors: [
-    roundButtonGradientTop,    // Top part
-    roundButtonGradientBottom, // Bottom part
-  ],
-  begin: Alignment.topCenter,   // Upper part
-  end: Alignment.bottomCenter,  // Lower part
-);
-
+  static const LinearGradient roundButtonGradient = LinearGradient(
+    colors: [
+      roundButtonGradientTop, // Top part
+      roundButtonGradientBottom, // Bottom part
+    ],
+    begin: Alignment.topCenter, // Upper part
+    end: Alignment.bottomCenter, // Lower part
+  );
 
   // Gradient for cards
   static const Color cardGradientStart = Color(0xffFFE4E6);
   static const Color cardGradientEnd = Color(0xFFFFEDD5);
-   static const LinearGradient CardGradient = LinearGradient(
-    colors: [
-      cardGradientStart,
-      cardGradientEnd,
-    ],
+  static const LinearGradient CardGradient = LinearGradient(
+    colors: [cardGradientStart, cardGradientEnd],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
@@ -54,10 +53,7 @@ static const LinearGradient roundButtonGradient = LinearGradient(
   static const Color buttonCardGradientEnd = Color(0xFFFDBA74);
 
   static const LinearGradient buttonCardGradient = LinearGradient(
-    colors: [
-      buttonCardGradientStart,
-      buttonCardGradientEnd,
-    ],
+    colors: [buttonCardGradientStart, buttonCardGradientEnd],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
@@ -66,10 +62,11 @@ static const LinearGradient roundButtonGradient = LinearGradient(
   // UPDATED LIGHT TEXT COLORS
   // ------------------------------------------------------------
 
-  static const Color textPrimaryColor = Colors.black;               // Pure Black
-  static const Color textSecondaryColor = Color(0xFF6B7280);        // Neutral Gray (soft black shade)
+  static const Color textPrimaryColor = Colors.black; // Pure Black
+  static const Color textSecondaryColor = Color(
+    0xFF6B7280,
+  ); // Neutral Gray (soft black shade)
   static const Color textDisabledColor = Color(0xFFBDBDBD);
-
 
   // ------------------------------------------------------------
   // DARK THEME COLORS (original structure kept)

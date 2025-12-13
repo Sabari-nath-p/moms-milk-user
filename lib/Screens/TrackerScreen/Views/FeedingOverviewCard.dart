@@ -37,175 +37,185 @@ class _FeedingoverviewcardState extends State<Feedingoverviewcard> {
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
-        child: (totalFeeds == 0)
-            ? Center(
-                child: Container(
-                  alignment: Alignment.center,
-                  height: 100,
-                  child: Text('No data available'),
-                ),
-              )
-            : Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(height: 60),
-                        RepaintBoundary(
-                          child: SizedBox(
-                            height: 100,
-                            width: 170,
-                            child: GaugeChart(
-                              key: ValueKey(totalFeeds), // <-- Prevents inversion
-                              start: 180,
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w400,
-                                fontSize: 10,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "$totalFeeds",
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.black,
+        child:
+            (totalFeeds == 0)
+                ? Center(
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 100,
+                    child: Text('No data available'),
+                  ),
+                )
+                : Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(height: 60),
+                          RepaintBoundary(
+                            child: SizedBox(
+                              height: 100,
+                              width: 170,
+                              child: GaugeChart(
+                                key: ValueKey(
+                                  totalFeeds,
+                                ), // <-- Prevents inversion
+                                start: 180,
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 10,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "$totalFeeds",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    "Total Feeds",
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                  SizedBox(height: 5),
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      CircleAvatar(
-                                        radius: 2,
-                                        backgroundColor: Colors.amber,
-                                      ),
-                                      SizedBox(width: 2),
-                                      Text(
-                                        "Breast",
-                                        style: TextStyle(fontSize: 9),
-                                      ),
-                                      SizedBox(width: 5),
-                                      CircleAvatar(
-                                        radius: 2,
-                                        backgroundColor: Colors.red,
-                                      ),
-                                      SizedBox(width: 2),
-                                      Text(
-                                        "Bottle",
-                                        style: TextStyle(fontSize: 9),
-                                      ),
-                                      SizedBox(width: 5),
-                                      CircleAvatar(
-                                        radius: 2,
-                                        backgroundColor: Colors.indigo,
-                                      ),
-                                      SizedBox(width: 2),
-                                      Text(
-                                        "Solid",
-                                        style: TextStyle(fontSize: 9),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 12),
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        "Avg feed / Day : ",
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.black,
+                                    Text(
+                                      "Total Feeds",
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                    SizedBox(height: 5),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        CircleAvatar(
+                                          radius: 2,
+                                          backgroundColor: Colors.amber,
                                         ),
-                                      ),
-                                      Text(
-                                        "${model.averageFeedingTimePerDay} hr",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.black,
+                                        SizedBox(width: 2),
+                                        Text(
+                                          "Breast",
+                                          style: TextStyle(fontSize: 9),
                                         ),
-                                      ),
-                                    ],
+                                        SizedBox(width: 5),
+                                        CircleAvatar(
+                                          radius: 2,
+                                          backgroundColor: Colors.red,
+                                        ),
+                                        SizedBox(width: 2),
+                                        Text(
+                                          "Bottle",
+                                          style: TextStyle(fontSize: 9),
+                                        ),
+                                        SizedBox(width: 5),
+                                        CircleAvatar(
+                                          radius: 2,
+                                          backgroundColor: Colors.indigo,
+                                        ),
+                                        SizedBox(width: 2),
+                                        Text(
+                                          "Solid",
+                                          style: TextStyle(fontSize: 9),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 12),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "Avg feed / Day : ",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        Text(
+                                          "${model.averageFeedingTimePerDay} hr",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                gap: 20,
+                                borderWidth: 22,
+                                borderEdge: StrokeCap.butt,
+                                shouldAnimate: true,
+                                isHalfChart: true,
+                                children: [
+                                  PieData(
+                                    value: breast,
+                                    color: Colors.orange,
+                                    description: "Breast",
+                                  ),
+                                  PieData(
+                                    value: bottle,
+                                    color: Colors.red,
+                                    description: "",
+                                  ),
+                                  PieData(
+                                    value: other,
+                                    color: Colors.indigo,
+                                    description: "",
                                   ),
                                 ],
                               ),
-                              gap: 20,
-                              borderWidth: 22,
-                              borderEdge: StrokeCap.butt,
-                              shouldAnimate: true,
-                              isHalfChart: true,
-                              children: [
-                                PieData(
-                                  value: breast,
-                                  color: Colors.orange,
-                                  description: "Breast",
-                                ),
-                                PieData(
-                                  value: bottle,
-                                  color: Colors.red,
-                                  description: "",
-                                ),
-                                PieData(
-                                  value: other,
-                                  color: Colors.indigo,
-                                  description: "",
-                                ),
-                              ],
                             ),
                           ),
+                        ],
+                      ),
+                    ),
+                    Column(
+                      children: [
+                        TicketCard(
+                          title: "Left",
+                          count:
+                              (model.feedPositionBreakdown!.lEFT ?? 0)
+                                  .toString(),
+                          iconAsset: "lib/Assets/breastFeeding.png",
+                          barColor: Colors.orange,
+                          gradientColors: [
+                            Colors.orange.withOpacity(0.8),
+                            Colors.orange.withOpacity(0.4),
+                          ],
+                        ),
+                        TicketCard(
+                          title: "Right",
+                          count:
+                              (model.feedPositionBreakdown!.rIGHT ?? 0)
+                                  .toString(),
+                          isRotateImage: true,
+                          iconAsset: "lib/Assets/breastFeeding.png",
+                          barColor: Colors.red,
+                          gradientColors: [
+                            Colors.red.withOpacity(0.8),
+                            Colors.red.withOpacity(0.4),
+                          ],
+                        ),
+                        TicketCard(
+                          title: "Both",
+                          count:
+                              (model.feedPositionBreakdown!.bOTH ?? 0)
+                                  .toString(),
+                          iconAsset: "lib/Assets/feedingBottle.png",
+                          barColor: Colors.indigo,
+                          gradientColors: [
+                            Colors.indigo.withOpacity(0.8),
+                            Colors.indigo.withOpacity(0.4),
+                          ],
                         ),
                       ],
                     ),
-                  ),
-                  Column(
-                    children: [
-                      TicketCard(
-                        title: "Left",
-                        count: (model.feedPositionBreakdown!.lEFT ?? 0)
-                            .toString(),
-                        iconAsset: "lib/Assets/breastFeeding.png",
-                        barColor: Colors.orange,
-                        gradientColors: [
-                          Colors.orange.withOpacity(0.8),
-                          Colors.orange.withOpacity(0.4),
-                        ],
-                      ),
-                      TicketCard(
-                        title: "Right",
-                        count: (model.feedPositionBreakdown!.rIGHT ?? 0)
-                            .toString(),
-                        isRotateImage: true,
-                        iconAsset: "lib/Assets/breastFeeding.png",
-                        barColor: Colors.red,
-                        gradientColors: [
-                          Colors.red.withOpacity(0.8),
-                          Colors.red.withOpacity(0.4),
-                        ],
-                      ),
-                      TicketCard(
-                        title: "Both",
-                        count: (model.feedPositionBreakdown!.bOTH ?? 0)
-                            .toString(),
-                        iconAsset: "lib/Assets/feedingBottle.png",
-                        barColor: Colors.indigo,
-                        gradientColors: [
-                          Colors.indigo.withOpacity(0.8),
-                          Colors.indigo.withOpacity(0.4),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                  ],
+                ),
       ),
     );
   }
@@ -226,10 +236,7 @@ class TicketCard extends StatelessWidget {
     required this.iconAsset,
     this.isRotateImage = false,
     this.barColor = Colors.orange,
-    this.gradientColors = const [
-      Colors.orange,
-      Colors.orangeAccent,
-    ],
+    this.gradientColors = const [Colors.orange, Colors.orangeAccent],
   });
 
   @override
@@ -245,15 +252,16 @@ class TicketCard extends StatelessWidget {
         ),
       ),
       child: Container(
-        width: 120,
-        padding: const EdgeInsets.symmetric(vertical: 10),
+        width: 100,
+        height: 35,
+        //  padding: const EdgeInsets.symmetric(vertical: 10),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             // 1. Colored Vertical Bar
             Container(
               width: 6,
-              height: 50,
+              height: 35,
               decoration: BoxDecoration(
                 color: barColor,
                 borderRadius: const BorderRadius.only(
@@ -266,45 +274,40 @@ class TicketCard extends StatelessWidget {
             // 2. Icon + Text
             Row(
               children: [
-                if (isRotateImage)
-                  Transform(
-                    alignment: Alignment.center,
-                    transform: Matrix4.rotationY(math.pi),
-                    child: Image.asset(
-                      iconAsset,
-                      width: 20,
-                      height: 20,
-                      color: Colors.white.withOpacity(.76),
-                    ),
-                  )
-                else
-                  Image.asset(
-                    iconAsset,
-                    width: 20,
-                    height: 20,
-                    color: Colors.white.withOpacity(.76),
+                // if (isRotateImage)
+                //   Transform(
+                //     alignment: Alignment.center,
+                //     transform: Matrix4.rotationY(math.pi),
+                //     child: Image.asset(
+                //       iconAsset,
+                //       width: 20,
+                //       height: 20,
+                //       color: Colors.white.withOpacity(.76),
+                //     ),
+                //   )
+                // else
+                //   Image.asset(
+                //     iconAsset,
+                //     width: 20,
+                //     height: 20,
+                //     color: Colors.white.withOpacity(.76),
+                //   ),
+                // const SizedBox(width: 8),
+                Text(
+                  "$title  : ",
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
                   ),
-                const SizedBox(width: 8),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "$title  : ",
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    Text(
-                      count,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+                ),
+                Text(
+                  count,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
             ),

@@ -9,6 +9,7 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:intl/intl.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
+import 'package:mommilk_user/Screens/TimeLineScreen/Service/TimelineController.dart';
 import 'package:mommilk_user/Screens/TrackerScreen/Models/AnalyticsOverviewModel.dart';
 import 'package:mommilk_user/Utils/ApiService.dart';
 import 'package:mommilk_user/Utils/TimeGantChart.dart';
@@ -18,6 +19,7 @@ class TrackerController extends GetxController {
   int selectedTrackerMenu = 0;
   int selectedDateOption = 0;
   TimeGanttChartController ganttChartController = TimeGanttChartController();
+  final Timelinecontroller timelineController = Get.put(Timelinecontroller());
 
   List<GanttActivity> activityList = [];
 

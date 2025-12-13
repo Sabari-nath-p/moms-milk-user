@@ -40,7 +40,7 @@ class Overviewscreen extends StatelessWidget {
                         CupertinoSlidingSegmentedControl(
                           groupValue: __.selectedDateOption,
                           backgroundColor: AppTheme.darkBackgroundColor,
-                          thumbColor: Theme.of(context).colorScheme.primary,
+                          thumbColor: Theme.of(context).primaryColor,
                           onValueChanged: (int? value) async {
                             __.selectedDateOption = value ?? 0;
                             if (value == 0) {

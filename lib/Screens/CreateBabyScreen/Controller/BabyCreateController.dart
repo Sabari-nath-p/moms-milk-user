@@ -100,6 +100,7 @@ Future<void> createNewBaby({bool skip = true}) async {
           try {
             Homecontroller controller = Get.find();
             controller.fetchBabies();
+
             controller.update();
           } catch (e) {
             print("HomeController not found: $e");

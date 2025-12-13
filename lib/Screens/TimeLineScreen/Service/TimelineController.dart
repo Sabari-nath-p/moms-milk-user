@@ -1,5 +1,6 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
@@ -56,6 +57,9 @@ class Timelinecontroller extends GetxController {
   }
 
   fetchTimeLogs(DateTime date) async {
+    if (hctrl.selectedBady == null) {
+      return;
+    }
     selectedbaby = hctrl.selectedBady!.id ?? 0;
     selectedDate.value = date;
     timedatalist.clear();
@@ -84,8 +88,7 @@ class Timelinecontroller extends GetxController {
     //int totalSleepMinutes = 0;
 
     for (var item in timedatalist) {
-      if (item.activityType == 'feeding' &&
-          item.activity == 'Feeding Completed') {
+      if (item.activityType == 'feeding') {
         totalFeedings.value++;
       } else if (item.activityType == 'diaper') {
         totalDiaperChanges.value++;
@@ -106,6 +109,16 @@ class Timelinecontroller extends GetxController {
     totalSleepDuration.value = "${hours}h ${minutes}m";
   }
 
+  String formatDuration(Duration duration) {
+    if (duration.inSeconds < 60) {
+      return '${duration.inSeconds} seconds';
+    } else if (duration.inMinutes < 60) {
+      return '${duration.inMinutes} minutes';
+    } else {
+      return '${duration.inHours} hour';
+    }
+  }
+
   Future<void> fetchFeedingLogs({
     required DateTime startDate,
     required DateTime endDate,
@@ -117,29 +130,29 @@ class Timelinecontroller extends GetxController {
       onSuccess: (body) {
         if (body.statusCode == 200) {
           for (var data in body.data) {
+            String content = "";
+            String title = "";
+
+            if (data["feedType"] == "BREAST") {
+              title =
+                  title +
+                  "${data["feedType"].toString().capitalize} -  ${data["position"].toString().capitalize} Side";
+            } else {
+              title = title + "${data["feedType"].toString().capitalize}";
+            }
+            var difference = DateTime.parse(
+              data["endTime"],
+            ).difference(DateTime.parse(data["startTime"]));
+            content = "${formatDuration(difference)} • $title";
             timedatalist.add(
               TimeLineData(
                 id: data["id"],
                 dateTime: DateTime.parse(data["startTime"]),
-                activity: "Feeding Started",
-                descirpiton: "",
+                activity: "Baby Feeded",
+                descirpiton: content,
                 activityType: 'feeding',
-                icon: Icons.restaurant,
+                icon: FontAwesomeIcons.personBreastfeeding,
                 color: Colors.orange.shade400,
-              ),
-            );
-            timedatalist.add(
-              TimeLineData(
-                id: data["id"],
-                dateTime: DateTime.parse(data["endTime"]),
-                activity: "Feeding Completed",
-                descirpiton:
-                    "Baby feed by ${data["feedType"]} ${data["position"] ?? ""}"
-                        .toString()
-                        .capitalizeFirst!,
-                activityType: 'feeding',
-                icon: Icons.check_circle,
-                color: Colors.green.shade400,
               ),
             );
           }
@@ -192,23 +205,16 @@ class Timelinecontroller extends GetxController {
       onSuccess: (body) {
         if (body.statusCode == 200) {
           for (var data in body.data) {
-            timedatalist.add(
-              TimeLineData(
-                id: data["id"],
-                dateTime: DateTime.parse(data["startTime"]),
-                activity: "Sleep Started",
-                descirpiton: "",
-                activityType: 'sleep',
-                icon: Icons.bedtime,
-                color: Colors.purple.shade400,
-              ),
+            var duration = formatDuration(
+              DateTime.parse(
+                data["endTime"],
+              ).difference(DateTime.parse(data["startTime"])),
             );
-
             timedatalist.add(
               TimeLineData(
                 id: data["id"],
                 dateTime: DateTime.parse(data["endTime"]),
-                activity: "Sleep Ended",
+                activity: "Sleep ($duration)",
                 descirpiton:
                     "Baby sleeps in ${data["location"]}"
                         .toString()

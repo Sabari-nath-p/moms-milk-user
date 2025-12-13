@@ -73,6 +73,7 @@ class AuthenticationController extends GetxController {
       if (token != null) {
         ApiService.request(
           endpoint: "/auth/fcm-token",
+          method: Api.PATCH,
           body: {"fcmToken": token},
         );
       } else {}

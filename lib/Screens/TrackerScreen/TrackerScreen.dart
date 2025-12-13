@@ -1,9 +1,12 @@
+import 'package:date_picker_timeline/extra/color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mommilk_user/Screens/TimeLineScreen/View/ActivityTimeLineScreen.dart';
 import 'package:mommilk_user/Screens/TrackerScreen/Service/TrackerController.dart';
 import 'package:mommilk_user/Screens/TrackerScreen/Views/ActivityChartScreen.dart';
 import 'package:mommilk_user/Screens/TrackerScreen/Views/OverviewScreen.dart';
+import 'package:mommilk_user/theme/app_theme.dart';
 
 class Trackerscreen extends StatelessWidget {
   Trackerscreen({super.key});
@@ -15,18 +18,18 @@ class Trackerscreen extends StatelessWidget {
         width: 200,
         height: 46,
         decoration: BoxDecoration(
-          color: selectedIndex == 0
-              ?  Color(0xffFB7185)
-              : Colors.transparent,
+          color:
+              selectedIndex == 0 ? AppTheme.primaryColor : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Center(
           child: Text(
             "Baby Activity",
             style: TextStyle(
-              color: selectedIndex == 0
-                  ? Colors.white
-                  : Theme.of(context).textTheme.bodyMedium!.color,
+              color:
+                  selectedIndex == 0
+                      ? Colors.white
+                      : Theme.of(context).textTheme.bodyMedium!.color,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -36,18 +39,18 @@ class Trackerscreen extends StatelessWidget {
         width: 200,
         height: 46,
         decoration: BoxDecoration(
-          color: selectedIndex == 1
-              ?   Color(0xffFB7185)
-              : Colors.transparent,
+          color:
+              selectedIndex == 1 ? AppTheme.primaryColor : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Center(
           child: Text(
             "Overview",
             style: TextStyle(
-              color: selectedIndex == 1
-                  ? Colors.white
-                  : Theme.of(context).textTheme.bodyMedium!.color,
+              color:
+                  selectedIndex == 1
+                      ? Colors.white
+                      : Theme.of(context).textTheme.bodyMedium!.color,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -60,6 +63,9 @@ class Trackerscreen extends StatelessWidget {
   Widget build(BuildContext context) {
     TrackerController tctrl = Get.put(TrackerController());
     tctrl.fetchAnalytics();
+    tctrl.timelineController.fetchTimeLogs(
+      tctrl.timelineController.selectedDate.value,
+    );
 
     return SafeArea(
       child: Scaffold(
@@ -72,9 +78,9 @@ class Trackerscreen extends StatelessWidget {
           scrolledUnderElevation: 0,
           centerTitle: true,
           title: const Text(
-            "Report",
+            "Activity Report",
             style: TextStyle(
-              fontSize: 24,
+              fontSize: 20,
               fontWeight: FontWeight.w600,
               color: Colors.black,
               fontFamily: "Inter",
@@ -98,10 +104,16 @@ class Trackerscreen extends StatelessWidget {
                       barBackgroundColor: Colors.transparent,
                     ),
                     child: CupertinoSlidingSegmentedControl(
+                      backgroundColor: Colors.black.withOpacity(.05),
                       thumbColor: Colors.transparent,
                       groupValue: tctrl.selectedTrackerMenu,
                       onValueChanged: (int? value) {
                         tctrl.selectedTrackerMenu = value ?? 0;
+
+                        if (value == 0)
+                          tctrl.timelineController.fetchTimeLogs(
+                            tctrl.timelineController.selectedDate.value,
+                          );
                         tctrl.update();
                       },
                       children: buildMenus(tctrl.selectedTrackerMenu, context),
@@ -111,7 +123,6 @@ class Trackerscreen extends StatelessWidget {
 
                 const SizedBox(height: 30),
 
-                /// ---------- MAIN CONTENT ---------- ///
                 if (tctrl.selectedbaby == 0)
                   Expanded(
                     child: Center(
@@ -121,10 +132,9 @@ class Trackerscreen extends StatelessWidget {
                           Container(
                             padding: const EdgeInsets.all(24),
                             decoration: BoxDecoration(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .primary
-                                  .withOpacity(0.1),
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.primary.withOpacity(0.1),
                               shape: BoxShape.circle,
                             ),
                             child: Icon(
@@ -136,26 +146,19 @@ class Trackerscreen extends StatelessWidget {
                           const SizedBox(height: 24),
                           Text(
                             'No Babies Added Yet',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall
-                                ?.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                ),
+                            style: Theme.of(context).textTheme.headlineSmall
+                                ?.copyWith(fontWeight: FontWeight.w600),
                           ),
                           const SizedBox(height: 8),
                           Text(
                             'Add your first baby profile to start tracking',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium
-                                      ?.color
-                                      ?.withOpacity(0.7),
-                                ),
+                            style: Theme.of(
+                              context,
+                            ).textTheme.bodyMedium?.copyWith(
+                              color: Theme.of(
+                                context,
+                              ).textTheme.bodyMedium?.color?.withOpacity(0.7),
+                            ),
                             textAlign: TextAlign.center,
                           ),
                         ],
@@ -163,9 +166,9 @@ class Trackerscreen extends StatelessWidget {
                     ),
                   )
                 else if (tctrl.selectedTrackerMenu == 0)
-                  Expanded(child: ActivityChartScreen())
+                  Expanded(child: ActivityTimeLineBody())
                 else
-                  Expanded(child: Overviewscreen()),
+                  Expanded(child: ActivityChartScreen()),
               ],
             );
           },

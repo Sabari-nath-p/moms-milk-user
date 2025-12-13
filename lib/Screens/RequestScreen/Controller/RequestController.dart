@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Models/RequestModel.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
+import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
 import 'package:mommilk_user/Utils/ApiService.dart';
 
 class Requestcontroller extends GetxController {
@@ -109,8 +110,9 @@ class Requestcontroller extends GetxController {
           incomingRequests = newRequests;
         }
 
-        print('Loaded ${newRequests.length} incoming requests');
-
+        Homecontroller hctrl = Get.put(Homecontroller());
+        hctrl.pendingRequest = newRequests.length;
+        hctrl.update();
         // Update pagination
         if (paginationData != null) {
           hasMoreIncoming = paginationData['hasNextPage'] ?? false;
@@ -300,6 +302,8 @@ class Requestcontroller extends GetxController {
         );
         // Refresh incoming requests
         fetchIncomingRequests();
+        Homecontroller hctrl = Get.find();
+        hctrl.fetchIncommingRequest();
         fetchHistoryRequests();
       },
       onError: (error) {

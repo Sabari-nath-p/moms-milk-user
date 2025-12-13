@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:mommilk_user/Models/SearchDonarModel.dart';
 import 'package:mommilk_user/Screens/SearchDonarScreen/Controller/SearchDonarController.dart';
+import 'package:mommilk_user/Utils/UnitInputField.dart';
 import 'package:mommilk_user/theme/app_theme.dart' show AppTheme;
 
 class SendRequestBottomSheet extends StatefulWidget {
@@ -104,29 +106,29 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                     ),
                   ),
                   const SizedBox(height: 8),
-                 TextField(
-  controller: descriptionController,
-  maxLines: 3,
-  textInputAction: TextInputAction.next,
-  decoration: InputDecoration(
-    hintText: 'Please describe your milk request...',
-    enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12),
-      borderSide: BorderSide(
-        color: Colors.grey.shade400,
-        width: 1.2,
-      ),
-    ),
-    focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12),
-      borderSide: BorderSide(
-        color: Theme.of(context).colorScheme.primary,
-        width: 1.8,
-      ),
-    ),
-    contentPadding: const EdgeInsets.all(16),
-  ),
-),
+                  TextField(
+                    controller: descriptionController,
+                    maxLines: 3,
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      hintText: 'Please describe your milk request...',
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                          color: Colors.grey.shade400,
+                          width: 1.2,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                          color: Theme.of(context).colorScheme.primary,
+                          width: 1.8,
+                        ),
+                      ),
+                      contentPadding: const EdgeInsets.all(16),
+                    ),
+                  ),
 
                   const SizedBox(height: 20),
 
@@ -138,30 +140,45 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                     ),
                   ),
                   const SizedBox(height: 8),
-                 TextField(
-  controller: quantityController,
-  keyboardType: TextInputType.number,
-  textInputAction: TextInputAction.done,
-  decoration: InputDecoration(
-    hintText: '500',
-    suffixText: 'ml',
-    enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12),
-      borderSide: BorderSide(
-        color: Colors.grey.shade400,
-        width: 1.2,
-      ),
-    ),
-    focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12),
-      borderSide: BorderSide(
-        color: Theme.of(context).colorScheme.primary,
-        width: 1.8,
-      ),
-    ),
-    contentPadding: const EdgeInsets.all(16),
-  ),
-),
+
+                  UnitInputField(
+                    controller: quantityController,
+                    title: "",
+                    icon: const Icon(
+                      Icons.height_outlined,
+                      color: Color(0xffFDA4AF),
+                    ),
+                    inputUnitList: [
+                      Unit(name: 'oz', conversionFactorToMl: 29.5735),
+                      Unit(name: 'ml', conversionFactorToMl: 1.0),
+                    ],
+                    // icon: FaIcon(FontAwesomeIcons.bottleDroplet, size: 12),
+                  ),
+                  if (false)
+                    TextField(
+                      controller: quantityController,
+                      keyboardType: TextInputType.number,
+                      textInputAction: TextInputAction.done,
+                      decoration: InputDecoration(
+                        hintText: '500',
+                        suffixText: 'ml',
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: Colors.grey.shade400,
+                            width: 1.2,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: Theme.of(context).colorScheme.primary,
+                            width: 1.8,
+                          ),
+                        ),
+                        contentPadding: const EdgeInsets.all(16),
+                      ),
+                    ),
 
                   const SizedBox(height: 20),
 
@@ -244,9 +261,7 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                     child: Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Theme.of(context).dividerColor,
-                        ),
+                        border: Border.all(color: Colors.black38),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Row(
@@ -290,52 +305,51 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                   const SizedBox(height: 30),
 
                   // Send button
-                 SizedBox(
-  width: double.infinity,
-  child: InkWell(
-    onTap: () {
-      if (descriptionController.text.trim().isEmpty) {
-        Get.snackbar('Error', 'Please enter a description');
-        return;
-      }
-      if (quantityController.text.trim().isEmpty) {
-        Get.snackbar('Error', 'Please enter quantity needed');
-        return;
-      }
+                  SizedBox(
+                    width: double.infinity,
+                    child: InkWell(
+                      onTap: () {
+                        if (descriptionController.text.trim().isEmpty) {
+                          Get.snackbar('Error', 'Please enter a description');
+                          return;
+                        }
+                        if (quantityController.text.trim().isEmpty) {
+                          Get.snackbar('Error', 'Please enter quantity needed');
+                          return;
+                        }
 
-      // Send request
-      controller.sendRequestToDonor(
-        donorId: widget.donar.donor!.id!,
-        description: descriptionController.text.trim(),
-        quantity: int.tryParse(quantityController.text) ?? 0,
-        urgency: selectedUrgency,
-        neededBy: selectedDate,
-      );
+                        // Send request
+                        controller.sendRequestToDonor(
+                          donorId: widget.donar.donor!.id!,
+                          description: descriptionController.text.trim(),
+                          quantity: int.tryParse(quantityController.text) ?? 0,
+                          urgency: selectedUrgency,
+                          neededBy: selectedDate,
+                        );
 
-      widget.donar.hasPendingRequest = true;
-      controller.update();
+                        widget.donar.hasPendingRequest = true;
+                        controller.update();
 
-      Navigator.pop(context);
-    },
-    child: Container(
-      height: 48,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        gradient: AppTheme.roundButtonGradient
-      ),
-      alignment: Alignment.center,
-      child: const Text(
-        'Send Request',
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-          color: Colors.white,
-        ),
-      ),
-    ),
-  ),
-)
-
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        height: 48,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          gradient: AppTheme.roundButtonGradient,
+                        ),
+                        alignment: Alignment.center,
+                        child: const Text(
+                          'Send Request',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

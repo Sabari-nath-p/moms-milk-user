@@ -42,7 +42,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      
+
       body: CustomScrollView(
         controller: scrollController,
         slivers: [
@@ -100,129 +100,128 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
       children: [
         Row(
           children: [
-           Expanded(
-  flex: 2,
-  child: TextField(
-    controller: controller.zipSearchText,
-    textInputAction: TextInputAction.next,
-    style: TextStyle(color: Colors.black87),
-    decoration: InputDecoration(
-      hintStyle: TextStyle(
-        color: Colors.black,
-        fontWeight: FontWeight.w400,
-        fontSize: 12,
-      ),
-      hintText: "Zip Code",
-      prefixIcon: const Icon(Icons.location_on),
+            Expanded(
+              flex: 2,
+              child: TextField(
+                controller: controller.zipSearchText,
+                textInputAction: TextInputAction.next,
+                style: TextStyle(color: Colors.black87),
+                decoration: InputDecoration(
+                  hintStyle: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 12,
+                  ),
+                  hintText: "Zip Code",
+                  prefixIcon: const Icon(Icons.location_on),
 
-      // 👇 Updated Borders
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(
-          color: Color(0xFFFFE4E6),
-          width: 1.4,
-        ),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(
-          color: Color(0xFFFFE4E6),
-          width: 1.6,
-        ),
-      ),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+                  // 👇 Updated Borders
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(
+                      color: Color(0xFFFFE4E6),
+                      width: 1.4,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(
+                      color: Color(0xFFFFE4E6),
+                      width: 1.6,
+                    ),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
 
-      filled: true,
-      fillColor: Colors.white,
-    ),
-    keyboardType: TextInputType.number,
-  ),
-),
+                  filled: true,
+                  fillColor: Colors.white,
+                ),
+                keyboardType: TextInputType.number,
+              ),
+            ),
 
             const SizedBox(width: 12),
-           Expanded(
-  flex: 3,
-  child: TextField(
-    controller: controller.donarSearchText,
-    textInputAction: TextInputAction.search,
-    style: TextStyle(color: Colors.black87),
-    decoration: InputDecoration(
-      hintText: 'Search donors...',
-      hintStyle: TextStyle(color: Colors.black, fontSize: 12),
-      prefixIcon: const Icon(Icons.search),
+            Expanded(
+              flex: 3,
+              child: TextField(
+                controller: controller.donarSearchText,
+                textInputAction: TextInputAction.search,
+                style: TextStyle(color: Colors.black87),
+                decoration: InputDecoration(
+                  hintText: 'Search donors...',
+                  hintStyle: TextStyle(color: Colors.black, fontSize: 12),
+                  prefixIcon: const Icon(Icons.search),
 
-      // 👇 Updated Borders
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(
-          color: Color(0xFFFFE4E6),
-          width: 1.4,
-        ),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(
-          color: Color(0xFFFFE4E6),
-          width: 1.6,
-        ),
-      ),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+                  // 👇 Updated Borders
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(
+                      color: Color(0xFFFFE4E6),
+                      width: 1.4,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(
+                      color: Color(0xFFFFE4E6),
+                      width: 1.6,
+                    ),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
 
-      filled: true,
-      fillColor: Colors.white,
-    ),
-  ),
-),
- IconButton(
-            onPressed: () => _showFiltersBottomSheet(context),
-            icon: const Icon(Icons.tune),
-            tooltip: 'Filters',
-          ),
-
+                  filled: true,
+                  fillColor: Colors.white,
+                ),
+              ),
+            ),
+            IconButton(
+              onPressed: () => _showFiltersBottomSheet(context),
+              icon: const Icon(Icons.tune),
+              tooltip: 'Filters',
+            ),
           ],
         ),
         const SizedBox(height: 25),
         SizedBox(
-  width: double.infinity,
-  height: 48,
-  child: Container(
-    decoration: BoxDecoration(
-      gradient:AppTheme.roundButtonGradient,
-      borderRadius: BorderRadius.circular(12),
-    ),
-    child: ElevatedButton(
-      onPressed: () {
-        controller.searchDonors();
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.transparent, // remove default background
-        shadowColor: Colors.transparent, // remove shadow
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Icon(Icons.search, size: 20, color: Colors.white),
-          SizedBox(width: 8),
-          Text(
-            "Search Donors",
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w600,
+          width: double.infinity,
+          height: 48,
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: AppTheme.roundButtonGradient,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: ElevatedButton(
+              onPressed: () {
+                controller.searchDonors();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor:
+                    Colors.transparent, // remove default background
+                shadowColor: Colors.transparent, // remove shadow
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Icon(Icons.search, size: 20, color: Colors.white),
+                  SizedBox(width: 8),
+                  Text(
+                    "Search Donors",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-        ],
-      ),
-    ),
-  ),
-)
-
+        ),
       ],
     );
   }
@@ -448,151 +447,166 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-  Text(
-    'Blood Group',
-    style: Theme.of(context).textTheme.titleMedium
-        ?.copyWith(fontWeight: FontWeight.w600),
-  ),
-  const SizedBox(height: 8),
-  GetBuilder<SearchDonarController>(
-  builder: (controller) => DropdownButtonFormField<String>(
-    value: controller.bloodGroupFilter.isEmpty
-        ? null
-        : controller.bloodGroupFilter,
+                        //   Text(
+                        //     'Blood Group',
+                        //     style: Theme.of(context).textTheme.titleMedium
+                        //         ?.copyWith(fontWeight: FontWeight.w600),
+                        //   ),
+                        //   const SizedBox(height: 8),
+                        //   GetBuilder<SearchDonarController>(
+                        //   builder: (controller) => DropdownButtonFormField<String>(
+                        //     value: controller.bloodGroupFilter.isEmpty
+                        //         ? null
+                        //         : controller.bloodGroupFilter,
 
-    decoration: InputDecoration(
-     
-      border: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.black87),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.grey.shade400),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Color(0xFFFB923C), width: 2),
-      ),
+                        //     decoration: InputDecoration(
 
-      hintText: "Select blood group",
-      hintStyle: const TextStyle(color: Colors.black54),
+                        //       border: OutlineInputBorder(
+                        //         borderSide: BorderSide(color: Colors.black87),
+                        //       ),
+                        //       enabledBorder: OutlineInputBorder(
+                        //         borderSide: BorderSide(color: Colors.grey.shade400),
+                        //       ),
+                        //       focusedBorder: OutlineInputBorder(
+                        //         borderSide: BorderSide(color: Color(0xFFFB923C), width: 2),
+                        //       ),
 
-      filled: true,
-      fillColor: Colors.white,
-    ),
+                        //       hintText: "Select blood group",
+                        //       hintStyle: const TextStyle(color: Colors.black54),
 
-    dropdownColor: Colors.white,
-    iconEnabledColor: Colors.black,
+                        //       filled: true,
+                        //       fillColor: Colors.white,
+                        //     ),
 
-    style: const TextStyle(
-      color: Colors.black,
-      fontSize: 14,
-    ),
+                        //     dropdownColor: Colors.white,
+                        //     iconEnabledColor: Colors.black,
 
-    items: ['Any', ...controller.bloodGroups].map((String value) {
-      return DropdownMenuItem<String>(
-        value: value == 'Any' ? '' : value,
-        child: Text(
-          value,
-          style: const TextStyle(
-            color: Colors.black,
-            fontSize: 14,
-          ),
-        ),
-      );
-    }).toList(),
+                        //     style: const TextStyle(
+                        //       color: Colors.black,
+                        //       fontSize: 14,
+                        //     ),
 
-    onChanged: (value) {
-      controller.updateBloodGroupFilter(value ?? '');
-    },
-  ),
-),
+                        //     items: ['Any', ...controller.bloodGroups].map((String value) {
+                        //       return DropdownMenuItem<String>(
+                        //         value: value == 'Any' ? '' : value,
+                        //         child: Text(
+                        //           value,
+                        //           style: const TextStyle(
+                        //             color: Colors.black,
+                        //             fontSize: 14,
+                        //           ),
+                        //         ),
+                        //       );
+                        //     }).toList(),
 
+                        //     onChanged: (value) {
+                        //       controller.updateBloodGroupFilter(value ?? '');
+                        //     },
+                        //   ),
+                        // ),
                         const SizedBox(height: 8),
-                       Row(
-  children: [
-    Expanded(
-      child: Text(
-        'Medical Records Required',
-        style: Theme.of(context)
-            .textTheme
-            .titleMedium
-            ?.copyWith(fontWeight: FontWeight.w600),
-      ),
-    ),
-    GetBuilder<SearchDonarController>(
-      builder: (controller) => Switch(
-        value: controller.medicalRecordsRequired,
-        onChanged: (value) {
-          controller.updateMedicalRecordsFilter(value);
-        },
-        activeColor: Colors.white, // thumb color when ON
-        activeTrackColor: const Color(0xFFFB923C), 
-        inactiveThumbColor: Colors.grey.shade400, // thumb color when OFF
-        inactiveTrackColor: Colors.grey.shade300, // track color when OFF
-      ),
-    ),
-  ],
-),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                'Donor willing to share medical record',
+                                style: Theme.of(context).textTheme.titleMedium
+                                    ?.copyWith(fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                            GetBuilder<SearchDonarController>(
+                              builder:
+                                  (controller) => Switch(
+                                    value: controller.medicalRecordsRequired,
+                                    onChanged: (value) {
+                                      controller.updateMedicalRecordsFilter(
+                                        value,
+                                      );
+                                    },
+                                    activeColor:
+                                        Colors.white, // thumb color when ON
+                                    activeTrackColor: const Color(0xFFFB923C),
+                                    inactiveThumbColor:
+                                        Colors
+                                            .grey
+                                            .shade400, // thumb color when OFF
+                                    inactiveTrackColor:
+                                        Colors
+                                            .grey
+                                            .shade300, // track color when OFF
+                                  ),
+                            ),
+                          ],
+                        ),
 
-const SizedBox(height: 20),
+                        const SizedBox(height: 20),
 
-Row(
-  children: [
-    Expanded(
-      child: Text(
-        'Only Available Donors',
-        style: Theme.of(context)
-            .textTheme
-            .titleMedium
-            ?.copyWith(fontWeight: FontWeight.w600),
-      ),
-    ),
-    GetBuilder<SearchDonarController>(
-      builder: (controller) => Switch(
-        value: controller.onlyAvailableDonors,
-        onChanged: (value) {
-          controller.updateAvailabilityFilter(value);
-        },
-        activeColor: Colors.white, // thumb color when ON
-        activeTrackColor: const Color(0xFFFB923C), // track color when ON
-        inactiveThumbColor: Colors.grey.shade400, // thumb color when OFF
-        inactiveTrackColor: Colors.grey.shade300, // track color when OFF
-      ),
-    ),
-  ],
-),
-
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                'Currently Available Donors',
+                                style: Theme.of(context).textTheme.titleMedium
+                                    ?.copyWith(fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                            GetBuilder<SearchDonarController>(
+                              builder:
+                                  (controller) => Switch(
+                                    value: controller.onlyAvailableDonors,
+                                    onChanged: (value) {
+                                      controller.updateAvailabilityFilter(
+                                        value,
+                                      );
+                                    },
+                                    activeColor:
+                                        Colors.white, // thumb color when ON
+                                    activeTrackColor: const Color(
+                                      0xFFFB923C,
+                                    ), // track color when ON
+                                    inactiveThumbColor:
+                                        Colors
+                                            .grey
+                                            .shade400, // thumb color when OFF
+                                    inactiveTrackColor:
+                                        Colors
+                                            .grey
+                                            .shade300, // track color when OFF
+                                  ),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),
                 ),
-               Padding(
-  padding: const EdgeInsets.all(40),
-  child: GestureDetector(
-    onTap: () {
-      Navigator.pop(context);
-      controller.applyFilters();
-    },
-    child: Container(
-      height: 48,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        gradient: AppTheme.roundButtonGradient
-      ),
-      child: const Center(
-        child: Text(
-          'Apply Filters',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-          ),
-        ),
-      ),
-    ),
-  ),
-)
-
+                Padding(
+                  padding: const EdgeInsets.all(40),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                      controller.applyFilters();
+                    },
+                    child: Container(
+                      height: 48,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        gradient: AppTheme.roundButtonGradient,
+                      ),
+                      child: const Center(
+                        child: Text(
+                          'Apply Filters',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Models/SearchDonarModel.dart';
+import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
 import 'package:mommilk_user/Utils/ApiService.dart';
 
 class SearchDonarController extends GetxController {
-  TextEditingController zipSearchText = TextEditingController();
+  TextEditingController zipSearchText = TextEditingController(
+    text: user.zipcode,
+  );
   TextEditingController donarSearchText = TextEditingController();
 
   // Loading states
@@ -81,7 +84,6 @@ class SearchDonarController extends GetxController {
     update();
 
     try {
-      
       // Build query parameters
       Map<String, String> queryParams = {
         'page': currentPage.toString(),

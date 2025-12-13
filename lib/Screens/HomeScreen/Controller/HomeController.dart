@@ -17,9 +17,7 @@ class Homecontroller extends GetxController {
   bool isLoading = false;
   bool isAnalyticsLoading = false;
   bool isSubmitLoading = false;
-int connectionTabIndex = 0; // 0 = My Connections, 1 = Find Donors
-
-
+  int connectionTabIndex = 0; // 0 = My Connections, 1 = Find Donors
 
   // 🔧 NEW: Individual loading states for logs
 
@@ -27,6 +25,8 @@ int connectionTabIndex = 0; // 0 = My Connections, 1 = Find Donors
   List<BabyModel> myBabies = [];
   BabyModel? selectedBady;
   BabyAnalyticsLog? babyAnalytics;
+
+  int pendingRequest = 0;
 
   // 🔧 NEW: Individual log lists
 
@@ -42,6 +42,8 @@ int connectionTabIndex = 0; // 0 = My Connections, 1 = Find Donors
         }
         if (myBabies.isNotEmpty) {
           selectedBady = myBabies.last;
+        } else {
+          selectedBady = null;
         }
         update();
       },
@@ -111,6 +113,7 @@ int connectionTabIndex = 0; // 0 = My Connections, 1 = Find Donors
 
   void inituser() {
     fetchBabies();
+    fetchIncommingRequest();
   }
 
   String calculateAge(DateTime birthDate) {
@@ -155,6 +158,19 @@ int connectionTabIndex = 0; // 0 = My Connections, 1 = Find Donors
     } else {
       return 'Born today';
     }
+  }
+
+  void fetchIncommingRequest() async {
+    ApiService.request(
+      endpoint: "/requests/incoming?status=PENDING&page=1&limit=10",
+      method: Api.GET,
+      onSuccess: (data) {
+        print(data.data);
+
+        pendingRequest = data.data["data"].length;
+        update();
+      },
+    );
   }
 
   void showDiaperChangeBottomSheet() {

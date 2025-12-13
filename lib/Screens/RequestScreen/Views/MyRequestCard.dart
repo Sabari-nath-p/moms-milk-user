@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/instance_manager.dart';
 import 'package:mommilk_user/Models/RequestModel.dart';
+import 'package:mommilk_user/Screens/ChatListScreen/Controller/ChatController.dart';
 import 'package:mommilk_user/Screens/RequestScreen/Controller/RequestController.dart';
 import 'package:mommilk_user/Screens/RequestScreen/RequestScreen.dart';
 import 'package:mommilk_user/Screens/RequestScreen/Views/contactBottomSheet.dart';
@@ -17,9 +19,9 @@ class MyRequestCard extends StatelessWidget {
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-      color: Theme.of(context).primaryColor.withOpacity(.1),
+      color: Theme.of(context).primaryColor,
 
-      elevation: 1,
+      elevation: .23,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -39,16 +41,13 @@ class MyRequestCard extends StatelessWidget {
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: Colors.black,
                         ),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         request.description ?? 'No description available',
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(.9),
-                          fontSize: 14,
-                        ),
+                        style: TextStyle(color: Colors.black54, fontSize: 14),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -68,7 +67,7 @@ class MyRequestCard extends StatelessWidget {
                   child: Text(
                     (request.status ?? 'pending').toUpperCase(),
                     style: const TextStyle(
-                      color: Colors.white,
+                      color: Colors.black87,
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
                     ),
@@ -82,30 +81,19 @@ class MyRequestCard extends StatelessWidget {
             // Info Row
             Row(
               children: [
-                Icon(
-                  Icons.schedule,
-                  size: 16,
-                  color: Colors.white.withOpacity(.9),
-                ),
+                Icon(Icons.schedule, size: 16, color: Colors.black54),
                 const SizedBox(width: 4),
                 Text(
                   formatDate(request.createdAt ?? ''),
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(.9),
-                    fontSize: 12,
-                  ),
+                  style: TextStyle(color: Colors.black54, fontSize: 12),
                 ),
                 const SizedBox(width: 16),
-                Icon(
-                  Icons.local_drink,
-                  size: 16,
-                  color: Colors.white.withOpacity(.9),
-                ),
+                Icon(Icons.local_drink, size: 16, color: Colors.black54),
                 const SizedBox(width: 4),
                 Text(
                   '${request.quantity ?? 0} ml',
                   style: TextStyle(
-                    color: Colors.white.withOpacity(.9),
+                    color: Colors.black54,
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
                   ),
@@ -177,12 +165,18 @@ class MyRequestCard extends StatelessWidget {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        ContactBottomSheet.show(
-                          context,
-                          name: request.donor!.name ?? "",
-                          email: request.donor!.email ?? "",
-                          phoneNumber: request.donor!.phone.toString(),
+                        Chatcontroller cctrl = Get.put(Chatcontroller());
+                        cctrl.OpenChatUser(
+                          userID: request.donor!.id!,
+                          isDonar: true,
+                          userName: request.donor!.name!!,
                         );
+                        // ContactBottomSheet.show(
+                        //   context,
+                        //   name: request.donor!.name ?? "",
+                        //   email: request.donor!.email ?? "",
+                        //   phoneNumber: request.donor!.phone.toString(),
+                        // );
                         //controller.contactUser(request);
                       },
                       style: ElevatedButton.styleFrom(
@@ -197,7 +191,7 @@ class MyRequestCard extends StatelessWidget {
                         ),
                       ),
                       child: const Text(
-                        'Contact',
+                        'Send a message',
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 12,

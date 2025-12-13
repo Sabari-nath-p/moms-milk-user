@@ -1,3 +1,4 @@
+import 'package:date_picker_timeline/extra/color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -33,9 +34,11 @@ class _RequestScreenState extends State<RequestScreen>
     controller = Get.put(Requestcontroller());
     homecontroller = Get.find();
 
-    incomingScrollController = ScrollController()..addListener(_onIncomingScroll);
+    incomingScrollController =
+        ScrollController()..addListener(_onIncomingScroll);
     historyScrollController = ScrollController()..addListener(_onHistoryScroll);
-    myRequestsScrollController = ScrollController()..addListener(_onMyRequestsScroll);
+    myRequestsScrollController =
+        ScrollController()..addListener(_onMyRequestsScroll);
   }
 
   void _onIncomingScroll() {
@@ -69,11 +72,19 @@ class _RequestScreenState extends State<RequestScreen>
 
   @override
   Widget build(BuildContext context) {
-    
-    
-
     return Scaffold(
-      backgroundColor:  Colors.white,
+      backgroundColor: Colors.white,
+
+      appBar:
+          (user.userType == "BUYER")
+              ? AppBar(
+                title: const Text(
+                  "Connections",
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+                ),
+                centerTitle: true,
+              )
+              : null,
       body: GetBuilder<Requestcontroller>(
         builder: (controller) {
           if (controller.isLoadingUserData || !controller.isUserDataLoaded) {
@@ -83,7 +94,7 @@ class _RequestScreenState extends State<RequestScreen>
                 children: const [
                   CircularProgressIndicator(),
                   SizedBox(height: 16),
-                  Text("Loading user data...")
+                  Text("Loading user data..."),
                 ],
               ),
             );
@@ -99,9 +110,11 @@ class _RequestScreenState extends State<RequestScreen>
                   width: 160,
                   height: 46,
                   decoration: BoxDecoration(
-                    color: selectedIndex == key ? Color(0xffFB7185): Colors.transparent,
+                    color:
+                        selectedIndex == key
+                            ? AppTheme.primaryColor
+                            : Colors.transparent,
                     borderRadius: BorderRadius.circular(10),
-                   
                   ),
                   child: Center(
                     child: Text(
@@ -111,7 +124,8 @@ class _RequestScreenState extends State<RequestScreen>
                               : "Connections")
                           : "My Requests",
                       style: TextStyle(
-                        color: selectedIndex == key ? Colors.white : Colors.black,
+                        color:
+                            selectedIndex == key ? Colors.white : Colors.black,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -129,18 +143,17 @@ class _RequestScreenState extends State<RequestScreen>
                 CupertinoSlidingSegmentedControl<int>(
                   children: buildMenus(controller.selectedValue),
                   groupValue: controller.selectedValue,
+                  backgroundColor: Colors.black.withOpacity(.05),
                   onValueChanged: (value) {
                     controller.selectedValue = value ?? 0;
                     controller.update();
                   },
-                  thumbColor:  Color(0xffFB7185)
+                  thumbColor: AppTheme.primaryColor,
                 ),
 
               const SizedBox(height: 16),
 
-              Expanded(
-                child: _buildSelectedContent(controller),
-              ),
+              Expanded(child: _buildSelectedContent(controller)),
             ],
           );
         },
@@ -185,14 +198,18 @@ class _RequestScreenState extends State<RequestScreen>
       child: ListView.builder(
         controller: incomingScrollController,
         padding: EdgeInsets.all(16),
-        itemCount: controller.incomingRequests.length +
+        itemCount:
+            controller.incomingRequests.length +
             (controller.hasMoreIncoming ? 1 : 0),
         itemBuilder: (context, index) {
           if (index == controller.incomingRequests.length) {
             return controller.isLoadingMoreIncoming
-                ? Center(child: Padding(
+                ? Center(
+                  child: Padding(
                     padding: EdgeInsets.all(16),
-                    child: CircularProgressIndicator()))
+                    child: CircularProgressIndicator(),
+                  ),
+                )
                 : SizedBox.shrink();
           }
 
@@ -232,13 +249,17 @@ class _RequestScreenState extends State<RequestScreen>
         controller: historyScrollController,
         padding: EdgeInsets.all(16),
         itemCount:
-            controller.historyRequests.length + (controller.hasMoreHistory ? 1 : 0),
+            controller.historyRequests.length +
+            (controller.hasMoreHistory ? 1 : 0),
         itemBuilder: (context, index) {
           if (index == controller.historyRequests.length) {
             return controller.isLoadingMoreHistory
-                ? Center(child: Padding(
+                ? Center(
+                  child: Padding(
                     padding: EdgeInsets.all(16),
-                    child: CircularProgressIndicator()))
+                    child: CircularProgressIndicator(),
+                  ),
+                )
                 : SizedBox.shrink();
           }
 
@@ -275,23 +296,24 @@ class _RequestScreenState extends State<RequestScreen>
         controller: myRequestsScrollController,
         padding: EdgeInsets.all(16),
         itemCount:
-            controller.myRequests.length + (controller.hasMoreMyRequests ? 1 : 0),
+            controller.myRequests.length +
+            (controller.hasMoreMyRequests ? 1 : 0),
         itemBuilder: (context, index) {
           if (index == controller.myRequests.length) {
             return controller.isLoadingMoreMyRequests
-                ? Center(child: Padding(
+                ? Center(
+                  child: Padding(
                     padding: EdgeInsets.all(16),
-                    child: CircularProgressIndicator()))
+                    child: CircularProgressIndicator(),
+                  ),
+                )
                 : SizedBox.shrink();
           }
 
           final request = controller.myRequests[index];
           return Padding(
             padding: EdgeInsets.only(bottom: 12),
-            child: MyRequestCard(
-              request: request,
-              controller: controller,
-            ),
+            child: MyRequestCard(request: request, controller: controller),
           );
         },
       ),
@@ -322,10 +344,9 @@ class _RequestScreenState extends State<RequestScreen>
           const SizedBox(height: 24),
           Text(
             title,
-            style: Theme.of(context)
-                .textTheme
-                .headlineSmall
-                ?.copyWith(fontWeight: FontWeight.w600),
+            style: Theme.of(
+              context,
+            ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 8),
           Padding(
@@ -334,12 +355,10 @@ class _RequestScreenState extends State<RequestScreen>
               subtitle,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context)
-                        .textTheme
-                        .bodyMedium
-                        ?.color
-                        ?.withOpacity(0.7),
-                  ),
+                color: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.color?.withOpacity(0.7),
+              ),
             ),
           ),
         ],

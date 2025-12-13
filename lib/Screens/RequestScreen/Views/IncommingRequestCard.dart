@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mommilk_user/Models/RequestModel.dart';
 import 'package:mommilk_user/Screens/RequestScreen/Controller/RequestController.dart';
 import 'package:mommilk_user/Screens/RequestScreen/RequestScreen.dart';
+import 'package:mommilk_user/theme/app_theme.dart';
 
 class IncommingRequestCard extends StatelessWidget {
   RequestModel request;
@@ -17,8 +18,10 @@ class IncommingRequestCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-      elevation: 1,
-      color: Theme.of(context).primaryColor.withOpacity(.1),
+
+      elevation: .2,
+      // color: const Color(0xFFFFF0EC).withOpacity(1),
+      borderOnForeground: true,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -38,13 +41,13 @@ class IncommingRequestCard extends StatelessWidget {
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: Colors.black54,
                         ),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         request.description ?? 'No description available',
-                        style: TextStyle(color: Colors.white, fontSize: 14),
+                        style: TextStyle(color: Colors.black54, fontSize: 14),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -64,7 +67,7 @@ class IncommingRequestCard extends StatelessWidget {
                   child: Text(
                     (request.urgency ?? 'low').toUpperCase(),
                     style: const TextStyle(
-                      color: Colors.white,
+                      color: Colors.black54,
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
                     ),
@@ -73,23 +76,21 @@ class IncommingRequestCard extends StatelessWidget {
               ],
             ),
 
-            const SizedBox(height: 12),
-
             // Requester and Time Info
             Row(
               children: [
-                Icon(Icons.person, size: 16, color: Colors.white),
+                Icon(Icons.person, size: 16, color: Colors.black54),
                 const SizedBox(width: 4),
                 Text(
                   request.requester?.name ?? 'Unknown',
-                  style: TextStyle(color: Colors.white, fontSize: 12),
+                  style: TextStyle(color: Colors.black54, fontSize: 12),
                 ),
                 const SizedBox(width: 16),
-                Icon(Icons.schedule, size: 16, color: Colors.white),
+                Icon(Icons.schedule, size: 16, color: Colors.black54),
                 const SizedBox(width: 4),
                 Text(
                   formatDate(request.createdAt ?? ''),
-                  style: TextStyle(color: Colors.white, fontSize: 12),
+                  style: TextStyle(color: Colors.black54, fontSize: 12),
                 ),
                 const Spacer(),
                 Container(
