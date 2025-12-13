@@ -2,11 +2,16 @@ import 'dart:convert';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:mommilk_user/Models/UserModel.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/AuthenticationScreen.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
 import 'package:mommilk_user/Screens/Dashboard/MainDashBoard.dart';
+import 'package:mommilk_user/Screens/SplashScreen/LogSplash.dart';
+import 'package:mommilk_user/Screens/SplashScreen/SplashScreen2.dart';
+import 'package:mommilk_user/Screens/SplashScreen/SplashScreen3.dart';
+import 'package:mommilk_user/Screens/SplashScreen/SplashScreen4.dart';
 import 'package:mommilk_user/Services/FCMService.dart';
 import 'package:mommilk_user/firebase_options.dart';
 import 'package:mommilk_user/theme/app_theme.dart';
@@ -42,12 +47,21 @@ class MomsMilkApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      theme: AppTheme.darkTheme,
-      darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.dark, // Force dark them,
-      debugShowCheckedModeBanner: false,
-      home: (isLogIn) ? MainDashboard() : Authenticationscreen(),
+    return ScreenUtilInit(
+       designSize: const Size(375, 812), // Figma / iPhone X size
+      minTextAdapt: true,
+      splitScreenMode: true,
+      child: Builder(
+        builder: (context) {
+          return GetMaterialApp(
+            theme: AppTheme.darkTheme,
+            darkTheme: AppTheme.darkTheme,
+            themeMode: ThemeMode.dark, // Force dark them,
+            debugShowCheckedModeBanner: false,
+            home: (isLogIn) ? MainDashboard() : SplashScreen(),
+          );
+        }
+      ),
     );
   }
 }

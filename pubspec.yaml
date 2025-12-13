@@ -1,7 +1,7 @@
 name: mommilk_user
 description: "A new Flutter project."
 publish_to: 'none'
-version: 0.1.2+4
+version: 0.1.2+5
 
 environment:
   sdk: ^3.7.2
@@ -50,3 +50,13 @@ flutter:
     - assets/AppIcon.png
     - lib/Assets/breastFeeding.png
     - lib/Assets/feedingBottle.png
+    - lib/Assets/logsplash.png
+    - lib/Assets/splash2.png
+    - lib/Assets/splash2.1.png
+    - lib/Assets/splash3.png
+    - lib/Assets/splash3.1.png
+    - lib/Assets/splash3.2.png
+    - lib/Assets/splash3.3.png
+    - lib/Assets/splash4.png
+    - lib/Assets/splash4.1.png
+    - lib/Assets/splash4.2.png

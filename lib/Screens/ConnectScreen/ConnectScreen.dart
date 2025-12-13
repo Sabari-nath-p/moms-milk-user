@@ -42,7 +42,7 @@ class ConnectScreen extends StatelessWidget {
                         );
                       },
                       child: Icon(
-                        Icons.person_search,
+                         FontAwesomeIcons.userGroup,
                         color: AppTheme.primaryColor,
                       ),
                     ),

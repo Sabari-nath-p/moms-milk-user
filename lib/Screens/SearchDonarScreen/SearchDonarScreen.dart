@@ -87,6 +87,34 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
                 _buildActiveFilters(context),
                 const SizedBox(height: 20),
                 _buildDonorsList(context),
+                 SizedBox(height: 10,),
+                  Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.privacy_tip_outlined,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      'We’re actively welcoming milk donors. If no donors appear in your area yet, don’t worry more will be joining shortly. Thank you for your patience and support and if new donars comes near you we will notify',
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodySmall?.copyWith(color: Colors.black),
+                    ),
+                  ),
+                ],
+              ),
+            ),
               ]),
             ),
           ),
@@ -104,6 +132,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
               flex: 2,
               child: TextField(
                 controller: controller.zipSearchText,
+                 
                 textInputAction: TextInputAction.next,
                 style: TextStyle(color: Colors.black87),
                 decoration: InputDecoration(
@@ -139,6 +168,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
                 ),
                 keyboardType: TextInputType.number,
               ),
+              
             ),
 
             const SizedBox(width: 12),

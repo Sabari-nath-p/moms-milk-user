@@ -118,45 +118,63 @@ Future<void> createNewBaby({bool skip = true}) async {
 
   /// Validate user input
   bool validateBabyDetails() {
-    if (babyNameController.text.trim().isEmpty) {
-      Get.snackbar('Validation Error', 'Please enter baby\'s name');
-      return false;
-    }
-
-    if (babyNameController.text.trim().length < 2) {
-      Get.snackbar(
-        'Validation Error',
-        'Baby\'s name must be at least 2 characters long',
-      );
-      return false;
-    }
-
-    if (babyGender == null) {
-      Get.snackbar('Validation Error', 'Please select baby\'s gender');
-      return false;
-    }
-
-    if (babyDeliveryDate == null) {
-      Get.snackbar('Validation Error', 'Please select delivery date');
-      return false;
-    }
-
-    if (babbyWeightController.text.trim().isNotEmpty) {
-      final weight = double.tryParse(babbyWeightController.text.trim());
-      if (weight == null || weight <= 0 || weight > 10) {
-        Get.snackbar('Validation Error', 'Weight must be between 0.1 and 10 kg');
-        return false;
-      }
-    }
-
-    if (babyHeightController.text.trim().isNotEmpty) {
-      final height = double.tryParse(babyHeightController.text.trim());
-      if (height == null || height <= 0 || height > 100) {
-        Get.snackbar('Validation Error', 'Height must be between 1 and 100 cm');
-        return false;
-      }
-    }
-
-    return true;
+  // Baby name
+  if (babyNameController.text.trim().isEmpty) {
+    Get.snackbar('Validation Error', 'Please enter baby\'s name');
+    return false;
   }
+
+  if (babyNameController.text.trim().length < 2) {
+    Get.snackbar(
+      'Validation Error',
+      'Baby\'s name must be at least 2 characters long',
+    );
+    return false;
+  }
+
+  // Gender
+  if (babyGender == null) {
+    Get.snackbar('Validation Error', 'Please select baby\'s gender');
+    return false;
+  }
+
+  // Delivery date
+  if (babyDeliveryDate == null) {
+    Get.snackbar('Validation Error', 'Please select delivery date');
+    return false;
+  }
+
+  // Weight (MANDATORY)
+  if (babbyWeightController.text.trim().isEmpty) {
+    Get.snackbar('Validation Error', 'Please enter baby\'s weight');
+    return false;
+  }
+
+  final weight = double.tryParse(babbyWeightController.text.trim());
+  if (weight == null || weight <= 0 || weight > 10) {
+    Get.snackbar(
+      'Validation Error',
+      'Weight must be between 0.1 and 10 kg',
+    );
+    return false;
+  }
+
+  // Height (MANDATORY)
+  if (babyHeightController.text.trim().isEmpty) {
+    Get.snackbar('Validation Error', 'Please enter baby\'s height');
+    return false;
+  }
+
+  final height = double.tryParse(babyHeightController.text.trim());
+  if (height == null || height <= 0 || height > 100) {
+    Get.snackbar(
+      'Validation Error',
+      'Height must be between 1 and 100 cm',
+    );
+    return false;
+  }
+
+  return true;
+}
+
 }

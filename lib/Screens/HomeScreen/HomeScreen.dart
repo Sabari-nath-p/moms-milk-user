@@ -14,28 +14,31 @@ import 'package:mommilk_user/Screens/HomeScreen/Views/HRequestCard.dart';
 import 'package:mommilk_user/Screens/OnboardingScreen/Controller/OnboardingController.dart';
 import 'package:mommilk_user/Screens/ProfileScreen/ProfileScreen.dart';
 import 'package:mommilk_user/theme/app_theme.dart';
-
 class Homescreen extends StatelessWidget {
   Homescreen({super.key});
-  Homecontroller controller = Get.put(Homecontroller());
 
-  Chatcontroller ctrl = Get.put(Chatcontroller());
+  final Homecontroller controller = Get.put(Homecontroller());
+  final Chatcontroller ctrl = Get.put(Chatcontroller());
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child:
-          controller.isLoading
-              ? const Center(child: CircularProgressIndicator())
-              : _buildBody(context),
+    return GetBuilder<Homecontroller>(
+      builder: (controller) {
+        if (controller.isLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        return SafeArea(
+          child: _buildBody(context, controller),
+        );
+      },
     );
   }
 
-  Widget _buildBody(BuildContext context) {
+  Widget _buildBody(BuildContext context, Homecontroller controller) {
     return RefreshIndicator(
       onRefresh: () async {
-        // Refresh data
-        await Future.delayed(const Duration(seconds: 1));
+        await controller.fetchBabies(isNew: true);
       },
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
@@ -45,107 +48,68 @@ class Homescreen extends StatelessWidget {
           children: [
             HHeaderCard(),
 
-            // const SizedBox(height: 20),
-            //_buildUserTypeSpecificSection(context),
-            // SizedBox(height: 20),
+            /// ✅ THIS WILL NOW UPDATE PROPERLY
+            if (controller.myBabies.isEmpty &&
+                controller.selectedBady == null)
+              _buildAddBabyCard(context),
 
-            // if (user.userType == "DONOR") const SizedBox(height: 20),
-            //if (user.userType == "DONOR")
-            // Padding(
-            // padding: EdgeInsets.symmetric(horizontal: 10),
-            //child: buildUserTypeSection(context),
-            //),
-            //const SizedBox(height: 20),
-            // HBabyCard(),
-            // const SizedBox(height: 24),
-            if (controller.myBabies.isEmpty && controller.selectedBady == null)
-              Container(
-                margin: EdgeInsets.only(top: 24),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: AppTheme.primaryColor.withOpacity(.4),
-                  ),
-                  borderRadius: BorderRadius.circular(30),
+            HQuickActions(),
+            const SizedBox(height: 10),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAddBabyCard(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(top: 24),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: AppTheme.primaryColor.withOpacity(.4),
+        ),
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Row(
+          children: [
+            const Icon(Icons.baby_changing_station, color: Colors.pink),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                'Add your baby\'s profile to start tracking',
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Container(
+              decoration: BoxDecoration(
+                gradient: AppTheme.roundButtonGradient,
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Row(
-                    children: [
-                      const Icon(
-                        Icons.baby_changing_station,
-                        color: Colors.pink,
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          'Add your baby\'s profile to start tracking',
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Container(
-                        decoration: BoxDecoration(
-                          gradient: AppTheme.roundButtonGradient,
-                          borderRadius: BorderRadius.circular(24),
-                        ),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.transparent,
-                            shadowColor: Colors.transparent,
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 20,
-                              vertical: 2,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                          ),
-                          onPressed: () {
-                            Get.to(
-                              () => CreateBabyScreen(skip: false),
-                              transition: Transition.rightToLeft,
-                            );
-                          },
-                          child: const Text(
-                            'Add Baby',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                onPressed: () {
+                  Get.to(
+                    () => CreateBabyScreen(skip: false),
+                    transition: Transition.rightToLeft,
+                  );
+                },
+                child: const Text(
+                  'Add Baby',
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
+            ),
+       
 
             HQuickActions(),
             const SizedBox(height: 24),
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
-                ),
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.privacy_tip_outlined,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Text(
-                      'We’re actively welcoming milk donors. If no donors appear in your area yet, don’t worry more will be joining shortly. Thank you for your patience and support',
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodySmall?.copyWith(color: Colors.black),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          
             // _buildTodayStats(context),
             // const SizedBox(height: 24),
             // _buildRecentActivity(context),

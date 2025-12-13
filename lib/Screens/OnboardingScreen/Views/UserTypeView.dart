@@ -37,7 +37,7 @@ class UserTypeStep extends StatelessWidget {
               // Donor Option
               _buildUserTypeCard(
                 context: context,
-                title: 'As Milk Donor',
+                title: 'I have Milk',
                 subtitle: 'I want to donate breast milk',
                 description:
                     'Sharing your excess breast milk safely and track your baby activity',
@@ -60,7 +60,7 @@ class UserTypeStep extends StatelessWidget {
               // Buyer Option
               _buildUserTypeCard(
                 context: context,
-                title: 'As a Parent',
+                title: 'I need Milk',
                 subtitle: 'I need to track my baby and find donors',
                 description:
                     'Access breast milk from verified donors in your area. ',

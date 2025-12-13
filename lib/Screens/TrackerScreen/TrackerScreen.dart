@@ -72,21 +72,23 @@ class Trackerscreen extends StatelessWidget {
         backgroundColor: Colors.white,
 
         /// ---------------- APPBAR ---------------- ///
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          scrolledUnderElevation: 0,
-          centerTitle: true,
-          title: const Text(
-            "Activity Report",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              color: Colors.black,
-              fontFamily: "Inter",
-            ),
-          ),
-        ),
+        appBar:AppBar(
+  backgroundColor: Colors.white,
+  elevation: 0,
+  scrolledUnderElevation: 0,
+  centerTitle: true,
+  
+  title: const Text(
+    "Activity Report",
+    style: TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.w600,
+      color: Colors.black,
+      fontFamily: "Inter",
+    ),
+  ),
+),
+
 
         body: GetBuilder<TrackerController>(
           builder: (__) {

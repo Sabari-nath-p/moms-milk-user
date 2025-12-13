@@ -40,30 +40,35 @@ class HHeaderCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Good ${getTimeOfDay()}, ${user.name}!',
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        user.userType == 'donor'
-                            ? 'Help families in need today'
-                            : 'Track your baby\'s journey',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(
-                            context,
-                          ).textTheme.bodyMedium?.color?.withOpacity(0.7),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+               Expanded(
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        'Good ${getTimeOfDay()}, ${user.name}!',
+        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+      ),
+      const SizedBox(height: 4),
+      Text(
+        user.userType == 'donor'
+            ? 'Help families in need today'
+            : controller.selectedBady != null
+                ? 'Tracking ${controller.selectedBady!.name}\'s journey'
+                : 'Add your baby to start tracking',
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.color
+                  ?.withOpacity(0.7),
+            ),
+      ),
+    ],
+  ),
+),
+
               ],
             ),
           ),

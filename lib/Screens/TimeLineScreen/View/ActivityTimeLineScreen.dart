@@ -1,5 +1,7 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -9,10 +11,14 @@ import 'package:intl/intl.dart';
 import 'package:mommilk_user/Screens/TimeLineScreen/Service/TimelineController.dart';
 import 'package:mommilk_user/theme/app_theme.dart';
 import 'package:timelines_plus/timelines_plus.dart';
+import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
+
 
 class ActivityTimeLineBody extends StatelessWidget {
   ActivityTimeLineBody({super.key});
   final Timelinecontroller tcltr = Get.find();
+ final Homecontroller homeCtrl = Get.find();
+
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +56,11 @@ class ActivityTimeLineBody extends StatelessWidget {
             tcltr.fetchTimeLogs(date);
           },
         ),
-
+      
+        
         // Statistics Cards
         _buildStatisticsSection(),
+        SizedBox(height: 15,),
 
         // Filter Chips
         _buildFilterChips(),
@@ -151,43 +159,52 @@ class ActivityTimeLineBody extends StatelessWidget {
     );
   }
 
-  Widget _buildStatisticsSection() {
-    return Obx(() {
-      return Container(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        child: Row(
-          children: [
-            Expanded(
-              child: _buildStatCard(
-                FontAwesomeIcons.personBreastfeeding,
-                '${tcltr.totalFeedings.value}',
-                'Feedings',
-                Colors.orange.shade400,
+ Widget _buildStatisticsSection() {
+  return Obx(() {
+   
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+   
+          Row(
+            children: [
+             
+              Expanded(
+                child: _buildStatCard(
+                  FontAwesomeIcons.personBreastfeeding,
+                  '${tcltr.totalFeedings.value}',
+                  'Feedings',
+                  Colors.orange.shade400,
+                ),
               ),
-            ),
-            SizedBox(width: 8),
-            Expanded(
-              child: _buildStatCard(
-                Icons.baby_changing_station,
-                '${tcltr.totalDiaperChanges.value}',
-                'Diapers',
-                Colors.blue.shade400,
+              const SizedBox(width: 8),
+              Expanded(
+                child: _buildStatCard(
+                  Icons.baby_changing_station,
+                  '${tcltr.totalDiaperChanges.value}',
+                  'Diapers',
+                  Colors.blue.shade400,
+                ),
               ),
-            ),
-            SizedBox(width: 8),
-            Expanded(
-              child: _buildStatCard(
-                Icons.bedtime,
-                tcltr.totalSleepDuration.value,
-                'Sleep',
-                Colors.purple.shade400,
+              const SizedBox(width: 8),
+              Expanded(
+                child: _buildStatCard(
+                  Icons.bedtime,
+                  tcltr.totalSleepDuration.value,
+                  'Sleep',
+                  Colors.purple.shade400,
+                ),
               ),
-            ),
-          ],
-        ),
-      );
-    });
-  }
+            ],
+          ),
+        ],
+      ),
+    );
+  });
+}
 
   Widget _buildStatCard(
     IconData icon,
@@ -231,35 +248,58 @@ class ActivityTimeLineBody extends StatelessWidget {
 
   Widget _buildFilterChips() {
     return Obx(() {
-      return Container(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: Row(
-          children: [
-            _buildFilterChip(
-              'Feeding',
-              FontAwesomeIcons.personBreastfeeding,
-              Colors.orange.shade400,
-              tcltr.showFeeding.value,
-              () => tcltr.toggleFilter('feeding'),
+        final baby = homeCtrl.selectedBady;
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+       
+            // 👶 Baby Name Title
+          Padding(
+            padding:  EdgeInsets.only(left: 20),
+            child: Text(
+              baby != null
+                  ? "${baby.name}'s Log"
+                  : "Baby Activity Summary",
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                height: 1.3,
+              ),
             ),
-            SizedBox(width: 8),
-            _buildFilterChip(
-              'Diaper',
-              Icons.baby_changing_station,
-              Colors.blue.shade400,
-              tcltr.showDiaper.value,
-              () => tcltr.toggleFilter('diaper'),
+          ),
+          SizedBox(height: 10,),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Row(
+              children: [
+                
+                _buildFilterChip(
+                  'Feeding',
+                  FontAwesomeIcons.personBreastfeeding,
+                  Colors.orange.shade400,
+                  tcltr.showFeeding.value,
+                  () => tcltr.toggleFilter('feeding'),
+                ),
+                SizedBox(width: 8),
+                _buildFilterChip(
+                  'Diaper',
+                  Icons.baby_changing_station,
+                  Colors.blue.shade400,
+                  tcltr.showDiaper.value,
+                  () => tcltr.toggleFilter('diaper'),
+                ),
+                SizedBox(width: 8),
+                _buildFilterChip(
+                  'Sleep',
+                  FontAwesomeIcons.moon,
+                  Colors.purple.shade400,
+                  tcltr.showSleep.value,
+                  () => tcltr.toggleFilter('sleep'),
+                ),
+              ],
             ),
-            SizedBox(width: 8),
-            _buildFilterChip(
-              'Sleep',
-              Icons.bedtime,
-              Colors.purple.shade400,
-              tcltr.showSleep.value,
-              () => tcltr.toggleFilter('sleep'),
-            ),
-          ],
-        ),
+          ),
+        ],
       );
     });
   }

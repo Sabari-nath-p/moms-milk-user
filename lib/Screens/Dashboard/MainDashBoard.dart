@@ -125,16 +125,16 @@ class MainDashboard extends StatelessWidget {
               destinations: [
                 NavigationDestination(
                   icon: FaIcon(
-                    FontAwesomeIcons.home,
+                    FontAwesomeIcons.add,
                     size: 20,
                     color: Colors.black.withOpacity(.5),
                   ),
                   selectedIcon: FaIcon(
-                    FontAwesomeIcons.home,
+                    FontAwesomeIcons.add,
                     size: 20,
                     color: AppTheme.primaryColor,
                   ),
-                  label: 'Home',
+                  label: 'Log',
                 ),
 
                 NavigationDestination(
@@ -186,7 +186,7 @@ class MainDashboard extends StatelessWidget {
                         smallSize: 6,
                         isLabelVisible: __.unReadMessage != 0,
                         child: FaIcon(
-                          FontAwesomeIcons.squareEnvelope,
+                          FontAwesomeIcons.telegram,
                           size: 25,
                           color: Colors.black.withOpacity(.3),
                         ),
@@ -194,7 +194,7 @@ class MainDashboard extends StatelessWidget {
                     },
                   ),
                   selectedIcon: FaIcon(
-                    FontAwesomeIcons.squareEnvelope,
+                    FontAwesomeIcons.telegram,
                     size: 20,
                     color: AppTheme.primaryColor,
                   ),
@@ -202,12 +202,12 @@ class MainDashboard extends StatelessWidget {
                 ),
                 NavigationDestination(
                   icon: FaIcon(
-                    FontAwesomeIcons.gear,
+                    FontAwesomeIcons.baby,
                     size: 20,
                     color: Colors.black.withOpacity(.3),
                   ),
                   selectedIcon: FaIcon(
-                    FontAwesomeIcons.gear,
+                    FontAwesomeIcons.baby,
                     size: 20,
                     color: AppTheme.primaryColor,
                   ),
