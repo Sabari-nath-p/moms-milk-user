@@ -144,7 +144,7 @@ class SearchDonarCard extends StatelessWidget {
                             );
                           },
                           icon: const Icon(Icons.person, size: 16),
-                          label: const Text('View Profile'),
+                          label: const Text('Send a message'),
                           style: OutlinedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),

@@ -13,41 +13,38 @@ class CreateBabyController extends GetxController {
   DateTime? babyDeliveryDate = DateTime.now();
   final babbyWeightController = TextEditingController();
   final babyHeightController = TextEditingController();
- var isLoading = false.obs;
-  var babySaved = false.obs;
+  var isLoading = false.obs;
 
-Future<void> createNewBaby({bool skip = true}) async {
-  if (!validateBabyDetails()) return;
+  Future<void> createNewBaby({bool skip = true}) async {
+    if (!validateBabyDetails()) return;
 
-  isLoading.value = true;
+    isLoading.value = true;
 
-  ApiService.request(
-    endpoint: "/babies",
-    body: {
-      "name": babyNameController.text.trim(),
-      "gender": babyGender!.name.toUpperCase(),
-      "deliveryDate": babyDeliveryDate!.toUtc().toString(),
-      "weight": double.tryParse(babbyWeightController.text) ?? 0,
-      "height": double.tryParse(babyHeightController.text) ?? 0,
-      "userId": user.id,
-    },
-    onSuccess: (data) {
-      isLoading.value = false;
+    ApiService.request(
+      endpoint: "/babies",
+      body: {
+        "name": babyNameController.text.trim(),
+        "gender": babyGender!.name.toUpperCase(),
+        "deliveryDate": babyDeliveryDate!.toUtc().toString(),
+        "weight": double.tryParse(babbyWeightController.text) ?? 0,
+        "height": double.tryParse(babyHeightController.text) ?? 0,
+        "userId": user.id,
+      },
+      onSuccess: (data) {
+        isLoading.value = false;
+        update();
 
-      if (data.statusCode == 201) {
-        babySaved.value = true; // ← mark as saved
+        if (data.statusCode == 201) {
+          Get.snackbar(
+            "Success",
+            "Baby profile created successfully!",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.green,
+            colorText: Colors.white,
+            duration: const Duration(seconds: 2),
+          );
 
-        Get.snackbar(
-          "Success",
-          "Baby profile created successfully!",
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
-          duration: const Duration(seconds: 2),
-        );
-
-        // Navigate after short delay to let snackbar show
-        Future.delayed(const Duration(milliseconds: 500), () {
+          // Navigate after short delay to let snackbar show
           if (skip) {
             Get.offAll(MainDashboard());
           } else {
@@ -60,30 +57,33 @@ Future<void> createNewBaby({bool skip = true}) async {
             }
             Get.back();
           }
-        });
-      } else {
+        } else {
+          Get.snackbar(
+            "Error",
+            "Failed to create baby profile. Please try again.",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.red,
+            colorText: Colors.white,
+          );
+        }
+
+        update();
+      },
+      onError: (error) {
+        isLoading.value = false;
         Get.snackbar(
-          "Error",
-          "Failed to create baby profile. Please try again.",
+          "Network Error",
+          "Unable to create baby profile. Please check your internet connection.",
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.red,
           colorText: Colors.white,
         );
-      }
-    },
-    onError: (error) {
-      isLoading.value = false;
-      Get.snackbar(
-        "Network Error",
-        "Unable to create baby profile. Please check your internet connection.",
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
-      print("Error creating baby: $error");
-    },
-  );
-}
+        print("Error creating baby: $error");
+
+        update();
+      },
+    );
+  }
 
   /// Delete a baby profile
   Future<void> deleteBaby(int babyId) async {
@@ -118,63 +118,56 @@ Future<void> createNewBaby({bool skip = true}) async {
 
   /// Validate user input
   bool validateBabyDetails() {
-  // Baby name
-  if (babyNameController.text.trim().isEmpty) {
-    Get.snackbar('Validation Error', 'Please enter baby\'s name');
-    return false;
+    // Baby name
+    if (babyNameController.text.trim().isEmpty) {
+      Get.snackbar('Validation Error', 'Please enter baby\'s name');
+      return false;
+    }
+
+    if (babyNameController.text.trim().length < 2) {
+      Get.snackbar(
+        'Validation Error',
+        'Baby\'s name must be at least 2 characters long',
+      );
+      return false;
+    }
+
+    // Gender
+    if (babyGender == null) {
+      Get.snackbar('Validation Error', 'Please select baby\'s gender');
+      return false;
+    }
+
+    // Delivery date
+    if (babyDeliveryDate == null) {
+      Get.snackbar('Validation Error', 'Please select delivery date');
+      return false;
+    }
+
+    // Weight (MANDATORY)
+    if (babbyWeightController.text.trim().isEmpty) {
+      Get.snackbar('Validation Error', 'Please enter baby\'s weight');
+      return false;
+    }
+
+    final weight = double.tryParse(babbyWeightController.text.trim());
+    if (weight == null || weight <= 0 || weight > 10) {
+      Get.snackbar('Validation Error', 'Weight must be between 0.1 and 10 kg');
+      return false;
+    }
+
+    // Height (MANDATORY)
+    if (babyHeightController.text.trim().isEmpty) {
+      Get.snackbar('Validation Error', 'Please enter baby\'s height');
+      return false;
+    }
+
+    final height = double.tryParse(babyHeightController.text.trim());
+    if (height == null || height <= 0 || height > 100) {
+      Get.snackbar('Validation Error', 'Height must be between 1 and 100 cm');
+      return false;
+    }
+
+    return true;
   }
-
-  if (babyNameController.text.trim().length < 2) {
-    Get.snackbar(
-      'Validation Error',
-      'Baby\'s name must be at least 2 characters long',
-    );
-    return false;
-  }
-
-  // Gender
-  if (babyGender == null) {
-    Get.snackbar('Validation Error', 'Please select baby\'s gender');
-    return false;
-  }
-
-  // Delivery date
-  if (babyDeliveryDate == null) {
-    Get.snackbar('Validation Error', 'Please select delivery date');
-    return false;
-  }
-
-  // Weight (MANDATORY)
-  if (babbyWeightController.text.trim().isEmpty) {
-    Get.snackbar('Validation Error', 'Please enter baby\'s weight');
-    return false;
-  }
-
-  final weight = double.tryParse(babbyWeightController.text.trim());
-  if (weight == null || weight <= 0 || weight > 10) {
-    Get.snackbar(
-      'Validation Error',
-      'Weight must be between 0.1 and 10 kg',
-    );
-    return false;
-  }
-
-  // Height (MANDATORY)
-  if (babyHeightController.text.trim().isEmpty) {
-    Get.snackbar('Validation Error', 'Please enter baby\'s height');
-    return false;
-  }
-
-  final height = double.tryParse(babyHeightController.text.trim());
-  if (height == null || height <= 0 || height > 100) {
-    Get.snackbar(
-      'Validation Error',
-      'Height must be between 1 and 100 cm',
-    );
-    return false;
-  }
-
-  return true;
-}
-
 }

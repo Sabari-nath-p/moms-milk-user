@@ -166,8 +166,8 @@ class Homecontroller extends GetxController {
       method: Api.GET,
       onSuccess: (data) {
         print(data.data);
-
-        pendingRequest = data.data["data"].length;
+        if (data.statusCode == 200 || data.statusCode == 201)
+          pendingRequest = data.data["data"].length;
         update();
       },
     );

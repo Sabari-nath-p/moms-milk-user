@@ -19,38 +19,37 @@ class CreateBabyScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Setup Your Profile',style: TextStyle(fontWeight: FontWeight.w400,fontFamily: "Inter",fontSize: 22),),
+        title: const Text(
+          'Setup Your Profile',
+          style: TextStyle(
+            fontWeight: FontWeight.w400,
+            fontFamily: "Inter",
+            fontSize: 22,
+          ),
+        ),
         backgroundColor: Colors.transparent,
         elevation: 0,
-    leading: InkWell(
-  onTap: () {
-    if (controller.babySaved.value) {
-      // Baby already saved → go to dashboard
-      Get.offAll(MainDashboard(), transition: Transition.leftToRight);
-    } else {
-      // Normal back
-      Get.back();
-    }
-  },
-  child: Padding(
-    padding: const EdgeInsets.all(10.0),
-    child: Container(
-      height: 20,
-      width: 20,
-      decoration: BoxDecoration(
-        color: Color.fromARGB(255, 239, 212, 214),
-        shape: BoxShape.circle,
-      ),
-      child: Icon(
-        Icons.arrow_back_ios_new_outlined,
-        color: Color(0xFFF43F5E),
-        size: 20,
-      ),
-    ),
-  ),
-),
-
-
+        leading: InkWell(
+          onTap: () {
+            Get.back();
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Container(
+              height: 20,
+              width: 20,
+              decoration: BoxDecoration(
+                color: Color.fromARGB(255, 239, 212, 214),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.arrow_back_ios_new_outlined,
+                color: Color(0xFFF43F5E),
+                size: 20,
+              ),
+            ),
+          ),
+        ),
 
         actions: [
           if (skip)
@@ -103,19 +102,22 @@ class CreateBabyScreen extends StatelessWidget {
                     decoration: InputDecoration(
                       labelText: 'Baby\'s Name *',
                       hintText: 'Enter baby\'s name',
-                      prefixIcon:  Icon(Icons.child_care,color: Color(0xffFDA4AF),),
+                      prefixIcon: Icon(
+                        Icons.child_care,
+                        color: Color(0xffFDA4AF),
+                      ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                    
+
                         borderSide: BorderSide(color: Colors.grey[400]!),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide(
-                           color: Theme.of(context).colorScheme.primary,
+                          color: Theme.of(context).colorScheme.primary,
                           width: 2,
                         ),
                       ),
@@ -134,45 +136,53 @@ class CreateBabyScreen extends StatelessWidget {
 
                   const SizedBox(height: 12),
 
-                Row(
-  children: Gender.values.map((gender) {
-    final isSelected = controller.babyGender == gender;
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.only(right: 8),
-        child: FilterChip(
-  label: SizedBox(
-    width: double.infinity,
-    child: Text(
-      gender.name,
-      textAlign: TextAlign.center,
-      style: TextStyle(
-        color: isSelected ? Colors.white : Colors.black,   // text color change
-      ),
-    ),
-  ),
-  selected: isSelected,
+                  Row(
+                    children:
+                        Gender.values.map((gender) {
+                          final isSelected = controller.babyGender == gender;
+                          return Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 8),
+                              child: FilterChip(
+                                label: SizedBox(
+                                  width: double.infinity,
+                                  child: Text(
+                                    gender.name,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color:
+                                          isSelected
+                                              ? Colors.white
+                                              : Colors
+                                                  .black, // text color change
+                                    ),
+                                  ),
+                                ),
+                                selected: isSelected,
 
-  onSelected: (selected) {
-    controller.babyGender = selected ? gender : null;
-    controller.update();
-  },
+                                onSelected: (selected) {
+                                  controller.babyGender =
+                                      selected ? gender : null;
+                                  controller.update();
+                                },
 
-  // 🔥 SELECTED STATE → Dark Pink background
-  selectedColor: Theme.of(context).colorScheme.primary,
+                                // 🔥 SELECTED STATE → Dark Pink background
+                                selectedColor:
+                                    Theme.of(context).colorScheme.primary,
 
-  // 🔥 UNSELECTED STATE → White background
-  backgroundColor: Colors.white,
+                                // 🔥 UNSELECTED STATE → White background
+                                backgroundColor: Colors.white,
 
-  checkmarkColor: Colors.white, // checkmark stays white
-  side: const BorderSide(color: Colors.grey), // optional border
-)
-
-      ),
-    );
-  }).toList(),
-),
-
+                                checkmarkColor:
+                                    Colors.white, // checkmark stays white
+                                side: const BorderSide(
+                                  color: Colors.grey,
+                                ), // optional border
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                  ),
 
                   const SizedBox(height: 24),
 
@@ -222,80 +232,97 @@ class CreateBabyScreen extends StatelessWidget {
                   const SizedBox(height: 24),
 
                   // Baby Weight
-                 UnitInputField(
-  controller: controller.babbyWeightController,
-  title: "Birth Weight",
-  icon: const Icon(Icons.monitor_weight_outlined, color: Color(0xffFDA4AF)),
-  inputUnitList: const [
-    Unit(name: "kg", conversionFactorToMl: 1.0),
-    Unit(name: "lb", conversionFactorToMl: 0.453592), // 1 lb = 0.453592 kg
-  ],
-),
+                  UnitInputField(
+                    controller: controller.babbyWeightController,
+                    title: "Birth Weight",
+                    icon: const Icon(
+                      Icons.monitor_weight_outlined,
+                      color: Color(0xffFDA4AF),
+                    ),
+                    inputUnitList: const [
+                      Unit(name: "kg", conversionFactorToMl: 1.0),
+                      Unit(
+                        name: "lb",
+                        conversionFactorToMl: 0.453592,
+                      ), // 1 lb = 0.453592 kg
+                    ],
+                  ),
                   //const SizedBox(height: 24),
- const SizedBox(height: 24),
+                  const SizedBox(height: 24),
                   // Baby Height
-                 UnitInputField(
-  controller: controller.babyHeightController,
-  title: "Birth Height",
-  icon: const Icon(Icons.height_outlined, color: Color(0xffFDA4AF)),
-  inputUnitList: const [
-    Unit(name: "cm", conversionFactorToMl: 1.0),
-    Unit(name: "in", conversionFactorToMl: 2.54), // 1 inch = 2.54 cm
-  ],
-),
-
-                    const SizedBox(height: 32),
-Obx(
-  () => SizedBox(
-    width: double.infinity,
-    height: 50,
-    child: ElevatedButton(
-      onPressed: controller.isLoading.value
-          ? null
-          : () {
-              controller.createNewBaby(skip: skip);
-            },
-      style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.zero,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        backgroundColor: Colors.transparent,
-        shadowColor: Colors.transparent,
-      ),
-      child: Ink(
-        decoration: BoxDecoration(
-          gradient: controller.isLoading.value
-              ? LinearGradient(colors: [Colors.grey, Colors.grey])
-              : AppTheme.roundButtonGradient,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Container(
-          alignment: Alignment.center,
-          child: controller.isLoading.value
-              ? const SizedBox(
-                  height: 20,
-                  width: 20,
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation(Colors.white),
-                    strokeWidth: 2,
+                  UnitInputField(
+                    controller: controller.babyHeightController,
+                    title: "Birth Height",
+                    icon: const Icon(
+                      Icons.height_outlined,
+                      color: Color(0xffFDA4AF),
+                    ),
+                    inputUnitList: const [
+                      Unit(name: "cm", conversionFactorToMl: 1.0),
+                      Unit(
+                        name: "in",
+                        conversionFactorToMl: 2.54,
+                      ), // 1 inch = 2.54 cm
+                    ],
                   ),
-                )
-              : const Text(
-                  'Save Baby Details',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+
+                  const SizedBox(height: 32),
+                  Obx(
+                    () => SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed:
+                            controller.isLoading.value
+                                ? null
+                                : () {
+                                  controller.createNewBaby(skip: skip);
+                                },
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          backgroundColor: Colors.transparent,
+                          shadowColor: Colors.transparent,
+                        ),
+                        child: Ink(
+                          decoration: BoxDecoration(
+                            gradient:
+                                controller.isLoading.value
+                                    ? LinearGradient(
+                                      colors: [Colors.grey, Colors.grey],
+                                    )
+                                    : AppTheme.roundButtonGradient,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Container(
+                            alignment: Alignment.center,
+                            child:
+                                controller.isLoading.value
+                                    ? const SizedBox(
+                                      height: 20,
+                                      width: 20,
+                                      child: CircularProgressIndicator(
+                                        valueColor: AlwaysStoppedAnimation(
+                                          Colors.white,
+                                        ),
+                                        strokeWidth: 2,
+                                      ),
+                                    )
+                                    : const Text(
+                                      'Save Baby Details',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-        ),
-      ),
-    ),
-  ),
-),
-
-
 
                   const SizedBox(height: 24),
 

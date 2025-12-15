@@ -9,9 +9,7 @@ import 'package:mommilk_user/Screens/AuthenticationScreen/AuthenticationScreen.d
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
 import 'package:mommilk_user/Screens/Dashboard/MainDashBoard.dart';
 import 'package:mommilk_user/Screens/SplashScreen/LogSplash.dart';
-import 'package:mommilk_user/Screens/SplashScreen/SplashScreen2.dart';
-import 'package:mommilk_user/Screens/SplashScreen/SplashScreen3.dart';
-import 'package:mommilk_user/Screens/SplashScreen/SplashScreen4.dart';
+import 'package:mommilk_user/Screens/SplashScreen/SplashScreen.dart';
 import 'package:mommilk_user/Services/FCMService.dart';
 import 'package:mommilk_user/firebase_options.dart';
 import 'package:mommilk_user/theme/app_theme.dart';
@@ -48,7 +46,7 @@ class MomsMilkApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-       designSize: const Size(375, 812), // Figma / iPhone X size
+      designSize: const Size(375, 812), // Figma / iPhone X size
       minTextAdapt: true,
       splitScreenMode: true,
       child: Builder(
@@ -60,7 +58,7 @@ class MomsMilkApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             home: (isLogIn) ? MainDashboard() : SplashScreen(),
           );
-        }
+        },
       ),
     );
   }

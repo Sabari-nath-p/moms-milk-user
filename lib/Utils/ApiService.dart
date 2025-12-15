@@ -117,6 +117,7 @@ class ApiService {
         print("hit here");
         onUnauthenticated();
       } else {
+        Get.deleteAll(); // Deletes every registered controller
         Get.offAll(
           () => Authenticationscreen(),
           transition: Transition.rightToLeft,

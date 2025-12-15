@@ -27,10 +27,13 @@ class MessageTitleCard extends StatelessWidget {
               ctrl.currentUserName = "";
               Get.back();
             },
-            child: FaIcon(
-              FontAwesomeIcons.chevronLeft,
-              color: Colors.black,
-              size: 18,
+            child: CircleAvatar(
+              radius: 20,
+              child: FaIcon(
+                FontAwesomeIcons.chevronLeft,
+                color: Colors.black,
+                size: 18,
+              ),
             ),
           ),
           SizedBox(width: 5),

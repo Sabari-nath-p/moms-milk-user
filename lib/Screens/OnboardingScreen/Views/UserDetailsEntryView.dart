@@ -18,8 +18,8 @@ class UserDetailsStep extends StatelessWidget {
               Text(
                 'Personal Information',
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                  fontWeight: FontWeight.bold,
+                ),
               ),
 
               const SizedBox(height: 8),
@@ -27,8 +27,8 @@ class UserDetailsStep extends StatelessWidget {
               Text(
                 'Please provide your basic information to create your profile.',
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Colors.black.withOpacity(.8),
-                    ),
+                  color: Colors.black.withOpacity(.8),
+                ),
               ),
 
               const SizedBox(height: 32),
@@ -45,28 +45,34 @@ class UserDetailsStep extends StatelessWidget {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
-                   enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: Colors.grey[400]!),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(
-                            color: Theme.of(context).colorScheme.primary,
-                            width: 2,
-                          ),
-                        ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.grey[400]!),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                      width: 2,
+                    ),
+                  ),
                 ),
               ),
-              Obx(() => controller.nameError.value.isNotEmpty
-                  ? Padding(
-                      padding: const EdgeInsets.only(top: 6, left: 4),
-                      child: Text(
-                        controller.nameError.value,
-                        style: const TextStyle(color: Colors.red, fontSize: 12),
-                      ),
-                    )
-                  : const SizedBox.shrink()),
+              Obx(
+                () =>
+                    controller.nameError.value.isNotEmpty
+                        ? Padding(
+                          padding: const EdgeInsets.only(top: 6, left: 4),
+                          child: Text(
+                            controller.nameError.value,
+                            style: const TextStyle(
+                              color: Colors.red,
+                              fontSize: 12,
+                            ),
+                          ),
+                        )
+                        : const SizedBox.shrink(),
+              ),
 
               const SizedBox(height: 20),
 
@@ -153,20 +159,26 @@ class UserDetailsStep extends StatelessWidget {
                 ],
               ),
 
-              Obx(() => controller.phoneError.value.isNotEmpty
-                  ? Padding(
-                      padding: const EdgeInsets.only(top: 6, left: 4),
-                      child: Text(
-                        controller.phoneError.value,
-                        style: const TextStyle(color: Colors.red, fontSize: 12),
-                      ),
-                    )
-                  : const SizedBox.shrink()),
+              Obx(
+                () =>
+                    controller.phoneError.value.isNotEmpty
+                        ? Padding(
+                          padding: const EdgeInsets.only(top: 6, left: 4),
+                          child: Text(
+                            controller.phoneError.value,
+                            style: const TextStyle(
+                              color: Colors.red,
+                              fontSize: 12,
+                            ),
+                          ),
+                        )
+                        : const SizedBox.shrink(),
+              ),
 
               const SizedBox(height: 20),
 
               // Zip Code
-             TextField(
+              TextField(
                 controller: controller.zipCodeController,
                 keyboardType: TextInputType.number,
                 textInputAction: TextInputAction.done,
@@ -192,71 +204,79 @@ class UserDetailsStep extends StatelessWidget {
                 ),
                 //  onChanged: (value) => controller.zipCode.value = value,
               ),
-              Obx(() => controller.zipError.value.isNotEmpty
-                  ? Padding(
-                      padding: const EdgeInsets.only(top: 6, left: 4),
-                      child: Text(
-                        controller.zipError.value,
-                        style: const TextStyle(color: Colors.red, fontSize: 12),
-                      ),
-                    )
-                  : const SizedBox.shrink()),
+              Obx(
+                () =>
+                    controller.zipError.value.isNotEmpty
+                        ? Padding(
+                          padding: const EdgeInsets.only(top: 6, left: 4),
+                          child: Text(
+                            controller.zipError.value,
+                            style: const TextStyle(
+                              color: Colors.red,
+                              fontSize: 12,
+                            ),
+                          ),
+                        )
+                        : const SizedBox.shrink(),
+              ),
 
-              const SizedBox(height: 32),
+              if (false) const SizedBox(height: 32),
 
               // Facebook Link
-              TextField(
-                controller: controller.facebookLinkController,
-                textInputAction: TextInputAction.next,
-                style: const TextStyle(fontSize: 16),
-                decoration: InputDecoration(
-                  labelText: 'Facebook Profile link',
-                  hintText: 'Enter your facebook profile link',
-                  prefixIcon: const Icon(Icons.person_outline),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+              if (false)
+                TextField(
+                  controller: controller.facebookLinkController,
+                  textInputAction: TextInputAction.next,
+                  style: const TextStyle(fontSize: 16),
+                  decoration: InputDecoration(
+                    labelText: 'Facebook Profile link',
+                    hintText: 'Enter your facebook profile link',
+                    prefixIcon: const Icon(Icons.person_outline),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Colors.grey[400]!),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(
+                        color: Theme.of(context).colorScheme.primary,
+                        width: 2,
+                      ),
+                    ),
                   ),
-                   enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: Colors.grey[400]!),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(
-                            color: Theme.of(context).colorScheme.primary,
-                            width: 2,
-                          ),
-                        ),
                 ),
-              ),
 
-              const SizedBox(height: 20),
+              if (false) const SizedBox(height: 20),
 
               // Instagram Link
-              TextField(
-                controller: controller.instagramLinkController,
-                textInputAction: TextInputAction.next,
-                style: const TextStyle(fontSize: 16),
-                decoration: InputDecoration(
-                  labelText: 'Instagram Profile Link',
-                  hintText: 'Enter your Instagram profile link',
-                  prefixIcon: const Icon(Icons.person_outline),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+              if (false)
+                TextField(
+                  controller: controller.instagramLinkController,
+                  textInputAction: TextInputAction.next,
+                  style: const TextStyle(fontSize: 16),
+                  decoration: InputDecoration(
+                    labelText: 'Instagram Profile Link',
+                    hintText: 'Enter your Instagram profile link',
+                    prefixIcon: const Icon(Icons.person_outline),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Colors.grey[400]!),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(
+                        color: Theme.of(context).colorScheme.primary,
+                        width: 2,
+                      ),
+                    ),
                   ),
-                   enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: Colors.grey[400]!),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(
-                            color: Theme.of(context).colorScheme.primary,
-                            width: 2,
-                          ),
-                        ),
                 ),
-              ),
 
               const SizedBox(height: 32),
 
@@ -264,16 +284,12 @@ class UserDetailsStep extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .primary
-                      .withOpacity(0.1),
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .primary
-                        .withOpacity(0.3),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.primary.withOpacity(0.3),
                   ),
                 ),
                 child: Row(
@@ -286,10 +302,9 @@ class UserDetailsStep extends StatelessWidget {
                     Expanded(
                       child: Text(
                         'Your information is secure and will only be used to connect you with other verified users.',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodySmall
-                            ?.copyWith(color: Theme.of(context).colorScheme.primary),
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
                       ),
                     ),
                   ],
