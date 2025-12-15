@@ -32,11 +32,12 @@ class ProfileScreen extends StatelessWidget {
                 elevation: 0,
                 title: Text(
                   "Profile",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 24,
-                  ),
+                  style:TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                            fontFamily: "Inter",
+                          ),
                 ),
                 centerTitle: true,
 

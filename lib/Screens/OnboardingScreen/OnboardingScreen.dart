@@ -22,7 +22,12 @@ class OnboardingScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Setup Your Profile'),
+        title: const Text('Setup Your Profile',style:  TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                            fontFamily: "Inter",
+                          ),),
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading:

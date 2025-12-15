@@ -94,6 +94,14 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                           ],
                         ),
                       ),
+                        const SizedBox(width: 12),
+                       IconButton(
+      icon: const Icon(Icons.close),
+      splashRadius: 20,
+      onPressed: () {
+        Navigator.pop(context); // closes bottom sheet
+      },
+    ),
                     ],
                   ),
                   const SizedBox(height: 24),

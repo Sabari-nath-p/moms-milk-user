@@ -29,6 +29,7 @@ class MessageTitleCard extends StatelessWidget {
             },
             child: CircleAvatar(
               radius: 20,
+              backgroundColor: Colors.grey.withOpacity(0.08),
               child: FaIcon(
                 FontAwesomeIcons.chevronLeft,
                 color: Colors.black,
