@@ -34,17 +34,7 @@ class CreateBabyController extends GetxController {
         isLoading.value = false;
         update();
 
-        if (data.statusCode == 201) {
-          Get.snackbar(
-            "Success",
-            "Baby profile created successfully!",
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.green,
-            colorText: Colors.white,
-            duration: const Duration(seconds: 2),
-          );
-
-          // Navigate after short delay to let snackbar show
+        if (data.statusCode == 201 || data.statusCode == 200) {
           if (skip) {
             Get.offAll(MainDashboard());
           } else {
@@ -56,6 +46,15 @@ class CreateBabyController extends GetxController {
               print("HomeController not found: $e");
             }
             Get.back();
+
+            Get.snackbar(
+              "Success",
+              "Baby profile created successfully!",
+              snackPosition: SnackPosition.BOTTOM,
+              backgroundColor: Colors.green,
+              colorText: Colors.white,
+              duration: const Duration(seconds: 2),
+            );
           }
         } else {
           Get.snackbar(
