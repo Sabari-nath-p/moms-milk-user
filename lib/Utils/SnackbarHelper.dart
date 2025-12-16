@@ -8,7 +8,8 @@ class CustomSnackBar {
       message,
       snackPosition: SnackPosition.BOTTOM,
       backgroundColor: Colors.green.withOpacity(0.9),
-      colorText: Colors.white,
+      colorText: Colors.black,
+
       margin: const EdgeInsets.all(12),
       borderRadius: 10,
       duration: const Duration(seconds: 2),
@@ -21,7 +22,8 @@ class CustomSnackBar {
       message,
       snackPosition: SnackPosition.BOTTOM,
       backgroundColor: Colors.red.withOpacity(0.9),
-      colorText: Colors.white,
+      colorText: Colors.black,
+
       margin: const EdgeInsets.all(12),
       borderRadius: 10,
       duration: const Duration(seconds: 3),
@@ -34,7 +36,8 @@ class CustomSnackBar {
       message,
       snackPosition: SnackPosition.BOTTOM,
       backgroundColor: Colors.orange.withOpacity(0.9),
-      colorText: Colors.white,
+      colorText: Colors.black,
+
       margin: const EdgeInsets.all(12),
       borderRadius: 10,
       duration: const Duration(seconds: 3),
@@ -47,7 +50,8 @@ class CustomSnackBar {
       message,
       snackPosition: SnackPosition.BOTTOM,
       backgroundColor: Colors.blue.withOpacity(0.9),
-      colorText: Colors.white,
+      colorText: Colors.black,
+
       margin: const EdgeInsets.all(12),
       borderRadius: 10,
       duration: const Duration(seconds: 2),

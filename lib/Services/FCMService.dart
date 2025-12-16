@@ -126,7 +126,8 @@ class FCMService {
         message.notification?.body ?? 'You have a new message',
         snackPosition: SnackPosition.TOP,
         backgroundColor: Colors.black87,
-        colorText: Colors.white,
+        colorText: Colors.black,
+
         duration: const Duration(seconds: 4),
         margin: const EdgeInsets.all(16),
         borderRadius: 8,

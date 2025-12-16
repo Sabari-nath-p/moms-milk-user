@@ -134,6 +134,14 @@ class UserDetailsStep extends StatelessWidget {
                       keyboardType: TextInputType.phone,
                       textInputAction: TextInputAction.next,
                       style: const TextStyle(fontSize: 16),
+                      maxLength: 11,
+                      buildCounter:
+                          (
+                            context, {
+                            required currentLength,
+                            required isFocused,
+                            required maxLength,
+                          }) => null,
                       decoration: InputDecoration(
                         labelText: 'Phone Number *',
                         hintText: 'Enter phone number',
@@ -183,6 +191,14 @@ class UserDetailsStep extends StatelessWidget {
                 keyboardType: TextInputType.number,
                 textInputAction: TextInputAction.done,
                 style: const TextStyle(fontSize: 16),
+                maxLength: 6,
+                buildCounter:
+                    (
+                      context, {
+                      required currentLength,
+                      required isFocused,
+                      required maxLength,
+                    }) => null,
                 decoration: InputDecoration(
                   labelText: 'Zip Code *',
                   hintText: 'Enter your zip code',

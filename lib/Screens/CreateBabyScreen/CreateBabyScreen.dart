@@ -267,58 +267,56 @@ class CreateBabyScreen extends StatelessWidget {
                   ),
 
                   const SizedBox(height: 32),
-                  Obx(
-                    () => SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed:
-                            controller.isLoading.value
-                                ? null
-                                : () {
-                                  controller.createNewBaby(skip: skip);
-                                },
-                        style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          backgroundColor: Colors.transparent,
-                          shadowColor: Colors.transparent,
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed:
+                          controller.isLoading
+                              ? null
+                              : () {
+                                controller.createNewBaby(skip: skip);
+                              },
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                        child: Ink(
-                          decoration: BoxDecoration(
-                            gradient:
-                                controller.isLoading.value
-                                    ? LinearGradient(
-                                      colors: [Colors.grey, Colors.grey],
-                                    )
-                                    : AppTheme.roundButtonGradient,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Container(
-                            alignment: Alignment.center,
-                            child:
-                                controller.isLoading.value
-                                    ? const SizedBox(
-                                      height: 20,
-                                      width: 20,
-                                      child: CircularProgressIndicator(
-                                        valueColor: AlwaysStoppedAnimation(
-                                          Colors.white,
-                                        ),
-                                        strokeWidth: 2,
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                      ),
+                      child: Ink(
+                        decoration: BoxDecoration(
+                          gradient:
+                              controller.isLoading
+                                  ? LinearGradient(
+                                    colors: [Colors.grey, Colors.grey],
+                                  )
+                                  : AppTheme.roundButtonGradient,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Container(
+                          alignment: Alignment.center,
+                          child:
+                              controller.isLoading
+                                  ? const SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation(
+                                        Colors.white,
                                       ),
-                                    )
-                                    : const Text(
-                                      'Save Baby Details',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                      strokeWidth: 2,
                                     ),
-                          ),
+                                  )
+                                  : const Text(
+                                    'Save Baby Details',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                         ),
                       ),
                     ),

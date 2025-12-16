@@ -359,7 +359,7 @@ class SearchDonarController extends GetxController {
             'Success',
             'Request sent successfully!',
             backgroundColor: Colors.green,
-            colorText: Colors.white,
+            colorText: Colors.black,
           );
         },
         onError: (error) {

@@ -102,7 +102,12 @@ class AppTheme {
   static ThemeData lightTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.light,
-
+    snackBarTheme: const SnackBarThemeData(
+      contentTextStyle: TextStyle(
+        color: Colors.black, // default text color
+        fontSize: 14,
+      ),
+    ),
     colorScheme: const ColorScheme.light(
       primary: primaryColor,
       secondary: secondaryColor,
@@ -122,7 +127,9 @@ class AppTheme {
     appBarTheme: const AppBarTheme(
       backgroundColor: backgroundColor,
       foregroundColor: textPrimaryColor,
+
       elevation: 0,
+
       centerTitle: true,
       titleTextStyle: TextStyle(
         fontFamily: primaryFont,
@@ -292,6 +299,14 @@ class AppTheme {
   static ThemeData darkTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.dark,
+    snackBarTheme: const SnackBarThemeData(
+      contentTextStyle: TextStyle(
+        color: Colors.black, // default text color
+        fontSize: 14,
+      ),
+      backgroundColor: Colors.black,
+    ),
+
     colorScheme: const ColorScheme.dark(
       primary: darkPrimaryColor,
       secondary: darkSecondaryColor,

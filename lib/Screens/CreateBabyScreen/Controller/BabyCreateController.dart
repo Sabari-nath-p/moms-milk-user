@@ -13,12 +13,13 @@ class CreateBabyController extends GetxController {
   DateTime? babyDeliveryDate = DateTime.now();
   final babbyWeightController = TextEditingController();
   final babyHeightController = TextEditingController();
-  var isLoading = false.obs;
+  bool isLoading = false;
 
   Future<void> createNewBaby({bool skip = true}) async {
     if (!validateBabyDetails()) return;
 
-    isLoading.value = true;
+    isLoading = true;
+    update();
 
     ApiService.request(
       endpoint: "/babies",
@@ -31,20 +32,14 @@ class CreateBabyController extends GetxController {
         "userId": user.id,
       },
       onSuccess: (data) {
-        isLoading.value = false;
-        update();
-
         if (data.statusCode == 201 || data.statusCode == 200) {
           if (skip) {
             Get.offAll(MainDashboard());
           } else {
-            try {
-              Homecontroller controller = Get.find();
-              controller.fetchBabies();
-              controller.update();
-            } catch (e) {
-              print("HomeController not found: $e");
-            }
+            Homecontroller controller = Get.put(Homecontroller());
+            controller.fetchBabies();
+            controller.update();
+
             Get.back();
 
             Get.snackbar(
@@ -52,30 +47,32 @@ class CreateBabyController extends GetxController {
               "Baby profile created successfully!",
               snackPosition: SnackPosition.BOTTOM,
               backgroundColor: Colors.green,
-              colorText: Colors.white,
+              colorText: Colors.black,
               duration: const Duration(seconds: 2),
             );
           }
+          isLoading = false;
+          update();
         } else {
           Get.snackbar(
             "Error",
             "Failed to create baby profile. Please try again.",
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.red,
-            colorText: Colors.white,
+            colorText: Colors.black,
           );
         }
 
         update();
       },
       onError: (error) {
-        isLoading.value = false;
+        isLoading = false;
         Get.snackbar(
           "Network Error",
           "Unable to create baby profile. Please check your internet connection.",
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.red,
-          colorText: Colors.white,
+          colorText: Colors.black,
         );
         print("Error creating baby: $error");
 
@@ -86,13 +83,14 @@ class CreateBabyController extends GetxController {
 
   /// Delete a baby profile
   Future<void> deleteBaby(int babyId) async {
-    isLoading.value = true;
-
+    isLoading = true;
+    update();
     await ApiService.request(
       endpoint: "/babies/$babyId",
       method: Api.DELETE,
       onSuccess: (data) {
-        isLoading.value = false;
+        isLoading = false;
+        update();
         if (data.statusCode == 200) {
           Get.snackbar("Success", "Baby deleted successfully");
 
@@ -109,7 +107,8 @@ class CreateBabyController extends GetxController {
         }
       },
       onError: (error) {
-        isLoading.value = false;
+        isLoading = false;
+        update();
         Get.snackbar("Error", "Failed to delete baby: $error");
       },
     );

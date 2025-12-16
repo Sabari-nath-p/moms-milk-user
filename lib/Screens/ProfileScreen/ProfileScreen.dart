@@ -32,12 +32,12 @@ class ProfileScreen extends StatelessWidget {
                 elevation: 0,
                 title: Text(
                   "Profile",
-                  style:TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                            fontFamily: "Inter",
-                          ),
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                    fontFamily: "Inter",
+                  ),
                 ),
                 centerTitle: true,
 
@@ -652,7 +652,8 @@ class ProfileScreen extends StatelessWidget {
       //   'Success',
       //   'You account have been deleted successfully',
       //   backgroundColor: Colors.green,
-      //   colorText: Colors.white,
+      //              colorText: Colors.black,
+
       //   duration: const Duration(seconds: 2),
       // );
     } catch (e) {
@@ -666,7 +667,8 @@ class ProfileScreen extends StatelessWidget {
         'Error',
         'Failed to delete. Please try again.',
         backgroundColor: Colors.red,
-        colorText: Colors.white,
+        colorText: Colors.black,
+
         duration: const Duration(seconds: 3),
       );
     }
@@ -718,7 +720,8 @@ Future<void> _performLogout(BuildContext context) async {
       'Success',
       'You have been logged out successfully',
       backgroundColor: Colors.green,
-      colorText: Colors.white,
+      colorText: Colors.black,
+
       duration: const Duration(seconds: 2),
     );
   } catch (e) {
@@ -732,7 +735,8 @@ Future<void> _performLogout(BuildContext context) async {
       'Error',
       'Failed to logout. Please try again.',
       backgroundColor: Colors.red,
-      colorText: Colors.white,
+      colorText: Colors.black,
+
       duration: const Duration(seconds: 3),
     );
   }

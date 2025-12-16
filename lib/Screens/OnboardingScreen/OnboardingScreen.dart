@@ -22,21 +22,18 @@ class OnboardingScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Setup Your Profile',style:  TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                            fontFamily: "Inter",
-                          ),),
+        title: const Text(
+          'Setup Your Profile',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            color: Colors.black,
+            fontFamily: "Inter",
+          ),
+        ),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading:
-            controller.currentStep > 0
-                ? IconButton(
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: controller.previousStep,
-                )
-                : const SizedBox.shrink(),
+        // leading: controller.currentStep == 0 ? null : const SizedBox.shrink(),
       ),
       body: GetBuilder<Onboardingcontroller>(
         builder: (controller) {
@@ -87,7 +84,7 @@ class OnboardingScreen extends StatelessWidget {
               // Navigation Buttons
               Container(
                 padding: const EdgeInsets.all(16),
-                margin: EdgeInsets.only(bottom: 20,left: 16,right: 16),
+                margin: EdgeInsets.only(bottom: 20, left: 16, right: 16),
                 child: Row(
                   children: [
                     if (controller.currentStep > 0)
@@ -98,40 +95,40 @@ class OnboardingScreen extends StatelessWidget {
                         ),
                       ),
                     if (controller.currentStep > 0) const SizedBox(width: 16),
-                   Expanded(
-  child: Container(
-    decoration: BoxDecoration(
-      gradient: AppTheme.roundButtonGradient,
-      borderRadius: BorderRadius.circular(8),
-    ),
-    child: ElevatedButton(
-      onPressed: () {
-        controller.nextStep();
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.transparent,
-        shadowColor: Colors.transparent,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-      ),
-      child: controller.isLoading
-          ? const SizedBox(
-              height: 20,
-              width: 20,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                color: Colors.white,
-              ),
-            )
-          : Text(
-              "Continue",
-              style: TextStyle(color: Colors.white),
-            ),
-    ),
-  ),
-),
-
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: AppTheme.roundButtonGradient,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            controller.nextStep();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.transparent,
+                            shadowColor: Colors.transparent,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          child:
+                              controller.isLoading
+                                  ? const SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                  : Text(
+                                    "Continue",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),

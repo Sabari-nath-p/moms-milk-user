@@ -31,6 +31,10 @@ class AuthenticationController extends GetxController {
       onSuccess: (data) async {
         if (data.statusCode == 201 || data.statusCode == 200) {
           print(data.data);
+          emailController.text = "";
+          otpController.text = "";
+          isOtpSent = false;
+          update();
           if (data.data["isNew"] ?? false) {
             Get.to(
               () => OnboardingScreen(emailID: emailController.text),

@@ -298,7 +298,7 @@ class Requestcontroller extends GetxController {
           'Success',
           'Request accepted successfully!',
           backgroundColor: Colors.green,
-          colorText: Colors.white,
+          colorText: Colors.black,
         );
         // Refresh incoming requests
         fetchIncomingRequests();
@@ -326,7 +326,7 @@ class Requestcontroller extends GetxController {
           'Success',
           'Request declined successfully!',
           backgroundColor: Colors.orange,
-          colorText: Colors.white,
+          colorText: Colors.black,
         );
         // Refresh incoming requests
         fetchIncomingRequests();
