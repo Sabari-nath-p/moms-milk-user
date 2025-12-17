@@ -96,9 +96,12 @@ class CreateBabyScreen extends StatelessWidget {
 
                   // Baby Name
                   TextField(
-                    controller: controller.babyNameController,
-                    textInputAction: TextInputAction.next,
-                    style: const TextStyle(fontSize: 16),
+                   controller: controller.babyNameController,
+  textInputAction: TextInputAction.newline,
+  maxLines: 2,
+  minLines: 1,
+  keyboardType: TextInputType.name,
+  style: const TextStyle(fontSize: 16),
                     decoration: InputDecoration(
                       labelText: 'Baby\'s Name *',
                       hintText: 'Enter baby\'s name',

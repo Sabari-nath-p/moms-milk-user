@@ -102,9 +102,10 @@ class OnboardingScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: ElevatedButton(
-                          onPressed: () {
-                            controller.nextStep();
-                          },
+                         onPressed: controller.isLoading ? null : () {
+  controller.nextStep();
+},
+
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.transparent,
                             shadowColor: Colors.transparent,
