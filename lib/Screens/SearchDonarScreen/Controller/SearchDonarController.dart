@@ -302,7 +302,7 @@ class SearchDonarController extends GetxController {
   }
 
   String getAvailabilityText(bool isAvailable) {
-    return isAvailable ? 'Available' : 'Busy';
+    return isAvailable ? 'Available' : 'Unavailable';
   }
 
   // Navigation functions

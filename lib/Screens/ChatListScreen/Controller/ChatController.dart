@@ -1,124 +1,181 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
-import 'package:mommilk_user/Screens/ChatListScreen/ChatScreen.dart';
+import 'package:mommilk_user/Screens/ChatListScreen/ChatScreen.dart'; // Ensure correct import path
 import 'package:mommilk_user/Screens/ChatListScreen/Models/ChatModel.dart';
 import 'package:mommilk_user/Screens/ChatListScreen/Models/SessionModel.dart';
-import 'package:mommilk_user/Screens/ChatScreen/ChatScreen.dart';
+import 'package:mommilk_user/Screens/ChatScreen/ChatScreen.dart'; // Ensure correct import path
 import 'package:mommilk_user/Utils/ApiService.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
-class Chatcontroller extends GetxController {
+// 1. Add WidgetsBindingObserver mixin
+class Chatcontroller extends GetxController with WidgetsBindingObserver {
   late Socket socket;
 
   int unReadMessage = 0;
-
   int currentUser = 0;
   String currentUserName = "";
   int sessionID = 0;
   bool isDonar = false;
 
   ScrollController scrollController = ScrollController();
-
   TextEditingController messageText = TextEditingController();
   List<ChatMessage> messageList = [];
   List<ChatSession> chatSessionList = [];
 
-  // If you have AuthController with user model, you can access it like this:
+  // If you have AuthController with user model:
   // final authController = Get.find<AuthController>();
   // UserModel get user => authController.user;
+  // MOCK USER FOR CONTEXT (Replace with your actual User getter)
+
+  @override
+  void onInit() {
+    super.onInit();
+    // 2. Register the observer to listen to app changes
+    WidgetsBinding.instance.addObserver(this);
+
+    startWebsocketConnection();
+    loadAllSessions();
+  }
+
+  @override
+  void onClose() {
+    // 3. Remove the observer to prevent memory leaks
+    WidgetsBinding.instance.removeObserver(this);
+
+    try {
+      socket.disconnect();
+      socket.dispose(); // Use dispose instead of close for cleaner cleanup
+    } catch (e) {
+      log("Error closing socket: $e");
+    }
+
+    messageText.dispose();
+    super.onClose();
+  }
+
+  // 4. Handle App Lifecycle Changes
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    log('App Lifecycle State: $state', name: 'ChatController');
+
+    if (state == AppLifecycleState.resumed) {
+      // App is back in the foreground
+      _handleAppResumed();
+    }
+  }
+
+  /// Logic to run when app returns to foreground
+  void _handleAppResumed() {
+    // Check if socket is disconnected and reconnect
+    if (socket.disconnected) {
+      log(
+        '🔄 App resumed: Socket disconnected, attempting reconnect...',
+        name: 'ChatController',
+      );
+      socket.connect();
+    } else {
+      log(
+        '✅ App resumed: Socket is already connected.',
+        name: 'ChatController',
+      );
+    }
+
+    // CRITICAL: Refresh data because we might have missed events while in background
+    loadAllSessions();
+    if (sessionID != 0) {
+      loadUserFullMessage(sID: sessionID);
+    }
+  }
 
   Future<void> startWebsocketConnection() async {
     String authToken = await ApiService.getAuthToken() ?? "";
 
-    log('Initializing chat socket connection...', name: 'ChatController');
-
+    // Added reconnection options for better stability
     socket = io(
       "wss://api.momsmilk.app/chat",
       OptionBuilder()
           .setTransports(['websocket'])
           .setAuth({'token': authToken})
           .enableAutoConnect()
+          .setReconnectionDelay(1000) // Retry every 1 second initially
+          .setReconnectionAttempts(double.infinity) // Keep retrying
           .build(),
     );
 
     socket.onConnect((_) {
       log('✅ Connected to chat socket', name: 'ChatController');
+      // Optional: re-emit any join rooms logic here if needed
     });
 
     socket.onDisconnect((reason) {
       log('❌ Disconnected from chat socket: $reason', name: 'ChatController');
+      // If disconnected due to network issues, the AutoConnect options handle it.
+      // If disconnected due to backgrounding, didChangeAppLifecycleState handles it.
+    });
+
+    socket.onConnectError((data) {
+      log('⚠️ Connect Error: $data', name: 'ChatController');
     });
 
     socket.onError((data) {
       log('⚠️ Socket error: $data', name: 'ChatController');
     });
 
-    // Your messages read
+    // --- Event Listeners ---
     socket.on('messagesRead', (data) {
       final map = Map<String, dynamic>.from(data);
-      final ids = List<int>.from(map['messageIds']);
-      final readBy = map['readBy'];
-
-      log(
-        '📩 messagesRead event. Messages read by $readBy: $ids',
-        name: 'ChatController',
-      );
-
-      for (var id in ids) {
-        updateReadStatus(id);
+      if (map['messageIds'] != null) {
+        final ids = List<int>.from(map['messageIds']);
+        for (var id in ids) {
+          updateReadStatus(id);
+        }
       }
     });
 
-    // Your messages delivered
     socket.on('messagesDelivered', (data) {
-      final map = Map<String, dynamic>.from(data);
-      final ids = List<int>.from(map['messageIds']);
+      // Handle delivered status
+    });
 
-      log(
-        '📦 messagesDelivered event. Messages delivered: $ids',
-        name: 'ChatController',
-      );
+    socket.on('newMessageSent', (data) {
+      log("new Message sent -- > {${data}}");
+      final message = ChatMessage.fromJson(Map<String, dynamic>.from(data));
 
-      // Optional: update delivery status for messages here
+      if (message.sessionId == sessionID) {
+        messageList.add(message);
+        _scrollToBottom();
+      }
+      update();
+      if (data["session"] != null) {
+        final session = ChatSession.fromJson(
+          Map<String, dynamic>.from(data["session"]),
+        );
+        updateSessionLastMessages(session);
+      }
     });
 
     socket.on('newMessage', (data) {
-      log('📨 newMessage event received: $data', name: 'ChatController');
-
+      log("new Message get -- > {${data}}");
       final message = ChatMessage.fromJson(Map<String, dynamic>.from(data));
 
-      // Show in current chat if session matches
-      print(sessionID);
-      print(message.sessionId);
       if (message.sessionId == sessionID) {
         messageList.add(message);
 
-        // Auto-mark as read if message is from the other user
-
-        if (message.senderId != user.id) {
-          log(
-            'Marking new message ${message.id} as read',
-            name: 'ChatController',
-          );
-
+        // Access user safely
+        if (user != null && message.senderId != user.id) {
           socket.emit('markAsRead', {
             'messageIds': [message.id],
           });
-          scrollController.jumpTo(0);
+          _scrollToBottom();
         }
         update();
       }
 
-      // Auto-mark as delivered for all new messages
-      log('Marking message ${message.id} as delivered', name: 'ChatController');
       socket.emit('markAsDelivered', {
         'messageIds': [message.id],
       });
 
-      // Update / insert session in session list
       if (data["session"] != null) {
         final session = ChatSession.fromJson(
           Map<String, dynamic>.from(data["session"]),
@@ -128,48 +185,43 @@ class Chatcontroller extends GetxController {
     });
   }
 
-  /// Recalculate total unread count from all sessions
+  void _scrollToBottom() {
+    if (scrollController.hasClients) {
+      // Small delay ensures the list has rendered the new item
+      Future.delayed(const Duration(milliseconds: 100), () {
+        scrollController.animateTo(
+          0.0, // Assuming reverse: true in ListView, otherwise use maxScrollExtent
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      });
+    }
+  }
+
   void updateUnreadMessage() {
     unReadMessage = 0;
     for (var session in chatSessionList) {
-      unReadMessage += session.unreadCount; // Correct: no ++ here
+      unReadMessage += session.unreadCount;
     }
-    log('🔢 Total unread messages: $unReadMessage', name: 'ChatController');
     update();
   }
 
-  /// Public helper if you want to trigger unread calculation
   void countUnreadMessage() {
-    log('Recounting unread messages...', name: 'ChatController');
     updateUnreadMessage();
   }
 
-  /// Move or insert session to top and then update unread counts
   void updateSessionLastMessages(ChatSession session) {
-    log(
-      '🔄 Updating session list for sessionId=${session.id}',
-      name: 'ChatController',
-    );
-
     final index = chatSessionList.indexWhere((s) => s.id == session.id);
-
     if (index != -1) {
       chatSessionList.removeAt(index);
     }
-
     chatSessionList.insert(0, session);
-
     updateUnreadMessage();
   }
 
-  /// Mark all messages in current session as read
   void markAllAsRead() {
-    log(
-      'Marking all messages as read for sessionID=$sessionID',
-      name: 'ChatController',
-    );
-
     final List<int> messageIds = [];
+    if (user == null) return; // Guard clause
 
     for (var msg in messageList) {
       if (!msg.isRead && msg.senderId != user.id) {
@@ -178,7 +230,6 @@ class Chatcontroller extends GetxController {
       }
     }
 
-    // Reset unread count for this session
     final sessionIndex = chatSessionList.indexWhere((s) => s.id == sessionID);
     if (sessionIndex != -1) {
       chatSessionList[sessionIndex].unreadCount = 0;
@@ -187,56 +238,37 @@ class Chatcontroller extends GetxController {
     updateUnreadMessage();
 
     if (messageIds.isNotEmpty) {
-      log(
-        'Sending markAsRead for messages: $messageIds',
-        name: 'ChatController',
-      );
       socket.emit('markAsRead', {'messageIds': messageIds});
     } else {
       update();
     }
   }
 
-  /// Update read status of a single message (from socket event)
   void updateReadStatus(int id) {
-    log('Updating read status for messageId=$id', name: 'ChatController');
-
-    // Update in current message list
     for (var msg in messageList) {
       if (msg.id == id) {
         msg.isRead = true;
         break;
       }
     }
-
-    // Update in sessions + adjust unread count
     for (var session in chatSessionList) {
       if (session.lastMessage?.id == id) {
         session.lastMessage!.isRead = true;
-
         if (session.unreadCount > 0) {
           session.unreadCount -= 1;
         }
         break;
       }
     }
-
     updateUnreadMessage();
   }
 
-  /// Send a message to currently opened user
   void sentMessage(String message) {
-    log(
-      'Sending message to user=$currentUser, content="$message"',
-      name: 'ChatController',
-    );
-
+    log("send message function ->" + currentUser.toString());
     socket.emit('sendMessage', {
       'recipientId': currentUser,
       'content': message,
     });
-
-    // Let the server emit `newMessage` back, so we don't duplicate locally
   }
 
   void OpenChatUser({
@@ -248,36 +280,23 @@ class Chatcontroller extends GetxController {
     currentUser = userID;
     currentUserName = userName;
     this.isDonar = isDonar;
-    log(
-      'Opening chat. userID=$userID, session=$session, isDonar=$isDonar',
-      name: 'ChatController',
-    );
 
-    Get.to(ChatScreen(), transition: Transition.rightToLeft);
+    // Use Get.to to navigate
+    Get.to(() => ChatScreen(), transition: Transition.rightToLeft);
 
     if (session != 0) {
-      // If a specific session is passed, use that
       sessionID = session;
       loadUserFullMessage(sID: sessionID);
     } else {
-      // Otherwise fetch/create a session for this user
       loadSessionData(userID);
     }
   }
 
-  /// Load full message history for a session
   void loadUserFullMessage({required int sID}) {
-    log('Loading full messages for sessionID=$sID', name: 'ChatController');
-
     ApiService.request(
       endpoint: "/chat/sessions/$sID/messages",
       method: Api.GET,
       onSuccess: (dataResponse) {
-        log(
-          'loadUserFullMessage success: ${dataResponse.data}',
-          name: 'ChatController',
-        );
-
         messageList.clear();
         sessionID = sID;
 
@@ -287,89 +306,36 @@ class Chatcontroller extends GetxController {
 
         update();
         markAllAsRead();
-
-        scrollController.jumpTo(0);
+        _scrollToBottom();
       },
-      onError: (error) {
-        log('❌ loadUserFullMessage error: $error', name: 'ChatController');
-      },
+      onError: (error) {},
     );
   }
 
-  /// Load all chat sessions for this user
   void loadAllSessions() {
-    log('Loading all chat sessions...', name: 'ChatController');
-
     ApiService.request(
       endpoint: "/chat/sessions?page=1&limit=100",
       method: Api.GET,
       onSuccess: (dataResponse) {
-        log(
-          'loadAllSessions success: ${dataResponse.data}',
-          name: 'ChatController',
-        );
-
         chatSessionList.clear();
-
         for (var data in dataResponse.data["sessions"]) {
           chatSessionList.add(ChatSession.fromJson(data));
         }
-
         updateUnreadMessage();
       },
-      onError: (error) {
-        log('❌ loadAllSessions error: $error', name: 'ChatController');
-      },
+      onError: (error) {},
     );
   }
 
-  /// Fetch or create session for a specific user and then load messages
   void loadSessionData(int userID) {
-    log(
-      'Loading / creating session for userID=$userID',
-      name: 'ChatController',
-    );
-
     ApiService.request(
       endpoint: "/chat/session/$userID",
       method: Api.GET,
       onSuccess: (dataResponse) {
-        log(
-          'loadSessionData success: ${dataResponse.data}',
-          name: 'ChatController',
-        );
-
         final int sID = dataResponse.data["id"];
         loadUserFullMessage(sID: sID);
       },
-      onError: (error) {
-        log('❌ loadSessionData error: $error', name: 'ChatController');
-      },
+      onError: (error) {},
     );
-  }
-
-  @override
-  void onInit() {
-    super.onInit();
-
-    log('Chatcontroller onInit', name: 'ChatController');
-
-    startWebsocketConnection();
-    loadAllSessions();
-  }
-
-  @override
-  void onClose() {
-    log('Chatcontroller onClose - cleaning up', name: 'ChatController');
-
-    try {
-      socket.disconnect();
-      socket.close();
-    } catch (e) {
-      log('Error while closing socket: $e', name: 'ChatController');
-    }
-
-    messageText.dispose();
-    super.onClose();
   }
 }

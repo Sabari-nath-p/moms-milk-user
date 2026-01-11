@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Models/FeedingLogModel.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
@@ -60,7 +61,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                 Row(
                   children: [
                     Icon(
-                      Icons.restaurant,
+                      FontAwesomeIcons.personBreastfeeding,
                       color: Theme.of(context).colorScheme.primary,
                       size: 28,
                     ),
@@ -130,59 +131,69 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                 ),
 
                 const SizedBox(height: 12),
-Row(
-  children: FeedType.values.map((type) {
-    final isSelected = selectedFeedType == type;
+                Row(
+                  children:
+                      FeedType.values.map((type) {
+                        final isSelected = selectedFeedType == type;
 
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.only(right: 8),
-        child: FilterChip(
-          label: SizedBox(
-            width: double.infinity,
-            child: Text(
-              '${type.icon} ${type.displayName}',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: isSelected
-                    ? Theme.of(context).colorScheme.primary   // Pink text
-                    : Colors.black,                          // Normal
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-              ),
-            ),
-          ),
+                        return Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 8),
+                            child: FilterChip(
+                              label: SizedBox(
+                                width: double.infinity,
+                                child: Text(
+                                  '${type.icon} ${type.displayName}',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color:
+                                        isSelected
+                                            ? Theme.of(context)
+                                                .colorScheme
+                                                .primary // Pink text
+                                            : Colors.black, // Normal
+                                    fontWeight:
+                                        isSelected
+                                            ? FontWeight.bold
+                                            : FontWeight.normal,
+                                  ),
+                                ),
+                              ),
 
-          selected: isSelected,
-          onSelected: (selected) {
-            setState(() {
-              selectedFeedType = type;
+                              selected: isSelected,
+                              onSelected: (selected) {
+                                setState(() {
+                                  selectedFeedType = type;
 
-              if (type != FeedType.BREAST) {
-                selectedPosition = null;
-              } else {
-                selectedPosition = FeedPosition.LEFT;
-              }
-            });
-          },
+                                  if (type != FeedType.BREAST) {
+                                    selectedPosition = null;
+                                  } else {
+                                    selectedPosition = FeedPosition.LEFT;
+                                  }
+                                });
+                              },
 
-          selectedColor:
-              Theme.of(context).colorScheme.primary.withOpacity(0.15),
+                              selectedColor: Theme.of(
+                                context,
+                              ).colorScheme.primary.withOpacity(0.15),
 
-          checkmarkColor: Theme.of(context).colorScheme.primary,
+                              checkmarkColor:
+                                  Theme.of(context).colorScheme.primary,
 
-          backgroundColor: Theme.of(context).colorScheme.surface,
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.surface,
 
-          side: BorderSide(
-            color: isSelected
-                ? Theme.of(context).colorScheme.primary
-                : Theme.of(context).colorScheme.outline,
-          ),
-        ),
-      ),
-    );
-  }).toList(),
-),
-
+                              side: BorderSide(
+                                color:
+                                    isSelected
+                                        ? Theme.of(context).colorScheme.primary
+                                        : Theme.of(context).colorScheme.outline,
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                ),
 
                 // Position Selection (only for breast feeding)
                 if (selectedFeedType == FeedType.BREAST) ...[
@@ -194,53 +205,68 @@ Row(
                     ),
                   ),
                   const SizedBox(height: 12),
-                 Row(
-  children: FeedPosition.values.map((position) {
-    final isSelected = selectedPosition == position;
+                  Row(
+                    children:
+                        FeedPosition.values.map((position) {
+                          final isSelected = selectedPosition == position;
 
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.only(right: 8),
-        child: FilterChip(
-          label: SizedBox(
-            width: double.infinity,
-            child: Text(
-              position.displayName,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: isSelected
-                    ? Theme.of(context).colorScheme.primary   // Pink text
-                    : Colors.black,
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-              ),
-            ),
-          ),
+                          return Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 8),
+                              child: FilterChip(
+                                label: SizedBox(
+                                  width: double.infinity,
+                                  child: Text(
+                                    position.displayName,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color:
+                                          isSelected
+                                              ? Theme.of(context)
+                                                  .colorScheme
+                                                  .primary // Pink text
+                                              : Colors.black,
+                                      fontWeight:
+                                          isSelected
+                                              ? FontWeight.bold
+                                              : FontWeight.normal,
+                                    ),
+                                  ),
+                                ),
 
-          selected: isSelected,
-          onSelected: (selected) {
-            setState(() {
-              selectedPosition = selected ? position : null;
-            });
-          },
+                                selected: isSelected,
+                                onSelected: (selected) {
+                                  setState(() {
+                                    selectedPosition =
+                                        selected ? position : null;
+                                  });
+                                },
 
-          selectedColor:
-              Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                                selectedColor: Theme.of(
+                                  context,
+                                ).colorScheme.primary.withOpacity(0.2),
 
-          checkmarkColor: Theme.of(context).colorScheme.primary,
+                                checkmarkColor:
+                                    Theme.of(context).colorScheme.primary,
 
-          backgroundColor: Theme.of(context).colorScheme.surface,
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.surface,
 
-          side: BorderSide(
-            color: isSelected
-                ? Theme.of(context).colorScheme.primary
-                : Theme.of(context).colorScheme.outline,
-          ),
-        ),
-      ),
-    );
-  }).toList(),
-)
-
+                                side: BorderSide(
+                                  color:
+                                      isSelected
+                                          ? Theme.of(
+                                            context,
+                                          ).colorScheme.primary
+                                          : Theme.of(
+                                            context,
+                                          ).colorScheme.outline,
+                                ),
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                  ),
                 ],
 
                 const SizedBox(height: 16),
@@ -251,7 +277,7 @@ Row(
                   title: "Amount(ml)",
                   icon: Icon(
                     Icons.local_drink_outlined,
-                    color:    Theme.of(context).colorScheme.primary,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
 

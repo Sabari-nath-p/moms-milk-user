@@ -94,21 +94,21 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                           ],
                         ),
                       ),
-                        const SizedBox(width: 12),
-                       IconButton(
-      icon: const Icon(Icons.close),
-      splashRadius: 20,
-      onPressed: () {
-        Navigator.pop(context); // closes bottom sheet
-      },
-    ),
+                      const SizedBox(width: 12),
+                      IconButton(
+                        icon: const Icon(Icons.close),
+                        splashRadius: 20,
+                        onPressed: () {
+                          Navigator.pop(context); // closes bottom sheet
+                        },
+                      ),
                     ],
                   ),
                   const SizedBox(height: 24),
 
                   // Description field
                   Text(
-                    'Request Description',
+                    'Request Note',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
@@ -119,7 +119,7 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                     maxLines: 3,
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
-                      hintText: 'Please describe your milk request...',
+                      hintText: 'Sent a note...',
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide(
@@ -317,6 +317,7 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                     width: double.infinity,
                     child: InkWell(
                       onTap: () {
+                        print(quantityController.text.trim());
                         if (descriptionController.text.trim().isEmpty) {
                           Get.snackbar('Error', 'Please enter a description');
                           return;
@@ -330,7 +331,9 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                         controller.sendRequestToDonor(
                           donorId: widget.donar.donor!.id!,
                           description: descriptionController.text.trim(),
-                          quantity: int.tryParse(quantityController.text) ?? 0,
+                          quantity:
+                              (double.tryParse(quantityController.text) ?? 0)
+                                  .toInt(),
                           urgency: selectedUrgency,
                           neededBy: selectedDate,
                         );

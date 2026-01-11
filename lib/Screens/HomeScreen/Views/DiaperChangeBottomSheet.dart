@@ -29,7 +29,6 @@ class _DiaperChangeBottomSheetState extends State<DiaperChangeBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: const BorderRadius.only(
@@ -61,15 +60,11 @@ class _DiaperChangeBottomSheetState extends State<DiaperChangeBottomSheet> {
                   ),
                   const Spacer(),
                   IconButton(
-  onPressed: () {
-    if (Get.key.currentState!.canPop()) {
-      Get.back();
-    } else {
-      Get.offAll(() => MainDashboard());
-    }
-  },
-  icon: const Icon(Icons.close),
-),
+                    onPressed: () {
+                      Get.back();
+                    },
+                    icon: const Icon(Icons.close),
+                  ),
                 ],
               ),
 
@@ -105,53 +100,63 @@ class _DiaperChangeBottomSheetState extends State<DiaperChangeBottomSheet> {
 
               const SizedBox(height: 12),
 
-             Row(
-  children: DiaperType.values.map((type) {
-    final isSelected = selectedDiaperType == type;
+              Row(
+                children:
+                    DiaperType.values.map((type) {
+                      final isSelected = selectedDiaperType == type;
 
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.only(right: 8),
-        child: FilterChip(
-          label: SizedBox(
-            width: double.infinity,
-            child: Text(
-              type.displayName,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: isSelected
-                    ? Theme.of(context).colorScheme.primary // Pink
-                    : Colors.black, // Normal
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                      return Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 8),
+                          child: FilterChip(
+                            label: SizedBox(
+                              width: double.infinity,
+                              child: Text(
+                                type.displayName,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color:
+                                      isSelected
+                                          ? Theme.of(context)
+                                              .colorScheme
+                                              .primary // Pink
+                                          : Colors.black, // Normal
+                                  fontWeight:
+                                      isSelected
+                                          ? FontWeight.w600
+                                          : FontWeight.normal,
+                                ),
+                              ),
+                            ),
+
+                            selected: isSelected,
+                            onSelected: (selected) {
+                              setState(() {
+                                selectedDiaperType = type;
+                              });
+                            },
+
+                            selectedColor: Theme.of(
+                              context,
+                            ).colorScheme.primary.withOpacity(0.15),
+
+                            checkmarkColor:
+                                Theme.of(context).colorScheme.primary,
+
+                            backgroundColor:
+                                Theme.of(context).colorScheme.surface,
+
+                            side: BorderSide(
+                              color:
+                                  isSelected
+                                      ? Theme.of(context).colorScheme.primary
+                                      : Colors.grey[300]!,
+                            ),
+                          ),
+                        ),
+                      );
+                    }).toList(),
               ),
-            ),
-          ),
-
-          selected: isSelected,
-          onSelected: (selected) {
-            setState(() {
-              selectedDiaperType = type;
-            });
-          },
-
-          selectedColor:
-              Theme.of(context).colorScheme.primary.withOpacity(0.15),
-
-          checkmarkColor: Theme.of(context).colorScheme.primary,
-
-          backgroundColor: Theme.of(context).colorScheme.surface,
-
-          side: BorderSide(
-            color: isSelected
-                ? Theme.of(context).colorScheme.primary
-                : Colors.grey[300]!,
-          ),
-        ),
-      ),
-    );
-  }).toList(),
-),
-
 
               const SizedBox(height: 16),
 

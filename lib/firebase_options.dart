@@ -59,10 +59,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAR80XU42PRkHomn_jj5zeZGZ-Hd_o6uMg',
-    appId: '1:1058336253933:ios:d150b92cc0707fbf47a9e4',
+    appId: '1:1058336253933:ios:611d274a8db5be2447a9e4',
     messagingSenderId: '1058336253933',
     projectId: 'momsmilk-8df67',
     storageBucket: 'momsmilk-8df67.firebasestorage.app',
-    iosBundleId: 'com.app.momsmilk',
+    iosBundleId: 'com.momsmilk.app',
   );
+
 }

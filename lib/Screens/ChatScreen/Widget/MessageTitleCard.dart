@@ -60,7 +60,7 @@ class MessageTitleCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  (ctrl.isDonar) ? "Milk Donar" : "Milk Buyer",
+                  (ctrl.isDonar) ? "Milk Donar" : "Milk Recipient",
                   style: TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 12,

@@ -58,12 +58,11 @@ class Homecontroller extends GetxController {
       body: model.toJson(),
       onSuccess: (data) {
         Get.back();
-        Get.snackbar('Success', 'Diaper log logged successfully!');
-        // 🔧 NEW: Refresh diaper logs after adding
         Get.to(
           () => Activitytimelinescreen(),
           transition: Transition.rightToLeft,
         );
+        Get.snackbar('Success', 'Diaper log logged successfully!');
       },
     );
     isLoading = false;
@@ -79,12 +78,12 @@ class Homecontroller extends GetxController {
       onSuccess: (data) {
         print(data.data);
         Get.back();
-        Get.snackbar('Success', 'Sleep Log logged successfully!');
         // 🔧 NEW: Refresh sleep logs after adding
         Get.to(
           () => Activitytimelinescreen(),
           transition: Transition.rightToLeft,
         );
+        Get.snackbar('Success', 'Sleep Log logged successfully!');
       },
     );
     isLoading = false;
@@ -98,13 +97,12 @@ class Homecontroller extends GetxController {
       endpoint: "/feed-logs",
       body: model.toJson(),
       onSuccess: (data) {
-        print(data.data);
         Get.back();
-        Get.snackbar('Success', 'Feeding Log logged successfully!');
         Get.to(
           () => Activitytimelinescreen(),
           transition: Transition.rightToLeft,
         );
+        Get.snackbar('Success', 'Feeding Log logged successfully!');
       },
     );
     isLoading = false;

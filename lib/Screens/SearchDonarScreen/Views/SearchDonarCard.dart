@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/state_manager.dart';
 import 'package:mommilk_user/Models/SearchDonarModel.dart';
@@ -50,6 +51,24 @@ class SearchDonarCard extends StatelessWidget {
                             style: Theme.of(context).textTheme.titleMedium
                                 ?.copyWith(fontWeight: FontWeight.w600),
                           ),
+                          if (donar.location!.placeName != "Unknown")
+                            Padding(
+                              padding: EdgeInsetsGeometry.only(bottom: 10),
+                              child: Text(
+                                (donar.location!.placeName!! +
+                                        ", ${donar.location!.country}"
+                                            .replaceAll(", Unknown", ""))
+                                    .replaceAll("Unknown", ""),
+                                maxLines: 1,
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.bodySmall!.copyWith(
+                                  color: Colors.black,
+                                  fontSize: 10.sp,
+                                ),
+                              ),
+                            ),
+
                           Row(
                             children: [
                               Icon(
@@ -58,8 +77,9 @@ class SearchDonarCard extends StatelessWidget {
                                 color: Theme.of(context).colorScheme.primary,
                               ),
                               const SizedBox(width: 4),
+
                               Text(
-                                "${donar.distance ?? "unknow"} km",
+                                "${donar.distanceText ?? "unknow"}",
                                 style: Theme.of(context).textTheme.bodySmall!
                                     .copyWith(color: Colors.black),
                               ),

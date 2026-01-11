@@ -4,14 +4,14 @@ class ChatMessage {
   final int senderId;
   final int sessionId;
 
-   bool isRead;
+  bool isRead;
   final DateTime? readAt;
   final bool isDelivered;
   final DateTime? deliveredAt;
   final DateTime? sentAt;
 
   final DateTime createdAt;
-  final DateTime updatedAt;
+  // final DateTime updatedAt;
 
   ChatMessage({
     required this.id,
@@ -24,7 +24,7 @@ class ChatMessage {
     required this.deliveredAt,
     required this.sentAt,
     required this.createdAt,
-    required this.updatedAt,
+    //    required this.updatedAt,
   });
 
   /// JSON → Dart
@@ -45,7 +45,7 @@ class ChatMessage {
       deliveredAt: _parseDate(json['deliveredAt']),
       sentAt: _parseDate(json['sentAt']),
       createdAt: DateTime.parse(json['createdAt'] as String),
-      updatedAt: DateTime.parse(json['updatedAt'] as String),
+      //updatedAt: DateTime.parse(json['updatedAt'] as String),
     );
   }
 
@@ -64,7 +64,7 @@ class ChatMessage {
       'deliveredAt': _formatDate(deliveredAt),
       'sentAt': _formatDate(sentAt),
       'createdAt': createdAt.toIso8601String(),
-      'updatedAt': updatedAt.toIso8601String(),
+      //'updatedAt': updatedAt.toIso8601String(),
     };
   }
 }

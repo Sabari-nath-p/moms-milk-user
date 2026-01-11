@@ -68,17 +68,13 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                     ),
                   ),
                   const Spacer(),
-               IconButton(
-  onPressed: () {
-    if (Get.key.currentState!.canPop()) {
-      Get.back();
-    } else {
-      Get.offAll(() => MainDashboard());
-    }
-  },
-  icon: const Icon(Icons.close),
-),],
-
+                  IconButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    icon: const Icon(Icons.close),
+                  ),
+                ],
               ),
 
               const SizedBox(height: 24),
@@ -195,12 +191,18 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                               child: Text(
                                 '${location.icon} ${location.displayName}',
                                 textAlign: TextAlign.center,
-                             style: TextStyle(
-                color: isSelected
-                    ? Theme.of(context).colorScheme.primary   // Pink text
-                    : Colors.black,
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-              ),
+                                style: TextStyle(
+                                  color:
+                                      isSelected
+                                          ? Theme.of(context)
+                                              .colorScheme
+                                              .primary // Pink text
+                                          : Colors.black,
+                                  fontWeight:
+                                      isSelected
+                                          ? FontWeight.bold
+                                          : FontWeight.normal,
+                                ),
                               ),
                             ),
                             selected: isSelected,

@@ -31,15 +31,16 @@ class AuthenticationController extends GetxController {
       onSuccess: (data) async {
         if (data.statusCode == 201 || data.statusCode == 200) {
           print(data.data);
-          emailController.text = "";
-          otpController.text = "";
           isOtpSent = false;
           update();
           if (data.data["isNew"] ?? false) {
+            String email = emailController.text;
             Get.to(
-              () => OnboardingScreen(emailID: emailController.text),
+              () => OnboardingScreen(emailID: email),
               transition: Transition.cupertino,
             );
+            emailController.text = "";
+            otpController.text = "";
           } else {
             SharedPreferences pref = await SharedPreferences.getInstance();
             pref.setString("AUTHKEY", data.data["authData"]["accessToken"]);

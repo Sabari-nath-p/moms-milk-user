@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.app.momsmilk</string>
+	<string>com.momsmilk.app</string>
 	<key>PROJECT_ID</key>
 	<string>momsmilk-8df67</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1058336253933:ios:d150b92cc0707fbf47a9e4</string>
+	<string>1:1058336253933:ios:611d274a8db5be2447a9e4</string>
 </dict>
 </plist>

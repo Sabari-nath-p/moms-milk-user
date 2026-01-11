@@ -37,6 +37,8 @@ enum DonorQuality {
 class Onboardingcontroller extends GetxController {
   Onboardingcontroller(String email) {
     emailController.text = email;
+
+    print(email);
     update();
   }
   int currentStep = 0;
@@ -56,10 +58,9 @@ class Onboardingcontroller extends GetxController {
   BloodGroup? seletecBloodGroup;
   List<DonorQuality> selectedQualities = [];
   bool isWillingToShareMedicalReport = false;
-    RxString nameError = ''.obs;
+  RxString nameError = ''.obs;
   RxString phoneError = ''.obs;
   RxString zipError = ''.obs;
-
 
   void previousStep() {
     if (currentStep > 0) {
@@ -160,6 +161,8 @@ class Onboardingcontroller extends GetxController {
   void createUser() async {
     isLoading = true;
     update();
+
+    print(emailController.text);
     await ApiService.request(
       endpoint: "/auth/complete-profile",
       requiresAuth: false,
@@ -195,6 +198,8 @@ class Onboardingcontroller extends GetxController {
             () => CreateBabyScreen(),
             transition: Transition.rightToLeft,
           );
+        } else {
+          print(body.data);
         }
       },
       onError: (error) {
@@ -212,13 +217,14 @@ class Onboardingcontroller extends GetxController {
       if (token != null) {
         ApiService.request(
           endpoint: "/auth/fcm-token",
+          method: Api.PATCH,
           body: {"fcmToken": token},
         );
       }
     } catch (e) {}
   }
 
- bool validateUserDetails() {
+  bool validateUserDetails() {
     // Clear previous errors
     nameError.value = '';
     phoneError.value = '';
@@ -237,26 +243,27 @@ class Onboardingcontroller extends GetxController {
 
     // Phone validation
     // Phone validation
-if (phoneController.text.trim().isEmpty) {
-  phoneError.value = 'Please enter your phone number';
-  isValid = false;
-} else if (!RegExp(r'^[0-9]+$').hasMatch(phoneController.text.trim())) {
-  phoneError.value = 'Phone number should contain only digits';
-  isValid = false;
-} else if (phoneController.text.trim().length < 10) {
-  phoneError.value = 'Phone number must be at least 10 digits long';
-  isValid = false;
-} else if (phoneController.text.trim().length > 10) {
-  phoneError.value = 'Phone number cannot exceed 10 digits';
-  isValid = false;
-}
-
+    if (phoneController.text.trim().isEmpty) {
+      phoneError.value = 'Please enter your phone number';
+      isValid = false;
+    } else if (!RegExp(r'^[0-9]+$').hasMatch(phoneController.text.trim())) {
+      phoneError.value = 'Phone number should contain only digits';
+      isValid = false;
+    } else if (phoneController.text.trim().length < 10) {
+      phoneError.value = 'Phone number must be at least 10 digits long';
+      isValid = false;
+    } else if (phoneController.text.trim().length > 10) {
+      phoneError.value = 'Phone number cannot exceed 10 digits';
+      isValid = false;
+    }
 
     // Zip code validation
     if (zipCodeController.text.trim().isEmpty) {
       zipError.value = 'Please enter your zip code';
       isValid = false;
-    } else if (!RegExp(r'^[0-9A-Za-z\s-]+$').hasMatch(zipCodeController.text.trim())) {
+    } else if (!RegExp(
+      r'^[0-9A-Za-z\s-]+$',
+    ).hasMatch(zipCodeController.text.trim())) {
       zipError.value = 'Please enter a valid zip code';
       isValid = false;
     } else if (zipCodeController.text.trim().length < 3) {
@@ -273,13 +280,16 @@ if (phoneController.text.trim().isEmpty) {
     return isValid;
   }
 
- 
   bool validateDonorDetails() {
-    // Validate blood group selection
-    // if (seletecBloodGroup == null) {
-    //   Get.snackbar('Validation Error', 'Please select your blood group');
-    //   return false;
-    // }
+    if (babyDeliveryDate == null) {
+      Get.snackbar('Validation Error', 'Please select your delivery date');
+      return false;
+    }
+
+    if (seletecBloodGroup == null) {
+      Get.snackbar('Validation Error', 'Please select your blood group');
+      return false;
+    }
 
     // Validate donor qualities (at least one should be selected)
     // if (selectedQualities.isEmpty) {
