@@ -129,47 +129,54 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
         Row(
           children: [
             Expanded(
-              flex: 2,
-              child: TextField(
-                controller: controller.zipSearchText,
-                 
-                textInputAction: TextInputAction.next,
-                style: TextStyle(color: Colors.black87),
-                decoration: InputDecoration(
-                  hintStyle: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 12,
-                  ),
-                  hintText: "Zip Code",
-                  prefixIcon: const Icon(Icons.location_on),
+  flex: 2,
+  child: TextField(
+    controller: controller.zipSearchText,
 
-                  // 👇 Updated Borders
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(
-                      color: Color(0xFFFFE4E6),
-                      width: 1.4,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(
-                      color: Color(0xFFFFE4E6),
-                      width: 1.6,
-                    ),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
+    // ✅ allow text + numbers
+    keyboardType: TextInputType.text,
 
-                  filled: true,
-                  fillColor: Colors.white,
-                ),
-                keyboardType: TextInputType.number,
-              ),
-              
-            ),
+    // ✅ show DONE button
+    textInputAction: TextInputAction.done,
+
+    // ✅ handle Done action
+    onSubmitted: (_) {
+      FocusScope.of(context).unfocus(); // close keyboard
+      controller.searchDonors(); // optional auto search
+    },
+
+    style: const TextStyle(color: Colors.black87),
+    decoration: InputDecoration(
+      hintStyle: const TextStyle(
+        color: Colors.black,
+        fontWeight: FontWeight.w400,
+        fontSize: 12,
+      ),
+      hintText: "Zip Code",
+      prefixIcon: const Icon(Icons.location_on),
+
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(
+          color: Color(0xFFFFE4E6),
+          width: 1.4,
+        ),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(
+          color: Color(0xFFFFE4E6),
+          width: 1.6,
+        ),
+      ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      filled: true,
+      fillColor: Colors.white,
+    ),
+  ),
+),
 
             const SizedBox(width: 12),
             Expanded(

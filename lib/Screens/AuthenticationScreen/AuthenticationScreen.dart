@@ -442,58 +442,62 @@ class Authenticationscreen extends StatelessWidget {
                 ],
               ),
               child: TextField(
-                controller: otpController,
-                keyboardType: TextInputType.number,
-                textInputAction: TextInputAction.done,
-                textAlign: TextAlign.center,
-                maxLength: 6,
+  controller: otpController,
 
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 12,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                decoration: InputDecoration(
-                  // labelText: 'Verification Code',
-                  hintText: '000000',
-                  counterText: '',
-                  filled: true,
-                  fillColor: Theme.of(context).colorScheme.surface,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    borderSide: BorderSide.none,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    borderSide: BorderSide(
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.primary.withOpacity(0.3),
-                      width: 1,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary,
-                      width: 2,
-                    ),
-                  ),
-                  labelStyle: TextStyle(
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.onSurface.withOpacity(0.8),
-                    fontWeight: FontWeight.w500,
-                  ),
-                  hintStyle: TextStyle(
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.onSurface.withOpacity(0.4),
-                    letterSpacing: 8,
-                  ),
-                ),
-              ),
+  // ✅ numeric keyboard
+  keyboardType: TextInputType.phone,
+
+  // ✅ show DONE button
+  textInputAction: TextInputAction.done,
+ 
+  // ✅ handle DONE press
+  onSubmitted: (value) {
+    FocusScope.of(context).unfocus(); // close keyboard
+
+    if (value.length == 6) {
+      controller.verifyOtp();
+    }
+  },
+
+  textAlign: TextAlign.center,
+  maxLength: 6,
+
+  style: TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+    letterSpacing: 12,
+    color: Theme.of(context).colorScheme.primary,
+  ),
+  decoration: InputDecoration(
+    hintText: '000000',
+    counterText: '',
+    filled: true,
+    fillColor: Theme.of(context).colorScheme.surface,
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(16),
+      borderSide: BorderSide.none,
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(16),
+      borderSide: BorderSide(
+        color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+        width: 1,
+      ),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(16),
+      borderSide: BorderSide(
+        color: Theme.of(context).colorScheme.primary,
+        width: 2,
+      ),
+    ),
+    hintStyle: TextStyle(
+      color: Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
+      letterSpacing: 8,
+    ),
+  ),
+),
+
             ),
 
             // Enhanced Resend Section
