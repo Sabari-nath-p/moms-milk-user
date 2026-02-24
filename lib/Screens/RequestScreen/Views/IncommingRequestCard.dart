@@ -17,14 +17,14 @@ class IncommingRequestCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+      margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
 
       elevation: .2,
-      // color: const Color(0xFFFFF0EC).withOpacity(1),
+      // color: Color(0xFFFFF0EC).withOpacity(1),
       borderOnForeground: true,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -38,13 +38,13 @@ class IncommingRequestCard extends StatelessWidget {
                     children: [
                       Text(
                         request.title ?? 'No Title',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: Colors.black54,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      SizedBox(height: 4),
                       Text(
                         request.description ?? 'No description available',
                         style: TextStyle(color: Colors.black54, fontSize: 14),
@@ -54,9 +54,9 @@ class IncommingRequestCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12),
                 Container(
-                  padding: const EdgeInsets.symmetric(
+                  padding: EdgeInsets.symmetric(
                     horizontal: 10,
                     vertical: 6,
                   ),
@@ -66,7 +66,7 @@ class IncommingRequestCard extends StatelessWidget {
                   ),
                   child: Text(
                     (request.urgency ?? 'low').toUpperCase(),
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.black54,
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
@@ -80,21 +80,21 @@ class IncommingRequestCard extends StatelessWidget {
             Row(
               children: [
                 Icon(Icons.person, size: 16, color: Colors.black54),
-                const SizedBox(width: 4),
+                SizedBox(width: 4),
                 Text(
                   request.requester?.name ?? 'Unknown',
                   style: TextStyle(color: Colors.black54, fontSize: 12),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16),
                 Icon(Icons.schedule, size: 16, color: Colors.black54),
-                const SizedBox(width: 4),
+                SizedBox(width: 4),
                 Text(
                   formatDate(request.createdAt ?? ''),
                   style: TextStyle(color: Colors.black54, fontSize: 12),
                 ),
-                const Spacer(),
+                Spacer(),
                 Container(
-                  padding: const EdgeInsets.symmetric(
+                  padding: EdgeInsets.symmetric(
                     horizontal: 8,
                     vertical: 4,
                   ),
@@ -111,7 +111,7 @@ class IncommingRequestCard extends StatelessWidget {
                         size: 14,
                         color: Colors.blue.shade600,
                       ),
-                      const SizedBox(width: 4),
+                      SizedBox(width: 4),
                       Text(
                         '${request.quantity ?? 0} ml',
                         style: TextStyle(
@@ -126,7 +126,7 @@ class IncommingRequestCard extends StatelessWidget {
               ],
             ),
 
-            const SizedBox(height: 12),
+            SizedBox(height: 12),
 
             // Action Buttons
             Row(
@@ -138,12 +138,12 @@ class IncommingRequestCard extends StatelessWidget {
                       backgroundColor: Colors.red.shade500,
                       foregroundColor: Colors.white,
                       elevation: 2,
-                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      padding: EdgeInsets.symmetric(vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child: const Text(
+                    child: Text(
                       'Decline',
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
@@ -152,7 +152,7 @@ class IncommingRequestCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12),
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () => controller.acceptRequest(request.id ?? 0),
@@ -160,12 +160,12 @@ class IncommingRequestCard extends StatelessWidget {
                       backgroundColor: Colors.green.shade500,
                       foregroundColor: Colors.white,
                       elevation: 2,
-                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      padding: EdgeInsets.symmetric(vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child: const Text(
+                    child: Text(
                       'Accept',
                       style: TextStyle(
                         fontWeight: FontWeight.w600,

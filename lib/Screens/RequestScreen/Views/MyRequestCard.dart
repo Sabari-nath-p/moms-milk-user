@@ -18,13 +18,13 @@ class MyRequestCard extends StatelessWidget {
         request.donor != null;
 
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+      margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
       color: Theme.of(context).primaryColor,
 
       elevation: .23,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -38,13 +38,13 @@ class MyRequestCard extends StatelessWidget {
                     children: [
                       Text(
                         request.title ?? 'No Title',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      SizedBox(height: 4),
                       Text(
                         request.description ?? 'No description available',
                         style: TextStyle(color: Colors.black54, fontSize: 14),
@@ -54,9 +54,9 @@ class MyRequestCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12),
                 Container(
-                  padding: const EdgeInsets.symmetric(
+                  padding: EdgeInsets.symmetric(
                     horizontal: 10,
                     vertical: 6,
                   ),
@@ -66,7 +66,7 @@ class MyRequestCard extends StatelessWidget {
                   ),
                   child: Text(
                     (request.status ?? 'pending').toUpperCase(),
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.black87,
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
@@ -76,20 +76,20 @@ class MyRequestCard extends StatelessWidget {
               ],
             ),
 
-            const SizedBox(height: 12),
+            SizedBox(height: 12),
 
             // Info Row
             Row(
               children: [
                 Icon(Icons.schedule, size: 16, color: Colors.black54),
-                const SizedBox(width: 4),
+                SizedBox(width: 4),
                 Text(
                   formatDate(request.createdAt ?? ''),
                   style: TextStyle(color: Colors.black54, fontSize: 12),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16),
                 Icon(Icons.local_drink, size: 16, color: Colors.black54),
-                const SizedBox(width: 4),
+                SizedBox(width: 4),
                 Text(
                   '${request.quantity ?? 0} ml',
                   style: TextStyle(
@@ -98,9 +98,9 @@ class MyRequestCard extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                const Spacer(),
+                Spacer(),
                 Container(
-                  padding: const EdgeInsets.symmetric(
+                  padding: EdgeInsets.symmetric(
                     horizontal: 8,
                     vertical: 4,
                   ),
@@ -128,9 +128,9 @@ class MyRequestCard extends StatelessWidget {
 
             // Contact Section for accepted requests
             if (canContact) ...[
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
               Container(
-                padding: const EdgeInsets.all(12),
+                padding: EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   color: Colors.blue.shade50,
                   borderRadius: BorderRadius.circular(8),
@@ -139,7 +139,7 @@ class MyRequestCard extends StatelessWidget {
                 child: Row(
                   children: [
                     Icon(Icons.person, size: 18, color: Colors.blue.shade600),
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -182,7 +182,7 @@ class MyRequestCard extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue.shade600,
                         foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 16,
                           vertical: 8,
                         ),
@@ -190,7 +190,7 @@ class MyRequestCard extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      child: const Text(
+                      child: Text(
                         'Send a message',
                         style: TextStyle(
                           fontWeight: FontWeight.w600,

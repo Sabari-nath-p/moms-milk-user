@@ -25,7 +25,7 @@ class Homescreen extends StatelessWidget {
     return GetBuilder<Homecontroller>(
       builder: (controller) {
         if (controller.isLoading) {
-          return const Center(child: CircularProgressIndicator());
+          return Center(child: CircularProgressIndicator());
         }
 
         return SafeArea(
@@ -41,8 +41,8 @@ class Homescreen extends StatelessWidget {
         await controller.fetchBabies(isNew: true);
       },
       child: SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.all(20),
+        physics: AlwaysScrollableScrollPhysics(),
+        padding: EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -54,7 +54,7 @@ class Homescreen extends StatelessWidget {
               _buildAddBabyCard(context),
 
             HQuickActions(),
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
           ],
         ),
       ),
@@ -63,7 +63,7 @@ class Homescreen extends StatelessWidget {
 
   Widget _buildAddBabyCard(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: 24),
+      margin: EdgeInsets.only(top: 24),
       decoration: BoxDecoration(
         border: Border.all(
           color: AppTheme.primaryColor.withOpacity(.4),
@@ -71,18 +71,18 @@ class Homescreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(30),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.all(24),
         child: Row(
           children: [
-            const Icon(Icons.baby_changing_station, color: Colors.pink),
-            const SizedBox(width: 12),
+            Icon(Icons.baby_changing_station, color: Colors.pink),
+            SizedBox(width: 12),
             Expanded(
               child: Text(
-                'Add your baby\'s profile to start tracking',
+                'Add your baby\'s profile to start tracking'.tr,
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
             ),
-            const SizedBox(width: 12),
+            SizedBox(width: 12),
             Container(
               decoration: BoxDecoration(
                 gradient: AppTheme.roundButtonGradient,
@@ -99,8 +99,8 @@ class Homescreen extends StatelessWidget {
                     transition: Transition.rightToLeft,
                   );
                 },
-                child: const Text(
-                  'Add Baby',
+                child: Text(
+                  'Add Baby'.tr,
                   style: TextStyle(color: Colors.white),
                 ),
               ),
@@ -108,12 +108,12 @@ class Homescreen extends StatelessWidget {
        
 
             HQuickActions(),
-            const SizedBox(height: 24),
+            SizedBox(height: 24),
           
             // _buildTodayStats(context),
-            // const SizedBox(height: 24),
+            // SizedBox(height: 24),
             // _buildRecentActivity(context),
-            const SizedBox(height: 10), // Bottom padding for navigation
+            SizedBox(height: 10), // Bottom padding for navigation
           ],
         ),
       ),
@@ -169,7 +169,7 @@ class Homescreen extends StatelessWidget {
     final difference = now.difference(time);
 
     if (difference.inMinutes < 1) {
-      return 'Just now';
+      return 'Just now'.tr;
     } else if (difference.inMinutes < 60) {
       return '${difference.inMinutes}m ago';
     } else if (difference.inHours < 24) {
@@ -189,12 +189,12 @@ class Homescreen extends StatelessWidget {
 String getTimeOfDay() {
   final hour = DateTime.now().hour;
   if (hour >= 5 && hour < 12) {
-    return 'Morning';
+    return 'Morning'.tr;
   } else if (hour >= 12 && hour < 17) {
-    return 'Afternoon';
+    return 'Afternoon'.tr;
   } else if (hour >= 17 && hour < 21) {
-    return 'Evening';
+    return 'Evening'.tr;
   } else {
-    return 'Night';
+    return 'Night'.tr;
   }
 }

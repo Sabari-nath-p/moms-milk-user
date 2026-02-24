@@ -8,7 +8,7 @@ import 'package:mommilk_user/Utils/TimeSelectionField.dart';
 import 'package:mommilk_user/Utils/UnitInputField.dart';
 
 class FeedingLogBottomSheet extends StatefulWidget {
-  const FeedingLogBottomSheet({super.key});
+  FeedingLogBottomSheet({super.key});
 
   @override
   State<FeedingLogBottomSheet> createState() => _FeedingLogBottomSheetState();
@@ -41,7 +41,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: const BorderRadius.only(
+        borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
         ),
@@ -65,21 +65,21 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                       color: Theme.of(context).colorScheme.primary,
                       size: 28,
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12),
                     Text(
                       'Log Feeding',
                       style: Theme.of(context).textTheme.headlineSmall
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
-                    const Spacer(),
+                    Spacer(),
                     IconButton(
                       onPressed: () => Get.back(),
-                      icon: const Icon(Icons.close),
+                      icon: Icon(Icons.close),
                     ),
                   ],
                 ),
 
-                const SizedBox(height: 24),
+                SizedBox(height: 24),
 
                 DatePickerField(
                   title: "Select Feeding Date *",
@@ -89,7 +89,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                   },
                 ),
 
-                const SizedBox(height: 24),
+                SizedBox(height: 24),
 
                 // Time Selection Row
                 Row(
@@ -106,7 +106,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                       ),
                     ),
 
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12),
                     // End Time (Optional)
                     Expanded(
                       child: TimePickerField(
@@ -120,7 +120,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                   ],
                 ),
 
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
 
                 // Feed Type Selection
                 Text(
@@ -130,7 +130,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                   ),
                 ),
 
-                const SizedBox(height: 12),
+                SizedBox(height: 12),
                 Row(
                   children:
                       FeedType.values.map((type) {
@@ -138,7 +138,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
 
                         return Expanded(
                           child: Padding(
-                            padding: const EdgeInsets.only(right: 8),
+                            padding: EdgeInsets.only(right: 8),
                             child: FilterChip(
                               label: SizedBox(
                                 width: double.infinity,
@@ -197,14 +197,14 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
 
                 // Position Selection (only for breast feeding)
                 if (selectedFeedType == FeedType.BREAST) ...[
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16),
                   Text(
                     'Position',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12),
                   Row(
                     children:
                         FeedPosition.values.map((position) {
@@ -212,7 +212,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
 
                           return Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.only(right: 8),
+                              padding: EdgeInsets.only(right: 8),
                               child: FilterChip(
                                 label: SizedBox(
                                   width: double.infinity,
@@ -269,7 +269,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                   ),
                 ],
 
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
 
                 // Amount Field (Optional)
                 UnitInputField(
@@ -283,15 +283,15 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
 
                 // TextField(
                 //   controller: amountController,
-                //   keyboardType: const TextInputType.numberWithOptions(
+                //   keyboardType: TextInputType.numberWithOptions(
                 //     decimal: true,
                 //   ),
                 //   textInputAction: TextInputAction.done,
-                //   style: const TextStyle(fontSize: 16),
+                //   style: TextStyle(fontSize: 16),
                 //   decoration: InputDecoration(
                 //     labelText: 'Amount (ml)',
                 //     hintText: 'e.g., 120',
-                //     prefixIcon: const Icon(Icons.local_drink_outlined),
+                //     prefixIcon: Icon(Icons.local_drink_outlined),
                 //     suffixText: 'ml',
                 //     border: OutlineInputBorder(
                 //       borderRadius: BorderRadius.circular(12),
@@ -311,18 +311,18 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                 //     ),
                 //   ),
                 // ),
-                if (false) const SizedBox(height: 16),
+                if (false) SizedBox(height: 16),
 
                 // Note Field (Optional)
                 if (false)
                   TextField(
                     controller: noteController,
                     maxLines: 3,
-                    style: const TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: 16),
                     decoration: InputDecoration(
                       labelText: 'Note (Optional)',
                       hintText: 'Add any additional notes about the feeding...',
-                      prefixIcon: const Icon(Icons.note_outlined),
+                      prefixIcon: Icon(Icons.note_outlined),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -342,7 +342,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                     ),
                   ),
 
-                const SizedBox(height: 24),
+                SizedBox(height: 24),
 
                 // Action Buttons
                 Row(
@@ -351,7 +351,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                       child: OutlinedButton(
                         onPressed: () => Get.back(),
                         style: OutlinedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          padding: EdgeInsets.symmetric(vertical: 16),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -368,7 +368,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 16),
+                    SizedBox(width: 16),
                     Expanded(
                       child: ElevatedButton(
                         onPressed: _saveFeedingLog,
@@ -377,12 +377,12 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                               Theme.of(context).colorScheme.primary,
                           foregroundColor:
                               Theme.of(context).colorScheme.onPrimary,
-                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          padding: EdgeInsets.symmetric(vertical: 16),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
-                        child: const Text(
+                        child: Text(
                           'Save Log',
                           style: TextStyle(fontWeight: FontWeight.w600),
                         ),
@@ -445,7 +445,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
 
       // If end time is before start time, assume it's next day
       if (endDateTime.isBefore(startDateTime)) {
-        endDateTime = endDateTime.add(const Duration(days: 1));
+        endDateTime = endDateTime.add(Duration(days: 1));
       }
 
       // Validate duration

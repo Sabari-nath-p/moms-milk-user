@@ -188,10 +188,10 @@ class Chatcontroller extends GetxController with WidgetsBindingObserver {
   void _scrollToBottom() {
     if (scrollController.hasClients) {
       // Small delay ensures the list has rendered the new item
-      Future.delayed(const Duration(milliseconds: 100), () {
+      Future.delayed(Duration(milliseconds: 100), () {
         scrollController.animateTo(
           0.0, // Assuming reverse: true in ListView, otherwise use maxScrollExtent
-          duration: const Duration(milliseconds: 300),
+          duration: Duration(milliseconds: 300),
           curve: Curves.easeOut,
         );
       });

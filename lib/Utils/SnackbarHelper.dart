@@ -10,9 +10,9 @@ class CustomSnackBar {
       backgroundColor: Colors.green.withOpacity(0.9),
       colorText: Colors.black,
 
-      margin: const EdgeInsets.all(12),
+      margin: EdgeInsets.all(12),
       borderRadius: 10,
-      duration: const Duration(seconds: 2),
+      duration: Duration(seconds: 2),
     );
   }
 
@@ -24,9 +24,9 @@ class CustomSnackBar {
       backgroundColor: Colors.red.withOpacity(0.9),
       colorText: Colors.black,
 
-      margin: const EdgeInsets.all(12),
+      margin: EdgeInsets.all(12),
       borderRadius: 10,
-      duration: const Duration(seconds: 3),
+      duration: Duration(seconds: 3),
     );
   }
 
@@ -38,9 +38,9 @@ class CustomSnackBar {
       backgroundColor: Colors.orange.withOpacity(0.9),
       colorText: Colors.black,
 
-      margin: const EdgeInsets.all(12),
+      margin: EdgeInsets.all(12),
       borderRadius: 10,
-      duration: const Duration(seconds: 3),
+      duration: Duration(seconds: 3),
     );
   }
 
@@ -52,9 +52,9 @@ class CustomSnackBar {
       backgroundColor: Colors.blue.withOpacity(0.9),
       colorText: Colors.black,
 
-      margin: const EdgeInsets.all(12),
+      margin: EdgeInsets.all(12),
       borderRadius: 10,
-      duration: const Duration(seconds: 2),
+      duration: Duration(seconds: 2),
     );
   }
 }

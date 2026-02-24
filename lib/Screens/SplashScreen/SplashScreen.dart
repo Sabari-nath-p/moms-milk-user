@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:get/utils.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/AuthenticationScreen.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -36,37 +37,37 @@ class _SplashScreenState extends State<SplashScreen> {
   // Data Source
   List<splashModel> splashItem = [
     splashModel(
-      title: "Nourishing Every Baby",
-      IconPath: "assets/logIcon.png",
+      title: "Nourishing Every Baby".tr,
+      IconPath: "assets/logIcon.png".tr,
       description:
-          "A caring platform designed to support babies with safe milk sharing and daily care tracking.",
+          "A caring platform designed to support babies with safe milk sharing and daily care tracking.".tr,
       imagePage: "assets/ss1.png",
       tabText: "Log",
       index: 0,
     ),
     splashModel(
-      title: "Track Baby’s Daily Care",
-      IconPath: "assets/reportIcon.png",
+      title: "Track Baby’s Daily Care".tr,
+      IconPath: "assets/reportIcon.png".tr,
       description:
-          "Log feeding, diaper changes, and sleep patterns to understand your baby’s routine better",
+          "Log feeding, diaper changes, and sleep patterns to understand your baby’s routine better".tr,
       imagePage: "assets/ss2.png",
       tabText: "Report",
       index: 1,
     ),
     splashModel(
-      title: "Connect with Milk Donors",
+      title: "Connect with Milk Donors".tr,
       IconPath: "assets/connectIcon.png",
       description:
-          "Find trusted breast milk donors nearby and build a safe, supportive connection.",
+          "Find trusted breast milk donors nearby and build a safe, supportive connection.".tr,
       imagePage: "assets/ss3.png",
       tabText: "Connect",
       index: 2,
     ),
     splashModel(
-      title: "Chat & Manage Profiles",
+      title: "Chat & Manage Profiles".tr,
       IconPath: "assets/message.png",
       description:
-          "Communicate securely with donors and manage multiple baby profiles in one place.",
+          "Communicate securely with donors and manage multiple baby profiles in one place.".tr,
       imagePage: "assets/ss4.png",
       tabText: "Message",
       index: 3,
@@ -81,7 +82,7 @@ class _SplashScreenState extends State<SplashScreen> {
   CarouselSliderController tabController = CarouselSliderController();
 
   // Animation Constants for Perfect Sync
-  final Duration _animDuration = const Duration(milliseconds: 600);
+  final Duration _animDuration = Duration(milliseconds: 600);
   final Curve _animCurve = Curves.easeInOutCubic;
 
   /// ---------------------------------------------------
@@ -134,7 +135,7 @@ class _SplashScreenState extends State<SplashScreen> {
             children: [
               // ---------------- TOP BAR (SKIP) ----------------
               Padding(
-                padding: const EdgeInsets.only(right: 20),
+                padding: EdgeInsets.only(right: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -146,7 +147,7 @@ class _SplashScreenState extends State<SplashScreen> {
                         );
                       },
                       child: Text(
-                        "Skip",
+                        "Skip".tr,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -329,10 +330,10 @@ class _SplashScreenState extends State<SplashScreen> {
                   alignment: Alignment.center,
                   child: Text(
                     (currentIndex == 0)
-                        ? "Get Started"
+                        ? "Get Started".tr
                         : (currentIndex == 3)
-                        ? "Login Now"
-                        : "Next",
+                        ? "Login Now".tr
+                        : "Next".tr,
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       color: Colors.white,

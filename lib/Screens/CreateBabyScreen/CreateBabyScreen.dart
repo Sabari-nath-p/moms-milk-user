@@ -19,8 +19,8 @@ class CreateBabyScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text(
-          'Setup Your Profile',
+        title: Text(
+          'Setup Your Profile'.tr,
           style: TextStyle(
             fontWeight: FontWeight.w400,
             fontFamily: "Inter",
@@ -34,7 +34,7 @@ class CreateBabyScreen extends StatelessWidget {
             Get.back();
           },
           child: Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: EdgeInsets.all(10.0),
             child: Container(
               height: 20,
               width: 20,
@@ -64,26 +64,26 @@ class CreateBabyScreen extends StatelessWidget {
                 ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
               ),
             ),
-          const SizedBox(width: 20),
+          SizedBox(width: 20),
         ],
       ),
       body: SafeArea(
         child: GetBuilder<CreateBabyController>(
           builder: (controller) {
             return SingleChildScrollView(
-              padding: const EdgeInsets.all(24),
+              padding: EdgeInsets.all(24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Header
                   Text(
-                    'Baby Information',
+                    'Baby Information'.tr,
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
 
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8),
 
                   Text(
                     'Please provide information about your baby to complete your profile.',
@@ -92,7 +92,7 @@ class CreateBabyScreen extends StatelessWidget {
                     ).textTheme.bodyLarge?.copyWith(color: Colors.grey[600]),
                   ),
 
-                  const SizedBox(height: 32),
+                  SizedBox(height: 32),
 
                   // Baby Name
                   TextField(
@@ -101,7 +101,7 @@ class CreateBabyScreen extends StatelessWidget {
   maxLines: 2,
   minLines: 1,
   keyboardType: TextInputType.name,
-  style: const TextStyle(fontSize: 16),
+  style: TextStyle(fontSize: 16),
                     decoration: InputDecoration(
                       labelText: 'Baby\'s Name *',
                       hintText: 'Enter baby\'s name',
@@ -127,17 +127,17 @@ class CreateBabyScreen extends StatelessWidget {
                     ),
                   ),
 
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24),
 
                   // Baby Gender
                   Text(
-                    'Gender *',
+                    'Gender *'.tr,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
                   ),
 
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12),
 
                   Row(
                     children:
@@ -145,7 +145,7 @@ class CreateBabyScreen extends StatelessWidget {
                           final isSelected = controller.babyGender == gender;
                           return Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.only(right: 8),
+                              padding: EdgeInsets.only(right: 8),
                               child: FilterChip(
                                 label: SizedBox(
                                   width: double.infinity,
@@ -178,7 +178,7 @@ class CreateBabyScreen extends StatelessWidget {
 
                                 checkmarkColor:
                                     Colors.white, // checkmark stays white
-                                side: const BorderSide(
+                                side: BorderSide(
                                   color: Colors.grey,
                                 ), // optional border
                               ),
@@ -187,17 +187,17 @@ class CreateBabyScreen extends StatelessWidget {
                         }).toList(),
                   ),
 
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24),
 
                   // Delivery Date
                   DatePickerField(
-                    title: "Delivery Date",
+                    title: "Delivery Date".tr,
                     onDateSelected: (value) {
                       controller.babyDeliveryDate = value;
                     },
                   ),
 
-                  // const SizedBox(height: 24),
+                  // SizedBox(height: 24),
 
                   // Baby Blood Group
                   // Text(
@@ -207,7 +207,7 @@ class CreateBabyScreen extends StatelessWidget {
                   //   ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
                   // ),
 
-                  // const SizedBox(height: 12),
+                  // SizedBox(height: 12),
 
                   // Obx(
                   //   () => Wrap(
@@ -232,17 +232,17 @@ class CreateBabyScreen extends StatelessWidget {
                   //         }).toList(),
                   //   ),
                   // ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24),
 
                   // Baby Weight
                   UnitInputField(
                     controller: controller.babbyWeightController,
-                    title: "Birth Weight",
-                    icon: const Icon(
+                    title: "Birth Weight".tr,
+                    icon: Icon(
                       Icons.monitor_weight_outlined,
                       color: Color(0xffFDA4AF),
                     ),
-                    inputUnitList: const [
+                    inputUnitList: [
                       Unit(name: "kg", conversionFactorToMl: 1.0),
                       Unit(
                         name: "lb",
@@ -250,17 +250,17 @@ class CreateBabyScreen extends StatelessWidget {
                       ), // 1 lb = 0.453592 kg
                     ],
                   ),
-                  //const SizedBox(height: 24),
-                  const SizedBox(height: 24),
+                  //SizedBox(height: 24),
+                  SizedBox(height: 24),
                   // Baby Height
                   UnitInputField(
                     controller: controller.babyHeightController,
-                    title: "Birth Height",
-                    icon: const Icon(
+                    title: "Birth Height".tr,
+                    icon: Icon(
                       Icons.height_outlined,
                       color: Color(0xffFDA4AF),
                     ),
-                    inputUnitList: const [
+                    inputUnitList: [
                       Unit(name: "cm", conversionFactorToMl: 1.0),
                       Unit(
                         name: "in",
@@ -269,7 +269,7 @@ class CreateBabyScreen extends StatelessWidget {
                     ],
                   ),
 
-                  const SizedBox(height: 32),
+                  SizedBox(height: 32),
                   SizedBox(
                     width: double.infinity,
                     height: 50,
@@ -302,7 +302,7 @@ class CreateBabyScreen extends StatelessWidget {
                           alignment: Alignment.center,
                           child:
                               controller.isLoading
-                                  ? const SizedBox(
+                                  ? SizedBox(
                                     height: 20,
                                     width: 20,
                                     child: CircularProgressIndicator(
@@ -312,8 +312,8 @@ class CreateBabyScreen extends StatelessWidget {
                                       strokeWidth: 2,
                                     ),
                                   )
-                                  : const Text(
-                                    'Save Baby Details',
+                                  : Text(
+                                    'Save Baby Details'.tr,
                                     style: TextStyle(
                                       fontSize: 16,
                                       color: Colors.white,
@@ -325,11 +325,11 @@ class CreateBabyScreen extends StatelessWidget {
                     ),
                   ),
 
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24),
 
                   // Info Card
                   Container(
-                    padding: const EdgeInsets.all(16),
+                    padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       color: Theme.of(
                         context,
@@ -347,10 +347,10 @@ class CreateBabyScreen extends StatelessWidget {
                           Icons.privacy_tip_outlined,
                           color: Theme.of(context).colorScheme.primary,
                         ),
-                        const SizedBox(width: 12),
+                        SizedBox(width: 12),
                         Expanded(
                           child: Text(
-                            'Baby information is kept private and secure. It\'s only used for matching and safety purposes.',
+                            'Baby information is kept private and secure. It\'s only used for matching and safety purposes.'.tr,
                             style: Theme.of(
                               context,
                             ).textTheme.bodySmall?.copyWith(
@@ -380,7 +380,7 @@ class CreateBabyScreen extends StatelessWidget {
       context: context,
       initialDate: controller.babyDeliveryDate ?? DateTime.now(),
       firstDate: DateTime.now().subtract(
-        const Duration(days: 365 * 2),
+        Duration(days: 365 * 2),
       ), // 2 years ago
       lastDate: DateTime.now(),
       builder: (context, child) {

@@ -7,7 +7,7 @@ class ContactBottomSheet extends StatelessWidget {
   final String phoneNumber;
   final String? profileImageUrl;
 
-  const ContactBottomSheet({
+  ContactBottomSheet({
     super.key,
     required this.name,
     required this.email,
@@ -42,7 +42,7 @@ class ContactBottomSheet extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
-        borderRadius: const BorderRadius.only(
+        borderRadius: BorderRadius.only(
           topLeft: Radius.circular(24),
           topRight: Radius.circular(24),
         ),
@@ -50,13 +50,13 @@ class ContactBottomSheet extends StatelessWidget {
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
             blurRadius: 20,
-            offset: const Offset(0, -5),
+            offset: Offset(0, -5),
           ),
         ],
       ),
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: EdgeInsets.all(24.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -64,22 +64,22 @@ class ContactBottomSheet extends StatelessWidget {
               // Handle bar
               _buildHandleBar(context),
 
-              const SizedBox(height: 24),
+              SizedBox(height: 24),
 
               // Profile section
               _buildProfileSection(context),
 
-              const SizedBox(height: 32),
+              SizedBox(height: 32),
 
               // Contact details
               _buildContactDetails(context),
 
-              const SizedBox(height: 32),
+              SizedBox(height: 32),
 
               // Action buttons
               _buildActionButtons(context),
 
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
             ],
           ),
         ),
@@ -130,7 +130,7 @@ class ContactBottomSheet extends StatelessWidget {
                   : _buildDefaultAvatar(context),
         ),
 
-        const SizedBox(width: 16),
+        SizedBox(width: 16),
 
         // Name and basic info
         Expanded(
@@ -147,10 +147,10 @@ class ContactBottomSheet extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
 
-              const SizedBox(height: 4),
+              SizedBox(height: 4),
 
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
@@ -190,7 +190,7 @@ class ContactBottomSheet extends StatelessWidget {
           onTap: () => _sendEmail(email),
         ),
 
-        const SizedBox(height: 16),
+        SizedBox(height: 16),
 
         // Phone
         _buildContactItem(
@@ -212,7 +212,7 @@ class ContactBottomSheet extends StatelessWidget {
     required VoidCallback onTap,
   }) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
@@ -223,7 +223,7 @@ class ContactBottomSheet extends StatelessWidget {
           BoxShadow(
             color: Theme.of(context).colorScheme.primary.withOpacity(0.05),
             blurRadius: 8,
-            offset: const Offset(0, 2),
+            offset: Offset(0, 2),
           ),
         ],
       ),
@@ -233,7 +233,7 @@ class ContactBottomSheet extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              padding: const EdgeInsets.all(8),
+              padding: EdgeInsets.all(8),
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(8),
@@ -245,7 +245,7 @@ class ContactBottomSheet extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(width: 16),
+            SizedBox(width: 16),
 
             Expanded(
               child: Column(
@@ -260,7 +260,7 @@ class ContactBottomSheet extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  const SizedBox(height: 2),
+                  SizedBox(height: 2),
                   Text(
                     value,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -302,7 +302,7 @@ class ContactBottomSheet extends StatelessWidget {
                 BoxShadow(
                   color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
                   blurRadius: 15,
-                  offset: const Offset(0, 8),
+                  offset: Offset(0, 8),
                 ),
               ],
             ),
@@ -323,7 +323,7 @@ class ContactBottomSheet extends StatelessWidget {
                     color: Theme.of(context).colorScheme.onPrimary,
                     size: 20,
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   Text(
                     'Call',
                     style: TextStyle(
@@ -338,7 +338,7 @@ class ContactBottomSheet extends StatelessWidget {
           ),
         ),
 
-        const SizedBox(width: 16),
+        SizedBox(width: 16),
 
         // Email Button
         Expanded(
@@ -368,7 +368,7 @@ class ContactBottomSheet extends StatelessWidget {
                     color: Theme.of(context).colorScheme.primary,
                     size: 20,
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   Text(
                     'Email',
                     style: TextStyle(

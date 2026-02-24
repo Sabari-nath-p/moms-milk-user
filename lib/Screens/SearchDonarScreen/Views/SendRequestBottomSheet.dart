@@ -33,7 +33,7 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
 
           decoration: BoxDecoration(
             color: Theme.of(context).scaffoldBackgroundColor,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
           ),
           child: Padding(
             padding: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
@@ -53,7 +53,7 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20),
 
                   // Header
                   Row(
@@ -71,7 +71,7 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,9 +94,9 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                           ],
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12),
                       IconButton(
-                        icon: const Icon(Icons.close),
+                        icon: Icon(Icons.close),
                         splashRadius: 20,
                         onPressed: () {
                           Navigator.pop(context); // closes bottom sheet
@@ -104,7 +104,7 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24),
 
                   // Description field
                   Text(
@@ -113,7 +113,7 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8),
                   TextField(
                     controller: descriptionController,
                     maxLines: 3,
@@ -134,11 +134,11 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                           width: 1.8,
                         ),
                       ),
-                      contentPadding: const EdgeInsets.all(16),
+                      contentPadding: EdgeInsets.all(16),
                     ),
                   ),
 
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20),
 
                   // Quantity field
                   Text(
@@ -147,12 +147,12 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8),
 
                   UnitInputField(
                     controller: quantityController,
                     title: "",
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.height_outlined,
                       color: Color(0xffFDA4AF),
                     ),
@@ -184,11 +184,11 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                             width: 1.8,
                           ),
                         ),
-                        contentPadding: const EdgeInsets.all(16),
+                        contentPadding: EdgeInsets.all(16),
                       ),
                     ),
 
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20),
 
                   // Urgency selector
                   Text(
@@ -197,7 +197,7 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8),
                   Row(
                     children: [
                       Expanded(
@@ -208,7 +208,7 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                           () => setState(() => selectedUrgency = 'LOW'),
                         ),
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: 8),
                       Expanded(
                         child: _buildUrgencyChip(
                           'MEDIUM',
@@ -217,7 +217,7 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                           () => setState(() => selectedUrgency = 'MEDIUM'),
                         ),
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: 8),
                       Expanded(
                         child: _buildUrgencyChip(
                           'HIGH',
@@ -228,7 +228,7 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20),
 
                   // Needed by date (optional)
                   Text(
@@ -237,16 +237,16 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8),
                   InkWell(
                     onTap: () async {
                       final DateTime? picked = await showDatePicker(
                         context: context,
                         initialDate: DateTime.now().add(
-                          const Duration(days: 1),
+                          Duration(days: 1),
                         ),
                         firstDate: DateTime.now(),
-                        lastDate: DateTime.now().add(const Duration(days: 30)),
+                        lastDate: DateTime.now().add(Duration(days: 30)),
                       );
                       if (picked != null) {
                         final TimeOfDay? time = await showTimePicker(
@@ -267,7 +267,7 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                       }
                     },
                     child: Container(
-                      padding: const EdgeInsets.all(16),
+                      padding: EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.black38),
                         borderRadius: BorderRadius.circular(12),
@@ -278,7 +278,7 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                             Icons.schedule,
                             color: Theme.of(context).colorScheme.primary,
                           ),
-                          const SizedBox(width: 12),
+                          SizedBox(width: 12),
                           Text(
                             selectedDate != null
                                 ? '${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year} ${selectedDate!.hour}:${selectedDate!.minute.toString().padLeft(2, '0')}'
@@ -296,7 +296,7 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                                           ?.withOpacity(0.6),
                             ),
                           ),
-                          const Spacer(),
+                          Spacer(),
                           if (selectedDate != null)
                             GestureDetector(
                               onTap: () => setState(() => selectedDate = null),
@@ -310,7 +310,7 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 30),
+                  SizedBox(height: 30),
 
                   // Send button
                   SizedBox(
@@ -350,7 +350,7 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                           gradient: AppTheme.roundButtonGradient,
                         ),
                         alignment: Alignment.center,
-                        child: const Text(
+                        child: Text(
                           'Send Request',
                           style: TextStyle(
                             fontSize: 16,
@@ -380,7 +380,7 @@ Widget _buildUrgencyChip(
   return GestureDetector(
     onTap: onTap,
     child: Container(
-      padding: const EdgeInsets.symmetric(vertical: 12),
+      padding: EdgeInsets.symmetric(vertical: 12),
       decoration: BoxDecoration(
         color: isSelected ? color : color.withOpacity(0.1),
         borderRadius: BorderRadius.circular(8),

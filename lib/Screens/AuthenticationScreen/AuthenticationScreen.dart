@@ -14,7 +14,7 @@ class Authenticationscreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: const Color(0xFFFFF0EC).withOpacity(1),
+      backgroundColor: Color(0xFFFFF0EC).withOpacity(1),
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -22,27 +22,27 @@ class Authenticationscreen extends StatelessWidget {
           child: GetBuilder<AuthenticationController>(
             builder: (controller) {
               return SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(
+                padding: EdgeInsets.symmetric(
                   horizontal: 24.0,
                   vertical: 20.0,
                 ),
                 child: Column(
                   children: [
-                    const SizedBox(height: 60),
+                    SizedBox(height: 60),
 
                     // Enhanced Logo Section
                     _buildLogoSection(context),
 
-                    const SizedBox(height: 50),
+                    SizedBox(height: 50),
 
                     // Enhanced Auth Form
                     _buildAuthForm(context, controller),
 
-                    const SizedBox(height: 40),
+                    SizedBox(height: 40),
 
                     // Professional Footer
                     _buildFooter(context),
-                    const SizedBox(height: 30),
+                    SizedBox(height: 30),
                   ],
                 ),
               );
@@ -68,13 +68,13 @@ class Authenticationscreen extends StatelessWidget {
               BoxShadow(
                 color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
                 blurRadius: 25,
-                offset: const Offset(0, 10),
+                offset: Offset(0, 10),
                 spreadRadius: 0,
               ),
               BoxShadow(
                 color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.1),
                 blurRadius: 10,
-                offset: const Offset(-5, -5),
+                offset: Offset(-5, -5),
                 spreadRadius: 0,
               ),
             ],
@@ -82,12 +82,12 @@ class Authenticationscreen extends StatelessWidget {
           child: Image.asset(appIcon, color: Colors.white),
         ),
 
-        const SizedBox(height: 25),
+        SizedBox(height: 25),
 
         // Enhanced Title
         Center(
           child: Text(
-            'Mom\'s Milk',
+            'Mom\'s Milk'.tr,
             style: Theme.of(context).textTheme.displayMedium?.copyWith(
               fontWeight: FontWeight.bold,
               color: Colors.black,
@@ -96,11 +96,11 @@ class Authenticationscreen extends StatelessWidget {
           ),
         ),
 
-        const SizedBox(height: 10),
+        SizedBox(height: 10),
 
         // Enhanced Subtitle
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
           decoration: BoxDecoration(
             gradient: AppTheme.CardGradient,
             borderRadius: BorderRadius.circular(20),
@@ -127,7 +127,7 @@ class Authenticationscreen extends StatelessWidget {
     AuthenticationController controller,
   ) {
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(24),
       decoration: BoxDecoration(
         gradient: AppTheme.CardGradient,
         borderRadius: BorderRadius.circular(24),
@@ -136,13 +136,13 @@ class Authenticationscreen extends StatelessWidget {
           BoxShadow(
             color: Theme.of(context).colorScheme.primary.withOpacity(0.08),
             blurRadius: 30,
-            offset: const Offset(0, 15),
+            offset: Offset(0, 15),
             spreadRadius: 0,
           ),
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
             blurRadius: 10,
-            offset: const Offset(0, 5),
+            offset: Offset(0, 5),
             spreadRadius: 0,
           ),
         ],
@@ -156,7 +156,7 @@ class Authenticationscreen extends StatelessWidget {
             Column(
               children: [
                 Text(
-                  'Join Our Community',
+                  'Join Our Community'.tr,
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     color: Color(0xFF1E2939),
                     fontWeight: FontWeight.w600,
@@ -164,9 +164,9 @@ class Authenticationscreen extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
                 Text(
-                  'Sign in to continue your journey',
+                  'Sign in to continue your journey'.tr,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Color(0xFF6A7282),
                     fontSize: 13,
@@ -177,7 +177,7 @@ class Authenticationscreen extends StatelessWidget {
               ],
             ),
 
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
 
           // Form Content
           !controller.isOtpSent
@@ -192,7 +192,7 @@ class Authenticationscreen extends StatelessWidget {
     return Column(
       children: [
         Container(
-          //  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          //  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           // decoration: BoxDecoration(
           //   color: Theme.of(context).colorScheme.surface.withOpacity(0.1),
           //   borderRadius: BorderRadius.circular(16),
@@ -210,10 +210,10 @@ class Authenticationscreen extends StatelessWidget {
                   context,
                 ).colorScheme.onBackground.withOpacity(0.8),
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: 8),
               Flexible(
                 child: Text(
-                  'By continuing, you agree to our Terms & Privacy Policy',
+                  'By continuing, you agree to our Terms & Privacy Policy'.tr,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: Colors.black54,
                     fontSize: 12,
@@ -247,7 +247,7 @@ class Authenticationscreen extends StatelessWidget {
                       context,
                     ).colorScheme.primary.withOpacity(0.1),
                     blurRadius: 10,
-                    offset: const Offset(0, 4),
+                    offset: Offset(0, 4),
                   ),
                 ],
               ),
@@ -262,9 +262,9 @@ class Authenticationscreen extends StatelessWidget {
                 ),
                 decoration: InputDecoration(
                   //  labelText: 'Email Address',
-                  hintText: 'Enter your email address',
+                  hintText: 'Enter your email address'.tr,
                   prefixIcon: Container(
-                    padding: const EdgeInsets.all(12),
+                    padding: EdgeInsets.all(12),
                     child: Icon(
                       Icons.email_outlined,
                       color: Theme.of(context).colorScheme.primary,
@@ -308,7 +308,7 @@ class Authenticationscreen extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 15),
+            SizedBox(height: 15),
 
             // Enhanced Send OTP Button
             Container(
@@ -325,7 +325,7 @@ class Authenticationscreen extends StatelessWidget {
                               context,
                             ).colorScheme.primary.withOpacity(0.3),
                             blurRadius: 15,
-                            offset: const Offset(0, 8),
+                            offset: Offset(0, 8),
                           ),
                         ],
               ),
@@ -339,7 +339,7 @@ class Authenticationscreen extends StatelessWidget {
                           } else {
                             Get.snackbar(
                               'Missing Email',
-                              'Email id is required to send otp',
+                              'Email id is required to send otp'.tr,
                               snackPosition: SnackPosition.BOTTOM,
                               backgroundColor:
                                   Theme.of(
@@ -361,7 +361,7 @@ class Authenticationscreen extends StatelessWidget {
                 ),
                 child:
                     controller.isLoading
-                        ? const SizedBox(
+                        ? SizedBox(
                           height: 24,
                           width: 24,
                           child: CircularProgressIndicator(
@@ -379,7 +379,7 @@ class Authenticationscreen extends StatelessWidget {
                               size: 20,
                               color: Theme.of(context).colorScheme.onPrimary,
                             ),
-                            const SizedBox(width: 8),
+                            SizedBox(width: 8),
                             Text(
                               'Send OTP',
                               style: TextStyle(
@@ -416,7 +416,7 @@ class Authenticationscreen extends StatelessWidget {
               ).textTheme.bodyMedium?.copyWith(color: Color(0xFF1E2939)),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 4),
+            SizedBox(height: 4),
             Text(
               controller.emailController.text,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -425,7 +425,7 @@ class Authenticationscreen extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             // Enhanced OTP Input
             Container(
@@ -437,7 +437,7 @@ class Authenticationscreen extends StatelessWidget {
                       context,
                     ).colorScheme.primary.withOpacity(0.1),
                     blurRadius: 10,
-                    offset: const Offset(0, 4),
+                    offset: Offset(0, 4),
                   ),
                 ],
               ),
@@ -501,7 +501,7 @@ class Authenticationscreen extends StatelessWidget {
             ),
 
             // Enhanced Resend Section
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             // Enhanced Verify Button
             Container(
@@ -518,7 +518,7 @@ class Authenticationscreen extends StatelessWidget {
                               context,
                             ).colorScheme.primary.withOpacity(0.3),
                             blurRadius: 15,
-                            offset: const Offset(0, 8),
+                            offset: Offset(0, 8),
                           ),
                         ],
               ),
@@ -540,7 +540,7 @@ class Authenticationscreen extends StatelessWidget {
                 ),
                 child:
                     controller.isLoading
-                        ? const SizedBox(
+                        ? SizedBox(
                           height: 24,
                           width: 24,
                           child: CircularProgressIndicator(
@@ -558,9 +558,9 @@ class Authenticationscreen extends StatelessWidget {
                               size: 20,
                               color: Theme.of(context).colorScheme.onPrimary,
                             ),
-                            const SizedBox(width: 8),
+                            SizedBox(width: 8),
                             Text(
-                              'Verify & Continue',
+                              'Verify & Continue'.tr,
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,

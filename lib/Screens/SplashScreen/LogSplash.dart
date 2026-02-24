@@ -6,12 +6,12 @@
 // import 'package:mommilk_user/Screens/SplashScreen/SplashScreen2.dart';
 
 // class SplashScreen extends StatelessWidget {
-//   const SplashScreen({super.key});
+//   SplashScreen({super.key});
 
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
-//       backgroundColor: const Color(0xFFFFF6F3),
+//       backgroundColor: Color(0xFFFFF6F3),
 //       body: SafeArea(
 //         child: Column(
 //           mainAxisAlignment: MainAxisAlignment.start,
@@ -20,13 +20,13 @@
 //             Align(
 //               alignment: Alignment.topRight,
 //               child: Padding(
-//                 padding: const EdgeInsets.only(right: 16),
+//                 padding: EdgeInsets.only(right: 16),
 //                 child: TextButton(
 //                   onPressed: () {
 //                     // Navigate to Authentication Screen using GetX
 //                     Get.offAll(() => SplashScreen2());
 //                   },
-//                   child: const Text(
+//                   child: Text(
 //                     "Skip",
 //                     style: TextStyle(color: Colors.black),
 //                   ),
@@ -48,8 +48,8 @@
 //               height: 35.h,
 //               child: ListView(
 //                 scrollDirection: Axis.horizontal,
-//                 padding: const EdgeInsets.symmetric(horizontal: 10),
-//                 children: const [
+//                 padding: EdgeInsets.symmetric(horizontal: 10),
+//                 children: [
 //                   _Pill(icon: Icons.add, label: "Log", active: true),
 //                   SizedBox(width: 12),
 //                   _Pill(icon: Icons.receipt_long, label: "Report"),
@@ -59,27 +59,27 @@
 //               ),
 //             ),
 
-//             const SizedBox(height: 22),
+//             SizedBox(height: 22),
 
 //             /// Title
-//             const Text(
-//               "Nourishing Every Baby",
+//             Text(
+//               "Nourishing Every Baby".tr,
 //               style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
 //             ),
 
-//             const SizedBox(height: 10),
+//             SizedBox(height: 10),
 
 //             /// Subtitle
-//             const Padding(
+//             Padding(
 //               padding: EdgeInsets.symmetric(horizontal: 30),
 //               child: Text(
-//                 "A caring platform designed to support babies with safe milk sharing and daily care tracking.",
+//                 "A caring platform designed to support babies with safe milk sharing and daily care tracking.".tr,
 //                 textAlign: TextAlign.center,
 //                 style: TextStyle(fontSize: 15, color: Colors.black54),
 //               ),
 //             ),
 
-//             const SizedBox(height: 10),
+//             SizedBox(height: 10),
 
 //             /// Dots Indicator (STATIC)
 //             Row(
@@ -91,7 +91,7 @@
 
 //             /// Get Started Button (UI ONLY)
 //             Padding(
-//               padding: const EdgeInsets.symmetric(horizontal: 30),
+//               padding: EdgeInsets.symmetric(horizontal: 30),
 //               child: SizedBox(
 //                 height: 56,
 //                 width: double.infinity,
@@ -105,7 +105,7 @@
 //                       borderRadius: BorderRadius.circular(30),
 //                     ),
 //                   ),
-//                   child: const Text(
+//                   child: Text(
 //                     "Get Started",
 //                     style: TextStyle(fontSize: 16, color: Colors.white),
 //                   ),
@@ -113,7 +113,7 @@
 //               ),
 //             ),
 
-//             const SizedBox(height: 20),
+//             SizedBox(height: 20),
 //           ],
 //         ),
 //       ),
@@ -127,7 +127,7 @@
 //   final String label;
 //   final bool active;
 
-//   const _Pill({required this.icon, required this.label, this.active = false});
+//   _Pill({required this.icon, required this.label, this.active = false});
 
 //   @override
 //   Widget build(BuildContext context) {
@@ -135,7 +135,7 @@
 //       padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 9.h),
 //       decoration: BoxDecoration(
 //         color:
-//             active ? const Color(0xFFFF6B6B).withOpacity(0.15) : Colors.white,
+//             active ? Color(0xFFFF6B6B).withOpacity(0.15) : Colors.white,
 //         borderRadius: BorderRadius.circular(26),
 //       ),
 //       child: Row(
@@ -143,15 +143,15 @@
 //           Icon(
 //             icon,
 //             size: 20,
-//             color: active ? const Color(0xFFFF6B6B) : Colors.grey,
+//             color: active ? Color(0xFFFF6B6B) : Colors.grey,
 //           ),
-//           const SizedBox(width: 6),
+//           SizedBox(width: 6),
 //           Text(
 //             label,
 //             style: TextStyle(
 //               fontSize: 13,
 //               fontWeight: FontWeight.w500,
-//               color: active ? const Color(0xFFFF6B6B) : Colors.grey,
+//               color: active ? Color(0xFFFF6B6B) : Colors.grey,
 //             ),
 //           ),
 //         ],
@@ -163,11 +163,11 @@
 // /// Dot Widget
 // Widget _dot({bool active = false}) {
 //   return Container(
-//     margin: const EdgeInsets.symmetric(horizontal: 4),
+//     margin: EdgeInsets.symmetric(horizontal: 4),
 //     width: active ? 22 : 8,
 //     height: 8,
 //     decoration: BoxDecoration(
-//       color: active ? const Color(0xFFFF6B6B) : Colors.grey.shade300,
+//       color: active ? Color(0xFFFF6B6B) : Colors.grey.shade300,
 //       borderRadius: BorderRadius.circular(10),
 //     ),
 //   );

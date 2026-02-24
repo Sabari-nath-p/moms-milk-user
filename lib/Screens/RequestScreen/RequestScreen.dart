@@ -78,8 +78,8 @@ class _RequestScreenState extends State<RequestScreen>
       appBar:
           (user.userType == "BUYER")
               ? AppBar(
-                title: const Text(
-                  "Connections",
+                title: Text(
+                  "Connections".tr,
                   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
                 ),
                 centerTitle: true,
@@ -91,10 +91,10 @@ class _RequestScreenState extends State<RequestScreen>
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   CircularProgressIndicator(),
                   SizedBox(height: 16),
-                  Text("Loading user data..."),
+                  Text("Loading user data...".tr),
                 ],
               ),
             );
@@ -136,7 +136,7 @@ class _RequestScreenState extends State<RequestScreen>
 
           return Column(
             children: [
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
 
               // DONOR → Sliding tabs
               if (user.userType == "DONOR")
@@ -151,7 +151,7 @@ class _RequestScreenState extends State<RequestScreen>
                   thumbColor: AppTheme.primaryColor,
                 ),
 
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               Expanded(child: _buildSelectedContent(controller)),
             ],
@@ -188,7 +188,7 @@ class _RequestScreenState extends State<RequestScreen>
       return _buildEmptyState(
         context,
         "No Incoming Requests",
-        "You don’t have any pending milk requests.",
+        "You don’t have any pending milk requests.".tr,
         Icons.inbox,
       );
     }
@@ -238,7 +238,7 @@ class _RequestScreenState extends State<RequestScreen>
       return _buildEmptyState(
         context,
         "No History",
-        "No previous request activity available.",
+        "No previous request activity available.".tr,
         Icons.history,
       );
     }
@@ -285,7 +285,7 @@ class _RequestScreenState extends State<RequestScreen>
       return _buildEmptyState(
         context,
         "No Requests Yet",
-        "You have not placed any requests yet.",
+        "You have not placed any requests yet.".tr,
         Icons.list_alt,
       );
     }
@@ -334,23 +334,23 @@ class _RequestScreenState extends State<RequestScreen>
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: const EdgeInsets.all(24),
+            padding: EdgeInsets.all(24),
             decoration: BoxDecoration(
               gradient: AppTheme.CardGradient,
               shape: BoxShape.circle,
             ),
             child: Icon(icon, size: 45, color: Color(0xFFF43F5E)),
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24),
           Text(
             title,
             style: Theme.of(
               context,
             ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: 20),
             child: Text(
               subtitle,
               textAlign: TextAlign.center,
@@ -409,7 +409,7 @@ String formatDate(String dateString) {
     } else if (difference.inMinutes > 0) {
       return '${difference.inMinutes} minute${difference.inMinutes > 1 ? 's' : ''} ago';
     } else {
-      return 'Just now';
+      return 'Just now'.tr;
     }
   } catch (e) {
     return dateString;

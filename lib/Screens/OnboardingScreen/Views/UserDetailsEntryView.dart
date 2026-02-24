@@ -10,7 +10,7 @@ class UserDetailsStep extends StatelessWidget {
     return GetBuilder<Onboardingcontroller>(
       builder: (controller) {
         return SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -22,7 +22,7 @@ class UserDetailsStep extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 8),
+              SizedBox(height: 8),
 
               Text(
                 'Please provide your basic information to create your profile.',
@@ -31,17 +31,17 @@ class UserDetailsStep extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 32),
+              SizedBox(height: 32),
 
               // Name Field
               TextField(
                 controller: controller.nameController,
                 textInputAction: TextInputAction.next,
-                style: const TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 16),
                 decoration: InputDecoration(
                   labelText: 'Full Name *',
                   hintText: 'Enter your full name',
-                  prefixIcon: const Icon(Icons.person_outline),
+                  prefixIcon: Icon(Icons.person_outline),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -62,19 +62,19 @@ class UserDetailsStep extends StatelessWidget {
                 () =>
                     controller.nameError.value.isNotEmpty
                         ? Padding(
-                          padding: const EdgeInsets.only(top: 6, left: 4),
+                          padding: EdgeInsets.only(top: 6, left: 4),
                           child: Text(
                             controller.nameError.value,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.red,
                               fontSize: 12,
                             ),
                           ),
                         )
-                        : const SizedBox.shrink(),
+                        : SizedBox.shrink(),
               ),
 
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
 
               // Phone Number with Country Code
               Row(
@@ -89,7 +89,7 @@ class UserDetailsStep extends StatelessWidget {
                               : controller.selectedCountryCode,
                       decoration: InputDecoration(
                         labelText: 'Code',
-                        prefixIcon: const Icon(Icons.flag_outlined),
+                        prefixIcon: Icon(Icons.flag_outlined),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -111,7 +111,7 @@ class UserDetailsStep extends StatelessWidget {
                               value: country['code'],
                               child: Text(
                                 '${country['code']} ${country['country']}',
-                                style: const TextStyle(fontSize: 14),
+                                style: TextStyle(fontSize: 14),
                               ),
                             );
                           }).toList(),
@@ -121,11 +121,11 @@ class UserDetailsStep extends StatelessWidget {
                         }
                       },
                       isExpanded: true,
-                      icon: const Icon(Icons.arrow_drop_down),
+                      icon: Icon(Icons.arrow_drop_down),
                     ),
                   ),
 
-                  const SizedBox(width: 16),
+                  SizedBox(width: 16),
 
                   // Phone Number
                   Expanded(
@@ -133,7 +133,7 @@ class UserDetailsStep extends StatelessWidget {
                       controller: controller.phoneController,
                       keyboardType: TextInputType.phone,
                       textInputAction: TextInputAction.next,
-                      style: const TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: 16),
                       maxLength: 11,
                       buildCounter:
                           (
@@ -145,7 +145,7 @@ class UserDetailsStep extends StatelessWidget {
                       decoration: InputDecoration(
                         labelText: 'Phone Number *',
                         hintText: 'Enter phone number',
-                        prefixIcon: const Icon(Icons.phone_outlined),
+                        prefixIcon: Icon(Icons.phone_outlined),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -171,26 +171,26 @@ class UserDetailsStep extends StatelessWidget {
                 () =>
                     controller.phoneError.value.isNotEmpty
                         ? Padding(
-                          padding: const EdgeInsets.only(top: 6, left: 4),
+                          padding: EdgeInsets.only(top: 6, left: 4),
                           child: Text(
                             controller.phoneError.value,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.red,
                               fontSize: 12,
                             ),
                           ),
                         )
-                        : const SizedBox.shrink(),
+                        : SizedBox.shrink(),
               ),
 
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
 
               // Zip Code
               TextField(
                 controller: controller.zipCodeController,
                 keyboardType: TextInputType.number,
                 textInputAction: TextInputAction.done,
-                style: const TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 16),
                 maxLength: 6,
                 buildCounter:
                     (
@@ -202,7 +202,7 @@ class UserDetailsStep extends StatelessWidget {
                 decoration: InputDecoration(
                   labelText: 'Zip Code *',
                   hintText: 'Enter your zip code',
-                  prefixIcon: const Icon(Icons.location_on_outlined),
+                  prefixIcon: Icon(Icons.location_on_outlined),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -224,30 +224,30 @@ class UserDetailsStep extends StatelessWidget {
                 () =>
                     controller.zipError.value.isNotEmpty
                         ? Padding(
-                          padding: const EdgeInsets.only(top: 6, left: 4),
+                          padding: EdgeInsets.only(top: 6, left: 4),
                           child: Text(
                             controller.zipError.value,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.red,
                               fontSize: 12,
                             ),
                           ),
                         )
-                        : const SizedBox.shrink(),
+                        : SizedBox.shrink(),
               ),
 
-              if (false) const SizedBox(height: 32),
+              if (false) SizedBox(height: 32),
 
               // Facebook Link
               if (false)
                 TextField(
                   controller: controller.facebookLinkController,
                   textInputAction: TextInputAction.next,
-                  style: const TextStyle(fontSize: 16),
+                  style: TextStyle(fontSize: 16),
                   decoration: InputDecoration(
                     labelText: 'Facebook Profile link',
                     hintText: 'Enter your facebook profile link',
-                    prefixIcon: const Icon(Icons.person_outline),
+                    prefixIcon: Icon(Icons.person_outline),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -265,18 +265,18 @@ class UserDetailsStep extends StatelessWidget {
                   ),
                 ),
 
-              if (false) const SizedBox(height: 20),
+              if (false) SizedBox(height: 20),
 
               // Instagram Link
               if (false)
                 TextField(
                   controller: controller.instagramLinkController,
                   textInputAction: TextInputAction.next,
-                  style: const TextStyle(fontSize: 16),
+                  style: TextStyle(fontSize: 16),
                   decoration: InputDecoration(
                     labelText: 'Instagram Profile Link',
                     hintText: 'Enter your Instagram profile link',
-                    prefixIcon: const Icon(Icons.person_outline),
+                    prefixIcon: Icon(Icons.person_outline),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -294,11 +294,11 @@ class UserDetailsStep extends StatelessWidget {
                   ),
                 ),
 
-              const SizedBox(height: 32),
+              SizedBox(height: 32),
 
               // Info Card
               Container(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12),
@@ -314,7 +314,7 @@ class UserDetailsStep extends StatelessWidget {
                       Icons.info_outline,
                       color: Theme.of(context).colorScheme.primary,
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12),
                     Expanded(
                       child: Text(
                         'Your information is secure and will only be used to connect you with other verified users.',

@@ -7,7 +7,7 @@ import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
 import 'package:mommilk_user/theme/app_theme.dart';
 
 class HBabyCard extends StatelessWidget {
-  const HBabyCard({super.key});
+  HBabyCard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +26,10 @@ class HBabyCard extends StatelessWidget {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: const Color(0xffFFE4E6),
+                    color: Color(0xffFFE4E6),
                     width: 1.5,
                   ),
-                  boxShadow: const [
+                  boxShadow: [
                     BoxShadow(
                       color: Colors.black12,
                       blurRadius: 6,
@@ -45,18 +45,18 @@ class HBabyCard extends StatelessWidget {
         if (controller.myBabies.isEmpty) {
           return gradientBox(
             Padding(
-              padding: const EdgeInsets.all(24),
+              padding: EdgeInsets.all(24),
               child: Row(
                 children: [
-                  const Icon(Icons.baby_changing_station, color: Colors.pink),
-                  const SizedBox(width: 12),
+                  Icon(Icons.baby_changing_station, color: Colors.pink),
+                  SizedBox(width: 12),
                   Expanded(
                     child: Text(
                       'Add your baby\'s profile to start tracking',
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12),
                   Container(
                     decoration: BoxDecoration(
                       gradient: AppTheme.roundButtonGradient,
@@ -66,7 +66,7 @@ class HBabyCard extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.transparent,
                         shadowColor: Colors.transparent,
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 20,
                           vertical: 2,
                         ),
@@ -80,7 +80,7 @@ class HBabyCard extends StatelessWidget {
                           transition: Transition.rightToLeft,
                         );
                       },
-                      child: const Text(
+                      child: Text(
                         'Add Baby',
                         style: TextStyle(color: Colors.white),
                       ),
@@ -95,19 +95,19 @@ class HBabyCard extends StatelessWidget {
         // ========= WHEN BABIES EXIST ==========
         return gradientBox(
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
-                    //   const Icon(Icons.baby_changing_station, color: Colors.pink),
-                    const SizedBox(width: 8),
+                    //   Icon(Icons.baby_changing_station, color: Colors.pink),
+                    SizedBox(width: 8),
                     Text(
                       'Baby Profile',
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
-                    const Spacer(),
+                    Spacer(),
                     Container(
                       decoration: BoxDecoration(
                         gradient: AppTheme.roundButtonGradient,
@@ -117,7 +117,7 @@ class HBabyCard extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.transparent,
                           shadowColor: Colors.transparent,
-                          padding: const EdgeInsets.symmetric(
+                          padding: EdgeInsets.symmetric(
                             horizontal: 20,
                             vertical: 2,
                           ),
@@ -131,7 +131,7 @@ class HBabyCard extends StatelessWidget {
                             transition: Transition.rightToLeft,
                           );
                         },
-                        child: const Text(
+                        child: Text(
                           'Add Baby',
                           style: TextStyle(color: Colors.white),
                         ),
@@ -140,11 +140,11 @@ class HBabyCard extends StatelessWidget {
                   ],
                 ),
 
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
 
                 // ▼▼ Dropdown ▼▼
                 Container(
-                  padding: const EdgeInsets.symmetric(
+                  padding: EdgeInsets.symmetric(
                     horizontal: 12,
                     vertical: 4,
                   ),
@@ -158,8 +158,8 @@ class HBabyCard extends StatelessWidget {
                         child: DropdownButton<BabyModel>(
                           value: controller.selectedBady,
                           isExpanded: true,
-                          underline: const SizedBox(),
-                          icon: const Icon(
+                          underline: SizedBox(),
+                          icon: Icon(
                             Icons.arrow_drop_down,
                             color: Colors.pink,
                           ),
@@ -174,13 +174,13 @@ class HBabyCard extends StatelessWidget {
                                         backgroundColor: Colors.pink,
                                         child: Text(
                                           baby.name![0],
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 12,
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(width: 12),
+                                      SizedBox(width: 12),
                                       Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -215,7 +215,7 @@ class HBabyCard extends StatelessWidget {
 
                       // More Menu
                       PopupMenuButton<String>(
-                        icon: const Icon(Icons.more_horiz, color: Colors.pink),
+                        icon: Icon(Icons.more_horiz, color: Colors.pink),
                         onSelected: (value) {
                           if (value == 'delete') {
                             _showDeleteConfirmation(
@@ -226,7 +226,7 @@ class HBabyCard extends StatelessWidget {
                         },
                         itemBuilder:
                             (context) => [
-                              const PopupMenuItem(
+                              PopupMenuItem(
                                 value: 'delete',
                                 child: Row(
                                   children: [
@@ -263,14 +263,14 @@ class HBabyCard extends StatelessWidget {
       context: context,
       builder:
           (context) => AlertDialog(
-            title: const Text('Delete Baby Profile'),
+            title: Text('Delete Baby Profile'),
             content: Text(
               'Are you sure you want to delete ${baby.name}? This cannot be undone.',
             ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('Cancel'),
+                child: Text('Cancel'),
               ),
               ElevatedButton(
                 onPressed: () {
@@ -281,7 +281,7 @@ class HBabyCard extends StatelessWidget {
                   backgroundColor: Colors.red,
                   foregroundColor: Colors.white,
                 ),
-                child: const Text('Delete'),
+                child: Text('Delete'),
               ),
             ],
           ),

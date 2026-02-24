@@ -44,7 +44,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 MessageTitleCard(),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 10),
                     child: SingleChildScrollView(
                       reverse: true,
                       controller: __.scrollController,

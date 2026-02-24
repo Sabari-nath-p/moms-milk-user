@@ -11,7 +11,7 @@ class DatePickerField extends StatefulWidget {
   final DateTime? maxDate;
   final ValueChanged<DateTime> onDateSelected;
 
-  const DatePickerField({
+  DatePickerField({
     super.key,
     required this.title,
     required this.onDateSelected,
@@ -96,7 +96,7 @@ class _DatePickerFieldState extends State<DatePickerField> {
         widget.icon ?? Icons.calendar_today_outlined,
         color: Theme.of(context).colorScheme.primary,
       ),
-      suffixIcon: const Icon(Icons.arrow_drop_down),
+      suffixIcon: Icon(Icons.arrow_drop_down),
 
       border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
       enabledBorder: OutlineInputBorder(

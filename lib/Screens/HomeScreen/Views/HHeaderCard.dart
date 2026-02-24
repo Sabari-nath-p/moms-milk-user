@@ -6,15 +6,15 @@ import 'package:mommilk_user/Screens/HomeScreen/HomeScreen.dart';
 import 'package:mommilk_user/theme/app_theme.dart';
 
 class HHeaderCard extends StatelessWidget {
-  const HHeaderCard({super.key});
+  HHeaderCard({super.key});
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<Homecontroller>(
       builder:
           (controller) => Container(
-            padding: const EdgeInsets.all(24),
-           // margin: const EdgeInsets.all(10),
+            padding: EdgeInsets.all(24),
+           // margin: EdgeInsets.all(10),
             decoration: BoxDecoration(
             gradient:AppTheme.CardGradient,
  borderRadius: BorderRadius.circular(24),
@@ -28,7 +28,7 @@ class HHeaderCard extends StatelessWidget {
             child: Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(12),
+                  padding: EdgeInsets.all(12),
                   decoration: BoxDecoration(
                       gradient: AppTheme.buttonCardGradient,
                     borderRadius: BorderRadius.circular(12),
@@ -39,7 +39,7 @@ class HHeaderCard extends StatelessWidget {
                     size: 24,
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16),
                Expanded(
   child: Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,7 +50,7 @@ class HHeaderCard extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
       ),
-      const SizedBox(height: 4),
+      SizedBox(height: 4),
       Text(
         user.userType == 'donor'
             ? 'Help families in need today'

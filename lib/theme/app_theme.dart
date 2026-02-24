@@ -5,29 +5,29 @@ class AppTheme {
   //  LIGHT THEME COLORS  (UPDATED)
   // ------------------------------------------------------------
 
-  static const Color primaryColor =
+  static Color primaryColor =
   // Color(
   //   0xffFB7185,
   // );
   Color(0xFFF47458); // Warm Coral
-  static const Color secondaryColor = Color(0xFFD66EAB); // Tender Rose
+  static Color secondaryColor = Color(0xFFD66EAB); // Tender Rose
 
-  static const Color backgroundColor = Colors.white;
-  static const Color surfaceColor = Colors.white;
+  static Color backgroundColor = Colors.white;
+  static Color surfaceColor = Colors.white;
 
-  static const Color errorColor = Color(0xFFE53935);
+  static Color errorColor = Color(0xFFE53935);
 
-  static const Color onPrimaryColor = Color(0xFFF9F1EF);
-  static const Color onSecondaryColor = Color(0xFFF9F1EF);
-  static const Color onBackgroundColor = Color(0xFFF9F1EF);
-  static const Color onSurfaceColor = Color(0xFF3F2F39);
-  static const Color onErrorColor = Color(0xFFF9F1EF);
+  static Color onPrimaryColor = Color(0xFFF9F1EF);
+  static Color onSecondaryColor = Color(0xFFF9F1EF);
+  static Color onBackgroundColor = Color(0xFFF9F1EF);
+  static Color onSurfaceColor = Color(0xFF3F2F39);
+  static Color onErrorColor = Color(0xFFF9F1EF);
 
   // ------------------ ROUND BUTTON GRADIENT ----------------
-  static const Color roundButtonGradientTop = Color(0xFFFB7185);
-  static const Color roundButtonGradientBottom = Color(0xFFFB923C);
+  static Color roundButtonGradientTop = Color(0xFFFB7185);
+  static Color roundButtonGradientBottom = Color(0xFFFB923C);
 
-  static const LinearGradient roundButtonGradient = LinearGradient(
+  static LinearGradient roundButtonGradient = LinearGradient(
     colors: [
       roundButtonGradientTop, // Top part
       roundButtonGradientBottom, // Bottom part
@@ -37,22 +37,22 @@ class AppTheme {
   );
 
   // Gradient for cards
-  static const Color cardGradientStart = Color(0xffFFE4E6);
-  static const Color cardGradientEnd = Color(0xFFFFEDD5);
-  static const LinearGradient CardGradient = LinearGradient(
+  static Color cardGradientStart = Color(0xffFFE4E6);
+  static Color cardGradientEnd = Color(0xFFFFEDD5);
+  static LinearGradient CardGradient = LinearGradient(
     colors: [cardGradientStart, cardGradientEnd],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
 
   // Border color
-  static const Color borderColor = Color(0xFFE4E6);
+  static Color borderColor = Color(0xFFE4E6);
 
   // Button / Card Gradient
-  static const Color buttonCardGradientStart = Color(0xFFF6A0AA);
-  static const Color buttonCardGradientEnd = Color(0xFFFDBA74);
+  static Color buttonCardGradientStart = Color(0xFFF6A0AA);
+  static Color buttonCardGradientEnd = Color(0xFFFDBA74);
 
-  static const LinearGradient buttonCardGradient = LinearGradient(
+  static LinearGradient buttonCardGradient = LinearGradient(
     colors: [buttonCardGradientStart, buttonCardGradientEnd],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
@@ -62,39 +62,39 @@ class AppTheme {
   // UPDATED LIGHT TEXT COLORS
   // ------------------------------------------------------------
 
-  static const Color textPrimaryColor = Colors.black; // Pure Black
-  static const Color textSecondaryColor = Color(
+  static Color textPrimaryColor = Colors.black; // Pure Black
+  static Color textSecondaryColor = Color(
     0xFF6B7280,
   ); // Neutral Gray (soft black shade)
-  static const Color textDisabledColor = Color(0xFFBDBDBD);
+  static Color textDisabledColor = Color(0xFFBDBDBD);
 
   // ------------------------------------------------------------
   // DARK THEME COLORS (original structure kept)
   // ------------------------------------------------------------
 
-  static const Color darkPrimaryColor = Color(0xFFF69173);
-  static const Color darkSecondaryColor = Color(0xFFD6D6D6);
+  static Color darkPrimaryColor = Color(0xFFF69173);
+  static Color darkSecondaryColor = Color(0xFFD6D6D6);
 
-  static const Color darkBackgroundColor = Colors.white;
-  static const Color darkSurfaceColor = Color(0xFFF9F1EF);
+  static Color darkBackgroundColor = Colors.white;
+  static Color darkSurfaceColor = Color(0xFFF9F1EF);
 
-  static const Color darkErrorColor = Color(0xFFE53935);
+  static Color darkErrorColor = Color(0xFFE53935);
 
-  static const Color darkOnPrimaryColor = Color(0xFFF9F1EF);
-  static const Color darkOnSecondaryColor = Color(0xFFF9F1EF);
-  static const Color darkOnBackgroundColor = Color(0xFFF9F1EF);
-  static const Color darkOnSurfaceColor = Color(0xFF3F2F39);
-  static const Color darkOnErrorColor = Color(0xFFF9F1EF);
+  static Color darkOnPrimaryColor = Color(0xFFF9F1EF);
+  static Color darkOnSecondaryColor = Color(0xFFF9F1EF);
+  static Color darkOnBackgroundColor = Color(0xFFF9F1EF);
+  static Color darkOnSurfaceColor = Color(0xFF3F2F39);
+  static Color darkOnErrorColor = Color(0xFFF9F1EF);
 
-  static const Color darkTextPrimaryColor = Color(0xFF1E2939);
-  static const Color darkTextSecondaryColor = Color(0xFFE2E2E2);
-  static const Color darkTextDisabledColor = Color(0xFF555555);
+  static Color darkTextPrimaryColor = Color(0xFF1E2939);
+  static Color darkTextSecondaryColor = Color(0xFFE2E2E2);
+  static Color darkTextDisabledColor = Color(0xFF555555);
 
   // ------------------------------------------------------------
   // FONTS
   // ------------------------------------------------------------
-  static const String primaryFont = 'Poppins';
-  static const String secondaryFont = 'Roboto';
+  static String primaryFont = 'Poppins';
+  static String secondaryFont = 'Roboto';
 
   // ------------------------------------------------------------
   // LIGHT THEME  (UPDATED TEXT COLORS APPLIED)
@@ -102,13 +102,13 @@ class AppTheme {
   static ThemeData lightTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.light,
-    snackBarTheme: const SnackBarThemeData(
+    snackBarTheme: SnackBarThemeData(
       contentTextStyle: TextStyle(
         color: Colors.black, // default text color
         fontSize: 14,
       ),
     ),
-    colorScheme: const ColorScheme.light(
+    colorScheme: ColorScheme.light(
       primary: primaryColor,
       secondary: secondaryColor,
       background: backgroundColor,
@@ -124,7 +124,7 @@ class AppTheme {
     scaffoldBackgroundColor: backgroundColor,
 
     // APP BAR
-    appBarTheme: const AppBarTheme(
+    appBarTheme: AppBarTheme(
       backgroundColor: backgroundColor,
       foregroundColor: textPrimaryColor,
 
@@ -142,7 +142,7 @@ class AppTheme {
     // ------------------------------------------------------------
     // UPDATED LIGHT TEXT THEME
     // ------------------------------------------------------------
-    textTheme: const TextTheme(
+    textTheme: TextTheme(
       // HEADERS
       displayLarge: TextStyle(
         fontFamily: primaryFont,
@@ -249,13 +249,13 @@ class AppTheme {
       style: ElevatedButton.styleFrom(
         backgroundColor: primaryColor,
         foregroundColor: onPrimaryColor,
-        textStyle: const TextStyle(
+        textStyle: TextStyle(
           fontFamily: primaryFont,
           fontSize: 16,
           fontWeight: FontWeight.w600,
         ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       ),
     ),
 
@@ -263,34 +263,34 @@ class AppTheme {
     inputDecorationTheme: InputDecorationTheme(
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: Colors.grey),
+        borderSide: BorderSide(color: Colors.grey),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: Colors.grey),
+        borderSide: BorderSide(color: Colors.grey),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: primaryColor, width: 2),
+        borderSide: BorderSide(color: primaryColor, width: 2),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: errorColor),
+        borderSide: BorderSide(color: errorColor),
       ),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       labelStyle: TextStyle(
         fontFamily: secondaryFont,
         fontSize: 14,
         color: textSecondaryColor, // UPDATED
       ),
-      hintStyle: const TextStyle(
+      hintStyle: TextStyle(
         fontFamily: secondaryFont,
         fontSize: 14,
         color: textDisabledColor,
       ),
     ),
 
-    dividerTheme: const DividerThemeData(color: Colors.grey, thickness: 1),
+    dividerTheme: DividerThemeData(color: Colors.grey, thickness: 1),
   );
 
   // ------------------------------------------------------------
@@ -299,7 +299,7 @@ class AppTheme {
   static ThemeData darkTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.dark,
-    snackBarTheme: const SnackBarThemeData(
+    snackBarTheme: SnackBarThemeData(
       contentTextStyle: TextStyle(
         color: Colors.black, // default text color
         fontSize: 14,
@@ -307,7 +307,7 @@ class AppTheme {
       backgroundColor: Colors.black,
     ),
 
-    colorScheme: const ColorScheme.dark(
+    colorScheme: ColorScheme.dark(
       primary: darkPrimaryColor,
       secondary: darkSecondaryColor,
       background: darkBackgroundColor,

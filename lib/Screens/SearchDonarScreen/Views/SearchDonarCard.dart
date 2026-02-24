@@ -24,7 +24,7 @@ class SearchDonarCard extends StatelessWidget {
             border: Border.all(color: Color(0xffFB7185).withOpacity(0.5)),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -41,7 +41,7 @@ class SearchDonarCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,16 +76,16 @@ class SearchDonarCard extends StatelessWidget {
                                 size: 16,
                                 color: Theme.of(context).colorScheme.primary,
                               ),
-                              const SizedBox(width: 4),
+                              SizedBox(width: 4),
 
                               Text(
                                 "${donar.distanceText ?? "unknow"}",
                                 style: Theme.of(context).textTheme.bodySmall!
                                     .copyWith(color: Colors.black),
                               ),
-                              const SizedBox(width: 8),
+                              SizedBox(width: 8),
                               // Icon(Icons.star, color: Colors.amber, size: 16),
-                              // const SizedBox(width: 4),
+                              // SizedBox(width: 4),
                               // Text(
                               //   controller.getDonorRating(donor),
                               //   style: Theme.of(context).textTheme.bodySmall,
@@ -96,7 +96,7 @@ class SearchDonarCard extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(
+                      padding: EdgeInsets.symmetric(
                         horizontal: 8,
                         vertical: 4,
                       ),
@@ -110,7 +110,7 @@ class SearchDonarCard extends StatelessWidget {
                         controller.getAvailabilityText(
                           donar.donor!.isAvailable ?? false,
                         ),
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Colors.white,
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
@@ -119,7 +119,7 @@ class SearchDonarCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12),
                 // if (donar.donor!.description! != null)
                 //   Text(
                 //     donar.donor!.description ?? "",
@@ -130,7 +130,7 @@ class SearchDonarCard extends StatelessWidget {
                 //     overflow: TextOverflow.ellipsis,
                 //   ),
                 // if (donar.donor!.ableToShareMedicalRecord ?? false)
-                //   const SizedBox(height: 12),
+                //   SizedBox(height: 12),
                 // if (donar.donor!.ableToShareMedicalRecord ?? false)
                 //   Wrap(
                 //     spacing: 8,
@@ -148,7 +148,7 @@ class SearchDonarCard extends StatelessWidget {
                 //       // ),
                 //     ],
                 //   ),
-                // const SizedBox(height: 16),
+                // SizedBox(height: 16),
                 Row(
                   children: [
                     // --------------------- VIEW PROFILE BUTTON ---------------------
@@ -163,8 +163,8 @@ class SearchDonarCard extends StatelessWidget {
                               userName: donar.donor!.name!!,
                             );
                           },
-                          icon: const Icon(Icons.person, size: 16),
-                          label: const Text('Send a message'),
+                          icon: Icon(Icons.person, size: 16),
+                          label: Text('Send a message'),
                           style: OutlinedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
@@ -173,7 +173,7 @@ class SearchDonarCard extends StatelessWidget {
                         ),
                       ),
 
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8),
 
                     // --------------------- CONNECT BUTTON WITH GRADIENT ---------------------
                     if (!(donar.hasAcceptedRequest ?? false))
@@ -197,7 +197,7 @@ class SearchDonarCard extends StatelessWidget {
                               borderRadius: BorderRadius.circular(8),
                               gradient:
                                   (donar.hasPendingRequest ?? false)
-                                      ? const LinearGradient(
+                                      ? LinearGradient(
                                         colors: [Colors.grey, Colors.grey],
                                       ) // disabled grey
                                       : AppTheme.buttonCardGradient,
@@ -205,17 +205,17 @@ class SearchDonarCard extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Icon(
+                                Icon(
                                   Icons.send,
                                   size: 16,
                                   color: Colors.white,
                                 ),
-                                const SizedBox(width: 6),
+                                SizedBox(width: 6),
                                 Text(
                                   (donar.hasPendingRequest ?? false)
                                       ? 'Requested'
                                       : 'Connect',
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -238,7 +238,7 @@ class SearchDonarCard extends StatelessWidget {
 
 Widget _buildInfoChip(String label, IconData icon, Color color) {
   return Container(
-    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
     decoration: BoxDecoration(
       color: color.withOpacity(0.1),
       borderRadius: BorderRadius.circular(8),
@@ -248,7 +248,7 @@ Widget _buildInfoChip(String label, IconData icon, Color color) {
       mainAxisSize: MainAxisSize.min,
       children: [
         Icon(icon, size: 12, color: color),
-        const SizedBox(width: 4),
+        SizedBox(width: 4),
         Text(
           label,
           style: TextStyle(

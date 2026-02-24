@@ -409,7 +409,7 @@ class Requestcontroller extends GetxController {
     Get.snackbar(
       'Contact Info',
       'Name: $contactName\nEmail: $contactEmail',
-      duration: const Duration(seconds: 5),
+      duration: Duration(seconds: 5),
     );
   }
 

@@ -6,7 +6,7 @@ class Unit {
   final String name;
   final double conversionFactorToMl;
 
-  const Unit({required this.name, required this.conversionFactorToMl});
+  Unit({required this.name, required this.conversionFactorToMl});
 }
 
 class UnitInputField extends StatefulWidget {
@@ -31,7 +31,7 @@ class _UnitInputFieldState extends State<UnitInputField> {
   final TextEditingController _displayController = TextEditingController();
 
   // Default units
-  List<Unit> _units = const [
+  List<Unit> _units = [
     Unit(name: 'ml', conversionFactorToMl: 1.0),
     Unit(name: 'oz', conversionFactorToMl: 29.5735),
   ];
@@ -99,11 +99,11 @@ class _UnitInputFieldState extends State<UnitInputField> {
     return TextField(
       controller: _displayController,
       onChanged: _updateMlFromDisplay,
-      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+      keyboardType: TextInputType.numberWithOptions(decimal: true),
       inputFormatters: [
         FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
       ],
-      style: const TextStyle(fontSize: 16),
+      style: TextStyle(fontSize: 16),
 
       decoration: InputDecoration(
         labelText: widget.title,
@@ -113,11 +113,11 @@ class _UnitInputFieldState extends State<UnitInputField> {
           child: DropdownButton<Unit>(
             value: _selectedUnit,
             onChanged: _onUnitChanged,
-            icon: const Icon(Icons.arrow_drop_down_rounded, color: Colors.black),
+            icon: Icon(Icons.arrow_drop_down_rounded, color: Colors.black),
             items: _units.map((unit) {
               return DropdownMenuItem<Unit>(
                 value: unit,
-                child: Text(unit.name, style: const TextStyle(fontSize: 16)),
+                child: Text(unit.name, style: TextStyle(fontSize: 16)),
               );
             }).toList(),
           ),

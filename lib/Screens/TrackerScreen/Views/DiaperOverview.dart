@@ -47,7 +47,7 @@ Widget _buildDiaperTypeChart(BuildContext context, DiaperTypeBreakdown model) {
           value: data[i].$2.toDouble(),
           title: '${data[i].$2}',
           radius: 30,
-          titleStyle: const TextStyle(
+          titleStyle: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
             color: Colors.white,
@@ -66,7 +66,7 @@ Widget _buildDiaperTypeChart(BuildContext context, DiaperTypeBreakdown model) {
         //BoxShadow(
           //color: Colors.black.withOpacity(0.05),
           //blurRadius: 10,
-        //  offset: const Offset(0, 2),
+        //  offset: Offset(0, 2),
        // ),
      // ],
     ),
@@ -94,7 +94,7 @@ Widget _buildDiaperTypeChart(BuildContext context, DiaperTypeBreakdown model) {
                           final index = entry.key;
                           final item = entry.value;
                           return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 4),
+                            padding: EdgeInsets.symmetric(vertical: 4),
                             child: Row(
                               children: [
                                 Container(
@@ -105,10 +105,10 @@ Widget _buildDiaperTypeChart(BuildContext context, DiaperTypeBreakdown model) {
                                     shape: BoxShape.circle,
                                   ),
                                 ),
-                                const SizedBox(width: 8),
+                                SizedBox(width: 8),
                                 Text(
                                   '${item.$1}: ${item.$2}',
-                                  style: const TextStyle(fontSize: 12),
+                                  style: TextStyle(fontSize: 12),
                                 ),
                               ],
                             ),
@@ -118,6 +118,6 @@ Widget _buildDiaperTypeChart(BuildContext context, DiaperTypeBreakdown model) {
                 ),
               ],
             )
-            : const Center(child: Text('No data available')),
+            : Center(child: Text('No data available')),
   );
 }

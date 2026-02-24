@@ -15,7 +15,7 @@ import 'package:mommilk_user/Utils/Constants.dart';
 import 'package:mommilk_user/theme/app_theme.dart';
 
 class MainDashboard extends StatelessWidget {
-  const MainDashboard({super.key});
+  MainDashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -66,8 +66,8 @@ class MainDashboard extends StatelessWidget {
                         elevation: 0,
                         scrolledUnderElevation: 0,
                         centerTitle: true,
-                        title: const Text(
-                          "My Connections",
+                        title: Text(
+                          "My Connections".tr,
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w600,
@@ -117,8 +117,8 @@ class MainDashboard extends StatelessWidget {
                 controller.update();
               },
 
-              backgroundColor: const Color(0xFFFFF0EC).withOpacity(1),
-              indicatorColor: const Color(0xFFFFE4EA),
+              backgroundColor: Color(0xFFFFF0EC).withOpacity(1),
+              indicatorColor: Color(0xFFFFE4EA),
               elevation: 0,
               labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
 
@@ -173,7 +173,7 @@ class MainDashboard extends StatelessWidget {
                     width: 25,
                     color: AppTheme.primaryColor,
                   ),
-                  label: 'Connect',
+                  label: 'Connect'.tr,
                 ),
 
                 NavigationDestination(
@@ -198,7 +198,7 @@ class MainDashboard extends StatelessWidget {
                     size: 20,
                     color: AppTheme.primaryColor,
                   ),
-                  label: 'Message',
+                  label: 'Message'.tr,
                 ),
                 NavigationDestination(
                   icon: FaIcon(
@@ -211,7 +211,7 @@ class MainDashboard extends StatelessWidget {
                     size: 20,
                     color: AppTheme.primaryColor,
                   ),
-                  label: 'Profile',
+                  label: 'Profile'.tr,
                 ),
               ],
             ),

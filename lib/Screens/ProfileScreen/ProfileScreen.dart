@@ -14,7 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+  ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class ProfileScreen extends StatelessWidget {
                 backgroundColor: Colors.white,
                 elevation: 0,
                 title: Text(
-                  "Profile",
+                  "Profile".tr,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
@@ -41,30 +41,30 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 centerTitle: true,
 
-                iconTheme: const IconThemeData(color: Color(0xFFFB7185)),
+                iconTheme: IconThemeData(color: Color(0xFFFB7185)),
               ),
 
               body: RefreshIndicator(
                 onRefresh: () async {
-                  await Future.delayed(const Duration(milliseconds: 500));
+                  await Future.delayed(Duration(milliseconds: 500));
                 },
                 child: CustomScrollView(
                   slivers: [
                     SliverPadding(
-                      padding: const EdgeInsets.all(16),
+                      padding: EdgeInsets.all(16),
                       sliver: SliverList(
                         delegate: SliverChildListDelegate([
                           _buildUserCard(context),
-                          const SizedBox(height: 20),
+                          SizedBox(height: 20),
                           if (user.userType == "DONOR")
                             buildUserTypeSection(context),
-                          const SizedBox(height: 20),
-                          const HBabyCard(),
+                          SizedBox(height: 20),
+                          HBabyCard(),
 
-                          const SizedBox(height: 20),
+                          SizedBox(height: 20),
 
                           _buildSettingsSection(context),
-                          const SizedBox(height: 20),
+                          SizedBox(height: 20),
 
                           _buildAppInfoSection(context),
                         ]),
@@ -88,7 +88,7 @@ class ProfileScreen extends StatelessWidget {
         border: Border.all(color: AppTheme.borderColor, width: 1.5),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.all(24),
         child: Column(
           children: [
             Container(
@@ -100,22 +100,22 @@ class ProfileScreen extends StatelessWidget {
               ),
               child: Icon(Icons.person, size: 40, color: Colors.white),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
             Text('${user.name}', style: Theme.of(context).textTheme.bodyLarge),
             Text(
               '${user.email}',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
-            if (false) const SizedBox(height: 20),
+            if (false) SizedBox(height: 20),
             if (false)
               SizedBox(
                 width: double.infinity,
                 child: OutlinedButton.icon(
                   onPressed: () => _showEditProfileDialog(context),
-                  icon: const Icon(Icons.edit, size: 18),
-                  label: const Text('Edit Profile'),
+                  icon: Icon(Icons.edit, size: 18),
+                  label: Text('Edit Profile'),
                   style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    padding: EdgeInsets.symmetric(vertical: 12),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -139,17 +139,17 @@ class ProfileScreen extends StatelessWidget {
         border: Border.all(color: Color(0xFFFFE4E6), width: 1.5),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Settings',
+              'Settings'.tr,
               style: Theme.of(
                 context,
               ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
             // _buildSettingItem(
             //   context,
             //   'Notifications',
@@ -157,21 +157,21 @@ class ProfileScreen extends StatelessWidget {
             //   Icons.notifications,
             //   () => _showNotificationSettings(context),
             // ),
-            //  const Divider(height: 24),
+            //  Divider(height: 24),
             _buildSettingItem(
               context,
-              'Privacy & Security',
-              'Control your privacy settings',
+              'Privacy & Security'.tr,
+              'Control your privacy settings'.tr,
               Icons.security,
               () {
                 launchUrl(Uri.parse("https://momsmilk.app/privacy-policy"));
               },
             ),
-            const Divider(height: 24),
+            Divider(height: 24),
             _buildSettingItem(
               context,
-              'Rate Us',
-              'Help us improve with your feedback',
+              'Rate Us'.tr,
+              'Help us improve with your feedback'.tr,
               Icons.rate_review,
               () {
                 if (Platform.isAndroid) {
@@ -181,31 +181,31 @@ class ProfileScreen extends StatelessWidget {
                 }
               },
             ),
-            const Divider(height: 24),
+            Divider(height: 24),
             _buildSettingItem(
               context,
-              'Help & Support',
-              'Get help and contact support',
+              'Help & Support'.tr,
+              'Get help and contact support'.tr,
               Icons.help,
               () {
                 launchUrl(Uri.parse("https://momsmilk.app/privacy-policy"));
               },
             ),
-            const Divider(height: 24),
+            Divider(height: 24),
             _buildSettingItem(
               context,
-              'Delete Account',
-              'Delete your mom\'s account',
+              'Delete Account'.tr,
+              'Delete your mom\'s account'.tr,
               Icons.delete,
               () {
                 _showDeleteAccount(context);
               },
             ),
-            const Divider(height: 24),
+            Divider(height: 24),
             _buildSettingItem(
               context,
-              'Logout',
-              'Sign out of your account',
+              'Logout'.tr,
+              'Sign out of your account'.tr,
               Icons.logout,
               () => _showLogoutConfirmation(context),
               isDestructive: true,
@@ -233,18 +233,18 @@ class ProfileScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8),
+          padding: EdgeInsets.symmetric(vertical: 8),
           child: Row(
             children: [
               Container(
-                padding: const EdgeInsets.all(8),
+                padding: EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   color: settingColor.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(icon, color: settingColor, size: 20),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -283,21 +283,21 @@ class ProfileScreen extends StatelessWidget {
         border: Border.all(color: Color(0xFFFFE4E6), width: 1.5),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'App Information',
+              'App Information'.tr,
               style: Theme.of(
                 context,
               ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Version', style: Theme.of(context).textTheme.bodyMedium),
+                Text('Version'.tr, style: Theme.of(context).textTheme.bodyMedium),
                 Text(
                   '1.0.0',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -308,11 +308,11 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Build', style: Theme.of(context).textTheme.bodyMedium),
+                Text('Build'.tr, style: Theme.of(context).textTheme.bodyMedium),
                 Text(
                   '1.0.0+1',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -323,21 +323,21 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
               child: OutlinedButton(
                 onPressed: () {
                   launchUrl(Uri.parse("https://momsmilk.app"));
                 },
-                child: const Text(
-                  "About Mom's Milk",
+                child: Text(
+                  "About Mom's Milk".tr,
                   style: TextStyle(
                     color: Colors.white,
                   ), // Text color white on colored background
                 ),
                 style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  padding: EdgeInsets.symmetric(vertical: 12),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -363,14 +363,14 @@ class ProfileScreen extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.85,
             decoration: BoxDecoration(
               color: Theme.of(context).scaffoldBackgroundColor,
-              borderRadius: const BorderRadius.vertical(
+              borderRadius: BorderRadius.vertical(
                 top: Radius.circular(20),
               ),
             ),
             child: Column(
               children: [
                 Container(
-                  margin: const EdgeInsets.only(top: 8),
+                  margin: EdgeInsets.only(top: 8),
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
@@ -379,25 +379,25 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(20),
+                  padding: EdgeInsets.all(20),
                   child: Row(
                     children: [
                       Text(
-                        'Edit Profile',
+                        'Edit Profile'.tr,
                         style: Theme.of(context).textTheme.headlineSmall
                             ?.copyWith(fontWeight: FontWeight.w600),
                       ),
-                      const Spacer(),
+                      Spacer(),
                       IconButton(
                         onPressed: () => Navigator.pop(context),
-                        icon: const Icon(Icons.close),
+                        icon: Icon(Icons.close),
                       ),
                     ],
                   ),
                 ),
                 Expanded(
                   child: SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
                       children: [
                         TextField(
@@ -411,11 +411,11 @@ class ProfileScreen extends StatelessWidget {
                             fillColor: Theme.of(context).colorScheme.surface,
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16),
                         TextField(
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
-                            labelText: 'Email',
+                            labelText: 'Email'.tr,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
@@ -423,11 +423,11 @@ class ProfileScreen extends StatelessWidget {
                             fillColor: Theme.of(context).colorScheme.surface,
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16),
                         TextField(
                           textInputAction: TextInputAction.done,
                           decoration: InputDecoration(
-                            labelText: 'Phone',
+                            labelText: 'Phone'.tr,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
@@ -435,36 +435,36 @@ class ProfileScreen extends StatelessWidget {
                             fillColor: Theme.of(context).colorScheme.surface,
                           ),
                         ),
-                        const SizedBox(height: 32),
+                        SizedBox(height: 32),
                         Row(
                           children: [
                             Expanded(
                               child: OutlinedButton(
                                 onPressed: () => Navigator.pop(context),
                                 style: OutlinedButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(
+                                  padding: EdgeInsets.symmetric(
                                     vertical: 16,
                                   ),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                 ),
-                                child: const Text('Cancel'),
+                                child: Text('Cancel'),
                               ),
                             ),
-                            const SizedBox(width: 16),
+                            SizedBox(width: 16),
                             Expanded(
                               child: ElevatedButton(
                                 onPressed: () => Navigator.pop(context),
                                 style: ElevatedButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(
+                                  padding: EdgeInsets.symmetric(
                                     vertical: 16,
                                   ),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                 ),
-                                child: const Text('Save'),
+                                child: Text('Save'.tr),
                               ),
                             ),
                           ],
@@ -487,14 +487,14 @@ class ProfileScreen extends StatelessWidget {
       context: context,
       builder:
           (context) => AlertDialog(
-            title: const Text('Privacy & Security'),
-            content: const Text(
-              'Privacy and security settings will be implemented here.',
+            title: Text('Privacy & Security'.tr),
+            content: Text(
+              'Privacy and security settings will be implemented here.'.tr,
             ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('OK'),
+                child: Text('OK'),
               ),
             ],
           ),
@@ -508,20 +508,20 @@ class ProfileScreen extends StatelessWidget {
           (context) => AlertDialog(
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
 
-            title: const Text('Delete Mom\'s Account'),
-            content: const Text(
-              'Your account is scheduled for deletion in 60 days and will be reactivated automatically if you log in again within this period.',
+            title: Text('Delete Mom\'s Account'.tr),
+            content: Text(
+              'Your account is scheduled for deletion in 60 days and will be reactivated automatically if you log in again within this period.'.tr,
             ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('Cancel'),
+                child: Text('Cancel'.tr),
               ),
               TextButton(
                 onPressed: () {
                   _performDelete(context);
                 },
-                child: const Text('Delete'),
+                child: Text('Delete'.tr),
               ),
             ],
           ),
@@ -533,14 +533,14 @@ class ProfileScreen extends StatelessWidget {
       context: context,
       builder:
           (context) => AlertDialog(
-            title: const Text('Help & Support'),
-            content: const Text(
-              'Help and support options will be implemented here.',
+            title: Text('Help & Support'.tr),
+            content: Text(
+              'Help and support options will be implemented here.'.tr,
             ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('OK'),
+                child: Text('OK'),
               ),
             ],
           ),
@@ -562,8 +562,8 @@ class ProfileScreen extends StatelessWidget {
         child: Icon(Icons.child_care, color: Colors.white, size: 32),
       ),
       children: [
-        const Text(
-          'A comprehensive app for mothers to track baby care and connect with milk donors.',
+        Text(
+          'A comprehensive app for mothers to track baby care and connect with milk donors.'.tr,
         ),
       ],
     );
@@ -578,17 +578,17 @@ class ProfileScreen extends StatelessWidget {
           title: Row(
             children: [
               Icon(Icons.logout, color: Colors.red, size: 24),
-              const SizedBox(width: 12),
-              const Text('Logout'),
+              SizedBox(width: 12),
+              Text('Logout'.tr),
             ],
           ),
-          content: const Text(
-            'Are you sure you want to logout? You will need to sign in again to access your account.',
+          content: Text(
+            'Are you sure you want to logout? You will need to sign in again to access your account.'.tr,
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Cancel'),
+              child: Text('Cancel'.tr),
             ),
             ElevatedButton(
               onPressed: () {
@@ -599,7 +599,7 @@ class ProfileScreen extends StatelessWidget {
                 backgroundColor: Colors.red,
                 foregroundColor: Colors.white,
               ),
-              child: const Text('Logout'),
+              child: Text('Logout'.tr),
             ),
           ],
         );
@@ -611,7 +611,7 @@ class ProfileScreen extends StatelessWidget {
     try {
       // Show loading indicator
       Get.dialog(
-        const Center(
+        Center(
           child: Card(
             child: Padding(
               padding: EdgeInsets.all(20),
@@ -620,7 +620,7 @@ class ProfileScreen extends StatelessWidget {
                 children: [
                   CircularProgressIndicator(),
                   SizedBox(height: 16),
-                  Text('Account Delete'),
+                  Text('Account Delete'.tr),
                 ],
               ),
             ),
@@ -644,7 +644,7 @@ class ProfileScreen extends StatelessWidget {
       Get.offAll(
         () => Authenticationscreen(),
         transition: Transition.fadeIn,
-        duration: const Duration(milliseconds: 300),
+        duration: Duration(milliseconds: 300),
       );
 
       // Show success message
@@ -654,7 +654,7 @@ class ProfileScreen extends StatelessWidget {
       //   backgroundColor: Colors.green,
       //              colorText: Colors.black,
 
-      //   duration: const Duration(seconds: 2),
+      //   duration: Duration(seconds: 2),
       // );
     } catch (e) {
       // Close loading dialog if it's still showing
@@ -665,11 +665,11 @@ class ProfileScreen extends StatelessWidget {
       // Show error message
       Get.snackbar(
         'Error',
-        'Failed to delete. Please try again.',
+        'Failed to delete. Please try again.'.tr,
         backgroundColor: Colors.red,
         colorText: Colors.black,
 
-        duration: const Duration(seconds: 3),
+        duration: Duration(seconds: 3),
       );
     }
   }
@@ -679,7 +679,7 @@ Future<void> _performLogout(BuildContext context) async {
   try {
     // Show loading indicator
     Get.dialog(
-      const Center(
+      Center(
         child: Card(
           child: Padding(
             padding: EdgeInsets.all(20),
@@ -688,7 +688,7 @@ Future<void> _performLogout(BuildContext context) async {
               children: [
                 CircularProgressIndicator(),
                 SizedBox(height: 16),
-                Text('Logging out...'),
+                Text('Logging out...'.tr),
               ],
             ),
           ),
@@ -712,17 +712,17 @@ Future<void> _performLogout(BuildContext context) async {
     Get.offAll(
       () => Authenticationscreen(),
       transition: Transition.fadeIn,
-      duration: const Duration(milliseconds: 300),
+      duration: Duration(milliseconds: 300),
     );
 
     // Show success message
     Get.snackbar(
       'Success',
-      'You have been logged out successfully',
+      'You have been logged out successfully'.tr,
       backgroundColor: Colors.green,
       colorText: Colors.black,
 
-      duration: const Duration(seconds: 2),
+      duration: Duration(seconds: 2),
     );
   } catch (e) {
     // Close loading dialog if it's still showing
@@ -733,11 +733,11 @@ Future<void> _performLogout(BuildContext context) async {
     // Show error message
     Get.snackbar(
       'Error',
-      'Failed to logout. Please try again.',
+      'Failed to logout. Please try again.'.tr,
       backgroundColor: Colors.red,
       colorText: Colors.black,
 
-      duration: const Duration(seconds: 3),
+      duration: Duration(seconds: 3),
     );
   }
 }
@@ -750,26 +750,26 @@ Widget buildUserTypeSection(BuildContext context) {
       border: Border.all(color: AppTheme.borderColor, width: 1.5),
     ),
     child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
 
           // Show switch only for DONOR
-          if (user.userType == "DONOR") ...[
+          if (user.userType == "DONOR".tr) ...[
             GetBuilder<Homecontroller>(
               builder:
                   (controller) => SwitchListTile(
-                    title: const Text(
-                      'Available for Donations',
+                    title: Text(
+                      'Available for Donations'.tr,
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    subtitle: const Text(
-                      'Allow others to see your donation availability',
+                    subtitle: Text(
+                      'Allow others to see your donation availability'.tr,
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.black,

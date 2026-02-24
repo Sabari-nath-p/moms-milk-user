@@ -21,14 +21,14 @@ class SleepingActivityCard extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16),
 
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: const Color(0xFFFFF0EC).withOpacity(1)),
-            color: const Color(0xFFFFF0EC).withOpacity(1),
+            border: Border.all(color: Color(0xFFFFF0EC).withOpacity(1)),
+            color: Color(0xFFFFF0EC).withOpacity(1),
           ),
           child: Row(
             children: [
@@ -37,13 +37,13 @@ class SleepingActivityCard extends StatelessWidget {
                   children: [
                     Text(
                       (model.totalSleeps ?? 0).toString(),
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.orange,
                       ),
                     ),
-                    const Text(
+                    Text(
                       'Total\nSessions',
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 12),
@@ -56,13 +56,13 @@ class SleepingActivityCard extends StatelessWidget {
                   children: [
                     Text(
                       '${model.totalSleepDuration ?? 0} hr',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.green,
                       ),
                     ),
-                    const Text(
+                    Text(
                       'Total\nHours',
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 12),
@@ -75,13 +75,13 @@ class SleepingActivityCard extends StatelessWidget {
                   children: [
                     Text(
                       '${model.averageSleepDurationPerDay ?? 0} hr',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.blue,
                       ),
                     ),
-                    const Text(
+                    Text(
                       'Average\nSleep/day',
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 12),
@@ -92,7 +92,7 @@ class SleepingActivityCard extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16),
       ],
     );
   }

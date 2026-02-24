@@ -7,7 +7,7 @@ import 'package:mommilk_user/Utils/DateSelectionField.dart';
 import 'package:mommilk_user/Utils/TimeSelectionField.dart';
 
 class DiaperChangeBottomSheet extends StatefulWidget {
-  const DiaperChangeBottomSheet({super.key});
+  DiaperChangeBottomSheet({super.key});
 
   @override
   State<DiaperChangeBottomSheet> createState() =>
@@ -31,7 +31,7 @@ class _DiaperChangeBottomSheetState extends State<DiaperChangeBottomSheet> {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: const BorderRadius.only(
+        borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
         ),
@@ -51,24 +51,24 @@ class _DiaperChangeBottomSheetState extends State<DiaperChangeBottomSheet> {
                     color: Theme.of(context).colorScheme.primary,
                     size: 28,
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12),
                   Text(
                     'Log Diaper',
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const Spacer(),
+                  Spacer(),
                   IconButton(
                     onPressed: () {
                       Get.back();
                     },
-                    icon: const Icon(Icons.close),
+                    icon: Icon(Icons.close),
                   ),
                 ],
               ),
 
-              const SizedBox(height: 24),
+              SizedBox(height: 24),
 
               // Date Selection
               DatePickerField(
@@ -78,7 +78,7 @@ class _DiaperChangeBottomSheetState extends State<DiaperChangeBottomSheet> {
                 },
               ),
 
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               // Time Selection
               TimePickerField(
@@ -88,7 +88,7 @@ class _DiaperChangeBottomSheetState extends State<DiaperChangeBottomSheet> {
                 },
               ),
 
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               // Diaper Type Selection
               Text(
@@ -98,7 +98,7 @@ class _DiaperChangeBottomSheetState extends State<DiaperChangeBottomSheet> {
                 ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
               ),
 
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
 
               Row(
                 children:
@@ -107,7 +107,7 @@ class _DiaperChangeBottomSheetState extends State<DiaperChangeBottomSheet> {
 
                       return Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.only(right: 8),
+                          padding: EdgeInsets.only(right: 8),
                           child: FilterChip(
                             label: SizedBox(
                               width: double.infinity,
@@ -158,18 +158,18 @@ class _DiaperChangeBottomSheetState extends State<DiaperChangeBottomSheet> {
                     }).toList(),
               ),
 
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               // Note Field
               TextField(
                 controller: noteController,
                 maxLines: 1,
                 textInputAction: TextInputAction.done,
-                style: const TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 16),
                 decoration: InputDecoration(
                   labelText: 'Note ',
                   hintText: 'Add any additional notes...',
-                  prefixIcon: const Icon(Icons.note_outlined),
+                  prefixIcon: Icon(Icons.note_outlined),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -187,7 +187,7 @@ class _DiaperChangeBottomSheetState extends State<DiaperChangeBottomSheet> {
                 ),
               ),
 
-              const SizedBox(height: 24),
+              SizedBox(height: 24),
 
               // Action Buttons
               Row(
@@ -196,7 +196,7 @@ class _DiaperChangeBottomSheetState extends State<DiaperChangeBottomSheet> {
                     child: OutlinedButton(
                       onPressed: () => Get.back(),
                       style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        padding: EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -213,7 +213,7 @@ class _DiaperChangeBottomSheetState extends State<DiaperChangeBottomSheet> {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(width: 16),
                   Expanded(
                     child: GetBuilder<Homecontroller>(
                       builder: (controller) {
@@ -223,7 +223,7 @@ class _DiaperChangeBottomSheetState extends State<DiaperChangeBottomSheet> {
                             backgroundColor:
                                 Theme.of(context).colorScheme.primary,
                             foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            padding: EdgeInsets.symmetric(vertical: 16),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
@@ -255,7 +255,7 @@ class _DiaperChangeBottomSheetState extends State<DiaperChangeBottomSheet> {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
-      firstDate: DateTime.now().subtract(const Duration(days: 365)),
+      firstDate: DateTime.now().subtract(Duration(days: 365)),
       lastDate: DateTime.now(),
       builder: (context, child) {
         return Theme(

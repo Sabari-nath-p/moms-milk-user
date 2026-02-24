@@ -6,7 +6,7 @@ import 'package:mommilk_user/Screens/TimeLineScreen/ActivityTimeLineScreen.dart'
 import 'package:mommilk_user/theme/app_theme.dart';
 
 class HQuickActions extends StatelessWidget {
-  const HQuickActions({super.key});
+  HQuickActions({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class HQuickActions extends StatelessWidget {
               //),
               ///],
               //),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               if (controller.selectedBady == null)
                 Container()
@@ -49,9 +49,9 @@ class HQuickActions extends StatelessWidget {
                 Column(
                   children: [
                     _buildFeedingCard(context),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12),
                     _buildDiaperCard(context),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12),
                     _buildSleepCard(context),
                   ],
                 ),
@@ -77,14 +77,14 @@ class HQuickActions extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(10),
+                    padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: Colors.green.withOpacity(0.15),
                       borderRadius: BorderRadius.circular(12),
@@ -95,7 +95,7 @@ class HQuickActions extends StatelessWidget {
                       size: 24,
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,7 +125,7 @@ class HQuickActions extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               Row(
                 children: [
@@ -137,8 +137,8 @@ class HQuickActions extends StatelessWidget {
                           Homecontroller controller = Get.put(Homecontroller());
                           controller.showFeedingLogBottomSheet();
                         },
-                        icon: const Icon(Icons.play_arrow, size: 20),
-                        label: const Text('Log Feeding'),
+                        icon: Icon(Icons.play_arrow, size: 20),
+                        label: Text('Log Feeding'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.green,
                           foregroundColor: Colors.white,
@@ -150,14 +150,14 @@ class HQuickActions extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12),
                   // Expanded(
                   //   child: SizedBox(
                   //     height: 48,
                   //     child: OutlinedButton.icon(
                   //       onPressed: () {},
-                  //       icon: const Icon(Icons.edit, size: 20),
-                  //       label: const Text('Manual'),
+                  //       icon: Icon(Icons.edit, size: 20),
+                  //       label: Text('Manual'),
                   //       style: OutlinedButton.styleFrom(
                   //         side: BorderSide(color: Colors.green),
                   //         foregroundColor: Colors.green,
@@ -194,14 +194,14 @@ class HQuickActions extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(10),
+                    padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: Colors.blue.withOpacity(0.15),
                       borderRadius: BorderRadius.circular(12),
@@ -212,7 +212,7 @@ class HQuickActions extends StatelessWidget {
                       size: 24,
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -241,7 +241,7 @@ class HQuickActions extends StatelessWidget {
                   // ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               SizedBox(
                 width: double.infinity,
                 height: 48,
@@ -251,8 +251,8 @@ class HQuickActions extends StatelessWidget {
                         onPressed: () {
                           controller.showDiaperChangeBottomSheet();
                         },
-                        icon: const Icon(Icons.add, size: 20),
-                        label: const Text('Log Diaper Change'),
+                        icon: Icon(Icons.add, size: 20),
+                        label: Text('Log Diaper Change'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue,
                           foregroundColor: Colors.white,
@@ -288,21 +288,21 @@ class HQuickActions extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(10),
+                    padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: Colors.purple.withOpacity(0.15),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Icon(Icons.bedtime, color: Colors.purple, size: 24),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -331,7 +331,7 @@ class HQuickActions extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               SizedBox(
                 width: double.infinity,
@@ -342,8 +342,8 @@ class HQuickActions extends StatelessWidget {
                         onPressed: () {
                           controller.showSleepLogBottomSheet();
                         },
-                        icon: const Icon(Icons.bedtime_outlined, size: 20),
-                        label: const Text('Log Sleep'),
+                        icon: Icon(Icons.bedtime_outlined, size: 20),
+                        label: Text('Log Sleep'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.purple,
                           foregroundColor: Colors.white,

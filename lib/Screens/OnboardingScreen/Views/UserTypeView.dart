@@ -4,14 +4,14 @@ import 'package:mommilk_user/Screens/OnboardingScreen/Controller/OnboardingContr
 import 'package:mommilk_user/theme/app_theme.dart';
 
 class UserTypeStep extends StatelessWidget {
-  const UserTypeStep({super.key});
+  UserTypeStep({super.key});
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<Onboardingcontroller>(
       builder: (controller) {
         return SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -23,7 +23,7 @@ class UserTypeStep extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 8),
+              SizedBox(height: 8),
 
               Text(
                 'Choose your role to personalize your app experience.',
@@ -32,7 +32,7 @@ class UserTypeStep extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 40),
+              SizedBox(height: 40),
 
               // Donor Option
               _buildUserTypeCard(
@@ -55,7 +55,7 @@ class UserTypeStep extends StatelessWidget {
                 ],
               ),
 
-              const SizedBox(height: 24),
+              SizedBox(height: 24),
 
               // Buyer Option
               _buildUserTypeCard(
@@ -78,14 +78,14 @@ class UserTypeStep extends StatelessWidget {
                 ],
               ),
 
-              //   const SizedBox(height: 24),
+              //   SizedBox(height: 24),
 
               // Tracker Option
-              const SizedBox(height: 32),
+              SizedBox(height: 32),
 
               // Info Card
               Container(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   gradient: AppTheme.buttonCardGradient,
                    color: Theme.of(context)
@@ -106,7 +106,7 @@ class UserTypeStep extends StatelessWidget {
                       Icons.security,
                       color: Theme.of(context).colorScheme.primary,
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12),
                     Expanded(
                       child: Text(
                         'Find milk donors near you. Review profiles and connect safely based on your comfort and judgment.',
@@ -138,7 +138,7 @@ class UserTypeStep extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(20),
         decoration: BoxDecoration(
          // color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
           gradient: AppTheme.CardGradient,
@@ -155,7 +155,7 @@ class UserTypeStep extends StatelessWidget {
             BoxShadow(
               color: Colors.black.withOpacity(0.05),
               blurRadius: 10,
-              offset: const Offset(0, 2),
+              offset: Offset(0, 2),
             ),
           ],
         ),
@@ -165,7 +165,7 @@ class UserTypeStep extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(12),
+                  padding: EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     color:
                         isSelected
@@ -180,7 +180,7 @@ class UserTypeStep extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(width: 16),
+                SizedBox(width: 16),
 
                 Expanded(
                   child: Column(
@@ -214,16 +214,16 @@ class UserTypeStep extends StatelessWidget {
               ],
             ),
 
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
 
             Text(description, style: Theme.of(context).textTheme.bodyMedium),
 
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
 
             ...benefits
                 .map(
                   (benefit) => Padding(
-                    padding: const EdgeInsets.only(bottom: 4),
+                    padding: EdgeInsets.only(bottom: 4),
                     child: Row(
                       children: [
                         Icon(
@@ -234,7 +234,7 @@ class UserTypeStep extends StatelessWidget {
                                   ? Theme.of(context).colorScheme.primary
                                   : Colors.white.withOpacity(.9),
                         ),
-                        const SizedBox(width: 8),
+                        SizedBox(width: 8),
                         Text(
                           benefit,
                           style: Theme.of(context).textTheme.bodySmall

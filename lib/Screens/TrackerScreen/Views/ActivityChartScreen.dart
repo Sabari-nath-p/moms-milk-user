@@ -5,7 +5,7 @@ import 'package:mommilk_user/Utils/TimeGantChart.dart';
 import 'package:mommilk_user/theme/app_theme.dart';
 
 class ActivityChartScreen extends StatelessWidget {
-  const ActivityChartScreen({super.key});
+  ActivityChartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

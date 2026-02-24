@@ -7,7 +7,7 @@ import 'package:mommilk_user/Utils/DateSelectionField.dart';
 import 'package:mommilk_user/Utils/TimeSelectionField.dart';
 
 class SleepLogBottomSheet extends StatefulWidget {
-  const SleepLogBottomSheet({super.key});
+  SleepLogBottomSheet({super.key});
 
   @override
   State<SleepLogBottomSheet> createState() => _SleepLogBottomSheetState();
@@ -35,7 +35,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: const BorderRadius.only(
+        borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
         ),
@@ -60,24 +60,24 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                     color: Theme.of(context).colorScheme.primary,
                     size: 28,
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12),
                   Text(
                     'Log Sleep',
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const Spacer(),
+                  Spacer(),
                   IconButton(
                     onPressed: () {
                       Get.back();
                     },
-                    icon: const Icon(Icons.close),
+                    icon: Icon(Icons.close),
                   ),
                 ],
               ),
 
-              const SizedBox(height: 24),
+              SizedBox(height: 24),
 
               // Date Selection
               DatePickerField(
@@ -87,7 +87,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                 },
               ),
 
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               // Time Selection Row
               Row(
@@ -101,7 +101,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                       },
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12),
                   // End Time
                   Expanded(
                     child: TimePickerField(
@@ -115,7 +115,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                 ],
               ),
 
-              //  const SizedBox(height: 16),
+              //  SizedBox(height: 16),
 
               // Sleep Quality Selection
               // Text(
@@ -125,7 +125,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
               //   ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
               // ),
 
-              // const SizedBox(height: 12),
+              // SizedBox(height: 12),
 
               // Row(
               //   children:
@@ -133,7 +133,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
               //         final isSelected = selectedSleepQuality == quality;
               //         return Expanded(
               //           child: Padding(
-              //             padding: const EdgeInsets.only(right: 8),
+              //             padding: EdgeInsets.only(right: 8),
               //             child: FilterChip(
               //               label: SizedBox(
               //                 width: double.infinity,
@@ -166,7 +166,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
               //         );
               //       }).toList(),
               // ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               // Sleep Location Selection
               Text(
@@ -176,7 +176,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                 ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
               ),
 
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
 
               Row(
                 children:
@@ -184,7 +184,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                       final isSelected = selectedLocation == location;
                       return Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.only(right: 8),
+                          padding: EdgeInsets.only(right: 8),
                           child: FilterChip(
                             label: SizedBox(
                               width: double.infinity,
@@ -230,18 +230,18 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                     }).toList(),
               ),
 
-              if (false) const SizedBox(height: 16),
+              if (false) SizedBox(height: 16),
 
               // Note Field
               if (false)
                 TextField(
                   controller: noteController,
                   maxLines: 3,
-                  style: const TextStyle(fontSize: 16),
+                  style: TextStyle(fontSize: 16),
                   decoration: InputDecoration(
                     labelText: 'Note (Optional)',
                     hintText: 'Add any additional notes about the sleep...',
-                    prefixIcon: const Icon(Icons.note_outlined),
+                    prefixIcon: Icon(Icons.note_outlined),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -259,7 +259,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                   ),
                 ),
 
-              const SizedBox(height: 24),
+              SizedBox(height: 24),
 
               // Action Buttons
               Row(
@@ -268,7 +268,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                     child: OutlinedButton(
                       onPressed: () => Get.back(),
                       style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        padding: EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -285,19 +285,19 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(width: 16),
                   Expanded(
                     child: ElevatedButton(
                       onPressed: _saveSleepLog,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        padding: EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      child: const Text(
+                      child: Text(
                         'Save Log',
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
@@ -319,7 +319,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
-      firstDate: DateTime.now().subtract(const Duration(days: 365)),
+      firstDate: DateTime.now().subtract(Duration(days: 365)),
       lastDate: DateTime.now(),
       builder: (context, child) {
         return Theme(
@@ -424,7 +424,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
     // If end time is before start time, assume it's next day
     final adjustedEndDateTime =
         endDateTime.isBefore(startDateTime)
-            ? endDateTime.add(const Duration(days: 1))
+            ? endDateTime.add(Duration(days: 1))
             : endDateTime;
 
     if (adjustedEndDateTime.difference(startDateTime).inMinutes < 1) {

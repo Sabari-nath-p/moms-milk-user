@@ -6,7 +6,7 @@ import 'package:mommilk_user/Screens/SearchDonarScreen/Views/SendRequestBottomSh
 import 'package:mommilk_user/theme/app_theme.dart';
 
 class Searchdonarscreen extends StatefulWidget {
-  const Searchdonarscreen({super.key});
+  Searchdonarscreen({super.key});
 
   @override
   State<Searchdonarscreen> createState() => _SearchdonarscreenState();
@@ -52,7 +52,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
           //   pinned: true,
           //   leading: IconButton(
           //     onPressed: () => Navigator.pop(context),
-          //     icon: const Icon(Icons.arrow_back),
+          //     icon: Icon(Icons.arrow_back),
           //   ),
           //   flexibleSpace: FlexibleSpaceBar(
           //     title: Text(
@@ -79,17 +79,17 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
 
           // ),
           SliverPadding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16),
             sliver: SliverList(
               delegate: SliverChildListDelegate([
                 _buildSearchSection(context),
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
                 _buildActiveFilters(context),
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
                 _buildDonorsList(context),
                  SizedBox(height: 10,),
                   Container(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
@@ -103,10 +103,10 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
                     Icons.privacy_tip_outlined,
                     color: Theme.of(context).colorScheme.primary,
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      'We’re actively welcoming milk donors. If no donors appear in your area yet, don’t worry more will be joining shortly. Thank you for your patience and support and if new donars comes near you we will notify',
+                      'We’re actively welcoming milk donors. If no donors appear in your area yet, don’t worry more will be joining shortly. Thank you for your patience and support and if new donars comes near you we will notify'.tr,
                       style: Theme.of(
                         context,
                       ).textTheme.bodySmall?.copyWith(color: Colors.black),
@@ -145,26 +145,26 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
       controller.searchDonors(); // optional auto search
     },
 
-    style: const TextStyle(color: Colors.black87),
+    style: TextStyle(color: Colors.black87),
     decoration: InputDecoration(
-      hintStyle: const TextStyle(
+      hintStyle: TextStyle(
         color: Colors.black,
         fontWeight: FontWeight.w400,
         fontSize: 12,
       ),
       hintText: "Zip Code",
-      prefixIcon: const Icon(Icons.location_on),
+      prefixIcon: Icon(Icons.location_on),
 
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(
+        borderSide: BorderSide(
           color: Color(0xFFFFE4E6),
           width: 1.4,
         ),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(
+        borderSide: BorderSide(
           color: Color(0xFFFFE4E6),
           width: 1.6,
         ),
@@ -178,7 +178,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
   ),
 ),
 
-            const SizedBox(width: 12),
+            SizedBox(width: 12),
             Expanded(
               flex: 3,
               child: TextField(
@@ -188,7 +188,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
                 decoration: InputDecoration(
                   hintText: 'Search donors...',
                   hintStyle: TextStyle(color: Colors.black, fontSize: 12),
-                  prefixIcon: const Icon(Icons.search),
+                  prefixIcon: Icon(Icons.search),
 
                   // 👇 Updated Borders
                   enabledBorder: OutlineInputBorder(
@@ -216,12 +216,12 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
             ),
             IconButton(
               onPressed: () => _showFiltersBottomSheet(context),
-              icon: const Icon(Icons.tune),
+              icon: Icon(Icons.tune),
               tooltip: 'Filters',
             ),
           ],
         ),
-        const SizedBox(height: 25),
+        SizedBox(height: 25),
         SizedBox(
           width: double.infinity,
           height: 48,
@@ -244,7 +244,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Icon(Icons.search, size: 20, color: Colors.white),
                   SizedBox(width: 8),
                   Text(
@@ -267,7 +267,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
     return GetBuilder<SearchDonarController>(
       builder: (controller) {
         if (controller.activeFilters.isEmpty) {
-          return const SizedBox.shrink();
+          return SizedBox.shrink();
         }
 
         return Column(
@@ -281,16 +281,16 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
                     context,
                   ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
                 ),
-                const Spacer(),
+                Spacer(),
                 TextButton(
                   onPressed: () {
                     controller.clearAllFilters();
                   },
-                  child: const Text('Clear All'),
+                  child: Text('Clear All'),
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8),
             Wrap(
               spacing: 8,
               runSpacing: 4,
@@ -315,7 +315,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
     return GetBuilder<SearchDonarController>(
       builder: (controller) {
         if (controller.isLoading) {
-          return const Center(child: CircularProgressIndicator());
+          return Center(child: CircularProgressIndicator());
         }
 
         final donors = controller.filteredDonors;
@@ -335,7 +335,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
             //         context,
             //       ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
             //     ),
-            //     const Spacer(),
+            //     Spacer(),
             //     DropdownButton<String>(
             //       value: controller.sortBy,
             //       items:
@@ -352,14 +352,14 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
             //           controller.updateSortBy(value);
             //         }
             //       },
-            //       underline: const SizedBox(),
+            //       underline: SizedBox(),
             //     ),
             //   ],
             // ),
-            // const SizedBox(height: 16),
+            // SizedBox(height: 16),
             ListView.builder(
               shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
+              physics: NeverScrollableScrollPhysics(),
               itemCount: donors.length + (controller.hasMoreData ? 1 : 0),
               itemBuilder: (context, index) {
                 if (index == donors.length) {
@@ -368,19 +368,19 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
                     builder:
                         (controller) =>
                             controller.isLoadingMore
-                                ? const Padding(
+                                ? Padding(
                                   padding: EdgeInsets.all(16.0),
                                   child: Center(
                                     child: CircularProgressIndicator(),
                                   ),
                                 )
-                                : const SizedBox.shrink(),
+                                : SizedBox.shrink(),
                   );
                 }
 
                 final donor = donors[index];
                 return Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
+                  padding: EdgeInsets.only(bottom: 12),
                   child: SearchDonarCard(donar: donor),
                 );
               },
@@ -397,7 +397,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: const EdgeInsets.all(24),
+            padding: EdgeInsets.all(24),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
               shape: BoxShape.circle,
@@ -408,16 +408,16 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
               color: Theme.of(context).colorScheme.primary,
             ),
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24),
           Text(
-            'No Donors Found',
+            'No Donors Found'.tr,
             style: Theme.of(
               context,
             ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           Text(
-            'Try adjusting your search criteria or filters.',
+            'Try adjusting your search criteria or filters.'.tr,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: Theme.of(
                 context,
@@ -440,14 +440,14 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
             height: MediaQuery.of(context).size.height * 0.7,
             decoration: BoxDecoration(
               color: Theme.of(context).scaffoldBackgroundColor,
-              borderRadius: const BorderRadius.vertical(
+              borderRadius: BorderRadius.vertical(
                 top: Radius.circular(20),
               ),
             ),
             child: Column(
               children: [
                 Container(
-                  margin: const EdgeInsets.only(top: 8),
+                  margin: EdgeInsets.only(top: 8),
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
@@ -456,31 +456,31 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(20),
+                  padding: EdgeInsets.all(20),
                   child: Row(
                     children: [
                       Text(
-                        'Filters',
+                        'Filters'.tr,
                         style: Theme.of(context).textTheme.headlineSmall
                             ?.copyWith(fontWeight: FontWeight.w600),
                       ),
-                      const Spacer(),
+                      Spacer(),
                       TextButton(
                         onPressed: () {
                           controller.clearAllFilters();
                         },
-                        child: const Text('Clear All'),
+                        child: Text('Clear All'.tr),
                       ),
                       IconButton(
                         onPressed: () => Navigator.pop(context),
-                        icon: const Icon(Icons.close),
+                        icon: Icon(Icons.close),
                       ),
                     ],
                   ),
                 ),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -489,7 +489,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
                         //     style: Theme.of(context).textTheme.titleMedium
                         //         ?.copyWith(fontWeight: FontWeight.w600),
                         //   ),
-                        //   const SizedBox(height: 8),
+                        //   SizedBox(height: 8),
                         //   GetBuilder<SearchDonarController>(
                         //   builder: (controller) => DropdownButtonFormField<String>(
                         //     value: controller.bloodGroupFilter.isEmpty
@@ -509,7 +509,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
                         //       ),
 
                         //       hintText: "Select blood group",
-                        //       hintStyle: const TextStyle(color: Colors.black54),
+                        //       hintStyle: TextStyle(color: Colors.black54),
 
                         //       filled: true,
                         //       fillColor: Colors.white,
@@ -518,7 +518,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
                         //     dropdownColor: Colors.white,
                         //     iconEnabledColor: Colors.black,
 
-                        //     style: const TextStyle(
+                        //     style: TextStyle(
                         //       color: Colors.black,
                         //       fontSize: 14,
                         //     ),
@@ -528,7 +528,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
                         //         value: value == 'Any' ? '' : value,
                         //         child: Text(
                         //           value,
-                        //           style: const TextStyle(
+                        //           style: TextStyle(
                         //             color: Colors.black,
                         //             fontSize: 14,
                         //           ),
@@ -541,12 +541,12 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
                         //     },
                         //   ),
                         // ),
-                        const SizedBox(height: 8),
+                        SizedBox(height: 8),
                         Row(
                           children: [
                             Expanded(
                               child: Text(
-                                'Donor willing to share medical record',
+                                'Donor willing to share medical record'.tr,
                                 style: Theme.of(context).textTheme.titleMedium
                                     ?.copyWith(fontWeight: FontWeight.w600),
                               ),
@@ -562,7 +562,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
                                     },
                                     activeColor:
                                         Colors.white, // thumb color when ON
-                                    activeTrackColor: const Color(0xFFFB923C),
+                                    activeTrackColor: Color(0xFFFB923C),
                                     inactiveThumbColor:
                                         Colors
                                             .grey
@@ -576,13 +576,13 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
                           ],
                         ),
 
-                        const SizedBox(height: 20),
+                        SizedBox(height: 20),
 
                         Row(
                           children: [
                             Expanded(
                               child: Text(
-                                'Currently Available Donors',
+                                'Currently Available Donors'.tr,
                                 style: Theme.of(context).textTheme.titleMedium
                                     ?.copyWith(fontWeight: FontWeight.w600),
                               ),
@@ -598,7 +598,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
                                     },
                                     activeColor:
                                         Colors.white, // thumb color when ON
-                                    activeTrackColor: const Color(
+                                    activeTrackColor: Color(
                                       0xFFFB923C,
                                     ), // track color when ON
                                     inactiveThumbColor:
@@ -618,7 +618,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(40),
+                  padding: EdgeInsets.all(40),
                   child: GestureDetector(
                     onTap: () {
                       Navigator.pop(context);
@@ -631,9 +631,9 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
                         borderRadius: BorderRadius.circular(12),
                         gradient: AppTheme.roundButtonGradient,
                       ),
-                      child: const Center(
+                      child: Center(
                         child: Text(
-                          'Apply Filters',
+                          'Apply Filters'.tr,
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -656,7 +656,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
     VoidCallback onRemove,
   ) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primaryContainer,
         borderRadius: BorderRadius.circular(16),
@@ -675,7 +675,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
               fontWeight: FontWeight.w500,
             ),
           ),
-          const SizedBox(width: 4),
+          SizedBox(width: 4),
           GestureDetector(
             onTap: onRemove,
             child: Icon(

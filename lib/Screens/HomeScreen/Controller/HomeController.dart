@@ -173,7 +173,7 @@ class Homecontroller extends GetxController {
 
   void showDiaperChangeBottomSheet() {
     Get.bottomSheet(
-      const DiaperChangeBottomSheet(),
+      DiaperChangeBottomSheet(),
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
     ).then((result) {
@@ -187,7 +187,7 @@ class Homecontroller extends GetxController {
 
   void showSleepLogBottomSheet() {
     Get.bottomSheet(
-      const SleepLogBottomSheet(),
+      SleepLogBottomSheet(),
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
     ).then((result) {
@@ -201,7 +201,7 @@ class Homecontroller extends GetxController {
 
   void showFeedingLogBottomSheet() {
     Get.bottomSheet(
-      const FeedingLogBottomSheet(),
+      FeedingLogBottomSheet(),
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
     ).then((result) {

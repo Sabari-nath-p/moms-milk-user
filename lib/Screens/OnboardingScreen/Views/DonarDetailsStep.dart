@@ -6,14 +6,14 @@ import 'package:mommilk_user/Screens/OnboardingScreen/Controller/OnboardingContr
 import 'package:mommilk_user/Utils/DateSelectionField.dart';
 
 class DonarDetailsStep extends StatelessWidget {
-  const DonarDetailsStep({super.key});
+  DonarDetailsStep({super.key});
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<Onboardingcontroller>(
       builder: (controller) {
         return SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -25,7 +25,7 @@ class DonarDetailsStep extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 8),
+              SizedBox(height: 8),
 
               Text(
                 'Please provide additional information to help ensure safe milk donation.',
@@ -34,16 +34,16 @@ class DonarDetailsStep extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 32),
+              SizedBox(height: 32),
 
               // Delivery Location
               // TextField(
               //   controller: deliveryLocationController,
-              //   style: const TextStyle(fontSize: 16),
+              //   style: TextStyle(fontSize: 16),
               //   decoration: InputDecoration(
               //     labelText: 'Preferred Delivery Location *',
               //     hintText: 'e.g., Home, Hospital, Pickup Point',
-              //     prefixIcon: const Icon(Icons.location_on_outlined),
+              //     prefixIcon: Icon(Icons.location_on_outlined),
               //     helperText: 'Where would you prefer to deliver or meet?',
               //     border: OutlineInputBorder(
               //       borderRadius: BorderRadius.circular(12),
@@ -68,7 +68,7 @@ class DonarDetailsStep extends StatelessWidget {
                   controller.babyDeliveryDate = date;
                 },
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24),
               // Blood Group
               Text(
                 'Your Blood Group *',
@@ -77,7 +77,7 @@ class DonarDetailsStep extends StatelessWidget {
                 ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
               ),
 
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
 Wrap(
   spacing: 8,
   runSpacing: 8,
@@ -119,7 +119,7 @@ Wrap(
 ),
 
 
-              const SizedBox(height: 32),
+              SizedBox(height: 32),
 
               // Donor Qualities
               Text(
@@ -129,7 +129,7 @@ Wrap(
                 ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
               ),
 
-              const SizedBox(height: 8),
+              SizedBox(height: 8),
 
               Text(
                 'Select all that apply to you (optional but recommended):',
@@ -138,7 +138,7 @@ Wrap(
                 ),
               ),
 
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
               Column(
                 children:
@@ -162,7 +162,7 @@ Wrap(
 
                           controller.update();
                         },
-                        side: const BorderSide(
+                        side: BorderSide(
                           color: Colors.black,
                           width:
                               1, // You can adjust the width for better visibility
@@ -174,11 +174,11 @@ Wrap(
                     }).toList(),
               ),
 
-              const SizedBox(height: 24),
+              SizedBox(height: 24),
 
               // Medical Report Sharing
               Container(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: Theme.of(
                     context,
@@ -200,20 +200,20 @@ Wrap(
                       ),
                     ),
 
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
 
                     Text(
                       'Would you be willing to share your medical reports with potential milk recipients if requested?',
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
 
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12),
 
                     Row(
                       children: [
                         Expanded(
                           child: RadioListTile<bool>(
-                            title: const Text(
+                            title: Text(
                               'Yes',
                               style: TextStyle(color: Colors.black),
                             ),
@@ -240,7 +240,7 @@ Wrap(
                         ),
                         Expanded(
                           child: RadioListTile<bool>(
-                            title: const Text(
+                            title: Text(
                               'No',
                               style: TextStyle(color: Colors.black),
                             ),
@@ -272,11 +272,11 @@ Wrap(
                 ),
               ),
 
-              const SizedBox(height: 24),
+              SizedBox(height: 24),
 
               // Safety Info
               Container(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12),
@@ -292,7 +292,7 @@ Wrap(
                       Icons.health_and_safety,
                       color: Theme.of(context).colorScheme.primary,
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12),
                     Expanded(
                       child: Text(
                         'All donors join to support babies in need. We encourage a safe, honest, and trust-based community built on helping families.',
@@ -347,7 +347,7 @@ Wrap(
       context: context,
       initialDate: controller.babyDeliveryDate ?? DateTime.now(),
       firstDate: DateTime.now().subtract(
-        const Duration(days: 365 * 2),
+        Duration(days: 365 * 2),
       ), // 2 years ago
       lastDate: DateTime.now(),
       builder: (context, child) {

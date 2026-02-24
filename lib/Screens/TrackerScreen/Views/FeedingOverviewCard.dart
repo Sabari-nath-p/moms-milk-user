@@ -36,7 +36,7 @@ class _FeedingoverviewcardState extends State<Feedingoverviewcard> {
         gradient: AppTheme.CardGradient,
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
         child:
             (totalFeeds == 0)
                 ? Center(
@@ -235,14 +235,14 @@ class TicketCard extends StatelessWidget {
     required this.count,
     required this.iconAsset,
     this.isRotateImage = false,
-    this.barColor = Colors.orange,
-    this.gradientColors = const [Colors.orange, Colors.orangeAccent],
+    this.barColor = const Color.fromRGBO(255, 152, 0, 1),
+    this.gradientColors =const  [Colors.orange, Colors.orangeAccent],
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 4),
+      margin: EdgeInsets.symmetric(vertical: 4),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4.0),
         gradient: LinearGradient(
@@ -254,7 +254,7 @@ class TicketCard extends StatelessWidget {
       child: Container(
         width: 100,
         height: 35,
-        //  padding: const EdgeInsets.symmetric(vertical: 10),
+        //  padding: EdgeInsets.symmetric(vertical: 10),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -264,13 +264,13 @@ class TicketCard extends StatelessWidget {
               height: 35,
               decoration: BoxDecoration(
                 color: barColor,
-                borderRadius: const BorderRadius.only(
+                borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(8.0),
                   bottomLeft: Radius.circular(8.0),
                 ),
               ),
             ),
-            const SizedBox(width: 10),
+            SizedBox(width: 10),
             // 2. Icon + Text
             Row(
               children: [
@@ -292,7 +292,7 @@ class TicketCard extends StatelessWidget {
                 //     height: 20,
                 //     color: Colors.white.withOpacity(.76),
                 //   ),
-                // const SizedBox(width: 8),
+                // SizedBox(width: 8),
                 Text(
                   "$title  : ",
                   style: TextStyle(

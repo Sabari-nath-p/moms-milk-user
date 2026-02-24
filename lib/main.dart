@@ -17,6 +17,7 @@ import 'package:mommilk_user/Screens/UpdateScreen/UpdateScreen.dart';
 import 'package:mommilk_user/Services/FCMService.dart';
 import 'package:mommilk_user/Utils/ApiService.dart';
 import 'package:mommilk_user/Utils/UpdateChecker.dart';
+import 'package:mommilk_user/Utils/translation.dart';
 import 'package:mommilk_user/firebase_options.dart';
 import 'package:mommilk_user/theme/app_theme.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -116,6 +117,10 @@ class MomsMilkApp extends StatelessWidget {
             darkTheme: AppTheme.darkTheme,
             themeMode: ThemeMode.dark, // Force dark them,
             debugShowCheckedModeBanner: false,
+            translations: AppTranslations(),
+
+            locale: const Locale('en'), // default language
+            fallbackLocale: const Locale('en'),
             home:
                 (showUpdate)
                     ? UpdateScreen(

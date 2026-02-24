@@ -102,15 +102,15 @@ class GanttChartStyle {
   final double gridLineWidth;
   final bool showCurrentTimeIndicator;
 
-  const GanttChartStyle({
-    this.backgroundColor = const Color(0xFF1E293B),
-    this.chartBackgroundColor = const Color(0xFF1E293B),
-    this.gridColor = const Color(0xFF334155),
-    this.headerBackgroundColor = const Color(0xFF1E293B),
-    this.headerTextColor = const Color(0xFF94A3B8),
-    this.timeAxisBackgroundColor = const Color(0xFF1E293B),
-    this.timeAxisTextColor = const Color(0xFF94A3B8),
-    this.dateTextColor = const Color(0xFF94A3B8),
+  GanttChartStyle({
+    this.backgroundColor =const Color(0xFF1E293B),
+    this.chartBackgroundColor =const Color(0xFF1E293B),
+    this.gridColor =const Color(0xFF334155),
+    this.headerBackgroundColor =const Color(0xFF1E293B),
+    this.headerTextColor =const Color(0xFF94A3B8),
+    this.timeAxisBackgroundColor =const Color(0xFF1E293B),
+    this.timeAxisTextColor =const Color(0xFF94A3B8),
+    this.dateTextColor =const Color(0xFF94A3B8),
     this.currentTimeIndicatorColor = Colors.red,
     this.headerTextStyle,
     this.timeAxisTextStyle,
@@ -120,7 +120,7 @@ class GanttChartStyle {
     this.headerHeight = 70.0,
     this.timeAxisWidth = 60.0,
     this.columnWidth = 80.0,
-    this.activityPadding = const EdgeInsets.symmetric(
+    this.activityPadding =const EdgeInsets.symmetric(
       horizontal: 2.0,
       vertical: 4.0,
     ),
@@ -192,24 +192,24 @@ class GanttChartStyle {
 
     return GanttChartStyle(
       backgroundColor:
-          isDark ? const Color(0xFF1E293B) : theme.scaffoldBackgroundColor,
-      chartBackgroundColor: isDark ? const Color(0xFF1E293B) : theme.cardColor,
-      gridColor: isDark ? const Color(0xFF334155) : theme.dividerColor,
+          isDark ? Color(0xFF1E293B) : theme.scaffoldBackgroundColor,
+      chartBackgroundColor: isDark ? Color(0xFF1E293B) : theme.cardColor,
+      gridColor: isDark ? Color(0xFF334155) : theme.dividerColor,
       headerBackgroundColor:
-          isDark ? const Color(0xFF1E293B) : theme.primaryColor,
+          isDark ? Color(0xFF1E293B) : theme.primaryColor,
       headerTextColor:
           isDark
-              ? const Color(0xFF94A3B8)
+              ? Color(0xFF94A3B8)
               : theme.primaryTextTheme.titleLarge?.color ?? Colors.white,
       timeAxisBackgroundColor:
-          isDark ? const Color(0xFF1E293B) : theme.cardColor,
+          isDark ? Color(0xFF1E293B) : theme.cardColor,
       timeAxisTextColor:
           isDark
-              ? const Color(0xFF94A3B8)
+              ? Color(0xFF94A3B8)
               : theme.textTheme.bodyMedium?.color ?? Colors.black87,
       dateTextColor:
           isDark
-              ? const Color(0xFF94A3B8)
+              ? Color(0xFF94A3B8)
               : theme.textTheme.bodyMedium?.color ?? Colors.black87,
     );
   }
@@ -237,14 +237,14 @@ class TimeGanttChart extends StatefulWidget {
   final bool enableScroll;
   final bool showZoomControls;
 
-  const TimeGanttChart({
+  TimeGanttChart({
     Key? key,
     required this.activities,
     required this.startDate,
     required this.endDate,
     this.style,
     this.controller,
-    this.yAxisTimeIncrement = const Duration(hours: 2),
+    this.yAxisTimeIncrement =const Duration(hours: 2),
     this.onDateRangeChanged,
     this.onReachStart,
     this.onReachEnd,
@@ -272,8 +272,8 @@ class _TimeGanttChartState extends State<TimeGanttChart> {
   late DateTime _internalStartDate;
   late DateTime _internalEndDate;
   double _zoomLevel = 1.0;
-  static const double _minZoom = 0.5;
-  static const double _maxZoom = 3.0;
+  static double _minZoom = 0.5;
+  static double _maxZoom = 3.0;
 
   @override
   void initState() {
@@ -420,7 +420,7 @@ class _TimeGanttChartState extends State<TimeGanttChart> {
 
     while (current.isBefore(end) || current.isAtSameMomentAs(end)) {
       dates.add(current);
-      current = current.add(const Duration(days: 1));
+      current = current.add(Duration(days: 1));
     }
     return dates;
   }
@@ -458,7 +458,7 @@ class _TimeGanttChartState extends State<TimeGanttChart> {
     }
 
     DateTime time = DateTime(2025, 1, 1, 0, 0);
-    final endOfDay = time.add(const Duration(days: 1));
+    final endOfDay = time.add(Duration(days: 1));
 
     while (time.isBefore(endOfDay)) {
       slots.add(_formatTime(time));
@@ -474,8 +474,8 @@ class _TimeGanttChartState extends State<TimeGanttChart> {
   }
 
   String _getWeekdayName(int weekday) {
-    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    return days[weekday - 1];
+   const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    return  days[weekday - 1];
   }
 
   @override
@@ -565,8 +565,8 @@ class _TimeGanttChartState extends State<TimeGanttChart> {
               scrollDirection: Axis.horizontal,
               physics:
                   widget.enableScroll
-                      ? const ClampingScrollPhysics()
-                      : const NeverScrollableScrollPhysics(),
+                      ? ClampingScrollPhysics()
+                      : NeverScrollableScrollPhysics(),
               child: SizedBox(
                 width: totalWidth,
                 child: Row(
@@ -590,7 +590,7 @@ class _TimeGanttChartState extends State<TimeGanttChart> {
                                 _getWeekdayName(date.weekday),
                                 style: headerStyle,
                               ),
-                              const SizedBox(height: 4),
+                              SizedBox(height: 4),
                               Text(
                                 date.day.toString(),
                                 style: TextStyle(
@@ -636,8 +636,8 @@ class _TimeGanttChartState extends State<TimeGanttChart> {
         controller: _timeAxisScrollController,
         physics:
             widget.enableScroll
-                ? const ClampingScrollPhysics()
-                : const NeverScrollableScrollPhysics(),
+                ? ClampingScrollPhysics()
+                : NeverScrollableScrollPhysics(),
         child: Column(
           children:
               timeSlots.map((slot) {
@@ -679,14 +679,14 @@ class _TimeGanttChartState extends State<TimeGanttChart> {
           scrollDirection: Axis.horizontal,
           physics:
               widget.enableScroll
-                  ? const ClampingScrollPhysics()
-                  : const NeverScrollableScrollPhysics(),
+                  ? ClampingScrollPhysics()
+                  : NeverScrollableScrollPhysics(),
           child: SingleChildScrollView(
             controller: _chartVerticalScrollController,
             physics:
                 widget.enableScroll
-                    ? const ClampingScrollPhysics()
-                    : const NeverScrollableScrollPhysics(),
+                    ? ClampingScrollPhysics()
+                    : NeverScrollableScrollPhysics(),
             child: SizedBox(
               width: totalWidth,
               height: totalHeight,
@@ -728,7 +728,7 @@ class _TimeGanttChartState extends State<TimeGanttChart> {
 
   List<Widget> _buildActivities(List<DateTime> dates, double totalHeight) {
     List<Widget> widgets = [];
-    const double totalMinutesInDay = 24 * 60.0;
+    double totalMinutesInDay = 24 * 60.0;
 
     for (var activity in widget.activities) {
       final activityStartDate = DateTime(
@@ -808,9 +808,9 @@ class _TimeGanttChartState extends State<TimeGanttChart> {
       (date) => date.isAtSameMomentAs(currentDate),
     );
 
-    if (columnIndex == -1) return const SizedBox.shrink();
+    if (columnIndex == -1) return SizedBox.shrink();
 
-    const double totalMinutesInDay = 24 * 60.0;
+    double totalMinutesInDay = 24 * 60.0;
     final nowMinutes = now.hour * 60.0 + now.minute;
 
     final y = (nowMinutes / totalMinutesInDay) * totalHeight;
@@ -845,7 +845,7 @@ class _TimeGanttChartState extends State<TimeGanttChart> {
 
   Widget _buildZoomControls() {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+      padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
       decoration: BoxDecoration(
         color: _style.backgroundColor,
         border: Border(
@@ -863,7 +863,7 @@ class _TimeGanttChartState extends State<TimeGanttChart> {
               foregroundColor: _style.headerTextColor,
             ),
           ),
-          const SizedBox(width: 16),
+          SizedBox(width: 16),
           Text(
             '${(_zoomLevel * 100).toInt()}%',
             style: TextStyle(
@@ -872,7 +872,7 @@ class _TimeGanttChartState extends State<TimeGanttChart> {
               color: _style.headerTextColor,
             ),
           ),
-          const SizedBox(width: 16),
+          SizedBox(width: 16),
           IconButton(
             icon: Icon(Icons.add, color: _style.headerTextColor),
             onPressed: _zoomLevel < _maxZoom ? () => _handleZoom(0.1) : null,
@@ -887,7 +887,7 @@ class _TimeGanttChartState extends State<TimeGanttChart> {
   }
 
   String _getMonthName(int month) {
-    const months = [
+  const  months = [
       'Jan',
       'Feb',
       'Mar',

@@ -48,7 +48,7 @@ class CreateBabyController extends GetxController {
               snackPosition: SnackPosition.BOTTOM,
               backgroundColor: Colors.green,
               colorText: Colors.black,
-              duration: const Duration(seconds: 2),
+              duration: Duration(seconds: 2),
             );
           }
           isLoading = false;

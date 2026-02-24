@@ -49,7 +49,7 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions android = FirebaseOptions(
+  static FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCgafsnVA5GdReLpBgJ3FokZqWZ-1pYBPM',
     appId: '1:1058336253933:android:dd6835e365d2c65747a9e4',
     messagingSenderId: '1058336253933',
@@ -57,7 +57,7 @@ class DefaultFirebaseOptions {
     storageBucket: 'momsmilk-8df67.firebasestorage.app',
   );
 
-  static const FirebaseOptions ios = FirebaseOptions(
+  static FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAR80XU42PRkHomn_jj5zeZGZ-Hd_o6uMg',
     appId: '1:1058336253933:ios:611d274a8db5be2447a9e4',
     messagingSenderId: '1058336253933',

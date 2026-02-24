@@ -12,7 +12,7 @@ import 'package:mommilk_user/Screens/SearchDonarScreen/SearchDonarScreen.dart';
 import 'package:mommilk_user/theme/app_theme.dart';
 
 class ConnectScreen extends StatelessWidget {
-  const ConnectScreen({super.key});
+  ConnectScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +23,8 @@ class ConnectScreen extends StatelessWidget {
               backgroundColor: Colors.white,
 
               appBar: AppBar(
-                title: const Text(
-                  "Connections",
+                title: Text(
+                  "Connections".tr,
                   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
                 ),
                 centerTitle: true,
@@ -66,11 +66,11 @@ class ConnectScreen extends StatelessWidget {
 
     return Column(
       children: [
-        //   const SizedBox(height: 12),
+        //   SizedBox(height: 12),
 
         // TAB SLIDER
         //HRequestCard(controller: controller),
-        // const SizedBox(height: 16),a
+        // SizedBox(height: 16),a
 
         // TAB CONTENT
         Expanded(

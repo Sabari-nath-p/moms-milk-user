@@ -23,7 +23,7 @@ class Overviewscreen extends StatelessWidget {
     return GetBuilder<TrackerController>(
       builder: (__) {
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25),
+          padding: EdgeInsets.symmetric(horizontal: 25),
           child:
               (__.isOverviewLoading)
                   ? Center(

@@ -7,7 +7,7 @@ class TimePickerField extends StatefulWidget {
   final TimeOfDay? initialTime;
   final ValueChanged<TimeOfDay> onTimeSelected;
 
-  const TimePickerField({
+  TimePickerField({
     super.key,
     required this.title,
     required this.onTimeSelected,

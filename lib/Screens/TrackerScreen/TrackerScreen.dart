@@ -24,7 +24,7 @@ class Trackerscreen extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            "Baby Activity",
+            "Baby Activity".tr,
             style: TextStyle(
               color:
                   selectedIndex == 0
@@ -45,7 +45,7 @@ class Trackerscreen extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            "Overview",
+            "Overview".tr,
             style: TextStyle(
               color:
                   selectedIndex == 1
@@ -78,8 +78,8 @@ class Trackerscreen extends StatelessWidget {
   scrolledUnderElevation: 0,
   centerTitle: true,
   
-  title: const Text(
-    "Activity Report",
+  title:  Text(
+    "Activity Report".tr,
     style: TextStyle(
       fontSize: 20,
       fontWeight: FontWeight.w600,
@@ -98,9 +98,9 @@ class Trackerscreen extends StatelessWidget {
 
                 /// ---------- SEGMENT CONTROL ---------- ///
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: EdgeInsets.symmetric(horizontal: 16),
                   child: CupertinoTheme(
-                    data: const CupertinoThemeData(
+                    data: CupertinoThemeData(
                       primaryColor: Colors.transparent,
                       scaffoldBackgroundColor: Colors.transparent,
                       barBackgroundColor: Colors.transparent,
@@ -123,7 +123,7 @@ class Trackerscreen extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 30),
+                SizedBox(height: 30),
 
                 if (tctrl.selectedbaby == 0)
                   Expanded(
@@ -132,7 +132,7 @@ class Trackerscreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                            padding: const EdgeInsets.all(24),
+                            padding: EdgeInsets.all(24),
                             decoration: BoxDecoration(
                               color: Theme.of(
                                 context,
@@ -145,15 +145,15 @@ class Trackerscreen extends StatelessWidget {
                               color: Theme.of(context).colorScheme.primary,
                             ),
                           ),
-                          const SizedBox(height: 24),
+                          SizedBox(height: 24),
                           Text(
-                            'No Babies Added Yet',
+                            'No Babies Added Yet'.tr,
                             style: Theme.of(context).textTheme.headlineSmall
                                 ?.copyWith(fontWeight: FontWeight.w600),
                           ),
-                          const SizedBox(height: 8),
+                          SizedBox(height: 8),
                           Text(
-                            'Add your first baby profile to start tracking',
+                            'Add your first baby profile to start tracking'.tr,
                             style: Theme.of(
                               context,
                             ).textTheme.bodyMedium?.copyWith(

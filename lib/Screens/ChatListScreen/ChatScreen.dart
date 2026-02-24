@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
@@ -86,14 +87,14 @@ class _ChatListScreenState extends State<ChatListScreen> {
                             SizedBox(height: 20),
                             (user.userType == "DONOR")
                                 ? Text(
-                                  "No buyer connected yet",
+                                  "No buyer connected yet".tr,
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 )
                                 : Text(
-                                  "Not connected with\nany donor",
+                                  "Not connected with\nany donor".tr,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontSize: 16,
@@ -129,7 +130,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
                                   ),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    children: const [
+                                    children: [
                                       Icon(
                                         Icons.search,
                                         size: 20,
@@ -137,7 +138,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
                                       ),
                                       SizedBox(width: 8),
                                       Text(
-                                        "Find Donors",
+                                        "Find Donors".tr,
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w600,

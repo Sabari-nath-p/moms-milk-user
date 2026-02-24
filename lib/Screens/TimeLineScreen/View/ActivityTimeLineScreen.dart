@@ -118,7 +118,7 @@ class ActivityTimeLineBody extends StatelessWidget {
                     oppositeContentsBuilder: (context, index) {
                       final item = __.filteredTimeDataList[index];
                       return Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
+                        padding: EdgeInsets.only(right: 8.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -164,7 +164,7 @@ class ActivityTimeLineBody extends StatelessWidget {
    
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -180,7 +180,7 @@ class ActivityTimeLineBody extends StatelessWidget {
                   Colors.orange.shade400,
                 ),
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: 8),
               Expanded(
                 child: _buildStatCard(
                   Icons.baby_changing_station,
@@ -189,7 +189,7 @@ class ActivityTimeLineBody extends StatelessWidget {
                   Colors.blue.shade400,
                 ),
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: 8),
               Expanded(
                 child: _buildStatCard(
                   Icons.bedtime,
@@ -260,7 +260,7 @@ class ActivityTimeLineBody extends StatelessWidget {
               baby != null
                   ? "${baby.name}'s Log"
                   : "Baby Activity Summary",
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
                 height: 1.3,
@@ -354,7 +354,7 @@ class ActivityTimeLineBody extends StatelessWidget {
     return GestureDetector(
       // onTap: () => _showActivityDetails(context, item),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+        padding: EdgeInsets.fromLTRB(16, 12, 16, 12),
         child: Container(
           decoration: BoxDecoration(
             color: item.color.withOpacity(0.08),
@@ -362,7 +362,7 @@ class ActivityTimeLineBody extends StatelessWidget {
             border: Border.all(color: item.color.withOpacity(0.2), width: 1),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

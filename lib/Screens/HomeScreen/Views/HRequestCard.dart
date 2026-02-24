@@ -4,16 +4,16 @@ import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
 
 class HRequestCard extends StatelessWidget {
   final Homecontroller controller;
-  const HRequestCard({super.key, required this.controller});
+  HRequestCard({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
-    final Color selectedColor = const Color(0xFFE11D48);
+    final Color selectedColor = Color(0xFFE11D48);
     final Color unselectedColor = Colors.black87;
-    final Color bg = const Color(0xFFFFE4E6);
+    final Color bg = Color(0xFFFFE4E6);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: EdgeInsets.symmetric(horizontal: 10),
       child: Row(
         children: [
           // -----------------------------------
@@ -26,7 +26,7 @@ class HRequestCard extends StatelessWidget {
                 controller.update();
               },
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding: EdgeInsets.symmetric(vertical: 12),
                 decoration: BoxDecoration(
                   color: controller.connectionTabIndex == 0 ? bg : Colors.white,
                   borderRadius: BorderRadius.circular(20),
@@ -49,7 +49,7 @@ class HRequestCard extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(width: 12),
+          SizedBox(width: 12),
 
           // -----------------------------------
           // FIND DONORS TAB BUTTON
@@ -62,7 +62,7 @@ class HRequestCard extends StatelessWidget {
                   controller.update();
                 },
                 child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  padding: EdgeInsets.symmetric(vertical: 12),
                   decoration: BoxDecoration(
                     color: controller.connectionTabIndex == 1 ? bg : Colors.white,
                     borderRadius: BorderRadius.circular(20),

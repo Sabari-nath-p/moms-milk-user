@@ -128,10 +128,10 @@ class FCMService {
         backgroundColor: Colors.black87,
         colorText: Colors.black,
 
-        duration: const Duration(seconds: 4),
-        margin: const EdgeInsets.all(16),
+        duration: Duration(seconds: 4),
+        margin: EdgeInsets.all(16),
         borderRadius: 8,
-        icon: const Icon(Icons.notifications, color: Colors.white),
+        icon: Icon(Icons.notifications, color: Colors.white),
         onTap: (_) {
           _handleNotificationNavigation(message);
         },

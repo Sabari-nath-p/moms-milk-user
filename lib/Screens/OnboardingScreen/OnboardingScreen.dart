@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/state_manager.dart';
+import 'package:get/utils.dart';
 import 'package:mommilk_user/Screens/OnboardingScreen/Controller/OnboardingController.dart';
 import 'package:mommilk_user/Screens/OnboardingScreen/Views/BabyDetailsStep.dart';
 import 'package:mommilk_user/Screens/OnboardingScreen/Views/DonarDetailsStep.dart';
@@ -22,8 +23,8 @@ class OnboardingScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text(
-          'Setup Your Profile',
+        title: Text(
+          'Setup Your Profile'.tr,
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w600,
@@ -33,7 +34,7 @@ class OnboardingScreen extends StatelessWidget {
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        // leading: controller.currentStep == 0 ? null : const SizedBox.shrink(),
+        // leading: controller.currentStep == 0 ? null : SizedBox.shrink(),
       ),
       body: GetBuilder<Onboardingcontroller>(
         builder: (controller) {
@@ -41,7 +42,7 @@ class OnboardingScreen extends StatelessWidget {
             children: [
               // Progress Indicator
               Container(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16),
                 child: Column(
                   children: [
                     Row(
@@ -59,7 +60,7 @@ class OnboardingScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -83,7 +84,7 @@ class OnboardingScreen extends StatelessWidget {
 
               // Navigation Buttons
               Container(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16),
                 margin: EdgeInsets.only(bottom: 20, left: 16, right: 16),
                 child: Row(
                   children: [
@@ -91,10 +92,10 @@ class OnboardingScreen extends StatelessWidget {
                       Expanded(
                         child: OutlinedButton(
                           onPressed: controller.previousStep,
-                          child: const Text('Previous'),
+                          child: Text('Previous'),
                         ),
                       ),
-                    if (controller.currentStep > 0) const SizedBox(width: 16),
+                    if (controller.currentStep > 0) SizedBox(width: 16),
                     Expanded(
                       child: Container(
                         decoration: BoxDecoration(
@@ -115,7 +116,7 @@ class OnboardingScreen extends StatelessWidget {
                           ),
                           child:
                               controller.isLoading
-                                  ? const SizedBox(
+                                  ? SizedBox(
                                     height: 20,
                                     width: 20,
                                     child: CircularProgressIndicator(
@@ -124,7 +125,7 @@ class OnboardingScreen extends StatelessWidget {
                                     ),
                                   )
                                   : Text(
-                                    "Continue",
+                                    "Continue".tr,
                                     style: TextStyle(color: Colors.white),
                                   ),
                         ),
@@ -147,9 +148,9 @@ class OnboardingScreen extends StatelessWidget {
       case 0:
         return UserDetailsStep();
       case 1:
-        return const UserTypeStep();
+        return UserTypeStep();
       case 2:
-        return const DonarDetailsStep();
+        return DonarDetailsStep();
       default:
         return UserDetailsStep();
     }

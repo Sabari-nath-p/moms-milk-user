@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:get/utils.dart';
 import 'package:mommilk_user/Screens/Dashboard/MainDashBoard.dart';
 import 'package:mommilk_user/Screens/SplashScreen/SplashScreen.dart';
 import 'package:mommilk_user/theme/app_theme.dart';
@@ -49,7 +50,7 @@ class UpdateScreen extends StatelessWidget {
             left: 25,
             right: 22,
             child: Text(
-              "Update your application to the\nlatest version",
+              "Update your application to the\nlatest version".tr,
               style: TextStyle(
                 fontWeight: FontWeight.w500,
                 color: Colors.black,
@@ -83,7 +84,7 @@ class UpdateScreen extends StatelessWidget {
             left: 25,
             right: 10,
             child: Text(
-              "We added some new features and fix some bug to make your experience as smooth as possible",
+              "We added some new features and fix some bug to make your experience as smooth as possible".tr,
               style: TextStyle(
                 fontWeight: FontWeight.w400,
                 color: Colors.black,
@@ -130,7 +131,7 @@ class UpdateScreen extends StatelessWidget {
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     Text(
                       "Update Now",
                       style: TextStyle(
