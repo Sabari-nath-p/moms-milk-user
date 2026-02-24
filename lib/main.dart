@@ -119,8 +119,8 @@ class MomsMilkApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             translations: AppTranslations(),
 
-            locale: const Locale('en'), // default language
-            fallbackLocale: const Locale('en'),
+            locale: Locale('es'), // default language
+            fallbackLocale: Locale('es'),
             home:
                 (showUpdate)
                     ? UpdateScreen(

@@ -14,6 +14,7 @@ import 'package:mommilk_user/Screens/HomeScreen/Views/HRequestCard.dart';
 import 'package:mommilk_user/Screens/OnboardingScreen/Controller/OnboardingController.dart';
 import 'package:mommilk_user/Screens/ProfileScreen/ProfileScreen.dart';
 import 'package:mommilk_user/theme/app_theme.dart';
+
 class Homescreen extends StatelessWidget {
   Homescreen({super.key});
 
@@ -28,9 +29,7 @@ class Homescreen extends StatelessWidget {
           return Center(child: CircularProgressIndicator());
         }
 
-        return SafeArea(
-          child: _buildBody(context, controller),
-        );
+        return SafeArea(child: _buildBody(context, controller));
       },
     );
   }
@@ -49,8 +48,7 @@ class Homescreen extends StatelessWidget {
             HHeaderCard(),
 
             /// ✅ THIS WILL NOW UPDATE PROPERLY
-            if (controller.myBabies.isEmpty &&
-                controller.selectedBady == null)
+            if (controller.myBabies.isEmpty && controller.selectedBady == null)
               _buildAddBabyCard(context),
 
             HQuickActions(),
@@ -65,9 +63,7 @@ class Homescreen extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(top: 24),
       decoration: BoxDecoration(
-        border: Border.all(
-          color: AppTheme.primaryColor.withOpacity(.4),
-        ),
+        border: Border.all(color: AppTheme.primaryColor.withOpacity(.4)),
         borderRadius: BorderRadius.circular(30),
       ),
       child: Padding(
@@ -105,11 +101,10 @@ class Homescreen extends StatelessWidget {
                 ),
               ),
             ),
-       
 
             HQuickActions(),
             SizedBox(height: 24),
-          
+
             // _buildTodayStats(context),
             // SizedBox(height: 24),
             // _buildRecentActivity(context),

@@ -22,10 +22,7 @@ class Authenticationscreen extends StatelessWidget {
           child: GetBuilder<AuthenticationController>(
             builder: (controller) {
               return SingleChildScrollView(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 24.0,
-                  vertical: 20.0,
-                ),
+                padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 20.0),
                 child: Column(
                   children: [
                     SizedBox(height: 60),
@@ -442,62 +439,65 @@ class Authenticationscreen extends StatelessWidget {
                 ],
               ),
               child: TextField(
-  controller: otpController,
+                controller: otpController,
 
-  // ✅ numeric keyboard
-  keyboardType: TextInputType.phone,
+                // ✅ numeric keyboard
+                keyboardType: TextInputType.phone,
 
-  // ✅ show DONE button
-  textInputAction: TextInputAction.done,
- 
-  // ✅ handle DONE press
-  onSubmitted: (value) {
-    FocusScope.of(context).unfocus(); // close keyboard
+                // ✅ show DONE button
+                textInputAction: TextInputAction.done,
 
-    if (value.length == 6) {
-      controller.verifyOtp();
-    }
-  },
+                // ✅ handle DONE press
+                onSubmitted: (value) {
+                  FocusScope.of(context).unfocus(); // close keyboard
 
-  textAlign: TextAlign.center,
-  maxLength: 6,
+                  if (value.length == 6) {
+                    controller.verifyOtp();
+                  }
+                },
 
-  style: TextStyle(
-    fontSize: 20,
-    fontWeight: FontWeight.bold,
-    letterSpacing: 12,
-    color: Theme.of(context).colorScheme.primary,
-  ),
-  decoration: InputDecoration(
-    hintText: '000000',
-    counterText: '',
-    filled: true,
-    fillColor: Theme.of(context).colorScheme.surface,
-    border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(16),
-      borderSide: BorderSide.none,
-    ),
-    enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(16),
-      borderSide: BorderSide(
-        color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
-        width: 1,
-      ),
-    ),
-    focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(16),
-      borderSide: BorderSide(
-        color: Theme.of(context).colorScheme.primary,
-        width: 2,
-      ),
-    ),
-    hintStyle: TextStyle(
-      color: Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
-      letterSpacing: 8,
-    ),
-  ),
-),
+                textAlign: TextAlign.center,
+                maxLength: 6,
 
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 12,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                decoration: InputDecoration(
+                  hintText: '000000',
+                  counterText: '',
+                  filled: true,
+                  fillColor: Theme.of(context).colorScheme.surface,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide.none,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide(
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.primary.withOpacity(0.3),
+                      width: 1,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                      width: 2,
+                    ),
+                  ),
+                  hintStyle: TextStyle(
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withOpacity(0.4),
+                    letterSpacing: 8,
+                  ),
+                ),
+              ),
             ),
 
             // Enhanced Resend Section
