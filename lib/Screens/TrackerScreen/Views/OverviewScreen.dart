@@ -76,7 +76,7 @@ class Overviewscreen extends StatelessWidget {
                         SizedBox(height: 20),
 
                         Text(
-                          'Feeding Analytics',
+                          'Feeding Analytics'.tr,
                           style: Theme.of(context).textTheme.titleLarge
                               ?.copyWith(fontWeight: FontWeight.w600),
                         ),

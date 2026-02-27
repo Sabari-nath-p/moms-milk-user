@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/utils.dart';
 import 'package:mommilk_user/Screens/TrackerScreen/Models/AnalyticsOverviewModel.dart';
 import 'package:mommilk_user/theme/app_theme.dart';
 
@@ -14,7 +15,7 @@ class SleepingActivityCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Sleep Sessions',
+              'Sleep Sessions'.tr,
               style: Theme.of(
                 context,
               ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
@@ -44,7 +45,7 @@ class SleepingActivityCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Total\nSessions',
+                      'Total\nSessions'.tr,
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 12),
                     ),
@@ -63,7 +64,7 @@ class SleepingActivityCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Total\nHours',
+                      'Total\nHours'.tr,
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 12),
                     ),
@@ -82,7 +83,7 @@ class SleepingActivityCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Average\nSleep/day',
+                      'Average\nSleep/day'.tr,
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 12),
                     ),

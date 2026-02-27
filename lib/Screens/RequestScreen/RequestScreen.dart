@@ -122,7 +122,7 @@ class _RequestScreenState extends State<RequestScreen>
                           ? (key == 0
                               ? "Pending (${controller.incomingRequests.length})"
                               : "Connections")
-                          : "My Requests",
+                          : "My Requests".tr,
                       style: TextStyle(
                         color:
                             selectedIndex == key ? Colors.white : Colors.black,
@@ -187,7 +187,7 @@ class _RequestScreenState extends State<RequestScreen>
     if (controller.incomingRequests.isEmpty) {
       return _buildEmptyState(
         context,
-        "No Incoming Requests",
+        "No Incoming Requests".tr,
         "You don’t have any pending milk requests.".tr,
         Icons.inbox,
       );
@@ -237,7 +237,7 @@ class _RequestScreenState extends State<RequestScreen>
     if (controller.historyRequests.isEmpty) {
       return _buildEmptyState(
         context,
-        "No History",
+        "No History".tr,
         "No previous request activity available.".tr,
         Icons.history,
       );
@@ -284,7 +284,7 @@ class _RequestScreenState extends State<RequestScreen>
     if (controller.myRequests.isEmpty) {
       return _buildEmptyState(
         context,
-        "No Requests Yet",
+        "No Requests Yet".tr,
         "You have not placed any requests yet.".tr,
         Icons.list_alt,
       );

@@ -67,7 +67,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                     ),
                     SizedBox(width: 12),
                     Text(
-                      'Log Feeding',
+                      'Log Feeding'.tr,
                       style: Theme.of(context).textTheme.headlineSmall
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
@@ -82,7 +82,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                 SizedBox(height: 24),
 
                 DatePickerField(
-                  title: "Select Feeding Date *",
+                  title: "Select Feeding Date *".tr,
                   initialDate: selectedDate,
                   onDateSelected: (value) {
                     selectedDate = value;
@@ -97,7 +97,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                     // Start Time
                     Expanded(
                       child: TimePickerField(
-                        title: "Start Time",
+                        title: "Start Time".tr,
                         onTimeSelected: (value) {
                           setState(() {
                             startTime = value;
@@ -110,7 +110,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                     // End Time (Optional)
                     Expanded(
                       child: TimePickerField(
-                        title: "End Time",
+                        title: "End Time".tr,
                         onTimeSelected: (value) {
                           endTime = value;
                           setState(() {});
@@ -124,7 +124,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
 
                 // Feed Type Selection
                 Text(
-                  'Feed Type',
+                  'Feed Type'.tr,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
@@ -199,7 +199,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                 if (selectedFeedType == FeedType.BREAST) ...[
                   SizedBox(height: 16),
                   Text(
-                    'Position',
+                    'Position'.tr,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
@@ -274,7 +274,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                 // Amount Field (Optional)
                 UnitInputField(
                   controller: amountController,
-                  title: "Amount(ml)",
+                  title: "Amount(ml)".tr,
                   icon: Icon(
                     Icons.local_drink_outlined,
                     color: Theme.of(context).colorScheme.primary,
@@ -360,7 +360,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                           ),
                         ),
                         child: Text(
-                          'Cancel',
+                          'Cancel'.tr,
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.primary,
                             fontWeight: FontWeight.w600,
@@ -383,7 +383,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                           ),
                         ),
                         child: Text(
-                          'Save Log',
+                          'Save Log'.tr,
                           style: TextStyle(fontWeight: FontWeight.w600),
                         ),
                       ),
@@ -402,7 +402,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
     if (selectedDate == null) {
       Get.snackbar(
         'Log Failed',
-        'Please select feeding date before submission',
+        'Please select feeding date before submission'.tr,
       );
       return;
     }
@@ -410,7 +410,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
     if (startTime == null) {
       Get.snackbar(
         'Log Failed',
-        'Please select feeding start time before submission',
+        'Please select feeding start time before submission'.tr,
       );
       return;
     }
@@ -418,7 +418,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
     if (endTime == null) {
       Get.snackbar(
         'Log Failed',
-        'Please select feeding end time before submission',
+        'Please select feeding end time before submission'.tr,
       );
       return;
     }
@@ -450,7 +450,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
 
       // Validate duration
       if (endDateTime.difference(startDateTime).inMinutes < 1) {
-        Get.snackbar('Validation Error', 'End time must be after start time');
+        Get.snackbar('Validation Error', 'End time must be after start time'.tr);
         return;
       }
     }
@@ -461,7 +461,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
       parsedAmount =
           (double.tryParse(amountController.text.trim()) ?? 0).toInt();
       if (parsedAmount == null || parsedAmount <= 0) {
-        Get.snackbar('Validation Error', 'Please enter a valid amount in ml');
+        Get.snackbar('Validation Error', 'Please enter a valid amount in ml'.tr);
         return;
       }
     }
@@ -470,7 +470,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
     if (selectedFeedType == FeedType.BREAST && selectedPosition == null) {
       Get.snackbar(
         'Validation Error',
-        'Please select a position for breast feeding',
+        'Please select a position for breast feeding'.tr,
       );
       return;
     }

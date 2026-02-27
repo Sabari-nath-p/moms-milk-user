@@ -58,7 +58,7 @@ class ConnectScreen extends StatelessWidget {
 
   Widget _buildBody(BuildContext context, Homecontroller controller) {
     // If DONOR → only show My Connections
-    if (user.userType == "DONOR") {
+    if (user.userType == "DONOR".tr) {
       controller.connectionTabIndex = 0;
     } else {
       controller.connectionTabIndex = 1;

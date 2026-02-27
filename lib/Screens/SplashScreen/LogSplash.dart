@@ -27,7 +27,7 @@
 //                     Get.offAll(() => SplashScreen2());
 //                   },
 //                   child: Text(
-//                     "Skip",
+//                     "Skip".tr,
 //                     style: TextStyle(color: Colors.black),
 //                   ),
 //                 ),
@@ -106,7 +106,7 @@
 //                     ),
 //                   ),
 //                   child: Text(
-//                     "Get Started",
+//                     "Get Started".tr,
 //                     style: TextStyle(fontSize: 16, color: Colors.white),
 //                   ),
 //                 ),

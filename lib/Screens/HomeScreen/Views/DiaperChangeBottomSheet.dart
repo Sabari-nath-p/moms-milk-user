@@ -53,7 +53,7 @@ class _DiaperChangeBottomSheetState extends State<DiaperChangeBottomSheet> {
                   ),
                   SizedBox(width: 12),
                   Text(
-                    'Log Diaper',
+                    'Log Diaper'.tr,
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -72,7 +72,7 @@ class _DiaperChangeBottomSheetState extends State<DiaperChangeBottomSheet> {
 
               // Date Selection
               DatePickerField(
-                title: "Date",
+                title: "Date".tr,
                 onDateSelected: (Value) {
                   selectedDate = Value;
                 },
@@ -82,7 +82,7 @@ class _DiaperChangeBottomSheetState extends State<DiaperChangeBottomSheet> {
 
               // Time Selection
               TimePickerField(
-                title: "Time",
+                title: "Time".tr,
                 onTimeSelected: (value) {
                   selectedTime = value;
                 },
@@ -92,7 +92,7 @@ class _DiaperChangeBottomSheetState extends State<DiaperChangeBottomSheet> {
 
               // Diaper Type Selection
               Text(
-                'Diaper Type',
+                'Diaper Type'.tr,
                 style: Theme.of(
                   context,
                 ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
@@ -167,8 +167,8 @@ class _DiaperChangeBottomSheetState extends State<DiaperChangeBottomSheet> {
                 textInputAction: TextInputAction.done,
                 style: TextStyle(fontSize: 16),
                 decoration: InputDecoration(
-                  labelText: 'Note ',
-                  hintText: 'Add any additional notes...',
+                  labelText: 'Note '.tr,
+                  hintText: 'Add any additional notes...'.tr,
                   prefixIcon: Icon(Icons.note_outlined),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -205,7 +205,7 @@ class _DiaperChangeBottomSheetState extends State<DiaperChangeBottomSheet> {
                         ),
                       ),
                       child: Text(
-                        'Cancel',
+                        'Cancel'.tr,
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                           fontWeight: FontWeight.w600,
@@ -232,7 +232,7 @@ class _DiaperChangeBottomSheetState extends State<DiaperChangeBottomSheet> {
                               (controller.isSubmitLoading)
                                   ? CircularProgressIndicator()
                                   : Text(
-                                    'Save Log',
+                                    'Save Log'.tr,
                                     style: TextStyle(
                                       fontWeight: FontWeight.w600,
                                       color: Colors.white,
@@ -303,14 +303,14 @@ class _DiaperChangeBottomSheetState extends State<DiaperChangeBottomSheet> {
     if (selectedDate == null) {
       Get.snackbar(
         'Log Failed',
-        'Please select diaper change date before submission',
+        'Please select diaper change date before submission'.tr,
       );
       return;
     }
     if (selectedTime == null) {
       Get.snackbar(
         'Log Failed',
-        'Please select diaper change time before submission',
+        'Please select diaper change time before submission'.tr,
       );
       return;
     }

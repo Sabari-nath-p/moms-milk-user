@@ -62,7 +62,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                   ),
                   SizedBox(width: 12),
                   Text(
-                    'Log Sleep',
+                    'Log Sleep'.tr,
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -81,7 +81,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
 
               // Date Selection
               DatePickerField(
-                title: "Date",
+                title: "Date".tr,
                 onDateSelected: (value) {
                   selectedDate = value;
                 },
@@ -95,7 +95,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                   // Start Time
                   Expanded(
                     child: TimePickerField(
-                      title: "Start Time",
+                      title: "Start Time".tr,
                       onTimeSelected: (value) {
                         startTime = value;
                       },
@@ -105,7 +105,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                   // End Time
                   Expanded(
                     child: TimePickerField(
-                      title: "End Time",
+                      title: "End Time".tr,
 
                       onTimeSelected: (value) {
                         endTime = value;
@@ -170,7 +170,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
 
               // Sleep Location Selection
               Text(
-                'Sleep Location',
+                'Sleep Location'.tr,
                 style: Theme.of(
                   context,
                 ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
@@ -277,7 +277,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                         ),
                       ),
                       child: Text(
-                        'Cancel',
+                        'Cancel'.tr,
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                           fontWeight: FontWeight.w600,
@@ -298,7 +298,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                         ),
                       ),
                       child: Text(
-                        'Save Log',
+                        'Save Log'.tr,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           color: Colors.white,
@@ -390,17 +390,17 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
     // Validate that end time is after start time
 
     if (selectedDate == null) {
-      Get.snackbar('Log Failed', 'Please select sleep date before submission');
+      Get.snackbar('Log Failed', 'Please select sleep date before submission'.tr);
       return;
     }
 
     if (startTime == null) {
-      Get.snackbar('Log Failed', 'Please select start time before submission');
+      Get.snackbar('Log Failed', 'Please select start time before submission'.tr);
       return;
     }
 
     if (endTime == null) {
-      Get.snackbar('Log Failed', 'Please select end time before submission');
+      Get.snackbar('Log Failed', 'Please select end time before submission'.tr);
       return;
     }
 
@@ -428,7 +428,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
             : endDateTime;
 
     if (adjustedEndDateTime.difference(startDateTime).inMinutes < 1) {
-      Get.snackbar('Validation Error', 'End time must be after start time');
+      Get.snackbar('Validation Error', 'End time must be after start time'.tr);
       return;
     }
 

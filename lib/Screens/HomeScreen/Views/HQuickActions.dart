@@ -18,7 +18,7 @@ class HQuickActions extends StatelessWidget {
               //Row(
               //children: [
               //   Text(
-              //   'Quick Actions',
+              //   'Quick Actions'.tr,
               // style: Theme.of(context).textTheme.headlineSmall,
               // ),
               // Spacer(),
@@ -35,7 +35,7 @@ class HQuickActions extends StatelessWidget {
               //);
               // },
               // child: Text(
-              // "View Baby Activity",
+              // "View Baby Activity".tr,
               // style: TextStyle(decoration: TextDecoration.underline, color: Color(0xff6A7282)),
               //),
               //),
@@ -101,12 +101,12 @@ class HQuickActions extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Feeding',
+                          'Feeding'.tr,
                           style: Theme.of(context).textTheme.titleMedium
                               ?.copyWith(fontWeight: FontWeight.w600),
                         ),
                         Text(
-                          'Track breast or bottle feeding',
+                          'Track breast or bottle feeding'.tr,
                           style: Theme.of(
                             context,
                           ).textTheme.bodySmall?.copyWith(
@@ -138,7 +138,7 @@ class HQuickActions extends StatelessWidget {
                           controller.showFeedingLogBottomSheet();
                         },
                         icon: Icon(Icons.play_arrow, size: 20),
-                        label: Text('Log Feeding'),
+                        label: Text('Log Feeding'.tr),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.green,
                           foregroundColor: Colors.white,
@@ -218,12 +218,12 @@ class HQuickActions extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Diaper',
+                          'Diaper'.tr,
                           style: Theme.of(context).textTheme.titleMedium
                               ?.copyWith(fontWeight: FontWeight.w600),
                         ),
                         Text(
-                          'Track wet, soiled, or both',
+                          'Track wet, soiled, or both'.tr,
                           style: Theme.of(
                             context,
                           ).textTheme.bodySmall?.copyWith(
@@ -252,7 +252,7 @@ class HQuickActions extends StatelessWidget {
                           controller.showDiaperChangeBottomSheet();
                         },
                         icon: Icon(Icons.add, size: 20),
-                        label: Text('Log Diaper Change'),
+                        label: Text('Log Diaper Change'.tr),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue,
                           foregroundColor: Colors.white,
@@ -308,12 +308,12 @@ class HQuickActions extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Sleep',
+                          'Sleep'.tr,
                           style: Theme.of(context).textTheme.titleMedium
                               ?.copyWith(fontWeight: FontWeight.w600),
                         ),
                         Text(
-                          'Track baby\'s sleep patterns',
+                          'Track baby\'s sleep patterns'.tr,
                           style: Theme.of(
                             context,
                           ).textTheme.bodySmall?.copyWith(
@@ -343,7 +343,7 @@ class HQuickActions extends StatelessWidget {
                           controller.showSleepLogBottomSheet();
                         },
                         icon: Icon(Icons.bedtime_outlined, size: 20),
-                        label: Text('Log Sleep'),
+                        label: Text('Log Sleep'.tr),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.purple,
                           foregroundColor: Colors.white,

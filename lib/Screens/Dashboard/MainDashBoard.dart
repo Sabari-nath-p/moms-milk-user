@@ -134,7 +134,7 @@ class MainDashboard extends StatelessWidget {
                     size: 20,
                     color: AppTheme.primaryColor,
                   ),
-                  label: 'Log',
+                  label: 'Log'.tr,
                 ),
 
                 NavigationDestination(
@@ -148,7 +148,7 @@ class MainDashboard extends StatelessWidget {
                     size: 20,
                     color: AppTheme.primaryColor,
                   ),
-                  label: 'Report',
+                  label: 'Report'.tr,
                 ),
 
                 NavigationDestination(

@@ -102,7 +102,7 @@ class Homecontroller extends GetxController {
           () => Activitytimelinescreen(),
           transition: Transition.rightToLeft,
         );
-        Get.snackbar('Success', 'Feeding Log logged successfully!');
+        Get.snackbar('Success', 'Feeding Log logged successfully!'.tr);
       },
     );
     isLoading = false;

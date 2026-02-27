@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/utils.dart';
 import 'package:mommilk_user/Screens/OnboardingScreen/Controller/OnboardingController.dart';
 import 'package:mommilk_user/theme/app_theme.dart';
 
@@ -17,7 +18,7 @@ class UserTypeStep extends StatelessWidget {
             children: [
               // Header
               Text(
-                'What\'your role?',
+                'What\'your role?'.tr,
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -26,7 +27,7 @@ class UserTypeStep extends StatelessWidget {
               SizedBox(height: 8),
 
               Text(
-                'Choose your role to personalize your app experience.',
+                'Choose your role to personalize your app experience.'.tr,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   color: Colors.black.withOpacity(.7),
                 ),
@@ -37,10 +38,10 @@ class UserTypeStep extends StatelessWidget {
               // Donor Option
               _buildUserTypeCard(
                 context: context,
-                title: 'I have Milk',
-                subtitle: 'I want to donate breast milk',
+                title: 'I have Milk'.tr,
+                subtitle: 'I want to donate breast milk'.tr,
                 description:
-                    'Sharing your excess breast milk safely and track your baby activity',
+                    'Sharing your excess breast milk safely and track your baby activity'.tr,
                 icon: Icons.favorite,
                 isSelected: controller.userType == UserType.donor,
                 onTap: () {
@@ -60,10 +61,10 @@ class UserTypeStep extends StatelessWidget {
               // Buyer Option
               _buildUserTypeCard(
                 context: context,
-                title: 'I need Milk',
-                subtitle: 'I need to track my baby and find donors',
+                title: 'I need Milk'.tr,
+                subtitle: 'I need to track my baby and find donors'.tr,
                 description:
-                    'Access breast milk from verified donors in your area. ',
+                    'Access breast milk from verified donors in your area. '.tr,
                 icon: Icons.child_care,
                 isSelected: controller.userType == UserType.buyer,
                 onTap: () {
@@ -109,7 +110,7 @@ class UserTypeStep extends StatelessWidget {
                     SizedBox(width: 12),
                     Expanded(
                       child: Text(
-                        'Find milk donors near you. Review profiles and connect safely based on your comfort and judgment.',
+                        'Find milk donors near you. Review profiles and connect safely based on your comfort and judgment.'.tr,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: Theme.of(context).colorScheme.primary,
                         ),

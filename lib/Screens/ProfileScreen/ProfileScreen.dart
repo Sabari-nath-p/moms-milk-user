@@ -403,7 +403,7 @@ class ProfileScreen extends StatelessWidget {
                         TextField(
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
-                            labelText: 'Name',
+                            labelText: 'Name'.tr,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
@@ -449,7 +449,7 @@ class ProfileScreen extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                 ),
-                                child: Text('Cancel'),
+                                child: Text('Cancel'.tr),
                               ),
                             ),
                             SizedBox(width: 16),
@@ -540,7 +540,7 @@ class ProfileScreen extends StatelessWidget {
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: Text('OK'),
+                child: Text('OK'.tr),
               ),
             ],
           ),
@@ -550,7 +550,7 @@ class ProfileScreen extends StatelessWidget {
   void _showAboutDialog(BuildContext context) {
     showAboutDialog(
       context: context,
-      applicationName: 'Mom\'s Milk',
+      applicationName: 'Mom\'s Milk'.tr,
       applicationVersion: '1.0.0',
       applicationIcon: Container(
         width: 64,
@@ -664,7 +664,7 @@ class ProfileScreen extends StatelessWidget {
 
       // Show error message
       Get.snackbar(
-        'Error',
+        'Error'.tr,
         'Failed to delete. Please try again.'.tr,
         backgroundColor: Colors.red,
         colorText: Colors.black,
@@ -717,7 +717,7 @@ Future<void> _performLogout(BuildContext context) async {
 
     // Show success message
     Get.snackbar(
-      'Success',
+      'Success'.tr,
       'You have been logged out successfully'.tr,
       backgroundColor: Colors.green,
       colorText: Colors.black,
@@ -732,7 +732,7 @@ Future<void> _performLogout(BuildContext context) async {
 
     // Show error message
     Get.snackbar(
-      'Error',
+      'Error'.tr,
       'Failed to logout. Please try again.'.tr,
       backgroundColor: Colors.red,
       colorText: Colors.black,

@@ -58,7 +58,7 @@ class CreateBabyScreen extends StatelessWidget {
                 Get.offAll(MainDashboard(), transition: Transition.leftToRight);
               },
               child: Text(
-                "Skip",
+                "Skip".tr,
                 style: Theme.of(
                   context,
                 ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
@@ -86,7 +86,7 @@ class CreateBabyScreen extends StatelessWidget {
                   SizedBox(height: 8),
 
                   Text(
-                    'Please provide information about your baby to complete your profile.',
+                    'Please provide information about your baby to complete your profile.'.tr,
                     style: Theme.of(
                       context,
                     ).textTheme.bodyLarge?.copyWith(color: Colors.grey[600]),
@@ -103,8 +103,8 @@ class CreateBabyScreen extends StatelessWidget {
   keyboardType: TextInputType.name,
   style: TextStyle(fontSize: 16),
                     decoration: InputDecoration(
-                      labelText: 'Baby\'s Name *',
-                      hintText: 'Enter baby\'s name',
+                      labelText: 'Baby\'s Name *'.tr,
+                      hintText: 'Enter baby\'s name'.tr,
                       prefixIcon: Icon(
                         Icons.child_care,
                         color: Color(0xffFDA4AF),

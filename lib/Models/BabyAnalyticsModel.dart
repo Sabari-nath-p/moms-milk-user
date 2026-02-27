@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 class BabyAnalyticsLog {
   int? babyId;
   DateRange? dateRange;
@@ -18,33 +20,33 @@ class BabyAnalyticsLog {
   BabyAnalyticsLog.fromJson(Map<String, dynamic> json) {
     babyId = json['babyId'];
     dateRange =
-        json['dateRange'] != null
+        json['dateRange'.tr] != null
             ? new DateRange.fromJson(json['dateRange'])
             : null;
     feeding =
-        json['feeding'] != null ? new Feeding.fromJson(json['feeding']) : null;
+        json['feeding'.reactive] != null ? new Feeding.fromJson(json['feeding']) : null;
     diaper =
-        json['diaper'] != null ? new Diaper.fromJson(json['diaper']) : null;
-    sleep = json['sleep'] != null ? new Sleep.fromJson(json['sleep']) : null;
+        json['diaper'.tr] != null ? new Diaper.fromJson(json['diaper']) : null;
+    sleep = json['sleep'.tr] != null ? new Sleep.fromJson(json['sleep']) : null;
     generatedAt = json['generatedAt'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['babyId'] = this.babyId;
+    data['babyId'.tr] = this.babyId;
     if (this.dateRange != null) {
-      data['dateRange'] = this.dateRange!.toJson();
+      data['dateRange'.tr] = this.dateRange!.toJson();
     }
     if (this.feeding != null) {
-      data['feeding'] = this.feeding!.toJson();
+      data['feeding'.tr] = this.feeding!.toJson();
     }
     if (this.diaper != null) {
-      data['diaper'] = this.diaper!.toJson();
+      data['diaper'.tr] = this.diaper!.toJson();
     }
     if (this.sleep != null) {
-      data['sleep'] = this.sleep!.toJson();
+      data['sleep'.tr] = this.sleep!.toJson();
     }
-    data['generatedAt'] = this.generatedAt;
+    data['generatedAt'.tr] = this.generatedAt;
     return data;
   }
 }
@@ -56,14 +58,14 @@ class DateRange {
   DateRange({this.startDate, this.endDate});
 
   DateRange.fromJson(Map<String, dynamic> json) {
-    startDate = json['startDate'];
+    startDate = json['startDate'.tr];
     endDate = json['endDate'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['startDate'] = this.startDate;
-    data['endDate'] = this.endDate;
+    data['startDate'.tr] = this.startDate;
+    data['endDate'.tr] = this.endDate;
     return data;
   }
 }
@@ -90,26 +92,26 @@ class Feeding {
   });
 
   Feeding.fromJson(Map<String, dynamic> json) {
-    totalFeeds = json['totalFeeds'];
+    totalFeeds = json['totalFeeds'.tr];
     totalFeedTimeMinutes = double.parse(
-      (json['totalFeedTimeMinutes'] ?? 0).toString(),
+      (json['totalFeedTimeMinutes'.tr] ?? 0).toString(),
     );
     averageFeedTimeMinutes = double.parse(
-      (json['averageFeedTimeMinutes'] ?? 0).toString(),
+      (json['averageFeedTimeMinutes'.tr] ?? 0).toString(),
     );
-    totalAmountMl = double.parse((json['totalAmountMl'] ?? 0).toString());
-    averageAmountMl = double.parse((json['averageAmountMl'] ?? 0).toString());
+    totalAmountMl = double.parse((json['totalAmountMl'.tr] ?? 0).toString());
+    averageAmountMl = double.parse((json['averageAmountMl'.tr] ?? 0).toString());
     feedMethodCount =
-        json['feedMethodCount'] != null
-            ? new FeedMethodCount.fromJson(json['feedMethodCount'])
+        json['feedMethodCount'.tr] != null
+            ? new FeedMethodCount.fromJson(json['feedMethodCount'.tr])
             : null;
     positionBreakdown =
-        json['positionBreakdown'] != null
-            ? new PositionBreakdown.fromJson(json['positionBreakdown'])
+        json['positionBreakdown'.tr] != null
+            ? new PositionBreakdown.fromJson(json['positionBreakdown'.tr])
             : null;
-    if (json['feedingPatterns'] != null) {
+    if (json['feedingPatterns'.tr] != null) {
       feedingPatterns = <FeedingPatterns>[];
-      json['feedingPatterns'].forEach((v) {
+      json['feedingPatterns'.tr].forEach((v) {
         feedingPatterns!.add(new FeedingPatterns.fromJson(v));
       });
     }
@@ -117,19 +119,19 @@ class Feeding {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['totalFeeds'] = this.totalFeeds;
-    data['totalFeedTimeMinutes'] = this.totalFeedTimeMinutes;
-    data['averageFeedTimeMinutes'] = this.averageFeedTimeMinutes;
-    data['totalAmountMl'] = this.totalAmountMl;
-    data['averageAmountMl'] = this.averageAmountMl;
+    data['totalFeeds'.tr] = this.totalFeeds;
+    data['totalFeedTimeMinutes'.tr] = this.totalFeedTimeMinutes;
+    data['averageFeedTimeMinutes'.tr] = this.averageFeedTimeMinutes;
+    data['totalAmountMl'.tr] = this.totalAmountMl;
+    data['averageAmountMl'.tr] = this.averageAmountMl;
     if (this.feedMethodCount != null) {
-      data['feedMethodCount'] = this.feedMethodCount!.toJson();
+      data['feedMethodCount'.tr] = this.feedMethodCount!.toJson();
     }
     if (this.positionBreakdown != null) {
-      data['positionBreakdown'] = this.positionBreakdown!.toJson();
+      data['positionBreakdown'.tr] = this.positionBreakdown!.toJson();
     }
     if (this.feedingPatterns != null) {
-      data['feedingPatterns'] =
+      data['feedingPatterns'.tr] =
           this.feedingPatterns!.map((v) => v.toJson()).toList();
     }
     return data;
@@ -144,16 +146,16 @@ class FeedMethodCount {
   FeedMethodCount({this.bREAST, this.bOTTLE, this.oTHER});
 
   FeedMethodCount.fromJson(Map<String, dynamic> json) {
-    bREAST = json['BREAST'];
-    bOTTLE = json['BOTTLE'];
-    oTHER = json['OTHER'];
+    bREAST = json['BREAST'.tr];
+    bOTTLE = json['BOTTLE'.tr];
+    oTHER = json['OTHER'.tr];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['BREAST'] = this.bREAST;
-    data['BOTTLE'] = this.bOTTLE;
-    data['OTHER'] = this.oTHER;
+    data['BREAST'.tr] = this.bREAST;
+    data['BOTTLE'.tr] = this.bOTTLE;
+    data['OTHER'.tr] = this.oTHER;
     return data;
   }
 }
@@ -167,18 +169,18 @@ class PositionBreakdown {
   PositionBreakdown({this.lEFT, this.rIGHT, this.bOTH, this.nOTSPECIFIED});
 
   PositionBreakdown.fromJson(Map<String, dynamic> json) {
-    lEFT = json['LEFT'];
-    rIGHT = json['RIGHT'];
-    bOTH = json['BOTH'];
-    nOTSPECIFIED = json['NOT_SPECIFIED'];
+    lEFT = json['LEFT'.tr];
+    rIGHT = json['RIGHT'.tr];
+    bOTH = json['BOTH'.tr];
+    nOTSPECIFIED = json['NOT_SPECIFIED'.tr];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['LEFT'] = this.lEFT;
-    data['RIGHT'] = this.rIGHT;
-    data['BOTH'] = this.bOTH;
-    data['NOT_SPECIFIED'] = this.nOTSPECIFIED;
+    data['LEFT'.tr] = this.lEFT;
+    data['RIGHT'.tr] = this.rIGHT;
+    data['BOTH'.tr] = this.bOTH;
+    data['NOT_SPECIFIED'.tr] = this.nOTSPECIFIED;
     return data;
   }
 }
@@ -197,8 +199,8 @@ class FeedingPatterns {
   });
 
   FeedingPatterns.fromJson(Map<String, dynamic> json) {
-    date = json['date'];
-    feedCount = json['feedCount'];
+    date = json['date'.tr];
+    feedCount = json['feedCount'.tr];
     totalTimeMinutes = double.parse((json['totalTimeMinutes'] ?? 0).toString());
     totalAmountMl = double.parse((json['totalAmountMl'] ?? 0).toString());
   }
@@ -278,9 +280,9 @@ class DiaperTypeBreakdown {
   DiaperTypeBreakdown({this.sOLID, this.lIQUID, this.bOTH});
 
   DiaperTypeBreakdown.fromJson(Map<String, dynamic> json) {
-    sOLID = json['SOLID'];
-    lIQUID = json['LIQUID'];
-    bOTH = json['BOTH'];
+    sOLID = json['SOLID'.tr];
+    lIQUID = json['LIQUID'.tr];
+    bOTH = json['BOTH'.tr];
   }
 
   Map<String, dynamic> toJson() {
@@ -433,10 +435,10 @@ class LocationBreakdown {
   LocationBreakdown({this.cRIB, this.bED, this.sTROLLER, this.oTHER});
 
   LocationBreakdown.fromJson(Map<String, dynamic> json) {
-    cRIB = json['CRIB'];
-    bED = json['BED'];
-    sTROLLER = json['STROLLER'];
-    oTHER = json['OTHER'];
+    cRIB = json['CRIB'.tr];
+    bED = json['BED'.tr];
+    sTROLLER = json['STROLLER'.tr];
+    oTHER = json['OTHER'.tr];
   }
 
   Map<String, dynamic> toJson() {

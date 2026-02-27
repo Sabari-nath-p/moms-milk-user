@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get_utils/src/extensions/export.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:mommilk_user/Models/SearchDonarModel.dart';
@@ -77,7 +78,7 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Send Request to ${widget.donar.donor!.name ?? 'Donor'}',
+                              'Send Request to ${widget.donar.donor!.name ?? 'Donor'}'.tr,
                               style: Theme.of(context).textTheme.titleLarge
                                   ?.copyWith(fontWeight: FontWeight.bold),
                             ),
@@ -108,7 +109,7 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
 
                   // Description field
                   Text(
-                    'Request Note',
+                    'Request Note'.tr,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
@@ -119,7 +120,7 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                     maxLines: 3,
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
-                      hintText: 'Sent a note...',
+                      hintText: 'Sent a note...'.tr,
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide(
@@ -142,7 +143,7 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
 
                   // Quantity field
                   Text(
-                    'Quantity Needed (ml)',
+                    'Quantity Needed (ml)'.tr,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
@@ -192,7 +193,7 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
 
                   // Urgency selector
                   Text(
-                    'Urgency Level',
+                    'Urgency Level'.tr,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
@@ -202,7 +203,7 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                     children: [
                       Expanded(
                         child: _buildUrgencyChip(
-                          'LOW',
+                          'LOW'.tr,
                           selectedUrgency == 'LOW',
                           Colors.green,
                           () => setState(() => selectedUrgency = 'LOW'),
@@ -211,7 +212,7 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                       SizedBox(width: 8),
                       Expanded(
                         child: _buildUrgencyChip(
-                          'MEDIUM',
+                          'MEDIUM'.tr,
                           selectedUrgency == 'MEDIUM',
                           Colors.orange,
                           () => setState(() => selectedUrgency = 'MEDIUM'),
@@ -221,7 +222,7 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                       Expanded(
                         child: _buildUrgencyChip(
                           'HIGH',
-                          selectedUrgency == 'HIGH',
+                          selectedUrgency == 'HIGH'.tr,
                           Colors.red,
                           () => setState(() => selectedUrgency = 'HIGH'),
                         ),
@@ -232,7 +233,7 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
 
                   // Needed by date (optional)
                   Text(
-                    'Needed By (Optional)',
+                    'Needed By (Optional)'.tr,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
@@ -282,7 +283,7 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                           Text(
                             selectedDate != null
                                 ? '${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year} ${selectedDate!.hour}:${selectedDate!.minute.toString().padLeft(2, '0')}'
-                                : 'Select date and time',
+                                : 'Select date and time'.tr,
                             style: TextStyle(
                               color:
                                   selectedDate != null
@@ -319,11 +320,11 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                       onTap: () {
                         print(quantityController.text.trim());
                         if (descriptionController.text.trim().isEmpty) {
-                          Get.snackbar('Error', 'Please enter a description');
+                          Get.snackbar('Error', 'Please enter a description'.tr);
                           return;
                         }
                         if (quantityController.text.trim().isEmpty) {
-                          Get.snackbar('Error', 'Please enter quantity needed');
+                          Get.snackbar('Error', 'Please enter quantity needed'.tr);
                           return;
                         }
 

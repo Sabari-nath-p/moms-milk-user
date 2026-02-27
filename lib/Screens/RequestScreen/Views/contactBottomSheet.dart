@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactBottomSheet extends StatelessWidget {
@@ -156,7 +157,7 @@ class ContactBottomSheet extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
-                  'Contact',
+                  'Contact'.tr,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: Theme.of(context).colorScheme.primary,
                     fontWeight: FontWeight.w500,
@@ -185,7 +186,7 @@ class ContactBottomSheet extends StatelessWidget {
         _buildContactItem(
           context,
           icon: Icons.email_outlined,
-          label: 'Email',
+          label: 'Email'.tr,
           value: email,
           onTap: () => _sendEmail(email),
         ),
@@ -196,7 +197,7 @@ class ContactBottomSheet extends StatelessWidget {
         _buildContactItem(
           context,
           icon: Icons.phone_outlined,
-          label: 'Phone',
+          label: 'Phone'.tr,
           value: phoneNumber,
           onTap: () => _makePhoneCall(phoneNumber),
         ),
@@ -325,7 +326,7 @@ class ContactBottomSheet extends StatelessWidget {
                   ),
                   SizedBox(width: 8),
                   Text(
-                    'Call',
+                    'Call'.tr,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -370,7 +371,7 @@ class ContactBottomSheet extends StatelessWidget {
                   ),
                   SizedBox(width: 8),
                   Text(
-                    'Email',
+                    'Email'.tr,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -406,9 +407,9 @@ class ContactBottomSheet extends StatelessWidget {
       scheme: 'mailto',
       path: email,
       queryParameters: {
-        'subject': 'Hello from Mom\'s Milk App',
+        'subject': 'Hello from Mom\'s Milk App'.tr,
         'body':
-            'Hi there,\n\nI would like to connect with you.\n\nBest regards,',
+            'Hi there,\n\nI would like to connect with you.\n\nBest regards,'.tr,
       },
     );
 

@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:gauge_chart/gauge_chart.dart';
+import 'package:get/utils.dart';
 import 'package:mommilk_user/Screens/TrackerScreen/Models/AnalyticsOverviewModel.dart';
 import 'package:mommilk_user/theme/app_theme.dart';
 
@@ -43,7 +44,7 @@ class _FeedingoverviewcardState extends State<Feedingoverviewcard> {
                   child: Container(
                     alignment: Alignment.center,
                     height: 100,
-                    child: Text('No data available'),
+                    child: Text('No data available'.tr),
                   ),
                 )
                 : Row(
@@ -72,14 +73,14 @@ class _FeedingoverviewcardState extends State<Feedingoverviewcard> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Text(
-                                      "$totalFeeds",
+                                      "$totalFeeds".tr,
                                       style: TextStyle(
                                         fontSize: 14,
                                         color: Colors.black,
                                       ),
                                     ),
                                     Text(
-                                      "Total Feeds",
+                                      "Total Feeds".tr,
                                       style: TextStyle(fontSize: 12),
                                     ),
                                     SizedBox(height: 5),
@@ -95,7 +96,7 @@ class _FeedingoverviewcardState extends State<Feedingoverviewcard> {
                                         ),
                                         SizedBox(width: 2),
                                         Text(
-                                          "Breast",
+                                          "Breast".tr,
                                           style: TextStyle(fontSize: 9),
                                         ),
                                         SizedBox(width: 5),
@@ -115,7 +116,7 @@ class _FeedingoverviewcardState extends State<Feedingoverviewcard> {
                                         ),
                                         SizedBox(width: 2),
                                         Text(
-                                          "Solid",
+                                          "Solid".tr,
                                           style: TextStyle(fontSize: 9),
                                         ),
                                       ],
@@ -128,7 +129,7 @@ class _FeedingoverviewcardState extends State<Feedingoverviewcard> {
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          "Avg feed / Day : ",
+                                          "Avg feed / Day : ".tr,
                                           style: TextStyle(
                                             fontSize: 12,
                                             color: Colors.black,
@@ -154,7 +155,7 @@ class _FeedingoverviewcardState extends State<Feedingoverviewcard> {
                                   PieData(
                                     value: breast,
                                     color: Colors.orange,
-                                    description: "Breast",
+                                    description: "Breast".tr,
                                   ),
                                   PieData(
                                     value: bottle,
@@ -176,7 +177,7 @@ class _FeedingoverviewcardState extends State<Feedingoverviewcard> {
                     Column(
                       children: [
                         TicketCard(
-                          title: "Left",
+                          title: "Left".tr,
                           count:
                               (model.feedPositionBreakdown!.lEFT ?? 0)
                                   .toString(),
@@ -188,7 +189,7 @@ class _FeedingoverviewcardState extends State<Feedingoverviewcard> {
                           ],
                         ),
                         TicketCard(
-                          title: "Right",
+                          title: "Right".tr,
                           count:
                               (model.feedPositionBreakdown!.rIGHT ?? 0)
                                   .toString(),
@@ -201,7 +202,7 @@ class _FeedingoverviewcardState extends State<Feedingoverviewcard> {
                           ],
                         ),
                         TicketCard(
-                          title: "Both",
+                          title: "Both".tr,
                           count:
                               (model.feedPositionBreakdown!.bOTH ?? 0)
                                   .toString(),

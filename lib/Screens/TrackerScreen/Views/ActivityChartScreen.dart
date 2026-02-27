@@ -20,17 +20,17 @@ class ActivityChartScreen extends StatelessWidget {
                 children: [
                   CircleAvatar(radius: 8, backgroundColor: Colors.amber),
                   SizedBox(width: 10),
-                  Text("Feeding"),
+                  Text("Feeding".tr),
                   SizedBox(width: 20),
 
                   CircleAvatar(radius: 8, backgroundColor: Colors.green),
                   SizedBox(width: 10),
-                  Text("Diaper"),
+                  Text("Diaper".tr),
                   SizedBox(width: 20),
 
                   CircleAvatar(radius: 8, backgroundColor: Colors.indigo),
                   SizedBox(width: 10),
-                  Text("Sleep"),
+                  Text("Sleep".tr),
                 ],
               ),
 

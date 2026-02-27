@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/utils.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
 
@@ -37,7 +38,7 @@ class HRequestCard extends StatelessWidget {
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  "My Connection",
+                  "My Connection".tr,
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     color: controller.connectionTabIndex == 0
@@ -54,7 +55,7 @@ class HRequestCard extends StatelessWidget {
           // -----------------------------------
           // FIND DONORS TAB BUTTON
           // -----------------------------------
-          if (user.userType != "DONOR")
+          if (user.userType != "DONOR".tr)
             Expanded(
               child: GestureDetector(
                 onTap: () {
@@ -73,7 +74,7 @@ class HRequestCard extends StatelessWidget {
                   ),
                   alignment: Alignment.center,
                   child: Text(
-                    "Find Donors",
+                    "Find Donors".tr,
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       color: controller.connectionTabIndex == 1

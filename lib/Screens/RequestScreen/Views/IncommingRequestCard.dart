@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/utils.dart';
 import 'package:mommilk_user/Models/RequestModel.dart';
 import 'package:mommilk_user/Screens/RequestScreen/Controller/RequestController.dart';
 import 'package:mommilk_user/Screens/RequestScreen/RequestScreen.dart';
@@ -37,7 +38,7 @@ class IncommingRequestCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        request.title ?? 'No Title',
+                        request.title ?? 'No Title'.tr,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -46,7 +47,7 @@ class IncommingRequestCard extends StatelessWidget {
                       ),
                       SizedBox(height: 4),
                       Text(
-                        request.description ?? 'No description available',
+                        request.description ?? 'No description available'.tr,
                         style: TextStyle(color: Colors.black54, fontSize: 14),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -82,7 +83,7 @@ class IncommingRequestCard extends StatelessWidget {
                 Icon(Icons.person, size: 16, color: Colors.black54),
                 SizedBox(width: 4),
                 Text(
-                  request.requester?.name ?? 'Unknown',
+                  request.requester?.name ?? 'Unknown'.tr,
                   style: TextStyle(color: Colors.black54, fontSize: 12),
                 ),
                 SizedBox(width: 16),
@@ -144,7 +145,7 @@ class IncommingRequestCard extends StatelessWidget {
                       ),
                     ),
                     child: Text(
-                      'Decline',
+                      'Decline'.tr,
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 14,
@@ -166,7 +167,7 @@ class IncommingRequestCard extends StatelessWidget {
                       ),
                     ),
                     child: Text(
-                      'Accept',
+                      'Accept'.tr,
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 14,

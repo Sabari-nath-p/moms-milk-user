@@ -52,7 +52,7 @@ class HBabyCard extends StatelessWidget {
                   SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      'Add your baby\'s profile to start tracking',
+                      'Add your baby\'s profile to start tracking'.tr,
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ),
@@ -81,7 +81,7 @@ class HBabyCard extends StatelessWidget {
                         );
                       },
                       child: Text(
-                        'Add Baby',
+                        'Add Baby'.tr,
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
@@ -104,7 +104,7 @@ class HBabyCard extends StatelessWidget {
                     //   Icon(Icons.baby_changing_station, color: Colors.pink),
                     SizedBox(width: 8),
                     Text(
-                      'Baby Profile',
+                      'Baby Profile'.tr,
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                     Spacer(),
@@ -132,7 +132,7 @@ class HBabyCard extends StatelessWidget {
                           );
                         },
                         child: Text(
-                          'Add Baby',
+                          'Add Baby'.tr,
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
@@ -193,7 +193,7 @@ class HBabyCard extends StatelessWidget {
                                                     baby.deliveryDate!,
                                                   ),
                                                 )
-                                                : 'Unknown age',
+                                                : 'Unknown age'.tr,
                                             style:
                                                 Theme.of(
                                                   context,
@@ -263,9 +263,9 @@ class HBabyCard extends StatelessWidget {
       context: context,
       builder:
           (context) => AlertDialog(
-            title: Text('Delete Baby Profile'),
+            title: Text('Delete Baby Profile'.tr),
             content: Text(
-              'Are you sure you want to delete ${baby.name}? This cannot be undone.',
+              'Are you sure you want to delete ${baby.name}? This cannot be undone.'.tr,
             ),
             actions: [
               TextButton(
@@ -281,7 +281,7 @@ class HBabyCard extends StatelessWidget {
                   backgroundColor: Colors.red,
                   foregroundColor: Colors.white,
                 ),
-                child: Text('Delete'),
+                child: Text('Delete'.tr),
               ),
             ],
           ),

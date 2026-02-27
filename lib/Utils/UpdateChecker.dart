@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:get/utils.dart';
 import 'package:mommilk_user/Models/AppConfigModel.dart';
 
 String getAppUpdateStatus({
@@ -19,20 +20,20 @@ String getAppUpdateStatus({
 
   // Safety check
   if (minimumVersion == null || latestVersion == null) {
-    return "updated";
+    return "updated".tr;
   }
 
   // 🚨 Force update
   if (currentVersion < minimumVersion) {
-    return "force";
+    return "force".tr;
   }
 
   // 🔄 Optional update available
   if (currentVersion < latestVersion) {
     if (lastCheckVersion >= latestVersion) {
-      return "skip";
+      return "skip".tr;
     }
-    return "update";
+    return "update".tr;
   }
 
   // ✅ Already updated

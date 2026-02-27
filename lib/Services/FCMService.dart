@@ -55,7 +55,7 @@ class FCMService {
       });
 
       if (kDebugMode) {
-        print('FCM Service initialized successfully');
+        print('FCM Service initialized successfully'.tr);
       }
     } catch (e) {
       if (kDebugMode) {
@@ -93,7 +93,7 @@ class FCMService {
   // Handle foreground messages
   static void _handleForegroundMessage(RemoteMessage message) {
     if (kDebugMode) {
-      print('Got a message whilst in the foreground!');
+      print('Got a message whilst in the foreground!'.tr);
       print('Message data: ${message.data}');
     }
 
@@ -122,8 +122,8 @@ class FCMService {
   static void _showInAppNotification(RemoteMessage message) {
     if (Get.context != null) {
       Get.snackbar(
-        message.notification?.title ?? 'New Message',
-        message.notification?.body ?? 'You have a new message',
+        message.notification?.title ?? 'New Message'.tr,
+        message.notification?.body ?? 'You have a new message'.tr,
         snackPosition: SnackPosition.TOP,
         backgroundColor: Colors.black87,
         colorText: Colors.black,

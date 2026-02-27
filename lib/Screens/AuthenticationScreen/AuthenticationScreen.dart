@@ -107,7 +107,7 @@ class Authenticationscreen extends StatelessWidget {
             ),
           ),
           child: Text(
-            'Connect. Share. Care.',
+            'Connect. Share. Care.'.tr,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
               color: Colors.black,
               fontWeight: FontWeight.w300,
@@ -378,7 +378,7 @@ class Authenticationscreen extends StatelessWidget {
                             ),
                             SizedBox(width: 8),
                             Text(
-                              'Send OTP',
+                              'Send OTP'.tr,
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
@@ -407,7 +407,7 @@ class Authenticationscreen extends StatelessWidget {
           children: [
             // Enhanced OTP Instructions
             Text(
-              'Enter the 6-digit code sent to ',
+              'Enter the 6-digit code sent to '.tr,
               style: Theme.of(
                 context,
               ).textTheme.bodyMedium?.copyWith(color: Color(0xFF1E2939)),

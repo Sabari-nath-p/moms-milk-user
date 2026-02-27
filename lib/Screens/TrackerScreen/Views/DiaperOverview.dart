@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:get/utils.dart';
 import 'package:mommilk_user/Screens/TrackerScreen/Models/AnalyticsOverviewModel.dart';
 import 'package:mommilk_user/theme/app_theme.dart';
 
@@ -13,7 +14,7 @@ class DiaperOverviewCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Diaper Analytics',
+          'Diaper Analytics'.tr,
           style: Theme.of(
             context,
           ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
@@ -118,6 +119,6 @@ Widget _buildDiaperTypeChart(BuildContext context, DiaperTypeBreakdown model) {
                 ),
               ],
             )
-            : Center(child: Text('No data available')),
+            : Center(child: Text('No data available'.tr)),
   );
 }

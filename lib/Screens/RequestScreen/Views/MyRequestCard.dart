@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/instance_manager.dart';
+import 'package:get/utils.dart';
 import 'package:mommilk_user/Models/RequestModel.dart';
 import 'package:mommilk_user/Screens/ChatListScreen/Controller/ChatController.dart';
 import 'package:mommilk_user/Screens/RequestScreen/Controller/RequestController.dart';
@@ -37,7 +38,7 @@ class MyRequestCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        request.title ?? 'No Title',
+                        request.title ?? 'No Title'.tr,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -46,7 +47,7 @@ class MyRequestCard extends StatelessWidget {
                       ),
                       SizedBox(height: 4),
                       Text(
-                        request.description ?? 'No description available',
+                        request.description ?? 'No description available'.tr,
                         style: TextStyle(color: Colors.black54, fontSize: 14),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -153,7 +154,7 @@ class MyRequestCard extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            request.donor?.name ?? 'Unknown Donor',
+                            request.donor?.name ?? 'Unknown Donor'.tr,
                             style: TextStyle(
                               color: Colors.blue.shade800,
                               fontSize: 14,
@@ -191,7 +192,7 @@ class MyRequestCard extends StatelessWidget {
                         ),
                       ),
                       child: Text(
-                        'Send a message',
+                        'Send a message'.tr,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 12,

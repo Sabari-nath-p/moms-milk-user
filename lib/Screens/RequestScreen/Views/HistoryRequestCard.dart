@@ -33,7 +33,7 @@ class HistoryRequestCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        request.title ?? 'No Title',
+                        request.title ?? 'No Title'.tr,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -42,7 +42,7 @@ class HistoryRequestCard extends StatelessWidget {
                       ),
                       SizedBox(height: 4),
                       Text(
-                        request.description ?? 'No description available',
+                        request.description ?? 'No description available'.tr,
                         style: TextStyle(color: Colors.black54, fontSize: 14),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -80,7 +80,7 @@ class HistoryRequestCard extends StatelessWidget {
                 Icon(Icons.person, size: 16, color: Colors.black54),
                 SizedBox(width: 4),
                 Text(
-                  request.requester?.name ?? 'Unknown',
+                  request.requester?.name ?? 'Unknown'.tr,
                   style: TextStyle(color: Colors.black54, fontSize: 12),
                 ),
                 SizedBox(width: 16),
@@ -157,7 +157,7 @@ class HistoryRequestCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Text(
-                        "Sent a message",
+                        "Sent a message".tr,
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w700,

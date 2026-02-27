@@ -54,7 +54,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
             //             border: InputBorder.none,
             //             isCollapsed: true,
             //             hintStyle: TextStyle(fontSize: 15),
-            //             hintText: "Search Connected Parent",
+            //             hintText: "Search Connected Parent".tr,
             //             isDense: true,
             //           ),
             //         ),

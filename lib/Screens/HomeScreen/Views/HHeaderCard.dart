@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/utils.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/HomeScreen.dart';
@@ -56,7 +57,7 @@ class HHeaderCard extends StatelessWidget {
             ? 'Help families in need today'
             : controller.selectedBady != null
                 ? 'Tracking ${controller.selectedBady!.name}\'s journey'
-                : 'Add your baby to start tracking',
+                : 'Add your baby to start tracking'.tr,
         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: Theme.of(context)
                   .textTheme

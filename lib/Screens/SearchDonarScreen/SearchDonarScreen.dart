@@ -56,7 +56,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
           //   ),
           //   flexibleSpace: FlexibleSpaceBar(
           //     title: Text(
-          //       'Find Donors',
+          //       'Find Donors'.tr,
           //       style: TextStyle(
           //         fontWeight: FontWeight.bold,
           //         color: Theme.of(context).colorScheme.onPrimary,
@@ -152,7 +152,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
         fontWeight: FontWeight.w400,
         fontSize: 12,
       ),
-      hintText: "Zip Code",
+      hintText: "Zip Code".tr,
       prefixIcon: Icon(Icons.location_on),
 
       enabledBorder: OutlineInputBorder(
@@ -186,7 +186,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
                 textInputAction: TextInputAction.search,
                 style: TextStyle(color: Colors.black87),
                 decoration: InputDecoration(
-                  hintText: 'Search donors...',
+                  hintText: 'Search donors...'.tr,
                   hintStyle: TextStyle(color: Colors.black, fontSize: 12),
                   prefixIcon: Icon(Icons.search),
 
@@ -217,7 +217,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
             IconButton(
               onPressed: () => _showFiltersBottomSheet(context),
               icon: Icon(Icons.tune),
-              tooltip: 'Filters',
+              tooltip: 'Filters'.tr,
             ),
           ],
         ),
@@ -248,7 +248,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
                   Icon(Icons.search, size: 20, color: Colors.white),
                   SizedBox(width: 8),
                   Text(
-                    "Search Donors",
+                    "Search Donors".tr,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
@@ -276,7 +276,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
             Row(
               children: [
                 Text(
-                  'Active Filters',
+                  'Active Filters'.tr,
                   style: Theme.of(
                     context,
                   ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
@@ -286,7 +286,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
                   onPressed: () {
                     controller.clearAllFilters();
                   },
-                  child: Text('Clear All'),
+                  child: Text('Clear All'.tr),
                 ),
               ],
             ),
@@ -330,7 +330,8 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
             // Row(
             //   children: [
             //     Text(
-            //       'Available Donors (${donors.length})',
+            //       'Available Donors (${donors.length})'.tr,
+            //
             //       style: Theme.of(
             //         context,
             //       ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),

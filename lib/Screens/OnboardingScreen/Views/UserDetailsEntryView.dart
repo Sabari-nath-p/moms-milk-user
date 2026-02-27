@@ -16,7 +16,7 @@ class UserDetailsStep extends StatelessWidget {
             children: [
               // Header
               Text(
-                'Personal Information',
+                'Personal Information'.tr,
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -25,7 +25,7 @@ class UserDetailsStep extends StatelessWidget {
               SizedBox(height: 8),
 
               Text(
-                'Please provide your basic information to create your profile.',
+                'Please provide your basic information to create your profile.'.tr,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   color: Colors.black.withOpacity(.8),
                 ),
@@ -39,8 +39,8 @@ class UserDetailsStep extends StatelessWidget {
                 textInputAction: TextInputAction.next,
                 style: TextStyle(fontSize: 16),
                 decoration: InputDecoration(
-                  labelText: 'Full Name *',
-                  hintText: 'Enter your full name',
+                  labelText: 'Full Name *'.tr,
+                  hintText: 'Enter your full name'.tr,
                   prefixIcon: Icon(Icons.person_outline),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -88,7 +88,7 @@ class UserDetailsStep extends StatelessWidget {
                               ? null
                               : controller.selectedCountryCode,
                       decoration: InputDecoration(
-                        labelText: 'Code',
+                        labelText: 'Code'.tr,
                         prefixIcon: Icon(Icons.flag_outlined),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -143,8 +143,8 @@ class UserDetailsStep extends StatelessWidget {
                             required maxLength,
                           }) => null,
                       decoration: InputDecoration(
-                        labelText: 'Phone Number *',
-                        hintText: 'Enter phone number',
+                        labelText: 'Phone Number *'.tr,
+                        hintText: 'Enter phone number'.tr,
                         prefixIcon: Icon(Icons.phone_outlined),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -200,8 +200,8 @@ class UserDetailsStep extends StatelessWidget {
                       required maxLength,
                     }) => null,
                 decoration: InputDecoration(
-                  labelText: 'Zip Code *',
-                  hintText: 'Enter your zip code',
+                  labelText: 'Zip Code *'.tr,
+                  hintText: 'Enter your zip code'.tr,
                   prefixIcon: Icon(Icons.location_on_outlined),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -245,8 +245,8 @@ class UserDetailsStep extends StatelessWidget {
                   textInputAction: TextInputAction.next,
                   style: TextStyle(fontSize: 16),
                   decoration: InputDecoration(
-                    labelText: 'Facebook Profile link',
-                    hintText: 'Enter your facebook profile link',
+                    labelText: 'Facebook Profile link'.tr,
+                    hintText: 'Enter your facebook profile link'.tr,
                     prefixIcon: Icon(Icons.person_outline),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -274,8 +274,8 @@ class UserDetailsStep extends StatelessWidget {
                   textInputAction: TextInputAction.next,
                   style: TextStyle(fontSize: 16),
                   decoration: InputDecoration(
-                    labelText: 'Instagram Profile Link',
-                    hintText: 'Enter your Instagram profile link',
+                    labelText: 'Instagram Profile Link'.tr,
+                    hintText: 'Enter your Instagram profile link'.tr,
                     prefixIcon: Icon(Icons.person_outline),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -317,7 +317,7 @@ class UserDetailsStep extends StatelessWidget {
                     SizedBox(width: 12),
                     Expanded(
                       child: Text(
-                        'Your information is secure and will only be used to connect you with other verified users.',
+                        'Your information is secure and will only be used to connect you with other verified users.'.tr,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: Theme.of(context).colorScheme.primary,
                         ),

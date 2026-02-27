@@ -38,20 +38,20 @@ class _SplashScreenState extends State<SplashScreen> {
   List<splashModel> splashItem = [
     splashModel(
       title: "Nourishing Every Baby".tr,
-      IconPath: "assets/logIcon.png".tr,
+      IconPath: "assets/logIcon.png",
       description:
           "A caring platform designed to support babies with safe milk sharing and daily care tracking.".tr,
       imagePage: "assets/ss1.png",
-      tabText: "Log",
+      tabText: "Log".tr,
       index: 0,
     ),
     splashModel(
       title: "Track Baby’s Daily Care".tr,
-      IconPath: "assets/reportIcon.png".tr,
+      IconPath: "assets/reportIcon.png",
       description:
           "Log feeding, diaper changes, and sleep patterns to understand your baby’s routine better".tr,
       imagePage: "assets/ss2.png",
-      tabText: "Report",
+      tabText: "Report".tr,
       index: 1,
     ),
     splashModel(
@@ -60,7 +60,7 @@ class _SplashScreenState extends State<SplashScreen> {
       description:
           "Find trusted breast milk donors nearby and build a safe, supportive connection.".tr,
       imagePage: "assets/ss3.png",
-      tabText: "Connect",
+      tabText: "Connect".tr,
       index: 2,
     ),
     splashModel(
@@ -69,7 +69,7 @@ class _SplashScreenState extends State<SplashScreen> {
       description:
           "Communicate securely with donors and manage multiple baby profiles in one place.".tr,
       imagePage: "assets/ss4.png",
-      tabText: "Message",
+      tabText: "Message".tr,
       index: 3,
     ),
   ];

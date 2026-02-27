@@ -133,7 +133,7 @@ class UpdateScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Update Now",
+                      "Update Now".tr,
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,

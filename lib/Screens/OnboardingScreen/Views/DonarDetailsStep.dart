@@ -19,7 +19,7 @@ class DonarDetailsStep extends StatelessWidget {
             children: [
               // Header
               Text(
-                'Donor Information',
+                'Donor Information'.tr,
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -28,7 +28,7 @@ class DonarDetailsStep extends StatelessWidget {
               SizedBox(height: 8),
 
               Text(
-                'Please provide additional information to help ensure safe milk donation.',
+                'Please provide additional information to help ensure safe milk donation.'.tr,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   color: Colors.black.withOpacity(.9),
                 ),
@@ -63,7 +63,7 @@ class DonarDetailsStep extends StatelessWidget {
               //   onChanged: (value) => controller.deliveryLocation.value = value,
               // ),
               DatePickerField(
-                title: "Select Delivery Date",
+                title: "Select Delivery Date".tr,
                 onDateSelected: (date) {
                   controller.babyDeliveryDate = date;
                 },
@@ -71,7 +71,7 @@ class DonarDetailsStep extends StatelessWidget {
               SizedBox(height: 24),
               // Blood Group
               Text(
-                'Your Blood Group *',
+                'Your Blood Group *'.tr,
                 style: Theme.of(
                   context,
                 ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
@@ -123,7 +123,7 @@ Wrap(
 
               // Donor Qualities
               Text(
-                'Health & Lifestyle Information',
+                'Health & Lifestyle Information'.tr,
                 style: Theme.of(
                   context,
                 ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
@@ -132,7 +132,7 @@ Wrap(
               SizedBox(height: 8),
 
               Text(
-                'Select all that apply to you (optional but recommended):',
+                'Select all that apply to you (optional but recommended):'.tr,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: Colors.black.withOpacity(.8),
                 ),
@@ -203,7 +203,7 @@ Wrap(
                     SizedBox(height: 8),
 
                     Text(
-                      'Would you be willing to share your medical reports with potential milk recipients if requested?',
+                      'Would you be willing to share your medical reports with potential milk recipients if requested?'.tr,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
 
@@ -214,7 +214,7 @@ Wrap(
                         Expanded(
                           child: RadioListTile<bool>(
                             title: Text(
-                              'Yes',
+                              'Yes'.tr,
                               style: TextStyle(color: Colors.black),
                             ),
                             value: true,
@@ -295,7 +295,7 @@ Wrap(
                     SizedBox(width: 12),
                     Expanded(
                       child: Text(
-                        'All donors join to support babies in need. We encourage a safe, honest, and trust-based community built on helping families.',
+                        'All donors join to support babies in need. We encourage a safe, honest, and trust-based community built on helping families.'.tr,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: Theme.of(context).colorScheme.primary,
                         ),
@@ -315,19 +315,19 @@ Wrap(
     String description;
     switch (quality) {
       case DonorQuality.organic:
-        description = 'Following organic diet practices';
+        description = 'Following organic diet practices'.tr;
         break;
       case DonorQuality.vegetarian:
-        description = 'Following vegetarian diet';
+        description = 'Following vegetarian diet'.tr;
         break;
       case DonorQuality.medicationFree:
-        description = 'Not taking medications (except approved ones)';
+        description = 'Not taking medications (except approved ones)'.tr;
         break;
       case DonorQuality.smokeFree:
-        description = 'Non-smoker environment';
+        description = 'Non-smoker environment'.tr;
         break;
       case DonorQuality.alcoholFree:
-        description = 'No alcohol consumption';
+        description = 'No alcohol consumption'.tr;
         break;
     }
 

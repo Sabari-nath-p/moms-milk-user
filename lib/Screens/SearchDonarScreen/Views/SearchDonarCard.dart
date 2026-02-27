@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/state_manager.dart';
 import 'package:mommilk_user/Models/SearchDonarModel.dart';
@@ -47,7 +48,7 @@ class SearchDonarCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            donar.donor!.name ?? 'Unknown',
+                            donar.donor!.name ?? 'Unknown'.tr,
                             style: Theme.of(context).textTheme.titleMedium
                                 ?.copyWith(fontWeight: FontWeight.w600),
                           ),
@@ -57,8 +58,8 @@ class SearchDonarCard extends StatelessWidget {
                               child: Text(
                                 (donar.location!.placeName!! +
                                         ", ${donar.location!.country}"
-                                            .replaceAll(", Unknown", ""))
-                                    .replaceAll("Unknown", ""),
+                                            .replaceAll(", Unknown", "".tr))
+                                    .replaceAll("Unknown", "".tr),
                                 maxLines: 1,
                                 style: Theme.of(
                                   context,
@@ -79,7 +80,7 @@ class SearchDonarCard extends StatelessWidget {
                               SizedBox(width: 4),
 
                               Text(
-                                "${donar.distanceText ?? "unknow"}",
+                                "${donar.distanceText ?? "unknow"}".tr,
                                 style: Theme.of(context).textTheme.bodySmall!
                                     .copyWith(color: Colors.black),
                               ),
@@ -164,7 +165,7 @@ class SearchDonarCard extends StatelessWidget {
                             );
                           },
                           icon: Icon(Icons.person, size: 16),
-                          label: Text('Send a message'),
+                          label: Text('Send a message'.tr),
                           style: OutlinedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
@@ -214,7 +215,7 @@ class SearchDonarCard extends StatelessWidget {
                                 Text(
                                   (donar.hasPendingRequest ?? false)
                                       ? 'Requested'
-                                      : 'Connect',
+                                      : 'Connect'.tr,
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,

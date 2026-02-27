@@ -244,7 +244,7 @@ class Onboardingcontroller extends GetxController {
     // Phone validation
     // Phone validation
     if (phoneController.text.trim().isEmpty) {
-      phoneError.value = 'Please enter your phone number';
+      phoneError.value = 'Please enter your phone number'.tr;
       isValid = false;
     } else if (!RegExp(r'^[0-9]+$').hasMatch(phoneController.text.trim())) {
       phoneError.value = 'Phone number should contain only digits';
