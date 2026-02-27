@@ -11,6 +11,7 @@ import 'package:mommilk_user/Screens/HomeScreen/Views/SleepLogBottomSheet.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Views/FeedingLogBottomSheet.dart';
 import 'package:mommilk_user/Screens/TimeLineScreen/ActivityTimeLineScreen.dart';
 import 'package:mommilk_user/Utils/ApiService.dart';
+import 'package:mommilk_user/Models/UserModel.dart';
 
 class Homecontroller extends GetxController {
   // 🔧 EXISTING: Basic loading states
@@ -48,6 +49,40 @@ class Homecontroller extends GetxController {
         update();
       },
     );
+  }
+
+  void fetchUser() async {
+    await ApiService.request(
+      endpoint: "/auth/profile",
+      method: Api.GET,
+      onSuccess: (body) {
+        print(body.data);
+
+        // update global user
+        user = UserModel.fromJson(body.data);
+        if (user.language != null) {
+          Get.updateLocale(Locale(user.language!));
+        }
+
+        update();
+      },
+    );
+  }
+  void changeLanguage(String langCode) async {
+    // update UI instantly
+    Get.updateLocale(Locale(langCode));
+
+    // update backend
+    await ApiService.request(
+      endpoint: "/auth/language",
+      method: Api.PATCH,
+      body: {"language": langCode},
+    );
+
+    // update local user object
+    user.language = langCode;
+
+    update();
   }
 
   LogDiaper(DiaperLogModel model) async {
@@ -111,6 +146,7 @@ class Homecontroller extends GetxController {
 
   void inituser() {
     fetchBabies();
+    fetchUser();
     fetchIncommingRequest();
   }
 

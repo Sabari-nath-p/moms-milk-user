@@ -17,6 +17,7 @@ class UserModel {
   bool? isAvailable;
   String? createdAt;
   String? updatedAt;
+  String? language;
 
   UserModel({
     this.id,
@@ -58,6 +59,7 @@ class UserModel {
     isAvailable = json['isAvailable'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
+    language = json['language'];
   }
 
   Map<String, dynamic> toJson() {
@@ -80,6 +82,7 @@ class UserModel {
     data['isAvailable'] = this.isAvailable;
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
+    data['language'] = this.language;
     return data;
   }
 }

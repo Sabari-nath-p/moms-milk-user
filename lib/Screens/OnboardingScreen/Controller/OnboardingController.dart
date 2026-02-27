@@ -329,14 +329,14 @@ String getBloodGroupText(BloodGroup bloodGroup) {
 String getDonorQualityText(DonorQuality quality) {
   switch (quality) {
     case DonorQuality.organic:
-      return 'Organic Diet';
+      return 'Organic Diet'.tr;
     case DonorQuality.vegetarian:
-      return 'Vegetarian';
+      return 'Vegetarian'.tr;
     case DonorQuality.medicationFree:
-      return 'Medication Free';
+      return 'Medication Free'.tr;
     case DonorQuality.smokeFree:
-      return 'Smoke Free';
+      return 'Smoke Free'.tr;
     case DonorQuality.alcoholFree:
-      return 'Alcohol Free';
+      return 'Alcohol Free'.tr;
   }
 }

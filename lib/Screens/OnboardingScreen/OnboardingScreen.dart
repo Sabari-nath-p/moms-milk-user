@@ -92,7 +92,7 @@ class OnboardingScreen extends StatelessWidget {
                       Expanded(
                         child: OutlinedButton(
                           onPressed: controller.previousStep,
-                          child: Text('Previous'),
+                          child: Text('Previous'.tr),
                         ),
                       ),
                     if (controller.currentStep > 0) SizedBox(width: 16),

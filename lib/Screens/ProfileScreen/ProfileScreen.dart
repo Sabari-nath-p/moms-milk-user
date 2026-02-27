@@ -150,6 +150,16 @@ class ProfileScreen extends StatelessWidget {
               ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
             ),
             SizedBox(height: 16),
+            _buildSettingItem(
+              context,
+              'Language'.tr,
+              'Choose your preferred language'.tr,
+              Icons.language,
+              () {
+                _showLanguageDialog(context);
+              },
+            ),
+            Divider(height: 24),
             // _buildSettingItem(
             //   context,
             //   'Notifications',
@@ -525,6 +535,44 @@ class ProfileScreen extends StatelessWidget {
               ),
             ],
           ),
+    );
+  }
+  void _showLanguageDialog(BuildContext context) {
+    Get.bottomSheet(
+      Container(
+        padding: const EdgeInsets.all(20),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "Select Language".tr,
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+
+            const SizedBox(height: 20),
+
+            ListTile(
+              title: const Text("English"),
+              onTap: () {
+                Get.find<Homecontroller>().changeLanguage("en");
+                Get.back();
+              },
+            ),
+
+            ListTile(
+              title: const Text("Spanish"),
+              onTap: () {
+                Get.find<Homecontroller>().changeLanguage("es");
+                Get.back();
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 

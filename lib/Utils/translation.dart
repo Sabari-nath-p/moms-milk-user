@@ -125,7 +125,6 @@ class AppTranslations extends Translations {
       "Help and support options will be implemented here.":
           "Las opciones de ayuda y soporte se implementarán aquí.",
       "OK": "Aceptar",
-      "Mom's Milk": "Leche de Mamá",
       "A comprehensive app for mothers to track baby care and connect with milk donors.":
           "Una aplicación integral para madres que permite rastrear el cuidado del bebé y conectarse con donantes de leche.",
       "Are you sure you want to logout? You will need to sign in again to access your account.":
@@ -351,7 +350,6 @@ class AppTranslations extends Translations {
           "Ingresa el código de 6 dígitos enviado a",
       "Verify & Continue": "Verificar y continuar",
       "Connect. Share. Care.": "Conectar. Compartir. Cuidar.",
-      "Mom's Milk": "Leche de Mamá",
        "Baby Information": "Información del bebé",
   "Please provide information about your baby to complete your profile.": "Por favor proporciona información sobre tu bebé para completar tu perfil.",
   "Baby's Name *": "Nombre del bebé *",
@@ -370,7 +368,21 @@ class AppTranslations extends Translations {
   "HIGH": "ALTO",
   "Needed By (Optional)": "Necesario para (opcional)",
   "Select date and time": "Seleccionar fecha y hora",
-  "Send Request": "Enviar solicitud"
+  "Send Request": "Enviar solicitud",
+  "Language": "Idioma",
+  "Search Donors": "Buscar donantes",
+      "No Donors Found": "No se encontraron donantes",
+      "We’re actively welcoming milk donors. If no donors appear in your area yet, don’t worry more will be joining shortly. Thank you for your patience and support and if new donars comes near you we will notify":
+          "Estamos dando la bienvenida activamente a donantes de leche. Si aún no aparecen donantes en tu área, no te preocupes, pronto se unirán más. Gracias por tu paciencia y apoyo; te notificaremos cuando haya nuevos donantes cerca.",
+      "Please provide additional information to help ensure safe milk donation.":
+          "Por favor proporciona información adicional para ayudar a garantizar una donación segura de leche.",
+      "Organic Diet": "Dieta orgánica",
+      "Vegetarian": "Vegetariano",
+      "Medication Free": "Sin medicamentos",
+      "Smoke Free": "Libre de humo",
+      "Alcohol Free": "Sin alcohol",
+      "Medical Report Sharing": "Compartir informes médicos",
+      "Previous": "Anterior"
     },
   };
 }
