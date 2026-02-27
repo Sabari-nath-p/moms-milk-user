@@ -53,6 +53,7 @@ class Onboardingcontroller extends GetxController {
   final instagramLinkController = TextEditingController();
   DateTime? babyDeliveryDate = null;
   String selectedCountryCode = "";
+  String selectedLanguage = "English";
   UserType userType = UserType.buyer;
 
   BloodGroup? seletecBloodGroup;
@@ -173,6 +174,7 @@ class Onboardingcontroller extends GetxController {
         'zipcode': zipCodeController.text,
         'userType': userType.name.toUpperCase(),
         'description': '',
+        'language': selectedLanguage,
         'instagramLink': instagramLinkController.text.trim(),
         'facebookLink': facebookLinkController.text.trim(),
         'bloodGroup': '', //getBloodGroupText(seletecBloodGroup!!),

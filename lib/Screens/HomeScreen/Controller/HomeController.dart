@@ -110,6 +110,7 @@ class Homecontroller extends GetxController {
   }
 
   void inituser() {
+    
     fetchBabies();
     fetchIncommingRequest();
   }
