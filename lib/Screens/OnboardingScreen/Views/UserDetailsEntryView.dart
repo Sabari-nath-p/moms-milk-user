@@ -25,7 +25,8 @@ class UserDetailsStep extends StatelessWidget {
               SizedBox(height: 8),
 
               Text(
-                'Please provide your basic information to create your profile.'.tr,
+                'Please provide your basic information to create your profile.'
+                    .tr,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   color: Colors.black.withOpacity(.8),
                 ),
@@ -65,10 +66,7 @@ class UserDetailsStep extends StatelessWidget {
                           padding: EdgeInsets.only(top: 6, left: 4),
                           child: Text(
                             controller.nameError.value,
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontSize: 12,
-                            ),
+                            style: TextStyle(color: Colors.red, fontSize: 12),
                           ),
                         )
                         : SizedBox.shrink(),
@@ -174,10 +172,7 @@ class UserDetailsStep extends StatelessWidget {
                           padding: EdgeInsets.only(top: 6, left: 4),
                           child: Text(
                             controller.phoneError.value,
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontSize: 12,
-                            ),
+                            style: TextStyle(color: Colors.red, fontSize: 12),
                           ),
                         )
                         : SizedBox.shrink(),
@@ -227,13 +222,52 @@ class UserDetailsStep extends StatelessWidget {
                           padding: EdgeInsets.only(top: 6, left: 4),
                           child: Text(
                             controller.zipError.value,
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontSize: 12,
-                            ),
+                            style: TextStyle(color: Colors.red, fontSize: 12),
                           ),
                         )
                         : SizedBox.shrink(),
+              ),
+              SizedBox(height: 20),
+
+              SizedBox(
+                child: DropdownButtonFormField<String>(
+                  value:
+                      controller.selectedLanguage.isEmpty
+                          ? null
+                          : controller.selectedLanguage,
+                  decoration: InputDecoration(
+                    labelText: 'Select Language'.tr,
+                    prefixIcon: Icon(Icons.language),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Colors.grey[400]!),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(
+                        color: Theme.of(context).colorScheme.primary,
+                        width: 2,
+                      ),
+                    ),
+                  ),
+                  items:
+                      ["English", "Spanish"].map((lang) {
+                        return DropdownMenuItem<String>(
+                          value: lang,
+                          child: Text(lang, style: TextStyle(fontSize: 14)),
+                        );
+                      }).toList(),
+                  onChanged: (value) {
+                    if (value != null) {
+                      controller.selectedLanguage = value;
+                    }
+                  },
+                  isExpanded: true,
+                  icon: Icon(Icons.arrow_drop_down),
+                ),
               ),
 
               if (false) SizedBox(height: 32),
@@ -317,7 +351,8 @@ class UserDetailsStep extends StatelessWidget {
                     SizedBox(width: 12),
                     Expanded(
                       child: Text(
-                        'Your information is secure and will only be used to connect you with other verified users.'.tr,
+                        'Your information is secure and will only be used to connect you with other verified users.'
+                            .tr,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: Theme.of(context).colorScheme.primary,
                         ),
