@@ -603,7 +603,7 @@ class ProfileScreen extends StatelessWidget {
     showAboutDialog(
       context: context,
       applicationName: 'Mom\'s Milk'.tr,
-      applicationVersion: '1.0.0',
+      applicationVersion: '1.0.7',
       applicationIcon: Container(
         width: 64,
         height: 64,
