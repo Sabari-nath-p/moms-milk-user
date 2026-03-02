@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/route_manager.dart';
@@ -334,18 +335,8 @@ class Authenticationscreen extends StatelessWidget {
                           if (emailController.text.isNotEmpty) {
                             controller.sendOtp();
                           } else {
-                            Get.snackbar(
-                              'Missing Email',
-                              'Email id is required to send otp'.tr,
-                              snackPosition: SnackPosition.BOTTOM,
-                              backgroundColor:
-                                  Theme.of(
-                                    Get.context!,
-                                  ).colorScheme.errorContainer,
-                              colorText:
-                                  Theme.of(
-                                    Get.context!,
-                                  ).colorScheme.onErrorContainer,
+                            Fluttertoast.showToast(
+                              msg: 'Email id is required to send otp'.tr,
                             );
                           }
                         },

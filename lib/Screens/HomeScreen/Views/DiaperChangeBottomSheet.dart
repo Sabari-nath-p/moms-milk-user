@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Models/DiaperLogModel.dart';
 import 'package:mommilk_user/Screens/Dashboard/MainDashBoard.dart';
@@ -302,16 +303,14 @@ class _DiaperChangeBottomSheetState extends State<DiaperChangeBottomSheet> {
 
   void _saveDiaperLog() {
     if (selectedDate == null) {
-      Get.snackbar(
-        'Log Failed',
-        'Please select diaper change date before submission'.tr,
+      Fluttertoast.showToast(
+        msg: 'Please select diaper change date before submission'.tr,
       );
       return;
     }
     if (selectedTime == null) {
-      Get.snackbar(
-        'Log Failed',
-        'Please select diaper change time before submission'.tr,
+      Fluttertoast.showToast(
+        msg: 'Please select diaper change time before submission'.tr,
       );
       return;
     }

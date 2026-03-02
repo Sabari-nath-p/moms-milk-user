@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Models/SearchDonarModel.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
@@ -159,11 +160,11 @@ class SearchDonarController extends GetxController {
           //updateActiveFilters();
         },
         onError: (error) {
-          Get.snackbar('Error', 'Failed to load donors: $error');
+          Fluttertoast.showToast(msg: 'Failed to load donors: $error');
         },
       );
     } catch (e) {
-      Get.snackbar('Error', 'Failed to load donors: $e');
+      Fluttertoast.showToast(msg: 'Failed to load donors: $e');
     } finally {
       isLoading = false;
       isLoadingMore = false;
@@ -355,19 +356,14 @@ class SearchDonarController extends GetxController {
         method: Api.POST,
         body: requestBody,
         onSuccess: (data) {
-          Get.snackbar(
-            'Success',
-            'Request sent successfully!',
-            backgroundColor: Colors.green,
-            colorText: Colors.black,
-          );
+          Fluttertoast.showToast(msg: 'Request sent successfully!');
         },
         onError: (error) {
-          Get.snackbar('Error', 'Failed to send request: $error');
+          Fluttertoast.showToast(msg: 'Failed to send request: $error');
         },
       );
     } catch (e) {
-      Get.snackbar('Error', 'Failed to send request: $e');
+      Fluttertoast.showToast(msg: 'Failed to send request: $e');
     }
   }
 }

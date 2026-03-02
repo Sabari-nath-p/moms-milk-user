@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Models/UserModel.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
@@ -205,7 +206,7 @@ class Onboardingcontroller extends GetxController {
         }
       },
       onError: (error) {
-        Get.snackbar("Invalid Operation", error.toString());
+        Fluttertoast.showToast(msg: error.toString());
       },
     );
     isLoading = false;
@@ -275,7 +276,7 @@ class Onboardingcontroller extends GetxController {
 
     // Country code validation
     if (selectedCountryCode.isEmpty) {
-      Get.snackbar('Validation Error', 'Please select a country code');
+      Fluttertoast.showToast(msg: 'Please select a country code');
       isValid = false;
     }
 
@@ -284,12 +285,12 @@ class Onboardingcontroller extends GetxController {
 
   bool validateDonorDetails() {
     if (babyDeliveryDate == null) {
-      Get.snackbar('Validation Error', 'Please select your delivery date');
+      Fluttertoast.showToast(msg: 'Please select your delivery date');
       return false;
     }
 
     if (seletecBloodGroup == null) {
-      Get.snackbar('Validation Error', 'Please select your blood group');
+      Fluttertoast.showToast(msg: 'Please select your blood group');
       return false;
     }
 

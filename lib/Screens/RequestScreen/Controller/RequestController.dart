@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Models/RequestModel.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
@@ -122,7 +123,7 @@ class Requestcontroller extends GetxController {
       },
       onError: (error) {
         print('Incoming requests API error: $error');
-        Get.snackbar('Error', 'Failed to load incoming requests: $error');
+        Fluttertoast.showToast(msg: 'Failed to load incoming requests: $error');
       },
     );
     // } catch (e) {
@@ -201,7 +202,7 @@ class Requestcontroller extends GetxController {
       },
       onError: (error) {
         print('History requests API error: $error');
-        Get.snackbar('Error', 'Failed to load history requests: $error');
+        Fluttertoast.showToast(msg: 'Failed to load history requests: $error');
       },
     );
     // } catch (e) {
@@ -274,7 +275,7 @@ class Requestcontroller extends GetxController {
       },
       onError: (error) {
         print('My requests API error: $error');
-        Get.snackbar('Error', 'Failed to load my requests: $error');
+        Fluttertoast.showToast(msg: 'Failed to load my requests: $error');
       },
     );
     // } catch (e) {
@@ -294,12 +295,7 @@ class Requestcontroller extends GetxController {
       endpoint: '/requests/$requestId/accept',
       method: Api.POST,
       onSuccess: (data) {
-        Get.snackbar(
-          'Success',
-          'Request accepted successfully!',
-          backgroundColor: Colors.green,
-          colorText: Colors.black,
-        );
+        Fluttertoast.showToast(msg: 'Request accepted successfully!');
         // Refresh incoming requests
         fetchIncomingRequests();
         Homecontroller hctrl = Get.find();
@@ -307,7 +303,7 @@ class Requestcontroller extends GetxController {
         fetchHistoryRequests();
       },
       onError: (error) {
-        Get.snackbar('Error', 'Failed to accept request: $error');
+        Fluttertoast.showToast(msg: 'Failed to accept request: $error');
       },
     );
     // } catch (e) {
@@ -322,18 +318,13 @@ class Requestcontroller extends GetxController {
       endpoint: '/requests/$requestId/reject',
       method: Api.POST,
       onSuccess: (data) {
-        Get.snackbar(
-          'Success',
-          'Request declined successfully!',
-          backgroundColor: Colors.orange,
-          colorText: Colors.black,
-        );
+        Fluttertoast.showToast(msg: 'Request declined successfully!');
         // Refresh incoming requests
         fetchIncomingRequests();
         fetchHistoryRequests();
       },
       onError: (error) {
-        Get.snackbar('Error', 'Failed to decline request: $error');
+        Fluttertoast.showToast(msg: 'Failed to decline request: $error');
       },
     );
     // } catch (e) {
@@ -406,11 +397,7 @@ class Requestcontroller extends GetxController {
             ? request.requester?.email ?? 'No email'
             : request.donor?.email ?? 'No email';
 
-    Get.snackbar(
-      'Contact Info',
-      'Name: $contactName\nEmail: $contactEmail',
-      duration: Duration(seconds: 5),
-    );
+    Fluttertoast.showToast(msg: 'Name: $contactName\nEmail: $contactEmail');
   }
 
   // Refresh all data

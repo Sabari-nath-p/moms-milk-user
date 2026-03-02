@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Models/FeedingLogModel.dart';
@@ -408,25 +409,22 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
 
   void _saveFeedingLog() {
     if (selectedDate == null) {
-      Get.snackbar(
-        'Log Failed',
-        'Please select feeding date before submission'.tr,
+      Fluttertoast.showToast(
+        msg: 'Please select feeding date before submission'.tr,
       );
       return;
     }
 
     if (startTime == null) {
-      Get.snackbar(
-        'Log Failed',
-        'Please select feeding start time before submission'.tr,
+      Fluttertoast.showToast(
+        msg: 'Please select feeding start time before submission'.tr,
       );
       return;
     }
 
     if (endTime == null) {
-      Get.snackbar(
-        'Log Failed',
-        'Please select feeding end time before submission'.tr,
+      Fluttertoast.showToast(
+        msg: 'Please select feeding end time before submission'.tr,
       );
       return;
     }
@@ -458,10 +456,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
 
       // Validate duration
       if (endDateTime.difference(startDateTime).inMinutes < 1) {
-        Get.snackbar(
-          'Validation Error',
-          'End time must be after start time'.tr,
-        );
+        Fluttertoast.showToast(msg: 'End time must be after start time'.tr);
         return;
       }
     }
@@ -472,19 +467,15 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
       parsedAmount =
           (double.tryParse(amountController.text.trim()) ?? 0).toInt();
       if (parsedAmount == null || parsedAmount <= 0) {
-        Get.snackbar(
-          'Validation Error',
-          'Please enter a valid amount in ml'.tr,
-        );
+        Fluttertoast.showToast(msg: 'Please enter a valid amount in ml'.tr);
         return;
       }
     }
 
     // Validate position for breast feeding
     if (selectedFeedType == FeedType.BREAST && selectedPosition == null) {
-      Get.snackbar(
-        'Validation Error',
-        'Please select a position for breast feeding'.tr,
+      Fluttertoast.showToast(
+        msg: 'Please select a position for breast feeding'.tr,
       );
       return;
     }

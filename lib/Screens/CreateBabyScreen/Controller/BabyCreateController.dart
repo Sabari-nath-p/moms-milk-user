@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
 import 'package:mommilk_user/Screens/Dashboard/MainDashBoard.dart';
@@ -42,24 +43,13 @@ class CreateBabyController extends GetxController {
 
             Get.back();
 
-            Get.snackbar(
-              "Success",
-              "Baby profile created successfully!",
-              snackPosition: SnackPosition.BOTTOM,
-              backgroundColor: Colors.green,
-              colorText: Colors.black,
-              duration: Duration(seconds: 2),
-            );
+            Fluttertoast.showToast(msg: 'Baby profile created successfully!');
           }
           isLoading = false;
           update();
         } else {
-          Get.snackbar(
-            "Error",
-            "Failed to create baby profile. Please try again.",
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.red,
-            colorText: Colors.black,
+          Fluttertoast.showToast(
+            msg: 'Failed to create baby profile. Please try again.',
           );
         }
 
@@ -67,12 +57,9 @@ class CreateBabyController extends GetxController {
       },
       onError: (error) {
         isLoading = false;
-        Get.snackbar(
-          "Network Error",
-          "Unable to create baby profile. Please check your internet connection.",
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.red,
-          colorText: Colors.black,
+        Fluttertoast.showToast(
+          msg:
+              'Unable to create baby profile. Please check your internet connection.',
         );
         print("Error creating baby: $error");
 
@@ -92,7 +79,7 @@ class CreateBabyController extends GetxController {
         isLoading = false;
         update();
         if (data.statusCode == 200) {
-          Get.snackbar("Success", "Baby deleted successfully");
+          Fluttertoast.showToast(msg: 'Baby deleted successfully');
 
           try {
             Homecontroller controller = Get.find();
@@ -109,7 +96,7 @@ class CreateBabyController extends GetxController {
       onError: (error) {
         isLoading = false;
         update();
-        Get.snackbar("Error", "Failed to delete baby: $error");
+        Fluttertoast.showToast(msg: 'Failed to delete baby: $error');
       },
     );
   }
@@ -118,51 +105,50 @@ class CreateBabyController extends GetxController {
   bool validateBabyDetails() {
     // Baby name
     if (babyNameController.text.trim().isEmpty) {
-      Get.snackbar('Validation Error', 'Please enter baby\'s name');
+      Fluttertoast.showToast(msg: 'Please enter baby\'s name');
       return false;
     }
 
     if (babyNameController.text.trim().length < 2) {
-      Get.snackbar(
-        'Validation Error',
-        'Baby\'s name must be at least 2 characters long',
+      Fluttertoast.showToast(
+        msg: 'Baby\'s name must be at least 2 characters long',
       );
       return false;
     }
 
     // Gender
     if (babyGender == null) {
-      Get.snackbar('Validation Error', 'Please select baby\'s gender');
+      Fluttertoast.showToast(msg: 'Please select baby\'s gender');
       return false;
     }
 
     // Delivery date
     if (babyDeliveryDate == null) {
-      Get.snackbar('Validation Error', 'Please select delivery date');
+      Fluttertoast.showToast(msg: 'Please select delivery date');
       return false;
     }
 
     // Weight (MANDATORY)
     if (babbyWeightController.text.trim().isEmpty) {
-      Get.snackbar('Validation Error', 'Please enter baby\'s weight');
+      Fluttertoast.showToast(msg: 'Please enter baby\'s weight');
       return false;
     }
 
     final weight = double.tryParse(babbyWeightController.text.trim());
     if (weight == null || weight <= 0 || weight > 10) {
-      Get.snackbar('Validation Error', 'Weight must be between 0.1 and 10 kg');
+      Fluttertoast.showToast(msg: 'Weight must be between 0.1 and 10 kg');
       return false;
     }
 
     // Height (MANDATORY)
     if (babyHeightController.text.trim().isEmpty) {
-      Get.snackbar('Validation Error', 'Please enter baby\'s height');
+      Fluttertoast.showToast(msg: 'Please enter baby\'s height');
       return false;
     }
 
     final height = double.tryParse(babyHeightController.text.trim());
     if (height == null || height <= 0 || height > 100) {
-      Get.snackbar('Validation Error', 'Height must be between 1 and 100 cm');
+      Fluttertoast.showToast(msg: 'Height must be between 1 and 100 cm');
       return false;
     }
 

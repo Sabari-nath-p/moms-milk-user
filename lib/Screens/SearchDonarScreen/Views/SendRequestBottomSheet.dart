@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get_utils/src/extensions/export.dart';
 import 'package:get/route_manager.dart';
@@ -78,7 +79,8 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Send Request to ${widget.donar.donor!.name ?? 'Donor'}'.tr,
+                              'Send Request to ${widget.donar.donor!.name ?? 'Donor'}'
+                                  .tr,
                               style: Theme.of(context).textTheme.titleLarge
                                   ?.copyWith(fontWeight: FontWeight.bold),
                             ),
@@ -153,10 +155,7 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                   UnitInputField(
                     controller: quantityController,
                     title: "",
-                    icon: Icon(
-                      Icons.height_outlined,
-                      color: Color(0xffFDA4AF),
-                    ),
+                    icon: Icon(Icons.height_outlined, color: Color(0xffFDA4AF)),
                     inputUnitList: [
                       Unit(name: 'oz', conversionFactorToMl: 29.5735),
                       Unit(name: 'ml', conversionFactorToMl: 1.0),
@@ -243,9 +242,7 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                     onTap: () async {
                       final DateTime? picked = await showDatePicker(
                         context: context,
-                        initialDate: DateTime.now().add(
-                          Duration(days: 1),
-                        ),
+                        initialDate: DateTime.now().add(Duration(days: 1)),
                         firstDate: DateTime.now(),
                         lastDate: DateTime.now().add(Duration(days: 30)),
                       );
@@ -320,11 +317,15 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                       onTap: () {
                         print(quantityController.text.trim());
                         if (descriptionController.text.trim().isEmpty) {
-                          Get.snackbar('Error', 'Please enter a description'.tr);
+                          Fluttertoast.showToast(
+                            msg: 'Please enter a description'.tr,
+                          );
                           return;
                         }
                         if (quantityController.text.trim().isEmpty) {
-                          Get.snackbar('Error', 'Please enter quantity needed'.tr);
+                          Fluttertoast.showToast(
+                            msg: 'Please enter quantity needed'.tr,
+                          );
                           return;
                         }
 

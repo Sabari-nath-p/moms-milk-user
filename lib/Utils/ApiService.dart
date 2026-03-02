@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/instance_manager.dart';
@@ -100,7 +101,7 @@ class ApiService {
         throw Exception('Unsupported HTTP method: $method');
     }
     log("[ ${method} ] $endpoint ==> ${response.statusCode}");
-     if (response.statusCode >= 200 && response.statusCode < 300) {
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       final decoded = json.decode(response.body);
 
       //  CHECK BACKEND SUCCESS FLAG
@@ -108,9 +109,8 @@ class ApiService {
         if (onUnauthenticated != null) {
           onUnauthenticated();
         } else {
-          Get.snackbar(
-            "Request Failed",
-            decoded["message"] ?? "Something went wrong",
+          Fluttertoast.showToast(
+            msg: decoded["message"] ?? "Something went wrong",
           );
         }
         return;
@@ -121,8 +121,7 @@ class ApiService {
           ResponseModel(statusCode: response.statusCode, data: decoded),
         );
       }
-    }
-    else if (response.statusCode == 401) {
+    } else if (response.statusCode == 401) {
       if (onUnauthenticated != null) {
         print("hit here");
         onUnauthenticated();
@@ -132,9 +131,8 @@ class ApiService {
           () => Authenticationscreen(),
           transition: Transition.rightToLeft,
         );
-        Get.snackbar(
-          'Session Expired',
-          'You need to log in to continue. Please sign in and try again.',
+        Fluttertoast.showToast(
+          msg: 'You need to log in to continue. Please sign in and try again.',
         );
       }
     } else if (response.statusCode >= 500) {
@@ -144,9 +142,8 @@ class ApiService {
           response.body.isNotEmpty ? response.body : 'Server error occurred',
         );
       } else {
-        Get.snackbar(
-          'Server Error',
-          'Something went wrong on our end. Please try again late.',
+        Fluttertoast.showToast(
+          msg: 'Something went wrong on our end. Please try again later.',
         );
       }
     } else {

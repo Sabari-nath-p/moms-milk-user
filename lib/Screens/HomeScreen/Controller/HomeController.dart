@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Models/BabyModel.dart';
 import 'package:mommilk_user/Models/BabyAnalyticsModel.dart';
@@ -68,8 +69,9 @@ class Homecontroller extends GetxController {
       },
     );
   }
+
   void changeLanguage(String languageName) async {
-       String langCode;
+    String langCode;
 
     if (languageName == "English") {
       langCode = "en";
@@ -77,7 +79,7 @@ class Homecontroller extends GetxController {
       langCode = "es";
     } else {
       langCode = "en";
-    } 
+    }
     // update UI instantly
     Get.updateLocale(Locale(langCode));
 
@@ -106,7 +108,7 @@ class Homecontroller extends GetxController {
           () => Activitytimelinescreen(),
           transition: Transition.rightToLeft,
         );
-        Get.snackbar('Success', 'Diaper log logged successfully!');
+        Fluttertoast.showToast(msg: 'Diaper log logged successfully!');
       },
     );
     isLoading = false;
@@ -127,7 +129,7 @@ class Homecontroller extends GetxController {
           () => Activitytimelinescreen(),
           transition: Transition.rightToLeft,
         );
-        Get.snackbar('Success', 'Sleep Log logged successfully!');
+        Fluttertoast.showToast(msg: 'Sleep Log logged successfully!');
       },
     );
     isLoading = false;
@@ -146,7 +148,7 @@ class Homecontroller extends GetxController {
           () => Activitytimelinescreen(),
           transition: Transition.rightToLeft,
         );
-        Get.snackbar('Success', 'Feeding Log logged successfully!'.tr);
+        Fluttertoast.showToast(msg: 'Feeding Log logged successfully!'.tr);
       },
     );
     isLoading = false;
@@ -154,7 +156,6 @@ class Homecontroller extends GetxController {
   }
 
   void inituser() {
-    
     fetchBabies();
     fetchUser();
     fetchIncommingRequest();

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class FCMService {
@@ -121,20 +122,8 @@ class FCMService {
   // Show in-app notification for foreground messages
   static void _showInAppNotification(RemoteMessage message) {
     if (Get.context != null) {
-      Get.snackbar(
-        message.notification?.title ?? 'New Message'.tr,
-        message.notification?.body ?? 'You have a new message'.tr,
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: Colors.black87,
-        colorText: Colors.black,
-
-        duration: Duration(seconds: 4),
-        margin: EdgeInsets.all(16),
-        borderRadius: 8,
-        icon: Icon(Icons.notifications, color: Colors.white),
-        onTap: (_) {
-          _handleNotificationNavigation(message);
-        },
+      Fluttertoast.showToast(
+        msg: message.notification?.body ?? 'You have a new message'.tr,
       );
     }
   }

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Models/UserModel.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/AuthenticationScreen.dart';
@@ -717,14 +718,7 @@ class ProfileScreen extends StatelessWidget {
       }
 
       // Show error message
-      Get.snackbar(
-        'Error'.tr,
-        'Failed to delete. Please try again.'.tr,
-        backgroundColor: Colors.red,
-        colorText: Colors.black,
-
-        duration: Duration(seconds: 3),
-      );
+      Fluttertoast.showToast(msg: 'Failed to delete. Please try again.'.tr);
     }
   }
 }
@@ -770,14 +764,7 @@ Future<void> _performLogout(BuildContext context) async {
     );
 
     // Show success message
-    Get.snackbar(
-      'Success'.tr,
-      'You have been logged out successfully'.tr,
-      backgroundColor: Colors.green,
-      colorText: Colors.black,
-
-      duration: Duration(seconds: 2),
-    );
+    Fluttertoast.showToast(msg: 'You have been logged out successfully'.tr);
   } catch (e) {
     // Close loading dialog if it's still showing
     if (Get.isDialogOpen ?? false) {
@@ -785,14 +772,7 @@ Future<void> _performLogout(BuildContext context) async {
     }
 
     // Show error message
-    Get.snackbar(
-      'Error'.tr,
-      'Failed to logout. Please try again.'.tr,
-      backgroundColor: Colors.red,
-      colorText: Colors.black,
-
-      duration: Duration(seconds: 3),
-    );
+    Fluttertoast.showToast(msg: 'Failed to logout. Please try again.'.tr);
   }
 }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Models/SleepLogModel.dart';
 import 'package:mommilk_user/Screens/Dashboard/MainDashBoard.dart';
@@ -392,23 +393,23 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
     // Validate that end time is after start time
 
     if (selectedDate == null) {
-      Get.snackbar(
-        'Log Failed',
-        'Please select sleep date before submission'.tr,
+      Fluttertoast.showToast(
+        msg: 'Please select sleep date before submission'.tr,
       );
       return;
     }
 
     if (startTime == null) {
-      Get.snackbar(
-        'Log Failed',
-        'Please select start time before submission'.tr,
+      Fluttertoast.showToast(
+        msg: 'Please select start time before submission'.tr,
       );
       return;
     }
 
     if (endTime == null) {
-      Get.snackbar('Log Failed', 'Please select end time before submission'.tr);
+      Fluttertoast.showToast(
+        msg: 'Please select end time before submission'.tr,
+      );
       return;
     }
 
@@ -436,7 +437,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
             : endDateTime;
 
     if (adjustedEndDateTime.difference(startDateTime).inMinutes < 1) {
-      Get.snackbar('Validation Error', 'End time must be after start time'.tr);
+      Fluttertoast.showToast(msg: 'End time must be after start time'.tr);
       return;
     }
 
