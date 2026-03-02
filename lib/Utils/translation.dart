@@ -382,7 +382,33 @@ class AppTranslations extends Translations {
       "Smoke Free": "Libre de humo",
       "Alcohol Free": "Sin alcohol",
       "Medical Report Sharing": "Compartir informes médicos",
-      "Previous": "Anterior"
+      "Previous": "Anterior",
+      "Log": "registro",
+      "BOY": "NIÑO",
+      "GIRL": "NIÑA",
+      "Skip": "Omitir",
+      "Filters": "Filtros",
+      "Clear All": "Borrar todo",
+      "Donor willing to share medical record":
+          "Donante dispuesto a compartir historial médico",
+      "Apply Filters": "Aplicar filtros",
+      "Search Donors": "Buscar donantes",
+      "Available": "Disponible",
+      "Enter your email address": "Ingresa tu dirección de correo electrónico",
+      "What'your role?": "¿Cuál es tu rol?",
+      "Access breast milk from verified donors in your area.":
+          "Accede a leche materna de donantes verificados en tu área.",
+      "Previous": "Anterior",
+      "Milk Request": "Solicitud de leche",
+      "Pending": "Pendiente",
+      "Medium": "Medio",
+       "Choose your preferred language": "Elige tu idioma preferido",
+      "Low": "Bajo",
+      "hour ago": "hace una hora",
+      "Please enter your full name": "Por favor ingresa tu nombre completo",
+      "Please enter your phone number":
+          "Por favor ingresa tu número de teléfono",
+      "Please enter your zip code": "Por favor ingresa tu código postal"
     },
   };
 }
