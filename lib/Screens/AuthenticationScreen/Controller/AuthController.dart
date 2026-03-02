@@ -29,7 +29,8 @@ class AuthenticationController extends GetxController {
       body: {"email": emailController.text, "otp": otpController.text},
       requiresAuth: false,
       onSuccess: (data) async {
-        if (data.statusCode == 201 || data.statusCode == 200) {
+       if ((data.statusCode == 201 || data.statusCode == 200) &&
+            data.data["success"] != false) {
           print(data.data);
           isOtpSent = false;
           update();

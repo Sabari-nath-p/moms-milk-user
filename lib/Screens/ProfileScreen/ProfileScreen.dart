@@ -561,7 +561,7 @@ class ProfileScreen extends StatelessWidget {
               ListTile(
                 title: const Text("English"),
                 onTap: () {
-                  Get.find<Homecontroller>().changeLanguage("en");
+                  Get.find<Homecontroller>().changeLanguage("English");
                   Get.back();
                 },
               ),
@@ -569,7 +569,7 @@ class ProfileScreen extends StatelessWidget {
               ListTile(
                 title: const Text("Spanish"),
                 onTap: () {
-                  Get.find<Homecontroller>().changeLanguage("es");
+                  Get.find<Homecontroller>().changeLanguage("Spanish");
                   Get.back();
                 },
               ),

@@ -100,19 +100,29 @@ class ApiService {
         throw Exception('Unsupported HTTP method: $method');
     }
     log("[ ${method} ] $endpoint ==> ${response.statusCode}");
+     if (response.statusCode >= 200 && response.statusCode < 300) {
+      final decoded = json.decode(response.body);
 
-    // Handle response based on status code
-    if (response.statusCode >= 200 && response.statusCode < 300) {
-      // Success response
+      //  CHECK BACKEND SUCCESS FLAG
+      if (decoded is Map && decoded["success"] == false) {
+        if (onUnauthenticated != null) {
+          onUnauthenticated();
+        } else {
+          Get.snackbar(
+            "Request Failed",
+            decoded["message"] ?? "Something went wrong",
+          );
+        }
+        return;
+      }
+
       if (onSuccess != null) {
         onSuccess(
-          ResponseModel(
-            statusCode: response.statusCode,
-            data: json.decode(response.body),
-          ),
+          ResponseModel(statusCode: response.statusCode, data: decoded),
         );
       }
-    } else if (response.statusCode == 401) {
+    }
+    else if (response.statusCode == 401) {
       if (onUnauthenticated != null) {
         print("hit here");
         onUnauthenticated();

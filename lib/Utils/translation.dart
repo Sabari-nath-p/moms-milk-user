@@ -201,6 +201,14 @@ class AppTranslations extends Translations {
       "Feed Type": "Tipo de alimentación",
       "Position": "Posición",
       "Amount(ml)": "Cantidad (ml)",
+       "Breast": "Pecho",
+  "Bottle": "Biberón",
+  "Others": "Otros",
+  "Solid": "Sólido",
+  "Liquid": "Líquido",
+  "Both": "Ambos",
+  "Empty": "Vacío",
+  "Note": "Nota",
 
       "Log Failed": "Registro fallido",
       "Please select feeding date before submission":
@@ -318,14 +326,21 @@ class AppTranslations extends Translations {
           "Seguimiento del recorrido de \${controller.selectedBady!.name}",
       "Add your baby to start tracking":
           "Agrega tu bebé para comenzar el seguimiento",
+          "Tracking": "Seguimiento",
+  "journey": "recorrido",
+  "Feedings": "Alimentaciones",
+  "Diapers": "Pañales",
+  "Sleep": "Sueño",
+  "Feeding": "Alimentación",
+  "Diaper": "Pañal",
 
       "Diaper": "Pañal",
       "Select Feeding Date": "Seleccionar fecha de alimentación",
 
-      "BREAST": "PECHO",
-      "SOLID": "SÓLIDO",
-      "LIQUID": "LÍQUIDO",
-      "BOTH": "AMBOS",
+      "Breast": "PECHO",
+      "Solid": "SÓLIDO",
+      "Liquid": "LÍQUIDO",
+      "Both": "AMBOS",
 
       "CRIB": "CUNA",
       "BED": "CAMA",
@@ -371,6 +386,9 @@ class AppTranslations extends Translations {
   "Send Request": "Enviar solicitud",
   "Language": "Idioma",
   "Search Donors": "Buscar donantes",
+   "Sent a note...": "Enviar una nota...",
+  "HIGH": "ALTO",
+  "Send Request": "Enviar solicitud",
       "No Donors Found": "No se encontraron donantes",
       "We’re actively welcoming milk donors. If no donors appear in your area yet, don’t worry more will be joining shortly. Thank you for your patience and support and if new donars comes near you we will notify":
           "Estamos dando la bienvenida activamente a donantes de leche. Si aún no aparecen donantes en tu área, no te preocupes, pronto se unirán más. Gracias por tu paciencia y apoyo; te notificaremos cuando haya nuevos donantes cerca.",
@@ -408,7 +426,8 @@ class AppTranslations extends Translations {
       "Please enter your full name": "Por favor ingresa tu nombre completo",
       "Please enter your phone number":
           "Por favor ingresa tu número de teléfono",
-      "Please enter your zip code": "Por favor ingresa tu código postal"
+      "Please enter your zip code": "Por favor ingresa tu código postal",
+  "greeting": "¡Buenos @time, @name!",
     },
   };
 }

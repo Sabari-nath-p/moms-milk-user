@@ -68,7 +68,16 @@ class Homecontroller extends GetxController {
       },
     );
   }
-  void changeLanguage(String langCode) async {
+  void changeLanguage(String languageName) async {
+       String langCode;
+
+    if (languageName == "English") {
+      langCode = "en";
+    } else if (languageName == "Spanish") {
+      langCode = "es";
+    } else {
+      langCode = "en";
+    } 
     // update UI instantly
     Get.updateLocale(Locale(langCode));
 

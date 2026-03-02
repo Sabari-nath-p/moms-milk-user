@@ -46,7 +46,7 @@ class HHeaderCard extends StatelessWidget {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Text(
-        'Good ${getTimeOfDay()}, ${user.name}!',
+        'Good ${getTimeOfDay()}, ${user.name}!'.tr,
         style: Theme.of(context).textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.w600,
             ),
@@ -54,9 +54,9 @@ class HHeaderCard extends StatelessWidget {
       SizedBox(height: 4),
       Text(
         user.userType == 'donor'
-            ? 'Help families in need today'
+            ? 'Help families in need today'.tr
             : controller.selectedBady != null
-                ? 'Tracking ${controller.selectedBady!.name}\'s journey'
+                ? 'Tracking ${controller.selectedBady!.name}\'s journey'.tr
                 : 'Add your baby to start tracking'.tr,
         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: Theme.of(context)
