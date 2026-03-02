@@ -84,7 +84,8 @@ class UpdateScreen extends StatelessWidget {
             left: 25,
             right: 10,
             child: Text(
-              "We added some new features and fix some bug to make your experience as smooth as possible".tr,
+              "We added some new features and fix some bug to make your experience as smooth as possible"
+                  .tr,
               style: TextStyle(
                 fontWeight: FontWeight.w400,
                 color: Colors.black,

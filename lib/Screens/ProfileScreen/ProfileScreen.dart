@@ -307,7 +307,10 @@ class ProfileScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Version'.tr, style: Theme.of(context).textTheme.bodyMedium),
+                Text(
+                  'Version'.tr,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
                 Text(
                   '1.0.0',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -373,9 +376,7 @@ class ProfileScreen extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.85,
             decoration: BoxDecoration(
               color: Theme.of(context).scaffoldBackgroundColor,
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(20),
-              ),
+              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
             ),
             child: Column(
               children: [
@@ -452,9 +453,7 @@ class ProfileScreen extends StatelessWidget {
                               child: OutlinedButton(
                                 onPressed: () => Navigator.pop(context),
                                 style: OutlinedButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(
-                                    vertical: 16,
-                                  ),
+                                  padding: EdgeInsets.symmetric(vertical: 16),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
                                   ),
@@ -467,9 +466,7 @@ class ProfileScreen extends StatelessWidget {
                               child: ElevatedButton(
                                 onPressed: () => Navigator.pop(context),
                                 style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(
-                                    vertical: 16,
-                                  ),
+                                  padding: EdgeInsets.symmetric(vertical: 16),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
                                   ),
@@ -520,7 +517,8 @@ class ProfileScreen extends StatelessWidget {
 
             title: Text('Delete Mom\'s Account'.tr),
             content: Text(
-              'Your account is scheduled for deletion in 60 days and will be reactivated automatically if you log in again within this period.'.tr,
+              'Your account is scheduled for deletion in 60 days and will be reactivated automatically if you log in again within this period.'
+                  .tr,
             ),
             actions: [
               TextButton(
@@ -537,40 +535,46 @@ class ProfileScreen extends StatelessWidget {
           ),
     );
   }
+
   void _showLanguageDialog(BuildContext context) {
     Get.bottomSheet(
-      Container(
-        padding: const EdgeInsets.all(20),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              "Select Language".tr,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
+      SafeArea(
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "Select Language".tr,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
 
-            const SizedBox(height: 20),
+              const SizedBox(height: 20),
 
-            ListTile(
-              title: const Text("English"),
-              onTap: () {
-                Get.find<Homecontroller>().changeLanguage("en");
-                Get.back();
-              },
-            ),
+              ListTile(
+                title: const Text("English"),
+                onTap: () {
+                  Get.find<Homecontroller>().changeLanguage("en");
+                  Get.back();
+                },
+              ),
 
-            ListTile(
-              title: const Text("Spanish"),
-              onTap: () {
-                Get.find<Homecontroller>().changeLanguage("es");
-                Get.back();
-              },
-            ),
-          ],
+              ListTile(
+                title: const Text("Spanish"),
+                onTap: () {
+                  Get.find<Homecontroller>().changeLanguage("es");
+                  Get.back();
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -611,7 +615,8 @@ class ProfileScreen extends StatelessWidget {
       ),
       children: [
         Text(
-          'A comprehensive app for mothers to track baby care and connect with milk donors.'.tr,
+          'A comprehensive app for mothers to track baby care and connect with milk donors.'
+              .tr,
         ),
       ],
     );
@@ -631,7 +636,8 @@ class ProfileScreen extends StatelessWidget {
             ],
           ),
           content: Text(
-            'Are you sure you want to logout? You will need to sign in again to access your account.'.tr,
+            'Are you sure you want to logout? You will need to sign in again to access your account.'
+                .tr,
           ),
           actions: [
             TextButton(
