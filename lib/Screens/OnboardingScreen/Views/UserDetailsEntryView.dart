@@ -263,6 +263,9 @@ class UserDetailsStep extends StatelessWidget {
                   onChanged: (value) {
                     if (value != null) {
                       controller.selectedLanguage = value;
+                      String code = (value == "English") ? "en" : "es";
+                      Get.updateLocale(Locale(code));
+                      controller.update();
                     }
                   },
                   isExpanded: true,

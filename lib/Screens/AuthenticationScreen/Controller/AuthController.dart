@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
@@ -29,7 +30,7 @@ class AuthenticationController extends GetxController {
       body: {"email": emailController.text, "otp": otpController.text},
       requiresAuth: false,
       onSuccess: (data) async {
-       if ((data.statusCode == 201 || data.statusCode == 200) &&
+        if ((data.statusCode == 201 || data.statusCode == 200) &&
             data.data["success"] != false) {
           print(data.data);
           isOtpSent = false;
@@ -54,18 +55,16 @@ class AuthenticationController extends GetxController {
             setFcm();
           }
         } else {
-          Get.snackbar(
-            "Request Failed",
-            data.data["message"] ?? "Server erro Please try after some time",
+          Fluttertoast.showToast(
+            msg:
+                data.data["message"] ??
+                "Server erro Please try after some time",
           );
         }
       },
 
       onUnauthenticated: () {
-        Get.snackbar(
-          "Request Failed",
-          "Invalid Otp,Please retry with valid otp ",
-        );
+        Fluttertoast.showToast(msg: "Invalid Otp,Please retry with valid otp ");
       },
     );
     isLoading = false;
@@ -100,9 +99,9 @@ class AuthenticationController extends GetxController {
           isOtpSent = true;
           update();
         } else {
-          Get.snackbar(
-            "Request Failed",
-            data.data["message"]?.toString() ??
+          Fluttertoast.showToast(
+            msg:
+                data.data["message"]?.toString() ??
                 "Server error. Please try after some time",
           );
         }

@@ -32,283 +32,285 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
+    return SafeArea(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
         ),
-      ),
-      child: Padding(
-        padding: EdgeInsets.only(
-          left: 24,
-          right: 24,
-          top: 24,
-          bottom: MediaQuery.of(context).viewInsets.bottom + 24,
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Header
-              Row(
-                children: [
-                  Icon(
-                    Icons.bedtime,
-                    color: Theme.of(context).colorScheme.primary,
-                    size: 28,
-                  ),
-                  SizedBox(width: 12),
-                  Text(
-                    'Log Sleep'.tr,
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: 24,
+            right: 24,
+            top: 24,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 24,
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Header
+                Row(
+                  children: [
+                    Icon(
+                      Icons.bedtime,
+                      color: Theme.of(context).colorScheme.primary,
+                      size: 28,
                     ),
-                  ),
-                  Spacer(),
-                  IconButton(
-                    onPressed: () {
-                      Get.back();
-                    },
-                    icon: Icon(Icons.close),
-                  ),
-                ],
-              ),
-
-              SizedBox(height: 24),
-
-              // Date Selection
-              DatePickerField(
-                title: "Date".tr,
-                onDateSelected: (value) {
-                  selectedDate = value;
-                },
-              ),
-
-              SizedBox(height: 16),
-
-              // Time Selection Row
-              Row(
-                children: [
-                  // Start Time
-                  Expanded(
-                    child: TimePickerField(
-                      title: "Start Time".tr,
-                      onTimeSelected: (value) {
-                        startTime = value;
+                    SizedBox(width: 12),
+                    Text(
+                      'Log Sleep'.tr,
+                      style: Theme.of(context).textTheme.headlineSmall
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    Spacer(),
+                    IconButton(
+                      onPressed: () {
+                        Get.back();
                       },
+                      icon: Icon(Icons.close),
                     ),
-                  ),
-                  SizedBox(width: 12),
-                  // End Time
-                  Expanded(
-                    child: TimePickerField(
-                      title: "End Time".tr,
+                  ],
+                ),
 
-                      onTimeSelected: (value) {
-                        endTime = value;
-                      },
-                    ),
-                  ),
-                ],
-              ),
+                SizedBox(height: 24),
 
-              //  SizedBox(height: 16),
+                // Date Selection
+                DatePickerField(
+                  title: "Date".tr,
+                  onDateSelected: (value) {
+                    selectedDate = value;
+                  },
+                ),
 
-              // Sleep Quality Selection
-              // Text(
-              //   'Sleep Quality',
-              //   style: Theme.of(
-              //     context,
-              //   ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
-              // ),
+                SizedBox(height: 16),
 
-              // SizedBox(height: 12),
-
-              // Row(
-              //   children:
-              //       SleepQuality.values.map((quality) {
-              //         final isSelected = selectedSleepQuality == quality;
-              //         return Expanded(
-              //           child: Padding(
-              //             padding: EdgeInsets.only(right: 8),
-              //             child: FilterChip(
-              //               label: SizedBox(
-              //                 width: double.infinity,
-              //                 child: Text(
-              //                   quality.displayName,
-              //                   textAlign: TextAlign.center,
-              //                 ),
-              //               ),
-              //               selected: isSelected,
-              //               onSelected: (selected) {
-              //                 setState(() {
-              //                   selectedSleepQuality = quality;
-              //                 });
-              //               },
-              //               selectedColor: Theme.of(
-              //                 context,
-              //               ).colorScheme.primary.withOpacity(0.2),
-              //               checkmarkColor:
-              //                   Theme.of(context).colorScheme.primary,
-              //               backgroundColor:
-              //                   Theme.of(context).colorScheme.surface,
-              //               side: BorderSide(
-              //                 color:
-              //                     isSelected
-              //                         ? Theme.of(context).colorScheme.primary
-              //                         : Colors.grey[300]!,
-              //               ),
-              //             ),
-              //           ),
-              //         );
-              //       }).toList(),
-              // ),
-              SizedBox(height: 16),
-
-              // Sleep Location Selection
-              Text(
-                'Sleep Location'.tr,
-                style: Theme.of(
-                  context,
-                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
-              ),
-
-              SizedBox(height: 12),
-
-              Row(
-                children:
-                    SleepLocation.values.map((location) {
-                      final isSelected = selectedLocation == location;
-                      return Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.only(right: 8),
-                          child: FilterChip(
-                            label: SizedBox(
-                              width: double.infinity,
-                              child: Text(
-                                '${location.icon} ${location.displayName}',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color:
-                                      isSelected
-                                          ? Theme.of(context)
-                                              .colorScheme
-                                              .primary // Pink text
-                                          : Colors.black,
-                                  fontWeight:
-                                      isSelected
-                                          ? FontWeight.bold
-                                          : FontWeight.normal,
-                                ),
-                              ),
-                            ),
-                            selected: isSelected,
-                            onSelected: (selected) {
-                              setState(() {
-                                selectedLocation = location;
-                              });
-                            },
-                            selectedColor: Theme.of(
-                              context,
-                            ).colorScheme.primary.withOpacity(0.2),
-                            checkmarkColor:
-                                Theme.of(context).colorScheme.primary,
-                            backgroundColor:
-                                Theme.of(context).colorScheme.surface,
-                            side: BorderSide(
-                              color:
-                                  isSelected
-                                      ? Theme.of(context).colorScheme.primary
-                                      : Colors.grey[300]!,
-                            ),
-                          ),
-                        ),
-                      );
-                    }).toList(),
-              ),
-
-              if (false) SizedBox(height: 16),
-
-              // Note Field
-              if (false)
-                TextField(
-                  controller: noteController,
-                  maxLines: 3,
-                  style: TextStyle(fontSize: 16),
-                  decoration: InputDecoration(
-                    labelText: 'Note (Optional)',
-                    hintText: 'Add any additional notes about the sleep...',
-                    prefixIcon: Icon(Icons.note_outlined),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: Colors.grey[300]!),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.primary,
-                        width: 2,
+                // Time Selection Row
+                Row(
+                  children: [
+                    // Start Time
+                    Expanded(
+                      child: TimePickerField(
+                        title: "Start Time".tr,
+                        onTimeSelected: (value) {
+                          startTime = value;
+                        },
                       ),
                     ),
+                    SizedBox(width: 12),
+                    // End Time
+                    Expanded(
+                      child: TimePickerField(
+                        title: "End Time".tr,
+
+                        onTimeSelected: (value) {
+                          endTime = value;
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+
+                //  SizedBox(height: 16),
+
+                // Sleep Quality Selection
+                // Text(
+                //   'Sleep Quality',
+                //   style: Theme.of(
+                //     context,
+                //   ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+                // ),
+
+                // SizedBox(height: 12),
+
+                // Row(
+                //   children:
+                //       SleepQuality.values.map((quality) {
+                //         final isSelected = selectedSleepQuality == quality;
+                //         return Expanded(
+                //           child: Padding(
+                //             padding: EdgeInsets.only(right: 8),
+                //             child: FilterChip(
+                //               label: SizedBox(
+                //                 width: double.infinity,
+                //                 child: Text(
+                //                   quality.displayName,
+                //                   textAlign: TextAlign.center,
+                //                 ),
+                //               ),
+                //               selected: isSelected,
+                //               onSelected: (selected) {
+                //                 setState(() {
+                //                   selectedSleepQuality = quality;
+                //                 });
+                //               },
+                //               selectedColor: Theme.of(
+                //                 context,
+                //               ).colorScheme.primary.withOpacity(0.2),
+                //               checkmarkColor:
+                //                   Theme.of(context).colorScheme.primary,
+                //               backgroundColor:
+                //                   Theme.of(context).colorScheme.surface,
+                //               side: BorderSide(
+                //                 color:
+                //                     isSelected
+                //                         ? Theme.of(context).colorScheme.primary
+                //                         : Colors.grey[300]!,
+                //               ),
+                //             ),
+                //           ),
+                //         );
+                //       }).toList(),
+                // ),
+                SizedBox(height: 16),
+
+                // Sleep Location Selection
+                Text(
+                  'Sleep Location'.tr,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
 
-              SizedBox(height: 24),
+                SizedBox(height: 12),
 
-              // Action Buttons
-              Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () => Get.back(),
-                      style: OutlinedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        side: BorderSide(
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
+                Row(
+                  children:
+                      SleepLocation.values.map((location) {
+                        final isSelected = selectedLocation == location;
+                        return Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.only(right: 8),
+                            child: FilterChip(
+                              label: SizedBox(
+                                width: double.infinity,
+                                child: Text(
+                                  '${location.icon} ${location.displayName.tr.capitalize.toString()}',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color:
+                                        isSelected
+                                            ? Theme.of(context)
+                                                .colorScheme
+                                                .primary // Pink text
+                                            : Colors.black,
+                                    fontWeight:
+                                        isSelected
+                                            ? FontWeight.bold
+                                            : FontWeight.normal,
+                                  ),
+                                ),
+                              ),
+                              selected: isSelected,
+                              onSelected: (selected) {
+                                setState(() {
+                                  selectedLocation = location;
+                                });
+                              },
+                              selectedColor: Theme.of(
+                                context,
+                              ).colorScheme.primary.withOpacity(0.2),
+                              checkmarkColor:
+                                  Theme.of(context).colorScheme.primary,
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.surface,
+                              side: BorderSide(
+                                color:
+                                    isSelected
+                                        ? Theme.of(context).colorScheme.primary
+                                        : Colors.grey[300]!,
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                ),
+
+                if (false) SizedBox(height: 16),
+
+                // Note Field
+                if (false)
+                  TextField(
+                    controller: noteController,
+                    maxLines: 3,
+                    style: TextStyle(fontSize: 16),
+                    decoration: InputDecoration(
+                      labelText: 'Note (Optional)',
+                      hintText: 'Add any additional notes about the sleep...',
+                      prefixIcon: Icon(Icons.note_outlined),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      child: Text(
-                        'Cancel'.tr,
-                        style: TextStyle(
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(color: Colors.grey[300]!),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
                           color: Theme.of(context).colorScheme.primary,
-                          fontWeight: FontWeight.w600,
+                          width: 2,
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(width: 16),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: _saveSleepLog,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                        foregroundColor: Colors.white,
-                        padding: EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+
+                SizedBox(height: 24),
+
+                // Action Buttons
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: () => Get.back(),
+                        style: OutlinedButton.styleFrom(
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          side: BorderSide(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
                         ),
-                      ),
-                      child: Text(
-                        'Save Log'.tr,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
+                        child: Text(
+                          'Cancel'.tr,
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                    SizedBox(width: 16),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: _saveSleepLog,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primary,
+                          foregroundColor: Colors.white,
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: Text(
+                          'Save Log'.tr,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -390,12 +392,18 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
     // Validate that end time is after start time
 
     if (selectedDate == null) {
-      Get.snackbar('Log Failed', 'Please select sleep date before submission'.tr);
+      Get.snackbar(
+        'Log Failed',
+        'Please select sleep date before submission'.tr,
+      );
       return;
     }
 
     if (startTime == null) {
-      Get.snackbar('Log Failed', 'Please select start time before submission'.tr);
+      Get.snackbar(
+        'Log Failed',
+        'Please select start time before submission'.tr,
+      );
       return;
     }
 

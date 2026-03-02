@@ -28,223 +28,224 @@ class _DiaperChangeBottomSheetState extends State<DiaperChangeBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
+    return SafeArea(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
         ),
-      ),
-      child: Padding(
-        padding: EdgeInsets.only(left: 24, right: 24, top: 24, bottom: 24),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Header
-              Row(
-                children: [
-                  Icon(
-                    Icons.baby_changing_station,
-                    color: Theme.of(context).colorScheme.primary,
-                    size: 28,
-                  ),
-                  SizedBox(width: 12),
-                  Text(
-                    'Log Diaper'.tr,
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
+        child: Padding(
+          padding: EdgeInsets.only(left: 24, right: 24, top: 24, bottom: 24),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Header
+                Row(
+                  children: [
+                    Icon(
+                      Icons.baby_changing_station,
+                      color: Theme.of(context).colorScheme.primary,
+                      size: 28,
                     ),
+                    SizedBox(width: 12),
+                    Text(
+                      'Log Diaper'.tr,
+                      style: Theme.of(context).textTheme.headlineSmall
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    Spacer(),
+                    IconButton(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      icon: Icon(Icons.close),
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: 24),
+
+                // Date Selection
+                DatePickerField(
+                  title: "Date".tr,
+                  onDateSelected: (Value) {
+                    selectedDate = Value;
+                  },
+                ),
+
+                SizedBox(height: 16),
+
+                // Time Selection
+                TimePickerField(
+                  title: "Time".tr,
+                  onTimeSelected: (value) {
+                    selectedTime = value;
+                  },
+                ),
+
+                SizedBox(height: 16),
+
+                // Diaper Type Selection
+                Text(
+                  'Diaper Type'.tr,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
                   ),
-                  Spacer(),
-                  IconButton(
-                    onPressed: () {
-                      Get.back();
-                    },
-                    icon: Icon(Icons.close),
-                  ),
-                ],
-              ),
+                ),
 
-              SizedBox(height: 24),
+                SizedBox(height: 12),
 
-              // Date Selection
-              DatePickerField(
-                title: "Date".tr,
-                onDateSelected: (Value) {
-                  selectedDate = Value;
-                },
-              ),
+                Row(
+                  children:
+                      DiaperType.values.map((type) {
+                        final isSelected = selectedDiaperType == type;
 
-              SizedBox(height: 16),
-
-              // Time Selection
-              TimePickerField(
-                title: "Time".tr,
-                onTimeSelected: (value) {
-                  selectedTime = value;
-                },
-              ),
-
-              SizedBox(height: 16),
-
-              // Diaper Type Selection
-              Text(
-                'Diaper Type'.tr,
-                style: Theme.of(
-                  context,
-                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
-              ),
-
-              SizedBox(height: 12),
-
-              Row(
-                children:
-                    DiaperType.values.map((type) {
-                      final isSelected = selectedDiaperType == type;
-
-                      return Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.only(right: 8),
-                          child: FilterChip(
-                            label: SizedBox(
-                              width: double.infinity,
-                              child: Text(
-                                type.displayName,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color:
-                                      isSelected
-                                          ? Theme.of(context)
-                                              .colorScheme
-                                              .primary // Pink
-                                          : Colors.black, // Normal
-                                  fontWeight:
-                                      isSelected
-                                          ? FontWeight.w600
-                                          : FontWeight.normal,
+                        return Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.only(right: 8),
+                            child: FilterChip(
+                              label: SizedBox(
+                                width: double.infinity,
+                                child: Text(
+                                  type.displayName.tr.capitalize.toString(),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color:
+                                        isSelected
+                                            ? Theme.of(context)
+                                                .colorScheme
+                                                .primary // Pink
+                                            : Colors.black, // Normal
+                                    fontWeight:
+                                        isSelected
+                                            ? FontWeight.w600
+                                            : FontWeight.normal,
+                                  ),
                                 ),
                               ),
-                            ),
 
-                            selected: isSelected,
-                            onSelected: (selected) {
-                              setState(() {
-                                selectedDiaperType = type;
-                              });
-                            },
+                              selected: isSelected,
+                              onSelected: (selected) {
+                                setState(() {
+                                  selectedDiaperType = type;
+                                });
+                              },
 
-                            selectedColor: Theme.of(
-                              context,
-                            ).colorScheme.primary.withOpacity(0.15),
+                              selectedColor: Theme.of(
+                                context,
+                              ).colorScheme.primary.withOpacity(0.15),
 
-                            checkmarkColor:
-                                Theme.of(context).colorScheme.primary,
+                              checkmarkColor:
+                                  Theme.of(context).colorScheme.primary,
 
-                            backgroundColor:
-                                Theme.of(context).colorScheme.surface,
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.surface,
 
-                            side: BorderSide(
-                              color:
-                                  isSelected
-                                      ? Theme.of(context).colorScheme.primary
-                                      : Colors.grey[300]!,
+                              side: BorderSide(
+                                color:
+                                    isSelected
+                                        ? Theme.of(context).colorScheme.primary
+                                        : Colors.grey[300]!,
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    }).toList(),
-              ),
+                        );
+                      }).toList(),
+                ),
 
-              SizedBox(height: 16),
+                SizedBox(height: 16),
 
-              // Note Field
-              TextField(
-                controller: noteController,
-                maxLines: 1,
-                textInputAction: TextInputAction.done,
-                style: TextStyle(fontSize: 16),
-                decoration: InputDecoration(
-                  labelText: 'Note '.tr,
-                  hintText: 'Add any additional notes...'.tr,
-                  prefixIcon: Icon(Icons.note_outlined),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: Colors.grey[300]!),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary,
-                      width: 2,
+                // Note Field
+                TextField(
+                  controller: noteController,
+                  maxLines: 1,
+                  textInputAction: TextInputAction.done,
+                  style: TextStyle(fontSize: 16),
+                  decoration: InputDecoration(
+                    labelText: 'Note'.tr,
+                    hintText: 'Add any additional notes...'.tr,
+                    prefixIcon: Icon(Icons.note_outlined),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Colors.grey[300]!),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(
+                        color: Theme.of(context).colorScheme.primary,
+                        width: 2,
+                      ),
                     ),
                   ),
                 ),
-              ),
 
-              SizedBox(height: 24),
+                SizedBox(height: 24),
 
-              // Action Buttons
-              Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () => Get.back(),
-                      style: OutlinedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        side: BorderSide(
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-                      child: Text(
-                        'Cancel'.tr,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 16),
-                  Expanded(
-                    child: GetBuilder<Homecontroller>(
-                      builder: (controller) {
-                        return ElevatedButton(
-                          onPressed: _saveDiaperLog,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.primary,
-                            foregroundColor: Colors.white,
-                            padding: EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
+                // Action Buttons
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: () => Get.back(),
+                        style: OutlinedButton.styleFrom(
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                          child:
-                              (controller.isSubmitLoading)
-                                  ? CircularProgressIndicator()
-                                  : Text(
-                                    'Save Log'.tr,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                        );
-                      },
+                          side: BorderSide(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                        child: Text(
+                          'Cancel'.tr,
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                    SizedBox(width: 16),
+                    Expanded(
+                      child: GetBuilder<Homecontroller>(
+                        builder: (controller) {
+                          return ElevatedButton(
+                            onPressed: _saveDiaperLog,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.primary,
+                              foregroundColor: Colors.white,
+                              padding: EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            child:
+                                (controller.isSubmitLoading)
+                                    ? CircularProgressIndicator()
+                                    : Text(
+                                      'Save Log'.tr,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

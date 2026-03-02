@@ -1,3 +1,5 @@
+import 'package:get/utils.dart';
+
 class FeedingLogModel {
   int? id;
   DateTime feedingDate;
@@ -75,11 +77,11 @@ extension FeedTypeExtension on FeedType {
   String get displayName {
     switch (this) {
       case FeedType.BREAST:
-        return 'Breast';
+        return 'Breast'.tr;
       case FeedType.BOTTLE:
-        return 'Bottle';
+        return 'Bottle'.tr;
       case FeedType.OTHER:
-        return 'Other';
+        return 'Other'.tr;
     }
   }
 
@@ -101,11 +103,11 @@ extension FeedPositionExtension on FeedPosition {
   String get displayName {
     switch (this) {
       case FeedPosition.LEFT:
-        return 'Left';
+        return 'Left'.tr;
       case FeedPosition.RIGHT:
-        return 'Right';
+        return 'Right'.tr;
       case FeedPosition.BOTH:
-        return 'Both';
+        return 'Both'.tr;
     }
   }
 }

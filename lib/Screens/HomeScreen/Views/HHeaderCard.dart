@@ -15,23 +15,20 @@ class HHeaderCard extends StatelessWidget {
       builder:
           (controller) => Container(
             padding: EdgeInsets.all(24),
-           // margin: EdgeInsets.all(10),
+            // margin: EdgeInsets.all(10),
             decoration: BoxDecoration(
-            gradient:AppTheme.CardGradient,
- borderRadius: BorderRadius.circular(24),
-               // Blended Deep Charcoal
-             
-              border: Border.all(
-                 color: AppTheme.borderColor,
-          width: 1.5,
-              ),
+              gradient: AppTheme.CardGradient,
+              borderRadius: BorderRadius.circular(24),
+
+              // Blended Deep Charcoal
+              border: Border.all(color: AppTheme.borderColor, width: 1.5),
             ),
             child: Row(
               children: [
                 Container(
                   padding: EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                      gradient: AppTheme.buttonCardGradient,
+                    gradient: AppTheme.buttonCardGradient,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Icon(
@@ -41,35 +38,34 @@ class HHeaderCard extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 16),
-               Expanded(
-  child: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(
-        'Good ${getTimeOfDay()}, ${user.name}!'.tr,
-        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
-      ),
-      SizedBox(height: 4),
-      Text(
-        user.userType == 'donor'
-            ? 'Help families in need today'.tr
-            : controller.selectedBady != null
-                ? 'Tracking ${controller.selectedBady!.name}\'s journey'.tr
-                : 'Add your baby to start tracking'.tr,
-        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.color
-                  ?.withOpacity(0.7),
-            ),
-      ),
-    ],
-  ),
-),
-
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Good".tr + ' ${getTimeOfDay()}, ${user.name}!'.tr,
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      SizedBox(height: 4),
+                      Text(
+                        user.userType == 'donor'
+                            ? 'Help families in need today'.tr
+                            : controller.selectedBady != null
+                            ? ('Tracking'.tr +
+                                ' ${controller.selectedBady!.name}\'s ' +
+                                'journey'.tr)
+                            : 'Add your baby to start tracking'.tr,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(
+                            context,
+                          ).textTheme.bodyMedium?.color?.withOpacity(0.7),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
