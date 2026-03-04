@@ -42,7 +42,7 @@ class MessageTypeCard extends StatelessWidget {
                   border: InputBorder.none,
                   isCollapsed: true,
                   hintStyle: TextStyle(fontSize: 13),
-                  hintText: "Enter Message",
+                  hintText: "Enter Message".tr,
                   isDense: true,
                 ),
               ),

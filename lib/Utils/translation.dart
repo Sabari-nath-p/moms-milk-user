@@ -431,6 +431,18 @@ class AppTranslations extends Translations {
       "Please enter your zip code": "Por favor ingresa tu código postal",
       "greeting": "¡Buenos @time, @name!",
       'Good': "Bueno",
+      'Diaper log logged successfully!':
+          'Registro de pañal guardado correctamente',
+      'Sleep Log logged successfully!':
+          'Registro de sueño guardado correctamente',
+      'Feeding Log logged successfully!':
+          'Registro de alimentación guardado correctamente',
+      'Born today': 'Nacido hoy',
+        "Please select diaper change date before submission":
+            "Seleccione la fecha del cambio de pañal antes de enviar",
+        "Please select diaper change time before submission":
+            "Seleccione la hora del cambio de pañal antes de enviar",
+      
     },
   };
 }

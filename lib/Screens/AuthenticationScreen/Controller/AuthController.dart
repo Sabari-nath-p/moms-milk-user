@@ -58,13 +58,13 @@ class AuthenticationController extends GetxController {
           Fluttertoast.showToast(
             msg:
                 data.data["message"] ??
-                "Server erro Please try after some time",
+                "Server erro Please try after some time".tr,
           );
         }
       },
 
       onUnauthenticated: () {
-        Fluttertoast.showToast(msg: "Invalid Otp,Please retry with valid otp ");
+        Fluttertoast.showToast(msg: "Invalid Otp,Please retry with valid otp ".tr);
       },
     );
     isLoading = false;
@@ -102,7 +102,7 @@ class AuthenticationController extends GetxController {
           Fluttertoast.showToast(
             msg:
                 data.data["message"]?.toString() ??
-                "Server error. Please try after some time",
+                "Server error. Please try after some time".tr,
           );
         }
       },

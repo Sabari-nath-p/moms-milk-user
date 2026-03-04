@@ -108,7 +108,7 @@ class Homecontroller extends GetxController {
           () => Activitytimelinescreen(),
           transition: Transition.rightToLeft,
         );
-        Fluttertoast.showToast(msg: 'Diaper log logged successfully!');
+        Fluttertoast.showToast(msg: 'Diaper log logged successfully!'.tr);
       },
     );
     isLoading = false;
@@ -129,7 +129,7 @@ class Homecontroller extends GetxController {
           () => Activitytimelinescreen(),
           transition: Transition.rightToLeft,
         );
-        Fluttertoast.showToast(msg: 'Sleep Log logged successfully!');
+        Fluttertoast.showToast(msg: 'Sleep Log logged successfully!'.tr);
       },
     );
     isLoading = false;
@@ -187,21 +187,21 @@ class Homecontroller extends GetxController {
     if (adjustedYears >= 2) {
       return '$adjustedYears years old';
     } else if (adjustedYears == 1) {
-      return '1 year old';
+      return '1 year old'.tr;
     } else if (adjustedMonths >= 2) {
       return '$adjustedMonths months old';
     } else if (adjustedMonths == 1) {
-      return '1 month old';
+      return '1 month old'.tr;
     } else if (weeks >= 2) {
       return '$weeks weeks old';
     } else if (weeks == 1) {
-      return '1 week old';
+      return '1 week old'.tr;
     } else if (days >= 2) {
       return '$days days old';
     } else if (days == 1) {
-      return '1 day old';
+      return '1 day old'.tr;
     } else {
-      return 'Born today';
+      return 'Born today'.tr;
     }
   }
 

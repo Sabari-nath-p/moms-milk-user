@@ -150,7 +150,7 @@ class CreateBabyScreen extends StatelessWidget {
                                 label: SizedBox(
                                   width: double.infinity,
                                   child: Text(
-                                    gender.name,
+                                    gender.name.tr,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color:

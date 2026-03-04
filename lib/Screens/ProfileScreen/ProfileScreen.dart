@@ -791,7 +791,7 @@ Widget buildUserTypeSection(BuildContext context) {
           SizedBox(height: 16),
 
           // Show switch only for DONOR
-          if (user.userType == "DONOR".tr) ...[
+          if (user.userType == "DONOR") ...[
             GetBuilder<Homecontroller>(
               builder:
                   (controller) => SwitchListTile(

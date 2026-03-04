@@ -572,7 +572,7 @@ class Authenticationscreen extends StatelessWidget {
               },
               child: Center(
                 child: Text(
-                  "Change Email",
+                  "Change Email".tr,
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
