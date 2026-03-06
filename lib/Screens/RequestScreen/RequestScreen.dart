@@ -120,8 +120,8 @@ class _RequestScreenState extends State<RequestScreen>
                     child: Text(
                       user.userType == "DONOR"
                           ? (key == 0
-                              ? "Pending (${controller.incomingRequests.length})"
-                              : "Connections")
+                              ? "Pending (${controller.incomingRequests.length})".tr
+                              : "Connections".tr)
                           : "My Requests".tr,
                       style: TextStyle(
                         color:
@@ -188,7 +188,7 @@ class _RequestScreenState extends State<RequestScreen>
       return _buildEmptyState(
         context,
         "No Incoming Requests".tr,
-        "You don’t have any pending milk requests.".tr,
+        "You don’t have any pending milk requests".tr,
         Icons.inbox,
       );
     }

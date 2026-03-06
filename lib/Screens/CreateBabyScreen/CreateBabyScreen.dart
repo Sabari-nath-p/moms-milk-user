@@ -130,8 +130,8 @@ class CreateBabyScreen extends StatelessWidget {
                   SizedBox(height: 24),
 
                   // Baby Gender
-                  Text(
-                    'Gender *'.tr,
+                  Text( 
+                    'Gender'.tr,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),

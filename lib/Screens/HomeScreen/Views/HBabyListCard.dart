@@ -185,21 +185,16 @@ class HBabyCard extends StatelessWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text(baby.name ?? "--"),
-                                          Text(
-                                            baby.deliveryDate != null
-                                                ? controller.calculateAge(
-                                                  DateTime.parse(
-                                                    baby.deliveryDate!,
-                                                  ),
-                                                )
-                                                : 'Unknown age'.tr,
-                                            style:
-                                                Theme.of(
-                                                  context,
-                                                ).textTheme.bodySmall,
-                                          ),
-                                        ],
+  Text(baby.name ?? "--"),
+  Text(
+    baby.deliveryDate != null
+        ? controller.calculateAge(
+            DateTime.parse(baby.deliveryDate!),
+          )
+        : 'Unknown age'.tr,
+    style: Theme.of(context).textTheme.bodySmall,
+  ),
+],
                                       ),
                                     ],
                                   ),
@@ -237,7 +232,7 @@ class HBabyCard extends StatelessWidget {
                                     ),
                                     SizedBox(width: 8),
                                     Text(
-                                      "Delete",
+                                      "Delete".tr,
                                       style: TextStyle(color: Colors.red),
                                     ),
                                   ],

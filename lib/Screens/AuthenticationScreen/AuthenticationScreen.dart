@@ -398,7 +398,7 @@ class Authenticationscreen extends StatelessWidget {
           children: [
             // Enhanced OTP Instructions
             Text(
-              'Enter the 6-digit code sent to '.tr,
+              'Enter the 6-digit code sent to'.tr,
               style: Theme.of(
                 context,
               ).textTheme.bodyMedium?.copyWith(color: Color(0xFF1E2939)),

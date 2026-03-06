@@ -1,3 +1,5 @@
+import 'package:get/utils.dart';
+
 class SleepLogModel {
   int? id;
   DateTime date;
@@ -81,11 +83,11 @@ extension SleepLocationExtension on SleepLocation {
   String get displayName {
     switch (this) {
       case SleepLocation.BED:
-        return 'Bed';
+        return 'Bed'.tr;
       case SleepLocation.CRIB:
-        return 'Crib';
+        return 'Crib'.tr;
       case SleepLocation.HAND:
-        return 'Hand';
+        return 'Hand'.tr;
     }
   }
 

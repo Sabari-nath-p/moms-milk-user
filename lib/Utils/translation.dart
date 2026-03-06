@@ -4,6 +4,8 @@ class AppTranslations extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
     'en': {
+      "Pending_count": "Pending (@count)",
+      "days_old": ":days days old",
       "Report": "Report",
       "Connect": "Connect",
       "Message": "Message",
@@ -78,9 +80,18 @@ class AppTranslations extends Translations {
       "No Requests Yet": "No Requests Yet",
       "You have not placed any requests yet.":
           "You have not placed any requests yet.",
+      "Feeding": "Feeding",
+      "Delete" :"Delete",
+      "Gender" : "Gender",
+
+      
+                                                  
+      
+
     },
 
     'es': {
+      
       "Report": "Informe",
       "Connect": "Conectar",
       "Message": "Mensaje",
@@ -206,6 +217,8 @@ class AppTranslations extends Translations {
       "Others": "Otros",
       "Solid": "Sólido",
       "Liquid": "Líquido",
+       "Left": "Izquierda",
+      "Right": "Derecha",
       "Both": "Ambos",
       "Empty": "Vacío",
       "Note": "Nota",
@@ -345,6 +358,7 @@ class AppTranslations extends Translations {
       "Crib": "Cuna",
       "BED": "CAMA",
       'Bed': "Cama",
+      "Hand": "Mano",
       "STROLLER": "CARRITO",
       "OTHER": "OTRO",
       "My Connections": "Mis conexiones",
@@ -442,7 +456,14 @@ class AppTranslations extends Translations {
             "Seleccione la fecha del cambio de pañal antes de enviar",
         "Please select diaper change time before submission":
             "Seleccione la hora del cambio de pañal antes de enviar",
-      
+        
+        "days_old": ":days días",
+        "\${baby.name}'s Log" : "\${baby.name}'s registro",
+        "Select Feeding Date" : "Seleccionar fecha de alimentación",
+
+        "Delete": "borrar",
+        "Gender": "Género",
+        "Change Email" : "Cambiar correo electrónico"
     },
   };
 }

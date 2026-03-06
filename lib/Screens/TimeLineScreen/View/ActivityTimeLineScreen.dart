@@ -176,7 +176,7 @@ class ActivityTimeLineBody extends StatelessWidget {
                 child: _buildStatCard(
                   FontAwesomeIcons.personBreastfeeding,
                   '${tcltr.totalFeedings.value}',
-                  'Feedings',
+                  'Feedings'.tr,
                   Colors.orange.shade400,
                 ),
               ),
@@ -185,7 +185,7 @@ class ActivityTimeLineBody extends StatelessWidget {
                 child: _buildStatCard(
                   Icons.baby_changing_station,
                   '${tcltr.totalDiaperChanges.value}',
-                  'Diapers',
+                  'Diapers'.tr,
                   Colors.blue.shade400,
                 ),
               ),
@@ -194,7 +194,7 @@ class ActivityTimeLineBody extends StatelessWidget {
                 child: _buildStatCard(
                   Icons.bedtime,
                   tcltr.totalSleepDuration.value,
-                  'Sleep',
+                  'Sleep'.tr,
                   Colors.purple.shade400,
                 ),
               ),
@@ -274,7 +274,7 @@ class ActivityTimeLineBody extends StatelessWidget {
               children: [
                 
                 _buildFilterChip(
-                  'Feeding',
+                  'Feeding'.tr,
                   FontAwesomeIcons.personBreastfeeding,
                   Colors.orange.shade400,
                   tcltr.showFeeding.value,
@@ -282,7 +282,7 @@ class ActivityTimeLineBody extends StatelessWidget {
                 ),
                 SizedBox(width: 8),
                 _buildFilterChip(
-                  'Diaper',
+                  'Diaper'.tr,
                   Icons.baby_changing_station,
                   Colors.blue.shade400,
                   tcltr.showDiaper.value,
@@ -290,7 +290,7 @@ class ActivityTimeLineBody extends StatelessWidget {
                 ),
                 SizedBox(width: 8),
                 _buildFilterChip(
-                  'Sleep',
+                  'Sleep'.tr,
                   FontAwesomeIcons.moon,
                   Colors.purple.shade400,
                   tcltr.showSleep.value,

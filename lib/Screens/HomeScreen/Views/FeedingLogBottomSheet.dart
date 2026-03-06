@@ -84,7 +84,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                   SizedBox(height: 24),
 
                   DatePickerField(
-                    title: "Select Feeding Date *".tr,
+                    title: "Select Feeding Date".tr,
                     initialDate: selectedDate,
                     onDateSelected: (value) {
                       selectedDate = value;
