@@ -110,7 +110,7 @@ class ApiService {
           onUnauthenticated();
         } else {
           Fluttertoast.showToast(
-            msg: decoded["message"] ?? "Something went wrong",
+            msg: decoded["message"] ?? "Something went wrong".tr,
           );
         }
         return;
@@ -132,7 +132,7 @@ class ApiService {
           transition: Transition.rightToLeft,
         );
         Fluttertoast.showToast(
-          msg: 'You need to log in to continue. Please sign in and try again.',
+          msg: 'You need to log in to continue. Please sign in and try again.'.tr,
         );
       }
     } else if (response.statusCode >= 500) {
@@ -143,7 +143,7 @@ class ApiService {
         );
       } else {
         Fluttertoast.showToast(
-          msg: 'Something went wrong on our end. Please try again later.',
+          msg: 'Something went wrong on our end. Please try again later.'.tr,
         );
       }
     } else {
@@ -164,7 +164,7 @@ class ApiService {
     //     onNetworkError('Network error: ${e.message}');
     //   } else {
     //     Get.snackbar(
-    //       "No Internet Connection",
+    //       "No Internet Connection".tr,
     //       "You're currently offline. Please check your connection and try again.",
     //     );
     //   }

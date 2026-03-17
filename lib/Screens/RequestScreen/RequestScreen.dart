@@ -120,7 +120,7 @@ class _RequestScreenState extends State<RequestScreen>
                     child: Text(
                       user.userType == "DONOR"
                           ? (key == 0
-                              ? "Pending (${controller.incomingRequests.length})".tr
+                              ? "${'Pending'.tr} (${controller.incomingRequests.length})"
                               : "Connections".tr)
                           : "My Requests".tr,
                       style: TextStyle(

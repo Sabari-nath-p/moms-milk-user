@@ -148,7 +148,7 @@ class Timelinecontroller extends GetxController {
               TimeLineData(
                 id: data["id"],
                 dateTime: DateTime.parse(data["startTime"]),
-                activity: "Baby Feeded",
+                activity: "Baby Feeded".tr,
                 descirpiton: content,
                 activityType: 'feeding',
                 icon: FontAwesomeIcons.personBreastfeeding,
@@ -177,10 +177,9 @@ class Timelinecontroller extends GetxController {
               TimeLineData(
                 id: data["id"],
                 dateTime: dt,
-                activity: "Diaper Change",
-                descirpiton:
-                    "Baby diaper change with ${data["diaperType"]}"
-                        .toString()
+                activity: "Diaper Change".tr,
+               descirpiton:
+                    "${'Baby diaper change with'.tr} ${data["diaperType"]}"
                         .capitalizeFirst!,
                 activityType: 'diaper',
                 icon: Icons.baby_changing_station,
@@ -216,8 +215,7 @@ class Timelinecontroller extends GetxController {
                 dateTime: DateTime.parse(data["endTime"]),
                 activity: "Sleep ($duration)",
                 descirpiton:
-                    "Baby sleeps in ${data["location"]}"
-                        .toString()
+                    "${'baby_sleeps_in'.tr} ${data["location"]}"
                         .capitalizeFirst!,
                 activityType: 'sleep',
                 icon: Icons.alarm,

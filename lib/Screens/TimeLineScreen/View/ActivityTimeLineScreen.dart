@@ -257,9 +257,9 @@ class ActivityTimeLineBody extends StatelessWidget {
           Padding(
             padding:  EdgeInsets.only(left: 20),
             child: Text(
-              baby != null
-                  ? "${baby.name}'s Log"
-                  : "Baby Activity Summary",
+             baby != null
+                  ? "${baby.name} ${'Log'.tr}"
+                  : "Baby Activity Summary".tr,
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,

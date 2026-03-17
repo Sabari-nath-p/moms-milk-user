@@ -225,7 +225,7 @@ class TrackerController extends GetxController {
                 id: data["id"].toString(),
                 startTime: DateTime.parse(data["startTime"]),
                 endTime: DateTime.parse(data["endTime"]),
-                type: "Sleep(${data["location"]})",
+                type: "${'sleep'.tr} (${data["location"]})",
                 color: Colors.indigo,
               ),
             );

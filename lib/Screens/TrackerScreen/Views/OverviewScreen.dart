@@ -10,9 +10,9 @@ import 'package:mommilk_user/Screens/TrackerScreen/Views/SleepingActivityCard.da
 import 'package:mommilk_user/theme/app_theme.dart';
 
 Map<int, Widget> _menus = <int, Widget>{
-  0: SizedBox(width: 178, height: 46, child: Center(child: Text("Last Day"))),
-  1: SizedBox(width: 178, height: 46, child: Center(child: Text("Last Week"))),
-  2: SizedBox(width: 178, height: 46, child: Center(child: Text("Last Month"))),
+  0: SizedBox(width: 178, height: 46, child: Center(child: Text("Last Day".tr))),
+  1: SizedBox(width: 178, height: 46, child: Center(child: Text("Last Week".tr))),
+  2: SizedBox(width: 178, height: 46, child: Center(child: Text("Last Month".tr))),
 };
 
 class Overviewscreen extends StatelessWidget {

@@ -3,92 +3,7 @@ import 'package:get/get.dart';
 class AppTranslations extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
-    'en': {
-      "Pending_count": "Pending (@count)",
-      "days_old": ":days days old",
-      "Report": "Report",
-      "Connect": "Connect",
-      "Message": "Message",
-      "Profile": "Profile",
-      "Add your baby's profile to start tracking":
-          "Add your baby's profile to start tracking",
-      "Add Baby": "Add Baby",
-      "Just now": "Just now",
-      "Morning": "Morning",
-      "Afternoon": "Afternoon",
-      "Evening": "Evening",
-      "Night": "Night",
-      "Setup Your Profile": "Setup Your Profile",
-      "Continue": "Continue",
-      "Privacy & Security": "Privacy & Security",
-      "Control your privacy settings": "Control your privacy settings",
-      "Rate Us": "Rate Us",
-      "Help us improve with your feedback":
-          "Help us improve with your feedback",
-      "Help & Support": "Help & Support",
-      "Get help and contact support": "Get help and contact support",
-      "Delete Account": "Delete Account",
-      "Delete your mom's account": "Delete your mom's account",
-      "Logout": "Logout",
-      "Sign out of your account": "Sign out of your account",
-      "App Information": "App Information",
-      "Version": "Version",
-      "Build": "Build",
-      "About Mom's Milk": "About Mom's Milk",
-      "Edit Profile": "Edit Profile",
-      "Name": "Name",
-      "Email": "Email",
-      "Phone": "Phone",
-      "Cancel": "Cancel",
-      "Save": "Save",
-      "Privacy and security settings will be implemented here.":
-          "Privacy and security settings will be implemented here.",
-      "Delete Mom's Account": "Delete Mom's Account",
-      "Your account is scheduled for deletion in 60 days and will be reactivated automatically if you log in again within this period.":
-          "Your account is scheduled for deletion in 60 days and will be reactivated automatically if you log in again within this period.",
-      "Help and support options will be implemented here.":
-          "Help and support options will be implemented here.",
-      "OK": "OK",
-      "Mom's Milk": "Mom's Milk",
-      "A comprehensive app for mothers to track baby care and connect with milk donors.":
-          "A comprehensive app for mothers to track baby care and connect with milk donors.",
-      "Are you sure you want to logout? You will need to sign in again to access your account.":
-          "Are you sure you want to logout? You will need to sign in again to access your account.",
-      "Account Delete": "Account Delete",
-      "Error": "Error",
-      "Failed to delete. Please try again.":
-          "Failed to delete. Please try again.",
-      "Logging out...": "Logging out...",
-      "Success": "Success",
-      "You have been logged out successfully":
-          "You have been logged out successfully",
-      "Failed to logout. Please try again.":
-          "Failed to logout. Please try again.",
-      "DONOR": "DONOR",
-      "Available for Donations": "Available for Donations",
-      "Allow others to see your donation availability":
-          "Allow others to see your donation availability",
-      "Connections": "Connections",
-      "Loading user data...": "Loading user data...",
-      "My Requests": "My Requests",
-      "No Incoming Requests": "No Incoming Requests",
-      "You don’t have any pending milk requests":
-          "You don’t have any pending milk requests",
-      "No History": "No History",
-      "No previous request activity available":
-          "No previous request activity available",
-      "No Requests Yet": "No Requests Yet",
-      "You have not placed any requests yet.":
-          "You have not placed any requests yet.",
-      "Feeding": "Feeding",
-      "Delete" :"Delete",
-      "Gender" : "Gender",
-
-      
-                                                  
-      
-
-    },
+   
 
     'es': {
       
@@ -100,16 +15,31 @@ class AppTranslations extends Translations {
           "Agrega el perfil de tu bebé para comenzar el seguimiento",
       "Add Baby": "Agregar bebé",
       "Just now": "Justo ahora",
+      'Good': 'Bueno',
+      'Better': 'Mejor',
+      'Best': 'Excelente',
       "Morning": "Mañana",
       "Afternoon": "Tarde",
       "Evening": "Noche",
       "Night": "Noche",
+      'Last Day': 'Último día',
+      'Last Week': 'Última semana',
+      'Last Month': 'Último mes',
+      'Feeding Analytics': 'Análisis de alimentación',
       "Setup Your Profile": "Configura tu perfil",
       "Continue": "Continuar",
       "Privacy & Security": "Privacidad y seguridad",
       "Control your privacy settings":
           "Controla tus configuraciones de privacidad",
       "Rate Us": "Califícanos",
+      'baby_sleeps_in': 'El bebé duerme en',
+      'Log Sleep': 'Registrar sueño',
+      'Date': 'Fecha',
+      'Start Time': 'Hora de inicio',
+      'End Time': 'Hora de fin',
+      'Sleep Location': 'Lugar de sueño',
+      'Cancel': 'Cancelar',
+      'Save Log': 'Guardar registro',
       "Help us improve with your feedback":
           "Ayúdanos a mejorar con tus comentarios",
       "Help & Support": "Ayuda y soporte",
@@ -238,6 +168,21 @@ class AppTranslations extends Translations {
           "Por favor ingresa una cantidad válida en ml",
       "Please select a position for breast feeding":
           "Por favor selecciona una posición para la lactancia",
+          'Please select sleep date before submission':
+          'Seleccione la fecha de sueño antes de enviar',
+
+      'Please select start time before submission':
+          'Seleccione la hora de inicio antes de enviar',
+
+      'Please select end time before submission':
+          'Seleccione la hora de fin antes de enviar',
+
+      'End time must be after start time':
+          'La hora de fin debe ser después de la hora de inicio',
+
+      'Note (Optional)': 'Nota (Opcional)',
+      'Add any additional notes about the sleep...':
+          'Agregue notas adicionales sobre el sueño...',
 
       "Log Diaper": "Registrar pañal",
       "Date": "Fecha",
@@ -350,10 +295,12 @@ class AppTranslations extends Translations {
       "Diaper": "Pañal",
       "Select Feeding Date": "Seleccionar fecha de alimentación",
 
-      "Breast": "PECHO",
-      "Solid": "SÓLIDO",
-      "Liquid": "LÍQUIDO",
-      "Both": "AMBOS",
+      'Breast': 'Pecho',
+      'Bottle': 'Biberón',
+      'Other': 'Otro',
+      'Left': 'Izquierda',
+      'Right': 'Derecha',
+      'Both': 'Ambos',
       "CRIB": "CUNA",
       "Crib": "Cuna",
       "BED": "CAMA",
@@ -375,6 +322,8 @@ class AppTranslations extends Translations {
       "Email id is required to send otp":
           "Se requiere correo electrónico para enviar el OTP",
       "Send OTP": "Enviar OTP",
+      'Baby Feeded': 'Bebé alimentado',
+      'Baby diaper change with': 'Cambio de pañal del bebé con',
       "Enter the 6-digit code sent to":
           "Ingresa el código de 6 dígitos enviado a",
       "Verify & Continue": "Verificar y continuar",
@@ -385,6 +334,11 @@ class AppTranslations extends Translations {
       "Baby's Name *": "Nombre del bebé *",
       "Enter baby's name": "Ingresa el nombre del bebé",
       "Delivery Date": "Fecha de nacimiento",
+      'Diaper Change': 'Cambio de pañal',
+      'Something went wrong': 'Algo salió mal',
+      'No Internet Connection': 'Sin conexión a internet',
+      "You're currently offline. Please check your connection and try again.":
+          'Actualmente estás sin conexión. Verifica tu conexión e inténtalo nuevamente.',
       "Birth Weight": "Peso al nacer",
       "Birth Height": "Altura al nacer",
       "Save Baby Details": "Guardar detalles del bebé",
@@ -458,12 +412,22 @@ class AppTranslations extends Translations {
             "Seleccione la hora del cambio de pañal antes de enviar",
         
         "days_old": ":days días",
-        "\${baby.name}'s Log" : "\${baby.name}'s registro",
         "Select Feeding Date" : "Seleccionar fecha de alimentación",
+        'Log': 'Registro',
+      'Baby Activity Summary': 'Resumen de actividad del bebé',
 
         "Delete": "borrar",
         "Gender": "Género",
-        "Change Email" : "Cambiar correo electrónico"
+        "Change Email" : "Cambiar correo electrónico",
+        'year old': 'año',
+      'years old': 'años',
+      'month old': 'mes',
+      'months old': 'meses',
+      'week old': 'semana',
+      'weeks old': 'semanas',
+      'day old': 'día',
+      'days old': 'días',
+      'Born today': 'Nacido hoy',
     },
   };
 }

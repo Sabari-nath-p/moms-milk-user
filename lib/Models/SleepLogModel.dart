@@ -70,11 +70,11 @@ extension SleepQualityExtension on SleepQuality {
   String get displayName {
     switch (this) {
       case SleepQuality.good:
-        return 'Good';
+        return 'Good'.tr;
       case SleepQuality.better:
-        return 'Better';
+        return 'Better'.tr;
       case SleepQuality.best:
-        return 'Best';
+        return 'Best'.tr;
     }
   }
 }

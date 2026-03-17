@@ -1,3 +1,5 @@
+import 'package:get/utils.dart';
+
 class DiaperLogModel {
   int? id;
   DateTime date;
@@ -55,7 +57,7 @@ extension DiaperTypeExtension on DiaperType {
       case DiaperType.BOTH:
         return 'Both';
       case DiaperType.EMPTY:
-        return "Empty";
+        return "Empty".tr;
     }
   }
 }
