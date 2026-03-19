@@ -79,8 +79,10 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Send Request to ${widget.donar.donor!.name ?? 'Donor'}'
-                                  .tr,
+                           'Send Request to @name'.trParams({
+                          'name': widget.donar.donor?.name ?? 'Donor'
+                            }),
+
                               style: Theme.of(context).textTheme.titleLarge
                                   ?.copyWith(fontWeight: FontWeight.bold),
                             ),
@@ -353,7 +355,7 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                         ),
                         alignment: Alignment.center,
                         child: Text(
-                          'Send Request',
+                          'Send Request'.tr,
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,

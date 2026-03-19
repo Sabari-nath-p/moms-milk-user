@@ -146,7 +146,7 @@ class MyRequestCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Donor Available',
+                            'Donor Available'.tr,
                             style: TextStyle(
                               color: Colors.blue.shade600,
                               fontSize: 12,

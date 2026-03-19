@@ -138,7 +138,7 @@ class SearchDonarCard extends StatelessWidget {
                 //     children: [
                 //       if (donar.donor!.ableToShareMedicalRecord == true)
                 //         _buildInfoChip(
-                //           'Medical Records',
+                //           'Medical Records'.tr,
                 //           Icons.medical_services,
                 //           Colors.green,
                 //         ),
@@ -213,9 +213,9 @@ class SearchDonarCard extends StatelessWidget {
                                 ),
                                 SizedBox(width: 6),
                                 Text(
-                                  (donar.hasPendingRequest ?? false)
-                                      ? 'Requested'
-                                      : 'Connect'.tr,
+                                (donar.hasPendingRequest ?? false)
+                                 ? 'Requested'.tr
+                                 : 'Connect'.tr,
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,

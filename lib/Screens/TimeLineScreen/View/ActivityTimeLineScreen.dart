@@ -90,7 +90,7 @@ class ActivityTimeLineBody extends StatelessWidget {
                         ),
                         SizedBox(height: 16),
                         Text(
-                          'No activities for this day',
+                          'No activities for this day'.tr,
                           style: TextStyle(
                             fontSize: 16,
                             color: Colors.grey.shade600,

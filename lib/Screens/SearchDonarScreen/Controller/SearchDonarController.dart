@@ -340,7 +340,7 @@ class SearchDonarController extends GetxController {
     try {
       Map<String, dynamic> requestBody = {
         'donorId': donorId,
-        'title': 'Milk Request',
+        'title': 'Milk Request'.tr,
         'description': description,
         'quantity': quantity,
         'urgency': urgency,

@@ -66,6 +66,7 @@ class AppTranslations extends Translations {
       "Help and support options will be implemented here.":
           "Las opciones de ayuda y soporte se implementarán aquí.",
       "OK": "Aceptar",
+      'No activities for this day': 'No hay actividades para este día',
       "A comprehensive app for mothers to track baby care and connect with milk donors.":
           "Una aplicación integral para madres que permite rastrear el cuidado del bebé y conectarse con donantes de leche.",
       "Are you sure you want to logout? You will need to sign in again to access your account.":
@@ -99,26 +100,59 @@ class AppTranslations extends Translations {
       "feeding": "alimentación",
       "diaper": "pañal",
       "sleep": "sueño",
+      'Active Filters': 'Filtros activos',
       "Quick Actions": "Acciones rápidas",
       "View Baby Activity": "Ver actividad del bebé",
       "Feeding": "Alimentación",
       "Track breast or bottle feeding": "Registrar lactancia o biberón",
       "Log Feeding": "Registrar alimentación",
+      'Try adjusting your search criteria or filters.':
+          'Intenta ajustar tus criterios de búsqueda o filtros.',
       "Track wet, soiled, or both": "Registrar mojado, sucio o ambos",
       "Log Diaper Change": "Registrar cambio de pañal",
       "Sleep": "Sueño",
+      'Medical Records': 'Historial médico',
+      'Select date and time': 'Seleccionar fecha y hora',
+      'Please enter baby\'s name': 'Por favor ingrese el nombre del bebé',
       "Track baby's sleep patterns": "Registrar patrones de sueño del bebé",
       "Log Sleep": "Registrar sueño",
       "My Connection": "Mi conexión",
       "DONOR": "DONANTE",
+      "Baby's name must be at least 2 characters long":
+          "El nombre del bebé debe tener al menos 2 caracteres",
+          "Please select baby's gender": "Por favor seleccione el género del bebé",
+
+      "Please select delivery date":
+          "Por favor seleccione la fecha de nacimiento",
+
+      "Please enter baby's weight": "Por favor ingrese el peso del bebé",
+
+      "Weight must be between 0.1 and 10 kg":
+          "El peso debe estar entre 0.1 y 10 kg",
+
+      "Please enter baby's height": "Por favor ingrese la altura del bebé",
+
+      "Height must be between 1 and 100 cm":
+          "La altura debe estar entre 1 y 100 cm",
       "Find Donors": "Buscar donantes",
       "Date": "Fecha",
+      'Send Request to @name': 'Enviar solicitud a @name',
+      'Please enter a description': 'Por favor ingrese una descripción',
+      'Requested': 'Solicitado',
       "Start Time": "Hora de inicio",
       "End Time": "Hora de fin",
       "Sleep Location": "Lugar de sueño",
       "Cancel": "Cancelar",
       "Save Log": "Guardar registro",
+      'pending': 'Pendiente',
+      'accepted': 'Aceptado',
+      'rejected': 'Rechazado',
+      'completed': 'Completado',
       "Log Failed": "Registro fallido",
+      'Send Request': 'Enviar solicitud',
+      'Your Blood Group *': 'Tu grupo sanguíneo *',
+      'Donor Available': 'Donante disponible',
+      'Milk Request': 'Solicitud de leche',
       "Please select sleep date before submission":
           "Por favor selecciona la fecha de sueño antes de enviar",
       "Please select start time before submission":
