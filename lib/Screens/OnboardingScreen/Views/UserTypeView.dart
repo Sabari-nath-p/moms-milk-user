@@ -64,7 +64,7 @@ class UserTypeStep extends StatelessWidget {
                 title: 'I need Milk'.tr,
                 subtitle: 'I need to track my baby and find donors'.tr,
                 description:
-                    'Access breast milk from verified donors in your area. '.tr,
+                    'Access breast milk from verified donors in your area.'.tr,
                 icon: Icons.child_care,
                 isSelected: controller.userType == UserType.buyer,
                 onTap: () {

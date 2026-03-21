@@ -50,6 +50,7 @@ class SearchDonarController extends GetxController {
     'O+',
     'O-',
   ];
+
   @override
   void onInit() {
     super.onInit();
@@ -63,13 +64,10 @@ class SearchDonarController extends GetxController {
     super.onClose();
   }
 
-  // Search functionality
   void searchDonors() {
-    // Reset pagination and reload with new search criteria
     loadDonors();
   }
 
-  // Load donors from API
   void loadDonors({bool loadMore = false}) async {
     if (loadMore) {
       if (!hasMoreData || isLoadingMore) return;
@@ -85,13 +83,11 @@ class SearchDonarController extends GetxController {
     update();
 
     try {
-      // Build query parameters
       Map<String, String> queryParams = {
         'page': currentPage.toString(),
         'limit': limit.toString(),
       };
 
-      // Add optional filters
       if (bloodGroupFilter.isNotEmpty) {
         queryParams['bloodGroup'] = bloodGroupFilter;
       }
@@ -112,9 +108,6 @@ class SearchDonarController extends GetxController {
         queryParams['donorName'] = donarSearchText.text;
       }
 
-      //queryParams['maxDistance'] = "10";
-
-      // Build endpoint with query parameters
       String endpoint = "/requests/search/donors";
       if (queryParams.isNotEmpty) {
         String queryString = queryParams.entries
@@ -130,11 +123,9 @@ class SearchDonarController extends GetxController {
         endpoint: endpoint,
         method: Api.GET,
         onSuccess: (data) {
-          // Handle new API response format with pagination
           List<dynamic> donorsData = data.data['data'] ?? [];
           Map<String, dynamic>? paginationData = data.data['pagination'];
 
-          // Parse donor data
           List<SearchDonarModel> newDonors =
               donorsData
                   .map((item) => SearchDonarModel.fromJson(item))
@@ -146,25 +137,21 @@ class SearchDonarController extends GetxController {
             allDonors = newDonors;
           }
 
-          // Use pagination data from API response
           if (paginationData != null) {
             hasMoreData = paginationData['hasNextPage'] ?? false;
             currentPage = paginationData['currentPage'] ?? currentPage;
           } else {
-            // Fallback to old logic if pagination data not available
             hasMoreData = newDonors.length >= limit;
           }
 
           filteredDonors = List.from(allDonors);
-          // sortDonors();
-          //updateActiveFilters();
         },
         onError: (error) {
-          Fluttertoast.showToast(msg: 'Failed to load donors: $error');
+          Fluttertoast.showToast(msg: 'Failed to load donors: $error'.tr);
         },
       );
     } catch (e) {
-      Fluttertoast.showToast(msg: 'Failed to load donors: $e');
+      Fluttertoast.showToast(msg: 'Failed to load donors: $e'.tr);
     } finally {
       isLoading = false;
       isLoadingMore = false;
@@ -172,55 +159,11 @@ class SearchDonarController extends GetxController {
     }
   }
 
-  // Apply filters - now triggers API call with filters
   void applyFilters() {
-    // Update active filters display
     updateActiveFilters();
-
-    // Reload data with new filters
     loadDonors();
   }
 
-  // Sort donors
-  // void sortDonors() {
-  //   switch (sortBy) {
-  //     case 'distance':
-  //       filteredDonors.sort(
-  //         (a, b) => (a['distance'] ?? 0).compareTo(b['distance'] ?? 0),
-  //       );
-  //       break;
-  //     case 'rating':
-  //       filteredDonors.sort(
-  //         (a, b) => (b['rating'] ?? 0).compareTo(a['rating'] ?? 0),
-  //       );
-  //       break;
-  //     case 'recent':
-  //       filteredDonors.sort((a, b) {
-  //         DateTime aDate =
-  //             DateTime.tryParse(a['lastActive'] ?? '') ?? DateTime.now();
-  //         DateTime bDate =
-  //             DateTime.tryParse(b['lastActive'] ?? '') ?? DateTime.now();
-  //         return bDate.compareTo(aDate);
-  //       });
-  //       break;
-  //     case 'availability':
-  //       filteredDonors.sort((a, b) {
-  //         bool aAvailable = a['isAvailable'] ?? false;
-  //         bool bAvailable = b['isAvailable'] ?? false;
-  //         return bAvailable ? 1 : (aAvailable ? -1 : 0);
-  //       });
-  //       break;
-  //   }
-  //   update();
-  // }
-
-  // Update sort option
-  // void updateSortBy(String newSortBy) {
-  //   sortBy = newSortBy;
-  //  // sortDonors();
-  // }
-
-  // Filter management
   void updateBloodGroupFilter(String bloodGroup) {
     bloodGroupFilter = bloodGroup;
     applyFilters();
@@ -251,23 +194,23 @@ class SearchDonarController extends GetxController {
     activeFilters.clear();
 
     if (bloodGroupFilter.isNotEmpty) {
-      activeFilters.add('Blood: $bloodGroupFilter');
+      activeFilters.add('Blood: $bloodGroupFilter'.tr);
     }
 
     if (medicalRecordsRequired) {
-      activeFilters.add('Medical Records');
+      activeFilters.add('Medical Records'.tr);
     }
 
     if (!onlyAvailableDonors) {
-      activeFilters.add('All Donors');
+      activeFilters.add('All Donors'.tr);
     }
 
     if (zipSearchText.text.isNotEmpty) {
-      activeFilters.add('Zip: ${zipSearchText.text}');
+      activeFilters.add('Zip: ${zipSearchText.text}'.tr);
     }
 
     if (donarSearchText.text.isNotEmpty) {
-      activeFilters.add('Name: ${donarSearchText.text}');
+      activeFilters.add('Name: ${donarSearchText.text}'.tr);
     }
   }
 
@@ -287,49 +230,40 @@ class SearchDonarController extends GetxController {
     applyFilters();
   }
 
-  // Utility functions
   Color getAvailabilityColor(bool isAvailable) {
     return isAvailable ? Colors.green : Colors.orange;
   }
 
   String getDonorDistance(Map<String, dynamic> donor) {
     double distance = donor['distance']?.toDouble() ?? 0.0;
-    return '${distance.toStringAsFixed(1)}km';
+    return '${distance.toStringAsFixed(1)}km'.tr;
   }
 
   String getDonorRating(Map<String, dynamic> donor) {
     double rating = donor['rating']?.toDouble() ?? 0.0;
-    return '${rating.toStringAsFixed(1)}★';
+    return '${rating.toStringAsFixed(1)}★'.tr;
   }
 
   String getAvailabilityText(bool isAvailable) {
     return isAvailable ? 'Available'.tr : 'Unavailable'.tr;
   }
 
-  // Navigation functions
   void viewDonorProfile(Map<String, dynamic> donor) {
-    // TODO: Navigate to donor profile screen
-    // Get.to(() => DonorProfileScreen(donor: donor));
-    print('Navigate to donor profile: ${donor['name']}');
+    print('Navigate to donor profile: ${donor['name']}'.tr);
   }
 
   void contactDonor(Map<String, dynamic> donor) {
-    // TODO: Navigate to contact/chat screen
-    // Get.to(() => ChatScreen(donor: donor));
-    print('Contact donor: ${donor['name']}');
+    print('Contact donor: ${donor['name']}'.tr);
   }
 
-  // Refresh functionality
   void refreshDonors() {
     loadDonors();
   }
 
-  // Load more donors for pagination
   void loadMoreDonors() {
     loadDonors(loadMore: true);
   }
 
-  // Send request to donor
   void sendRequestToDonor({
     required int donorId,
     required String description,
@@ -346,7 +280,6 @@ class SearchDonarController extends GetxController {
         'urgency': urgency,
       };
 
-      // Add neededBy if provided
       if (neededBy != null) {
         requestBody['neededBy'] = neededBy.toIso8601String();
       }
@@ -356,14 +289,14 @@ class SearchDonarController extends GetxController {
         method: Api.POST,
         body: requestBody,
         onSuccess: (data) {
-          Fluttertoast.showToast(msg: 'Request sent successfully!');
+          Fluttertoast.showToast(msg: 'Request sent successfully!'.tr);
         },
         onError: (error) {
-          Fluttertoast.showToast(msg: 'Failed to send request: $error');
+          Fluttertoast.showToast(msg: 'Failed to send request: $error'.tr);
         },
       );
     } catch (e) {
-      Fluttertoast.showToast(msg: 'Failed to send request: $e');
+      Fluttertoast.showToast(msg: 'Failed to send request: $e'.tr);
     }
   }
 }

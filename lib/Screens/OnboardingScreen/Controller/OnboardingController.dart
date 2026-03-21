@@ -178,7 +178,7 @@ class Onboardingcontroller extends GetxController {
         'language': selectedLanguage,
         'instagramLink': instagramLinkController.text.trim(),
         'facebookLink': facebookLinkController.text.trim(),
-        'bloodGroup': '', //getBloodGroupText(seletecBloodGroup!!),
+        'bloodGroup': '',
         if (userType == UserType.donor)
           'babyDeliveryDate': babyDeliveryDate!.toUtc().toString(),
         if (userType == UserType.donor)
@@ -206,7 +206,7 @@ class Onboardingcontroller extends GetxController {
         }
       },
       onError: (error) {
-        Fluttertoast.showToast(msg: error.toString());
+        Fluttertoast.showToast(msg: error.toString().tr);
       },
     );
     isLoading = false;
@@ -228,55 +228,49 @@ class Onboardingcontroller extends GetxController {
   }
 
   bool validateUserDetails() {
-    // Clear previous errors
     nameError.value = '';
     phoneError.value = '';
     zipError.value = '';
 
     bool isValid = true;
 
-    // Name validation
     if (nameController.text.trim().isEmpty) {
-      nameError.value = 'Please enter your full name';
+      nameError.value = 'Please enter your full name'.tr;
       isValid = false;
     } else if (nameController.text.trim().length < 2) {
-      nameError.value = 'Name must be at least 2 characters long';
+      nameError.value = 'Name must be at least 2 characters long'.tr;
       isValid = false;
     }
 
-    // Phone validation
-    // Phone validation
     if (phoneController.text.trim().isEmpty) {
       phoneError.value = 'Please enter your phone number'.tr;
       isValid = false;
     } else if (!RegExp(r'^[0-9]+$').hasMatch(phoneController.text.trim())) {
-      phoneError.value = 'Phone number should contain only digits';
+      phoneError.value = 'Phone number should contain only digits'.tr;
       isValid = false;
     } else if (phoneController.text.trim().length < 10) {
-      phoneError.value = 'Phone number must be at least 10 digits long';
+      phoneError.value = 'Phone number must be at least 10 digits long'.tr;
       isValid = false;
     } else if (phoneController.text.trim().length > 10) {
-      phoneError.value = 'Phone number cannot exceed 10 digits';
+      phoneError.value = 'Phone number cannot exceed 10 digits'.tr;
       isValid = false;
     }
 
-    // Zip code validation
     if (zipCodeController.text.trim().isEmpty) {
-      zipError.value = 'Please enter your zip code';
+      zipError.value = 'Please enter your zip code'.tr;
       isValid = false;
     } else if (!RegExp(
       r'^[0-9A-Za-z\s-]+$',
     ).hasMatch(zipCodeController.text.trim())) {
-      zipError.value = 'Please enter a valid zip code';
+      zipError.value = 'Please enter a valid zip code'.tr;
       isValid = false;
     } else if (zipCodeController.text.trim().length < 3) {
-      zipError.value = 'Zip code must be at least 3 characters long';
+      zipError.value = 'Zip code must be at least 3 characters long'.tr;
       isValid = false;
     }
 
-    // Country code validation
     if (selectedCountryCode.isEmpty) {
-      Fluttertoast.showToast(msg: 'Please select a country code');
+      Fluttertoast.showToast(msg: 'Please select a country code'.tr);
       isValid = false;
     }
 
@@ -285,25 +279,15 @@ class Onboardingcontroller extends GetxController {
 
   bool validateDonorDetails() {
     if (babyDeliveryDate == null) {
-      Fluttertoast.showToast(msg: 'Please select your delivery date');
+      Fluttertoast.showToast(msg: 'Please select your delivery date'.tr);
       return false;
     }
 
     if (seletecBloodGroup == null) {
-      Fluttertoast.showToast(msg: 'Please select your blood group');
+      Fluttertoast.showToast(msg: 'Please select your blood group'.tr);
       return false;
     }
 
-    // Validate donor qualities (at least one should be selected)
-    // if (selectedQualities.isEmpty) {
-    //   Get.snackbar(
-    //     'Validation Error',
-    //     'Please select at least one donor quality',
-    //   );
-    //   return false;
-    // }
-
-    // All donor validations passed
     return true;
   }
 }
