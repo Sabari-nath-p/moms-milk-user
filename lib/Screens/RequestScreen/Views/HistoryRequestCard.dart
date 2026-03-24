@@ -52,16 +52,16 @@ class HistoryRequestCard extends StatelessWidget {
                 ),
                 SizedBox(width: 12),
                 Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 6,
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                   decoration: BoxDecoration(
                     color: getStatusColor(request.status ?? 'pending'),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Text(
-                    (request.status ?? 'pending').toUpperCase(),
+                    (request.status ?? 'pending')
+                        .toLowerCase()
+                        .tr
+                        .toUpperCase(),
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 11,
@@ -93,10 +93,7 @@ class HistoryRequestCard extends StatelessWidget {
                 Spacer(),
                 if (false)
                   Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
-                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
                       color: getUrgencyColor(
                         request.urgency ?? 'low',
@@ -157,7 +154,7 @@ class HistoryRequestCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Text(
-                        "Sent a message".tr,
+                        "Send a message".tr,
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w700,

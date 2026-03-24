@@ -132,7 +132,9 @@ class ApiService {
           transition: Transition.rightToLeft,
         );
         Fluttertoast.showToast(
-          msg: 'You need to log in to continue. Please sign in and try again.'.tr,
+          msg:
+              'You need to log in to continue. Please sign in and try again.'
+                  .tr,
         );
       }
     } else if (response.statusCode >= 500) {

@@ -178,7 +178,7 @@ class Timelinecontroller extends GetxController {
                 id: data["id"],
                 dateTime: dt,
                 activity: "Diaper Change".tr,
-               descirpiton:
+                descirpiton:
                     "${'Baby diaper change with'.tr} ${data["diaperType"]}"
                         .capitalizeFirst!,
                 activityType: 'diaper',
@@ -213,7 +213,7 @@ class Timelinecontroller extends GetxController {
               TimeLineData(
                 id: data["id"],
                 dateTime: DateTime.parse(data["endTime"]),
-                activity: "Sleep ($duration)",
+                activity: "${"Sleep".tr} ($duration)",
                 descirpiton:
                     "${'baby_sleeps_in'.tr} ${data["location"]}"
                         .capitalizeFirst!,
