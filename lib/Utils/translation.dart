@@ -92,8 +92,7 @@ class AppTranslations extends Translations {
       "You don’t have any pending milk requests":
           "No tienes solicitudes de leche pendientes",
       "No History": "Sin historial",
-      "No previous request activity available":
-          "No hay actividad previa de solicitudes disponible",
+       "No previous request activity available.": "No hay actividad previa disponible.",
       "No Requests Yet": "Aún no hay solicitudes",
       "You have not placed any requests yet.":
           "No has realizado ninguna solicitud todavía.",
@@ -159,6 +158,8 @@ class AppTranslations extends Translations {
           "Por favor selecciona la hora de inicio antes de enviar",
       "Please select end time before submission":
           "Por favor selecciona la hora de fin antes de enviar",
+          "Milk Donar": "Donante de leche",
+  "Milk Recipient": "Receptor de leche",
       "Validation Error": "Error de validación",
       "End time must be after start time":
           "La hora de fin debe ser posterior a la hora de inicio",
@@ -237,6 +238,7 @@ class AppTranslations extends Translations {
       "Decline": "Rechazar",
       "Accept": "Aceptar",
       "Send a message": "Enviar un mensaje",
+       "Enter Message": "Ingrese mensaje",
 
       "Please provide additional information to help ensure safe milk donation":
           "Por favor proporciona información adicional para ayudar a garantizar una donación segura de leche",

@@ -222,8 +222,8 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                       SizedBox(width: 8),
                       Expanded(
                         child: _buildUrgencyChip(
-                          'HIGH',
-                          selectedUrgency == 'HIGH'.tr,
+                          'HIGH'.tr,
+                          selectedUrgency == 'HIGH',
                           Colors.red,
                           () => setState(() => selectedUrgency = 'HIGH'),
                         ),

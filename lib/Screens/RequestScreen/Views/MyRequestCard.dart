@@ -192,7 +192,7 @@ class MyRequestCard extends StatelessWidget {
                         ),
                       ),
                       child: Text(
-                        'Send a message'.tr,
+                        "Send a message".tr,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 12,

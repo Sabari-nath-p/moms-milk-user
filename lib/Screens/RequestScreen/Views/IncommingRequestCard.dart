@@ -145,7 +145,7 @@ class IncommingRequestCard extends StatelessWidget {
                       ),
                     ),
                     child: Text(
-                      'Decline'.tr,
+                      "Decline".tr,
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 14,
@@ -167,7 +167,7 @@ class IncommingRequestCard extends StatelessWidget {
                       ),
                     ),
                     child: Text(
-                      'Accept'.tr,
+                      "Accept".tr,
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 14,
