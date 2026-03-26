@@ -24,7 +24,7 @@ class ChatListCard extends StatelessWidget {
             userID: session.otherUser!.id!,
             isDonar: session.otherUser!.userType != "BUYER",
             session: session.id,
-            userName: session.otherUser!.name ?? "N/A",
+            userName: session.otherUser!.name ?? "N/A".tr,
           );
         },
         child: Row(

@@ -66,7 +66,7 @@ class OnboardingScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Step ${controller.currentStep + 1} of ${controller.totalStep}',
+                           'Step ${controller.currentStep + 1} of ${controller.totalStep}'.tr,
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
                           Text(

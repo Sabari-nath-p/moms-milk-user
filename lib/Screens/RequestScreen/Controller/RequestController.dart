@@ -123,7 +123,7 @@ class Requestcontroller extends GetxController {
       },
       onError: (error) {
         print('Incoming requests API error: $error');
-        Fluttertoast.showToast(msg: 'Failed to load incoming requests: $error');
+        Fluttertoast.showToast(msg: 'Failed to load incoming requests: $error'.tr);
       },
     );
     // } catch (e) {
@@ -202,7 +202,7 @@ class Requestcontroller extends GetxController {
       },
       onError: (error) {
         print('History requests API error: $error');
-        Fluttertoast.showToast(msg: 'Failed to load history requests: $error');
+        Fluttertoast.showToast(msg: 'Failed to load history requests: $error'.tr);
       },
     );
     // } catch (e) {
@@ -275,7 +275,7 @@ class Requestcontroller extends GetxController {
       },
       onError: (error) {
         print('My requests API error: $error');
-        Fluttertoast.showToast(msg: 'Failed to load my requests: $error');
+        Fluttertoast.showToast(msg: 'Failed to load my requests: $error'.tr);
       },
     );
     // } catch (e) {
@@ -295,7 +295,7 @@ class Requestcontroller extends GetxController {
       endpoint: '/requests/$requestId/accept',
       method: Api.POST,
       onSuccess: (data) {
-        Fluttertoast.showToast(msg: 'Request accepted successfully!');
+        Fluttertoast.showToast(msg: 'Request accepted successfully!'.tr);
         // Refresh incoming requests
         fetchIncomingRequests();
         Homecontroller hctrl = Get.find();
@@ -303,7 +303,7 @@ class Requestcontroller extends GetxController {
         fetchHistoryRequests();
       },
       onError: (error) {
-        Fluttertoast.showToast(msg: 'Failed to accept request: $error');
+        Fluttertoast.showToast(msg: 'Failed to accept request: $error'.tr);
       },
     );
     // } catch (e) {
@@ -318,13 +318,13 @@ class Requestcontroller extends GetxController {
       endpoint: '/requests/$requestId/reject',
       method: Api.POST,
       onSuccess: (data) {
-        Fluttertoast.showToast(msg: 'Request declined successfully!');
+        Fluttertoast.showToast(msg: 'Request declined successfully!'.tr);
         // Refresh incoming requests
         fetchIncomingRequests();
         fetchHistoryRequests();
       },
       onError: (error) {
-        Fluttertoast.showToast(msg: 'Failed to decline request: $error');
+        Fluttertoast.showToast(msg: 'Failed to decline request: $error'.tr);
       },
     );
     // } catch (e) {
@@ -363,7 +363,7 @@ class Requestcontroller extends GetxController {
   }
 
   String formatDate(String? dateString) {
-    if (dateString == null || dateString.isEmpty) return 'Unknown date';
+    if (dateString == null || dateString.isEmpty) return 'Unknown date'.tr;
 
     try {
       DateTime date = DateTime.parse(dateString);
@@ -371,13 +371,13 @@ class Requestcontroller extends GetxController {
       Duration difference = now.difference(date);
 
       if (difference.inDays > 0) {
-        return '${difference.inDays} day${difference.inDays > 1 ? 's' : ''} ago';
+        return '${difference.inDays} day${difference.inDays > 1 ? 's' : ''} ago'.tr;
       } else if (difference.inHours > 0) {
-        return '${difference.inHours} hour${difference.inHours > 1 ? 's' : ''} ago';
+        return '${difference.inHours} hour${difference.inHours > 1 ? 's' : ''} ago'.tr;
       } else if (difference.inMinutes > 0) {
-        return '${difference.inMinutes} minute${difference.inMinutes > 1 ? 's' : ''} ago';
+        return '${difference.inMinutes} minute${difference.inMinutes > 1 ? 's' : ''} ago'.tr;
       } else {
-        return 'Just now';
+        return 'Just now'.tr;
       }
     } catch (e) {
       return dateString;
@@ -391,13 +391,13 @@ class Requestcontroller extends GetxController {
     String contactName =
         user.userType == 'DONOR'
             ? request.requester?.name ?? 'Unknown'
-            : request.donor?.name ?? 'Unknown';
+            : request.donor?.name ?? 'Unknown'.tr;
     String contactEmail =
         user.userType == 'DONOR'
             ? request.requester?.email ?? 'No email'
-            : request.donor?.email ?? 'No email';
+            : request.donor?.email ?? 'No email'.tr;
 
-    Fluttertoast.showToast(msg: 'Name: $contactName\nEmail: $contactEmail');
+    Fluttertoast.showToast(msg: 'Name: $contactName\nEmail: $contactEmail'.tr);
   }
 
   // Refresh all data

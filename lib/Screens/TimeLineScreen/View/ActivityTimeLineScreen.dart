@@ -481,7 +481,7 @@ class ActivityTimeLineBody extends StatelessWidget {
                 if (item.descirpiton.isNotEmpty) ...[
                   SizedBox(height: 24),
                   Text(
-                    'Details',
+                    'Details'.tr,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -513,13 +513,13 @@ class ActivityTimeLineBody extends StatelessWidget {
       context: context,
       builder:
           (context) => AlertDialog(
-            title: Text('Filter Activities'),
+            title: Text('Filter Activities'.tr),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Obx(
                   () => CheckboxListTile(
-                    title: Text('Feeding'),
+                    title: Text('Feeding'.tr),
                     value: tcltr.showFeeding.value,
                     onChanged: (_) => tcltr.toggleFilter('feeding'),
                     activeColor: Colors.orange.shade400,
@@ -527,7 +527,7 @@ class ActivityTimeLineBody extends StatelessWidget {
                 ),
                 Obx(
                   () => CheckboxListTile(
-                    title: Text('Diaper Changes'),
+                    title: Text('Diaper Changes'.tr),
                     value: tcltr.showDiaper.value,
                     onChanged: (_) => tcltr.toggleFilter('diaper'),
                     activeColor: Colors.blue.shade400,
@@ -535,7 +535,7 @@ class ActivityTimeLineBody extends StatelessWidget {
                 ),
                 Obx(
                   () => CheckboxListTile(
-                    title: Text('Sleep'),
+                    title: Text('Sleep'.tr),
                     value: tcltr.showSleep.value,
                     onChanged: (_) => tcltr.toggleFilter('sleep'),
                     activeColor: Colors.purple.shade400,
@@ -546,7 +546,7 @@ class ActivityTimeLineBody extends StatelessWidget {
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: Text('Close'),
+                child: Text('Close'.tr),
               ),
             ],
           ),

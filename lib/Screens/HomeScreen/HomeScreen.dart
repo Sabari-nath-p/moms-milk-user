@@ -166,11 +166,11 @@ class Homescreen extends StatelessWidget {
     if (difference.inMinutes < 1) {
       return 'Just now'.tr;
     } else if (difference.inMinutes < 60) {
-      return '${difference.inMinutes}m ago';
+      return '${difference.inMinutes}m ago'.tr;
     } else if (difference.inHours < 24) {
-      return '${difference.inHours}h ago';
+      return '${difference.inHours}h ago'.tr;
     } else {
-      return '${difference.inDays}d ago';
+      return '${difference.inDays}d ago'.tr;
     }
   }
 

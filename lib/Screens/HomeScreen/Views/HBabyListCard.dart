@@ -265,7 +265,7 @@ class HBabyCard extends StatelessWidget {
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: Text('Cancel'),
+                child: Text('Cancel'.tr),
               ),
               ElevatedButton(
                 onPressed: () {

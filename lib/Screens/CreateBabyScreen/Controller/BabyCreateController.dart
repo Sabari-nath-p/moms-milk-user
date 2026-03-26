@@ -43,7 +43,9 @@ class CreateBabyController extends GetxController {
 
             Get.back();
 
-            Fluttertoast.showToast(msg: 'Baby profile created successfully!'.tr);
+            Fluttertoast.showToast(
+              msg: 'Baby profile created successfully!'.tr,
+            );
           }
           isLoading = false;
           update();
@@ -59,7 +61,8 @@ class CreateBabyController extends GetxController {
         isLoading = false;
         Fluttertoast.showToast(
           msg:
-              'Unable to create baby profile. Please check your internet connection.'.tr,
+              'Unable to create baby profile. Please check your internet connection.'
+                  .tr,
         );
         print("Error creating baby: $error");
 
@@ -96,7 +99,7 @@ class CreateBabyController extends GetxController {
       onError: (error) {
         isLoading = false;
         update();
-        Fluttertoast.showToast(msg: 'Failed to delete baby : $error');
+        Fluttertoast.showToast(msg: 'Failed to delete baby : $error'.tr);
       },
     );
   }

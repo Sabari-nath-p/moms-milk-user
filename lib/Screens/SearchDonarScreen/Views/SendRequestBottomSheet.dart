@@ -80,7 +80,7 @@ class _SendRequestBottomSheetState extends State<SendRequestBottomSheet> {
                           children: [
                             Text(
                            'Send Request to @name'.trParams({
-                          'name': widget.donar.donor?.name ?? 'Donor'
+                          'name': widget.donar.donor?.name ?? 'Donor'.tr
                             }),
 
                               style: Theme.of(context).textTheme.titleLarge

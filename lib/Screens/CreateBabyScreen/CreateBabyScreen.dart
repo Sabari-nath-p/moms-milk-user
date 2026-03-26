@@ -243,9 +243,9 @@ class CreateBabyScreen extends StatelessWidget {
                       color: Color(0xffFDA4AF),
                     ),
                     inputUnitList: [
-                      Unit(name: "kg", conversionFactorToMl: 1.0),
+                      Unit(name: "kg".tr, conversionFactorToMl: 1.0),
                       Unit(
-                        name: "lb",
+                        name: "lb".tr,
                         conversionFactorToMl: 0.453592,
                       ), // 1 lb = 0.453592 kg
                     ],
@@ -261,9 +261,9 @@ class CreateBabyScreen extends StatelessWidget {
                       color: Color(0xffFDA4AF),
                     ),
                     inputUnitList: [
-                      Unit(name: "cm", conversionFactorToMl: 1.0),
+                      Unit(name: "cm".tr, conversionFactorToMl: 1.0),
                       Unit(
-                        name: "in",
+                        name: "in".tr,
                         conversionFactorToMl: 2.54,
                       ), // 1 inch = 2.54 cm
                     ],

@@ -108,7 +108,7 @@ class UserDetailsStep extends StatelessWidget {
                             return DropdownMenuItem<String>(
                               value: country['code'],
                               child: Text(
-                                '${country['code']} ${country['country']}',
+                                '${country['code'.tr]} ${country['country'.tr]}',
                                 style: TextStyle(fontSize: 14),
                               ),
                             );
@@ -254,7 +254,7 @@ class UserDetailsStep extends StatelessWidget {
                     ),
                   ),
                   items:
-                      ["English", "Spanish"].map((lang) {
+                      ["English".tr, "Spanish".tr].map((lang) {
                         return DropdownMenuItem<String>(
                           value: lang,
                           child: Text(lang, style: TextStyle(fontSize: 14)),

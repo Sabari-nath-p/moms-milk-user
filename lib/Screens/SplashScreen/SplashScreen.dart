@@ -40,7 +40,8 @@ class _SplashScreenState extends State<SplashScreen> {
       title: "Nourishing Every Baby".tr,
       IconPath: "assets/logIcon.png",
       description:
-          "A caring platform designed to support babies with safe milk sharing and daily care tracking.".tr,
+          "A caring platform designed to support babies with safe milk sharing and daily care tracking."
+              .tr,
       imagePage: "assets/ss1.png",
       tabText: "Log".tr,
       index: 0,
@@ -49,7 +50,8 @@ class _SplashScreenState extends State<SplashScreen> {
       title: "Track Baby’s Daily Care".tr,
       IconPath: "assets/reportIcon.png",
       description:
-          "Log feeding, diaper changes, and sleep patterns to understand your baby’s routine better".tr,
+          "Log feeding, diaper changes, and sleep patterns to understand your baby’s routine better"
+              .tr,
       imagePage: "assets/ss2.png",
       tabText: "Report".tr,
       index: 1,
@@ -58,7 +60,8 @@ class _SplashScreenState extends State<SplashScreen> {
       title: "Connect with Milk Donors".tr,
       IconPath: "assets/connectIcon.png",
       description:
-          "Find trusted breast milk donors nearby and build a safe, supportive connection.".tr,
+          "Find trusted breast milk donors nearby and build a safe, supportive connection."
+              .tr,
       imagePage: "assets/ss3.png",
       tabText: "Connect".tr,
       index: 2,
@@ -67,7 +70,8 @@ class _SplashScreenState extends State<SplashScreen> {
       title: "Chat & Manage Profiles".tr,
       IconPath: "assets/message.png",
       description:
-          "Communicate securely with donors and manage multiple baby profiles in one place.".tr,
+          "Communicate securely with donors and manage multiple baby profiles in one place."
+              .tr,
       imagePage: "assets/ss4.png",
       tabText: "Message".tr,
       index: 3,
@@ -213,10 +217,9 @@ class _SplashScreenState extends State<SplashScreen> {
                         padding: EdgeInsets.symmetric(horizontal: 8),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
-                          color:
-                              (currentIndex == data.index)
-                                  ? Color(0xffF1D2D9)
-                                  : Color(0xffE7E7E7),
+                          color: (currentIndex == data.index)
+                              ? Color(0xffF1D2D9)
+                              : Color(0xffE7E7E7),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -224,10 +227,9 @@ class _SplashScreenState extends State<SplashScreen> {
                             Image.asset(
                               data.IconPath,
                               width: 20,
-                              color:
-                                  (currentIndex == data.index)
-                                      ? Color(0xffED7754)
-                                      : Color(0xffB2A9A4),
+                              color: (currentIndex == data.index)
+                                  ? Color(0xffED7754)
+                                  : Color(0xffB2A9A4),
                             ),
                             SizedBox(width: 10),
                             Text(
@@ -235,10 +237,9 @@ class _SplashScreenState extends State<SplashScreen> {
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
-                                color:
-                                    (currentIndex == data.index)
-                                        ? Color(0xffED7754)
-                                        : Color(0xffB2A9A4),
+                                color: (currentIndex == data.index)
+                                    ? Color(0xffED7754)
+                                    : Color(0xffB2A9A4),
                               ),
                             ),
                           ],

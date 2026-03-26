@@ -88,11 +88,11 @@ class Timelinecontroller extends GetxController {
     //int totalSleepMinutes = 0;
 
     for (var item in timedatalist) {
-      if (item.activityType == 'feeding'.tr) {
+      if (item.activityType == 'feeding') {
         totalFeedings.value++;
-      } else if (item.activityType == 'diaper'.tr) {
+      } else if (item.activityType == 'diaper') {
         totalDiaperChanges.value++;
-      } else if (item.activityType == 'sleep'.tr) {
+      } else if (item.activityType == 'sleep') {
         // if (item.activity == 'Sleep Started') {
         //   sleepStarts[item.id] = item.dateTime;
         // } else if (item.activity == 'Sleep Ended' &&
@@ -111,11 +111,11 @@ class Timelinecontroller extends GetxController {
 
   String formatDuration(Duration duration) {
     if (duration.inSeconds < 60) {
-      return '${duration.inSeconds} seconds';
+      return '${duration.inSeconds} seconds'.tr;
     } else if (duration.inMinutes < 60) {
-      return '${duration.inMinutes} minutes';
+      return '${duration.inMinutes} minutes'.tr;
     } else {
-      return '${duration.inHours} hour';
+      return '${duration.inHours} hour'.tr;
     }
   }
 

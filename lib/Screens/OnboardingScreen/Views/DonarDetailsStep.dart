@@ -241,7 +241,7 @@ Wrap(
                         Expanded(
                           child: RadioListTile<bool>(
                             title: Text(
-                              'No',
+                              'No'.tr,
                               style: TextStyle(color: Colors.black),
                             ),
                             value: false,

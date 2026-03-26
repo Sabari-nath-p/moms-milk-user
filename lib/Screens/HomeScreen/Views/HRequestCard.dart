@@ -38,7 +38,7 @@ class HRequestCard extends StatelessWidget {
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  "My Connection".tr,
+                  "My Connections".tr,
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     color: controller.connectionTabIndex == 0

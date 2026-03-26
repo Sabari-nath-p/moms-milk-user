@@ -35,7 +35,7 @@ class SearchDonarCard extends StatelessWidget {
                       radius: 25,
                       backgroundColor: AppTheme.primaryColor.withOpacity(.4),
                       child: Text(
-                        (donar.donor!.name ?? "U")[0],
+                        (donar.donor!.name ?? "U".tr)[0],
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,

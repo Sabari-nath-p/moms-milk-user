@@ -76,6 +76,254 @@ class AppTranslations extends Translations {
       "Failed to delete. Please try again.":
           "No se pudo eliminar. Inténtalo de nuevo.",
       "Logging out...": "Cerrando sesión...",
+       "Server error. Please try after some time":
+          "Error del servidor. Por favor, inténtalo más tarde",
+          "N/A": "No disponible",
+      "No buyer connected yet": "Aún no hay compradores conectados",
+
+      "Not connected with\nany donor": "No estás conectado con\nningún donante",
+
+      "Find Donors": "Buscar donantes",
+
+      "Search Connected Parent": "Buscar padre conectado",
+      "Milk Donar": "Donante de leche",
+      "Milk Recipient": "Receptor de leche",
+      "Enter Message": "Escribe un mensaje",
+      "Baby profile created successfully!":
+          "¡Perfil del bebé creado con éxito!",
+
+      "Failed to create baby profile. Please try again.":
+          "Error al crear el perfil del bebé. Por favor, inténtalo de nuevo.",
+
+      "Unable to create baby profile. Please check your internet connection.":
+          "No se pudo crear el perfil del bebé. Verifica tu conexión a internet.",
+
+      "Baby deleted successfully": "Bebé eliminado con éxito",
+
+      "Failed to delete baby : \$error": "Error al eliminar el bebé : \$error",
+
+      "Please enter baby's name": "Por favor ingresa el nombre del bebé",
+
+      "Baby's name must be at least 2 characters long":
+          "El nombre del bebé debe tener al menos 2 caracteres",
+
+      "Please select baby's gender": "Por favor selecciona el género del bebé",
+
+      "Please select delivery date": "Por favor selecciona la fecha de parto",
+
+      "Please enter baby's weight": "Por favor ingresa el peso del bebé",
+
+      "Weight must be between 0.1 and 10 kg":
+          "El peso debe estar entre 0.1 y 10 kg",
+
+      "Please enter baby's height": "Por favor ingresa la altura del bebé",
+
+      "Height must be between 1 and 100 cm":
+          "La altura debe estar entre 1 y 100 cm",
+      "kg": "kg",
+      "lb": "lb",
+      "cm": "cm",
+      "in": "in",
+      "My Connections": "Mis conexiones",
+
+      "Log": "Registro",
+      "Report": "Informe",
+      "Connect": "Conectar",
+      "Message": "Mensajes",
+      "Profile": "Perfil",
+      "Diaper log logged successfully!": "Registro de pañal guardado con éxito",
+
+      "Sleep Log logged successfully!": "Registro de sueño guardado con éxito",
+
+      "Feeding Log logged successfully!":
+          "Registro de alimentación guardado con éxito",
+
+      "years old": "años",
+      "year old": "año",
+      "months old": "meses",
+      "month old": "mes",
+      "weeks old": "semanas",
+      "week old": "semana",
+      "days old": "días",
+      "day old": "día",
+      "Born today": "Nacido hoy",
+      "Cancel": "Cancelar",
+      "Feeding": "Alimentación",
+      "Track breast or bottle feeding":
+          "Registrar lactancia o alimentación con biberón",
+      "Log Feeding": "Registrar alimentación",
+
+      "Diaper": "Pañal",
+      "Track wet, soiled, or both": "Registrar mojado, sucio o ambos",
+      "Log Diaper Change": "Registrar cambio de pañal",
+
+      "Sleep": "Sueño",
+      "Track baby's sleep patterns": "Registrar patrones de sueño del bebé",
+      "Log Sleep": "Registrar sueño",
+      "My Connection": "Mi conexión",
+      "Find Donors": "Buscar donantes",
+      "Log Sleep": "Registrar sueño",
+      "Date": "Fecha",
+      "Start Time": "Hora de inicio",
+      "End Time": "Hora de fin",
+      "Sleep Location": "Lugar de sueño",
+      "Cancel": "Cancelar",
+      "Save Log": "Guardar registro",
+
+      "Please select sleep date before submission":
+          "Por favor selecciona la fecha de sueño",
+
+      "Please select start time before submission":
+          "Por favor selecciona la hora de inicio",
+
+      "Please select end time before submission":
+          "Por favor selecciona la hora de fin",
+
+      "End time must be after start time":
+          "La hora de fin debe ser después de la hora de inicio",
+      "m ago": "min",
+      "h ago": "h",
+      "d ago": "d",
+      "Please enter your full name": "Por favor ingresa tu nombre completo",
+
+      "Name must be at least 2 characters long":
+          "El nombre debe tener al menos 2 caracteres",
+
+      "Please enter your phone number":
+          "Por favor ingresa tu número de teléfono",
+
+      "Phone number should contain only digits":
+          "El número de teléfono debe contener solo dígitos",
+
+      "Phone number must be at least 10 digits long":
+          "El número debe tener al menos 10 dígitos",
+
+      "Phone number cannot exceed 10 digits":
+          "El número no puede exceder 10 dígitos",
+
+      "Please enter your zip code": "Por favor ingresa tu código postal",
+
+      "Please enter a valid zip code":
+          "Por favor ingresa un código postal válido",
+
+      "Zip code must be at least 3 characters long":
+          "El código postal debe tener al menos 3 caracteres",
+
+      "Please select a country code": "Por favor selecciona un código de país",
+
+      "Please select your delivery date":
+          "Por favor selecciona la fecha de parto",
+
+      "Please select your blood group":
+          "Por favor selecciona tu grupo sanguíneo",
+
+      "Organic Diet": "Dieta orgánica",
+      "Vegetarian": "Vegetariano",
+      "Medication Free": "Libre de medicamentos",
+      "Smoke Free": "Libre de humo",
+      "Alcohol Free": "Libre de alcohol",
+      "Donor Information": "Información del donante",
+
+      "Please provide additional information to help ensure safe milk donation.":
+          "Por favor proporciona información adicional para garantizar una donación segura",
+
+      "Select Delivery Date": "Seleccionar fecha de parto",
+
+      "Your Blood Group *": "Tu grupo sanguíneo *",
+
+      "Health & Lifestyle Information": "Información de salud y estilo de vida",
+
+      "Select all that apply to you (optional but recommended):":
+          "Selecciona todo lo que aplique (opcional pero recomendado)",
+
+      "Medical Report Sharing": "Compartir informes médicos",
+
+      "Would you be willing to share your medical reports with potential milk recipients if requested?":
+          "¿Estarías dispuesto a compartir tus informes médicos si se solicita?",
+
+      "Yes": "Sí",
+      "No": "No",
+
+      "All donors join to support babies in need. We encourage a safe, honest, and trust-based community built on helping families.":
+          "Todos los donantes se unen para ayudar a bebés necesitados. Promovemos una comunidad segura y honesta basada en la confianza",
+
+      "Following organic diet practices": "Siguiendo una dieta orgánica",
+
+      "Following vegetarian diet": "Siguiendo una dieta vegetariana",
+
+      "Not taking medications (except approved ones)":
+          "No toma medicamentos (excepto los aprobados)",
+
+      "Non-smoker environment": "Ambiente libre de humo",
+
+      "No alcohol consumption": "Sin consumo de alcohol",
+      "Personal Information": "Información personal",
+
+      "Please provide your basic information to create your profile.":
+          "Por favor proporciona tu información básica para crear tu perfil",
+
+      "Full Name *": "Nombre completo *",
+      "Enter your full name": "Ingresa tu nombre completo",
+
+      "Code": "Código",
+
+      "Phone Number *": "Número de teléfono *",
+      "Enter phone number": "Ingresa el número de teléfono",
+
+      "Zip Code *": "Código postal *",
+      "Enter your zip code": "Ingresa tu código postal",
+
+      "Select Language": "Seleccionar idioma",
+
+      "English": "Inglés",
+      "Spanish": "Español",
+
+      "Your information is secure and will only be used to connect you with other verified users.":
+          "Tu información es segura y solo se utilizará para conectarte con otros usuarios verificados",
+      "Step 1 of 4": "Paso 1 de 4",
+      "Step 2 of 4": "Paso 2 de 4",
+      "Step 3 of 4": "Paso 3 de 4",
+      "Step 4 of 4": "Paso 4 de 4",
+      "OK": "Aceptar",
+      "Unknown date": "Fecha desconocida",
+      "Just now": "Ahora mismo",
+
+      "day ago": "día",
+      "days ago": "días",
+      "hour ago": "hora",
+      "hours ago": "horas",
+      "minute ago": "minuto",
+      "minutes ago": "minutos",
+
+      "Unknown": "Desconocido",
+      "No email": "Sin correo",
+      "Loading user data...": "Cargando datos del usuario...",
+
+      "Pending": "Pendiente",
+      "My Requests": "Mis solicitudes",
+
+      "No Incoming Requests": "No hay solicitudes entrantes",
+      "You don’t have any pending milk requests":
+          "No tienes solicitudes pendientes",
+
+      "No History": "Sin historial",
+      "No previous request activity available.":
+          "No hay actividad previa disponible",
+
+      "No Requests Yet": "Sin solicitudes",
+      "You have not placed any requests yet.":
+          "Aún no has realizado solicitudes",
+
+     
+      "Details": "Detalles",
+      "Filter Activities": "Filtrar actividades",
+      "Feeding": "Alimentación",
+      "Diaper Changes": "Cambios de pañal",
+      "Sleep": "Sueño",
+      "Close": "Cerrar",
+
+      "Invalid OTP, Please retry with valid OTP":
+          "OTP inválido, por favor intenta nuevamente con un OTP válido",
       "Success": "Éxito",
       "You have been logged out successfully":
           "Has cerrado sesión correctamente",
@@ -86,94 +334,50 @@ class AppTranslations extends Translations {
       "Allow others to see your donation availability":
           "Permitir que otros vean tu disponibilidad para donar",
       "Connections": "Conexiones",
-      "Loading user data...": "Cargando datos del usuario...",
-      "My Requests": "Mis solicitudes",
-      "No Incoming Requests": "No hay solicitudes entrantes",
-      "You don’t have any pending milk requests":
-          "No tienes solicitudes de leche pendientes",
-      "No History": "Sin historial",
-       "No previous request activity available.": "No hay actividad previa disponible.",
-      "No Requests Yet": "Aún no hay solicitudes",
-      "You have not placed any requests yet.":
-          "No has realizado ninguna solicitud todavía.",
+     
       "feeding": "alimentación",
       "diaper": "pañal",
       "sleep": "sueño",
       'Active Filters': 'Filtros activos',
       "Quick Actions": "Acciones rápidas",
       "View Baby Activity": "Ver actividad del bebé",
-      "Feeding": "Alimentación",
-      "Track breast or bottle feeding": "Registrar lactancia o biberón",
-      "Log Feeding": "Registrar alimentación",
+      
       'Try adjusting your search criteria or filters.':
           'Intenta ajustar tus criterios de búsqueda o filtros.',
-      "Track wet, soiled, or both": "Registrar mojado, sucio o ambos",
-      "Log Diaper Change": "Registrar cambio de pañal",
-      "Sleep": "Sueño",
+     
       'Medical Records': 'Historial médico',
       'Select date and time': 'Seleccionar fecha y hora',
-      'Please enter baby\'s name': 'Por favor ingrese el nombre del bebé',
-      "Track baby's sleep patterns": "Registrar patrones de sueño del bebé",
-      "Log Sleep": "Registrar sueño",
-      "My Connection": "Mi conexión",
-      "DONOR": "DONANTE",
-      "Baby's name must be at least 2 characters long":
-          "El nombre del bebé debe tener al menos 2 caracteres",
-          "Please select baby's gender": "Por favor seleccione el género del bebé",
+      
+          
 
-      "Please select delivery date":
-          "Por favor seleccione la fecha de nacimiento",
+      
 
-      "Please enter baby's weight": "Por favor ingrese el peso del bebé",
-
-      "Weight must be between 0.1 and 10 kg":
-          "El peso debe estar entre 0.1 y 10 kg",
-
-      "Please enter baby's height": "Por favor ingrese la altura del bebé",
-
-      "Height must be between 1 and 100 cm":
-          "La altura debe estar entre 1 y 100 cm",
-      "Find Donors": "Buscar donantes",
-      "Date": "Fecha",
+      
+     
       'Send Request to @name': 'Enviar solicitud a @name',
       'Please enter a description': 'Por favor ingrese una descripción',
       'Requested': 'Solicitado',
-      "Start Time": "Hora de inicio",
-      "End Time": "Hora de fin",
-      "Sleep Location": "Lugar de sueño",
-      "Cancel": "Cancelar",
-      "Save Log": "Guardar registro",
+     
       'pending': 'Pendiente',
       'accepted': 'Aceptado',
       'rejected': 'Rechazado',
       'completed': 'Completado',
       "Log Failed": "Registro fallido",
       'Send Request': 'Enviar solicitud',
-      'Your Blood Group *': 'Tu grupo sanguíneo *',
+      
       'Donor Available': 'Donante disponible',
       'Milk Request': 'Solicitud de leche',
-      "Please select sleep date before submission":
-          "Por favor selecciona la fecha de sueño antes de enviar",
-      "Please select start time before submission":
-          "Por favor selecciona la hora de inicio antes de enviar",
-      "Please select end time before submission":
-          "Por favor selecciona la hora de fin antes de enviar",
-          "Milk Donar": "Donante de leche",
-  "Milk Recipient": "Receptor de leche",
+      
+  
       "Validation Error": "Error de validación",
-      "End time must be after start time":
-          "La hora de fin debe ser posterior a la hora de inicio",
-      "Add your baby's profile to start tracking":
-          "Agrega el perfil de tu bebé para comenzar el seguimiento",
-      "Add Baby": "Agregar bebé",
+      
       "Baby Profile": "Perfil del bebé",
       "Unknown age": "Edad desconocida",
       "Delete Baby Profile": "Eliminar perfil del bebé",
       "Are you sure you want to delete \${baby.name}? This cannot be undone.":
           "¿Estás seguro de que deseas eliminar \${baby.name}? Esto no se puede deshacer.",
       "Select Feeding Date": "Seleccionar fecha de alimentación",
-      "Start Time": "Hora de inicio",
-      "End Time": "Hora de fin",
+      
       "Feed Type": "Tipo de alimentación",
       "Position": "Posición",
       "Amount(ml)": "Cantidad (ml)",
@@ -246,34 +450,9 @@ class AppTranslations extends Translations {
       "Select Delivery Date": "Seleccionar fecha de parto",
       "Your Blood Group": "Tu grupo sanguíneo",
 
-      "Health & Lifestyle Information": "Información de salud y estilo de vida",
-      "Select all that apply to you (optional but recommended):":
-          "Selecciona todo lo que aplique a ti (opcional pero recomendado):",
-      "Would you be willing to share your medical reports with potential milk recipients if requested?":
-          "¿Estarías dispuesto a compartir tus informes médicos con posibles receptores si se solicita?",
-      "Yes": "Sí",
+      
 
-      "All donors join to support babies in need. We encourage a safe, honest, and trust-based community built on helping families.":
-          "Todos los donantes se unen para apoyar a bebés necesitados. Fomentamos una comunidad segura, honesta y basada en la confianza para ayudar a las familias.",
-
-      "Following organic diet practices":
-          "Siguiendo prácticas de dieta orgánica",
-      "Following vegetarian diet": "Siguiendo dieta vegetariana",
-      "Not taking medications (except approved ones)":
-          "No tomar medicamentos (excepto los aprobados)",
-      "Non-smoker environment": "Ambiente libre de humo",
-      "No alcohol consumption": "Sin consumo de alcohol",
-
-      "Personal Information": "Información personal",
-      "Please provide your basic information to create your profile.":
-          "Por favor proporciona tu información básica para crear tu perfil.",
-      "Full Name *": "Nombre completo *",
-      "Enter your full name": "Ingresa tu nombre completo",
-      "Code": "Código",
-      "Phone Number *": "Número de teléfono *",
-      "Enter phone number": "Ingresa número de teléfono",
-      "Zip Code *": "Código postal *",
-      "Enter your zip code": "Ingresa tu código postal",
+     
       "Facebook Profile link": "Enlace de perfil de Facebook",
       "Enter your facebook profile link":
           "Ingresa el enlace de tu perfil de Facebook",
@@ -324,19 +503,9 @@ class AppTranslations extends Translations {
       "journey": "recorrido",
       "Feedings": "Alimentaciones",
       "Diapers": "Pañales",
-      "Sleep": "Sueño",
-      "Feeding": "Alimentación",
-      "Diaper": "Pañal",
-
-      "Diaper": "Pañal",
-      "Select Feeding Date": "Seleccionar fecha de alimentación",
-
-      'Breast': 'Pecho',
-      'Bottle': 'Biberón',
+     
       'Other': 'Otro',
-      'Left': 'Izquierda',
-      'Right': 'Derecha',
-      'Both': 'Ambos',
+     
       "CRIB": "CUNA",
       "Crib": "Cuna",
       "BED": "CAMA",
@@ -384,28 +553,15 @@ class AppTranslations extends Translations {
       "Send Request to 'Donor'": "Enviar solicitud al donante",
       "Request Note": "Nota de solicitud",
       "Quantity Needed (ml)": "Cantidad necesaria (ml)",
-      "Urgency Level": "Nivel de urgencia",
-      "MEDIUM": "MEDIO",
-      "HIGH": "ALTO",
-      "Needed By (Optional)": "Necesario para (opcional)",
-      "Select date and time": "Seleccionar fecha y hora",
-      "Send Request": "Enviar solicitud",
+      
       "Language": "Idioma",
       "Search Donors": "Buscar donantes",
       "Sent a note...": "Enviar una nota...",
-      "HIGH": "ALTO",
-      "Send Request": "Enviar solicitud",
+      
       "No Donors Found": "No se encontraron donantes",
       "We’re actively welcoming milk donors. If no donors appear in your area yet, don’t worry more will be joining shortly. Thank you for your patience and support and if new donars comes near you we will notify":
           "Estamos dando la bienvenida activamente a donantes de leche. Si aún no aparecen donantes en tu área, no te preocupes, pronto se unirán más. Gracias por tu paciencia y apoyo; te notificaremos cuando haya nuevos donantes cerca.",
-      "Please provide additional information to help ensure safe milk donation.":
-          "Por favor proporciona información adicional para ayudar a garantizar una donación segura de leche.",
-      "Organic Diet": "Dieta orgánica",
-      "Vegetarian": "Vegetariano",
-      "Medication Free": "Sin medicamentos",
-      "Smoke Free": "Libre de humo",
-      "Alcohol Free": "Sin alcohol",
-      "Medical Report Sharing": "Compartir informes médicos",
+      
       "Previous": "Anterior",
       "Log": "registro",
       "BOY": "NIÑO",
@@ -420,18 +576,11 @@ class AppTranslations extends Translations {
       "Available": "Disponible",
       "Enter your email address": "Ingresa tu dirección de correo electrónico",
       "What'your role?": "¿Cuál es tu rol?",
-      "Access breast milk from verified donors in your area.":
-          "Accede a leche materna de donantes verificados en tu área.",
-      "Previous": "Anterior",
-      "Milk Request": "Solicitud de leche",
-      "Pending": "Pendiente",
+      
       "Medium": "Medio",
       "Choose your preferred language": "Elige tu idioma preferido",
       "Low": "Bajo",
-      "hour ago": "hace una hora",
-      "Please enter your full name": "Por favor ingresa tu nombre completo",
-      "Please enter your phone number":
-          "Por favor ingresa tu número de teléfono",
+      
       "Please enter your zip code": "Por favor ingresa tu código postal",
       "greeting": "¡Buenos @time, @name!",
       'Good': "Bueno",
@@ -461,23 +610,7 @@ class AppTranslations extends Translations {
   "Failed to send request:": "Error al enviar la solicitud:",
   "Available": "Disponible",
   "Unavailable": "No disponible",
-  "Please enter your full name": "Por favor ingrese su nombre completo",
-  "Name must be at least 2 characters long": "El nombre debe tener al menos 2 caracteres",
-  "Please enter your phone number": "Por favor ingrese su número de teléfono",
-  "Phone number should contain only digits": "El número de teléfono debe contener solo dígitos",
-  "Phone number must be at least 10 digits long": "El número de teléfono debe tener al menos 10 dígitos",
-  "Phone number cannot exceed 10 digits": "El número de teléfono no puede exceder los 10 dígitos",
-  "Please enter your zip code": "Por favor ingrese su código postal",
-  "Please enter a valid zip code": "Por favor ingrese un código postal válido",
-  "Zip code must be at least 3 characters long": "El código postal debe tener al menos 3 caracteres",
-  "Please select a country code": "Por favor seleccione un código de país",
-  "Please select your delivery date": "Por favor seleccione su fecha de parto",
-  "Please select your blood group": "Por favor seleccione su grupo sanguíneo",
-  "Organic Diet": "Dieta orgánica",
-  "Vegetarian": "Vegetariano",
-  "Medication Free": "Libre de medicamentos",
-  "Smoke Free": "Libre de humo",
-  "Alcohol Free": "Libre de alcohol",
+  
         
         "days_old": ":days días",
         "Select Feeding Date" : "Seleccionar fecha de alimentación",
@@ -487,15 +620,7 @@ class AppTranslations extends Translations {
         "Delete": "borrar",
         "Gender": "Género",
         "Change Email" : "Cambiar correo electrónico",
-        'year old': 'año',
-      'years old': 'años',
-      'month old': 'mes',
-      'months old': 'meses',
-      'week old': 'semana',
-      'weeks old': 'semanas',
-      'day old': 'día',
-      'days old': 'días',
-      'Born today': 'Nacido hoy',
+       
     },
   };
 }
