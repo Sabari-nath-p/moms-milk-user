@@ -8,6 +8,7 @@ import 'package:mommilk_user/Screens/ChatListScreen/ChatScreen.dart';
 import 'package:mommilk_user/Screens/Dashboard/Controller/DashboardController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/HomeScreen.dart';
+import 'package:mommilk_user/Screens/MarketScreen/Market_screen.dart';
 import 'package:mommilk_user/Screens/ProfileScreen/ProfileScreen.dart';
 import 'package:mommilk_user/Screens/RequestScreen/Controller/RequestController.dart';
 import 'package:mommilk_user/Screens/TrackerScreen/TrackerScreen.dart';
@@ -33,7 +34,8 @@ class MainDashboard extends StatelessWidget {
             break;
           case 1:
             currentScreen =
-                Trackerscreen(); // TrackerScreen should have its own AppBar
+            MarketScreen();
+              // Trackerscreen(); // TrackerScreen should have its own AppBar
             break;
           case 2:
             var rctrl = Get.put(Requestcontroller());
