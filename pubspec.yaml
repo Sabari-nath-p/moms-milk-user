@@ -33,6 +33,9 @@ dependencies:
   clarity_flutter: ^1.7.0
   package_info_plus: ^9.0.0
   fluttertoast: ^9.0.0
+  image_picker: ^1.2.2
+  mime: ^2.0.0
+  http_parser: ^4.1.2
 
 dev_dependencies:
   flutter_test:
