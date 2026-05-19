@@ -20,6 +20,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   final AddMarketplaceController controller =
       Get.put(AddMarketplaceController());
+  final PageController pageController = PageController();
+int currentIndex = 0;
 
   final List<String> categories = [
     'CRADLES',
@@ -43,22 +45,19 @@ class _AddItemScreenState extends State<AddItemScreen> {
     "POOR",
   ];
 
-  Future<void> pickImage() async {
-    final picked = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 80,
-    );
+ Future<void> pickImage() async {
+  final picked = await ImagePicker().pickMultiImage(
+    imageQuality: 80,
+  );
 
-    if (picked != null) {
-      final file = File(picked.path);
+  if (picked.isNotEmpty) {
+    final files = picked.map((e) => File(e.path)).toList();
 
-      await controller.uploadImage(file);
+    controller.setSelectedImages(files);
 
-if (controller.imageUrl.isNotEmpty) {
-  controller.setSelectedImage(file);
-}
-    }
+    await controller.uploadImages(files);
   }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -167,9 +166,7 @@ if (controller.imageUrl.isNotEmpty) {
           );
           return;
         }
-
-        if (controller
-            .imageUrl.isEmpty) {
+        if (controller.selectedImages.isEmpty) {
           Get.snackbar(
             "Error",
             "Upload an image",
@@ -218,118 +215,93 @@ if (controller.imageUrl.isNotEmpty) {
                     CrossAxisAlignment.start,
                 children: [
                   /// IMAGE
-                  GestureDetector(
-                    onTap: pickImage,
-
-                    child: Container(
-                      height: 180.h,
-                      width: double.infinity,
-
-                      decoration: BoxDecoration(
-                        color: const Color(
-                          0xFFFFF5F5,
-                        ),
-                        borderRadius:
-                            BorderRadius.circular(
-                          18.r,
-                        ),
-                        border: Border.all(
-                          color: primaryRed,
-                        ),
+              GestureDetector(
+  onTap: pickImage,
+  child: Container(
+    height: 200.h,
+    width: double.infinity,
+    decoration: BoxDecoration(
+      color: const Color(0xFFFFF5F5),
+      borderRadius: BorderRadius.circular(18.r),
+      border: Border.all(color: primaryRed),
+    ),
+    child: controller.selectedImages.isNotEmpty
+        ? Column(
+            children: [
+              Expanded(
+                child: PageView.builder(
+                  controller: pageController,
+                  itemCount: controller.selectedImages.length,
+                  onPageChanged: (index) {
+                    setState(() {
+                      currentIndex = index;
+                    });
+                  },
+                  itemBuilder: (_, index) {
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(18.r),
+                      child: Image.file(
+                        controller.selectedImages[index],
+                        width: double.infinity,
+                        fit: BoxFit.cover,
                       ),
-
-                      child: controller.selectedImage != null
-    ? Stack(
-        children: [
-          ClipRRect(
-            borderRadius:
-                BorderRadius.circular(
-              18.r,
-            ),
-            child: Image.file(
-              controller.selectedImage!,
-              width: double.infinity,
-              height: double.infinity,
-              fit: BoxFit.cover,
-            ),
-          ),
-
-          if (controller.isUploadingImage)
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.black45,
-                borderRadius:
-                    BorderRadius.circular(
-                  18.r,
+                    );
+                  },
                 ),
               ),
-              child: const Center(
-                child:
-                    CircularProgressIndicator(
+
+              SizedBox(height: 8.h),
+
+              // DOT INDICATOR
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(
+                  controller.selectedImages.length,
+                  (index) => Container(
+                    margin: EdgeInsets.symmetric(horizontal: 3.w),
+                    width: currentIndex == index ? 10.w : 6.w,
+                    height: 6.w,
+                    decoration: BoxDecoration(
+                      color: currentIndex == index
+                          ? primaryRed
+                          : Colors.grey.shade400,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+              ),
+
+              SizedBox(height: 10.h),
+            ],
+          )
+        : Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                height: 50.h,
+                width: 50.w,
+                decoration: BoxDecoration(
+                  color: primaryRed,
+                  borderRadius: BorderRadius.circular(14.r),
+                ),
+                child: const Icon(
+                  Icons.add_a_photo_outlined,
                   color: Colors.white,
                 ),
               ),
-            ),
-        ],
-      )
-                          : Column(
-                              mainAxisAlignment:
-                                  MainAxisAlignment
-                                      .center,
-                              children: [
-                                Container(
-                                  height: 50.h,
-                                  width: 50.w,
-                                  decoration:
-                                      BoxDecoration(
-                                    color:
-                                        primaryRed,
-                                    borderRadius:
-                                        BorderRadius
-                                            .circular(
-                                      14.r,
-                                    ),
-                                  ),
-                                  child: controller
-                                          .isUploadingImage
-                                      ? const Center(
-                                          child:
-                                              CircularProgressIndicator(
-                                            color:
-                                                Colors.white,
-                                          ),
-                                        )
-                                      : Icon(
-                                          Icons
-                                              .add_a_photo_outlined,
-                                          color: Colors
-                                              .white,
-                                          size:
-                                              24.sp,
-                                        ),
-                                ),
-
-                                SizedBox(
-                                  height: 10.h,
-                                ),
-
-                                Text(
-                                  "Add photos",
-                                  style:
-                                      TextStyle(
-                                    color:
-                                        primaryRed,
-                                    fontSize:
-                                        17.sp,
-                                    fontWeight:
-                                        FontWeight
-                                            .w700,
-                                  ),
-                                ),
-                              ],
-                            ),
-                    ),
-                  ),
+              SizedBox(height: 10.h),
+              Text(
+                "Add photos",
+                style: TextStyle(
+                  color: primaryRed,
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
+          ),
+  ),
+),
 
                   SizedBox(height: 20.h),
 

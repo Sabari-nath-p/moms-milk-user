@@ -9,6 +9,7 @@ import 'package:mommilk_user/Screens/AuthenticationScreen/AuthenticationScreen.d
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Views/HBabyListCard.dart';
+import 'package:mommilk_user/Screens/MarketScreen/MyListingScreen.dart';
 import 'package:mommilk_user/Utils/ApiService.dart';
 import 'package:mommilk_user/theme/app_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -221,6 +222,20 @@ class ProfileScreen extends StatelessWidget {
               () => _showLogoutConfirmation(context),
               isDestructive: true,
             ),
+
+            Divider(height: 24),
+
+_buildSettingItem(
+  context,
+  'My Listings',
+  'Manage your marketplace items',
+  Icons.inventory_2_outlined,
+  () {
+    Get.to(() => MyListingsScreen());
+  },
+),
+
+Divider(height: 24),
           ],
         ),
       ),

@@ -6,293 +6,172 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:mommilk_user/Screens/MarketScreen/Service/market_controller.dart';
 import 'package:mommilk_user/Utils/ApiService.dart';
-
 import 'package:mime/mime.dart';
-
-
 
 class AddMarketplaceController extends GetxController {
   bool isLoading = false;
   bool isUploadingImage = false;
 
-  /// Text Controllers
-  final titleController = TextEditingController();
-  final descriptionController =
-      TextEditingController();
-  final priceController =
-      TextEditingController();
-  final zipcodeController =
-      TextEditingController();
-  final placeController =
-      TextEditingController();
+  final MarketController marketController = Get.find<MarketController>();
 
-  /// Selected values
+  // Controllers
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final priceController = TextEditingController();
+  final zipcodeController = TextEditingController();
+  final placeController = TextEditingController();
+
+  // Filters
   String selectedCategory = "CRADLES";
   String selectedCondition = "NEW";
 
-  /// Uploaded image URL
-  String imageUrl = "";
+  // MULTI IMAGES
+  List<String> imageUrls = [];
+  List<File> selectedImages = [];
 
-  /// Selected image file
-  File? selectedImage;
-
-  /// Picked image setter
-  void setSelectedImage(File file) {
-    selectedImage = file;
+  void setSelectedImages(List<File> files) {
+    selectedImages = files;
     update();
   }
-Future<void> uploadImage(File image) async {
-  try {
-    isUploadingImage = true;
-    update();
 
-    final token =
-        await ApiService.getAuthToken();
+  /// -----------------------------
+  /// UPLOAD MULTIPLE IMAGES
+  /// -----------------------------
+  Future<void> uploadImages(List<File> images) async {
+    try {
+      isUploadingImage = true;
+      update();
 
-    /// Detect mime type
-    final mimeType =
-        lookupMimeType(image.path);
+      final token = await ApiService.getAuthToken();
 
-    log("SELECTED FILE: ${image.path}");
-    log("MIME TYPE: $mimeType");
-
-    if (mimeType == null ||
-        !mimeType.startsWith("image/")) {
-      Fluttertoast.showToast(
-        msg:
-            "Please select a valid image",
+      var request = http.MultipartRequest(
+        "POST",
+        Uri.parse("${ApiService.baseUrl}/uploads/images"),
       );
-      return;
-    }
 
-    final mimeSplit =
-        mimeType.split("/");
+      request.headers.addAll({
+        "Authorization": "Bearer $token",
+        "Accept": "application/json",
+      });
 
-    var request = http.MultipartRequest(
-      "POST",
-      Uri.parse(
-        "${ApiService.baseUrl}/uploads/images",
-      ),
-    );
+      for (File image in images) {
+        final mimeType = lookupMimeType(image.path);
 
-    request.headers.addAll({
-      "Authorization": "Bearer $token",
-      "Accept": "application/json",
-    });
-
-    /// IMPORTANT: send as multipart image
-    request.files.add(
-      await http.MultipartFile.fromPath(
-        "files", // backend key
-        image.path,
-        contentType: http.MediaType(
-          mimeSplit[0],
-          mimeSplit[1],
-        ),
-      ),
-    );
-
-    /// DEBUG REQUEST
-    log(
-      "========== IMAGE UPLOAD REQUEST ==========",
-    );
-    log("URL: ${request.url}");
-    log("HEADERS: ${request.headers}");
-    log("FILE: ${image.path}");
-    log("CONTENT TYPE: $mimeType");
-    log(
-      "==========================================",
-    );
-
-    final streamedResponse =
-        await request.send();
-
-    final response =
-        await http.Response.fromStream(
-          streamedResponse,
-        );
-
-    /// DEBUG RESPONSE
-    log(
-      "========== IMAGE UPLOAD RESPONSE ==========",
-    );
-    log(
-      "STATUS CODE: ${response.statusCode}",
-    );
-    log("BODY: ${response.body}");
-    log(
-      "===========================================",
-    );
-
-    if (response.statusCode == 200 ||
-        response.statusCode == 201) {
-      final data =
-          jsonDecode(response.body);
-
-      if (data is List &&
-          data.isNotEmpty) {
-        imageUrl =
-            data[0]["url"] ?? "";
-
-        log(
-          "UPLOADED IMAGE URL: $imageUrl",
-        );
-
-        Fluttertoast.showToast(
-          msg:
-              "Image uploaded successfully",
-        );
-
-        update();
-      }
-    } else {
-      Fluttertoast.showToast(
-        msg:
-            "Failed to upload image",
-      );
-    }
-  } catch (e, stackTrace) {
-    log("UPLOAD ERROR: $e");
-    log("STACKTRACE: $stackTrace");
-
-    Fluttertoast.showToast(
-      msg: e.toString(),
-    );
-  } finally {
-    isUploadingImage = false;
-    update();
-  }
-}
-
-  /// Create marketplace listing
-Future<void> createListing() async {
-  try {
-    if (imageUrl.isEmpty) {
-      Fluttertoast.showToast(
-        msg:
-            "Please upload an image",
-      );
-      return;
-    }
-
-    isLoading = true;
-    update();
-
-    final body = {
-      "title":
-          titleController.text.trim(),
-      "description":
-          descriptionController.text
-              .trim(),
-      "price":
-          int.tryParse(
-            priceController.text
-                .trim(),
-          ) ??
-          0,
-      "category":
-          selectedCategory,
-      "condition":
-          selectedCondition,
-      "zipcode":
-          zipcodeController.text
-              .trim(),
-      "placeName":
-          placeController.text
-              .trim(),
-      "images": [
-        {
-          "url": imageUrl,
-          "isPrimary": true,
-          "sortOrder": 0,
+        if (mimeType == null || !mimeType.startsWith("image/")) {
+          Fluttertoast.showToast(msg: "Invalid image skipped");
+          continue;
         }
-      ]
-    };
 
-    /// DEBUG REQUEST
-    log(
-      "========== CREATE MARKETPLACE REQUEST ==========",
-    );
-    log(
-      "URL: ${ApiService.baseUrl}/marketplace/listings",
-    );
-    log("METHOD: POST");
-    log("BODY: ${jsonEncode(body)}");
-    log(
-      "================================================",
-    );
+        final mimeSplit = mimeType.split("/");
 
-    await ApiService.request(
-      endpoint:
-          "/marketplace/listings",
-      method: Api.POST,
-      body: body,
-
-      onSuccess: (response) {
-        /// DEBUG RESPONSE
-        log(
-          "========== CREATE MARKETPLACE RESPONSE ==========",
+        request.files.add(
+          await http.MultipartFile.fromPath(
+            "files",
+            image.path,
+            contentType: http.MediaType(
+              mimeSplit[0],
+              mimeSplit[1],
+            ),
+          ),
         );
-        log(
-          "STATUS CODE: ${response.statusCode}",
-        );
-        log(
-          "RESPONSE DATA: ${jsonEncode(response.data)}",
-        );
-        log(
-          "=================================================",
-        );
+      }
 
-        Fluttertoast.showToast(
-          msg:
-              response.data["message"] ??
-              "Marketplace item added successfully",
-        );
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
 
-        clearFields();
+      log("UPLOAD RESPONSE: ${response.body}");
 
-        Get.back(result: true);
-      },
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final data = jsonDecode(response.body);
 
-      onServerError: (
-        statusCode,
-        message,
-      ) {
-        log(
-          "SERVER ERROR => STATUS: $statusCode",
-        );
-        log("MESSAGE: $message");
+        if (data is List) {
+          imageUrls = data.map<String>((e) => e["url"].toString()).toList();
 
-        Fluttertoast.showToast(
-          msg:
-              "Server error occurred",
-        );
-      },
-
-      onError: (error) {
-        log("CREATE ERROR => $error");
-
-        Fluttertoast.showToast(
-          msg:
-              error.toString(),
-        );
-      },
-    );
-  } catch (e, stackTrace) {
-    log("CREATE ERROR: $e");
-    log("STACK TRACE: $stackTrace");
-
-    Fluttertoast.showToast(
-      msg: e.toString(),
-    );
-  } finally {
-    isLoading = false;
-    update();
+          Fluttertoast.showToast(msg: "Images uploaded successfully");
+        } else {
+          Fluttertoast.showToast(msg: "Invalid upload response");
+        }
+      } else {
+        Fluttertoast.showToast(msg: "Upload failed");
+      }
+    } catch (e) {
+      log("UPLOAD ERROR: $e");
+      Fluttertoast.showToast(msg: e.toString());
+    } finally {
+      isUploadingImage = false;
+      update();
+    }
   }
-}
 
-  /// Clear fields
+  /// -----------------------------
+  /// CREATE LISTING
+  /// -----------------------------
+  Future<void> createListing() async {
+    try {
+      if (imageUrls.isEmpty) {
+        Fluttertoast.showToast(msg: "Please upload images");
+        return;
+      }
+
+      isLoading = true;
+      update();
+
+      final body = {
+        "title": titleController.text.trim(),
+        "description": descriptionController.text.trim(),
+        "price": int.tryParse(priceController.text.trim()) ?? 0,
+        "category": selectedCategory,
+        "condition": selectedCondition,
+        "zipcode": zipcodeController.text.trim(),
+        "placeName": placeController.text.trim(),
+
+        // ✅ MULTIPLE IMAGES FIX
+        "images": imageUrls.map((url) {
+          return {
+            "url": url,
+            "isPrimary": url == imageUrls.first,
+            "sortOrder": imageUrls.indexOf(url),
+          };
+        }).toList(),
+      };
+
+      log("CREATE LISTING REQUEST: ${jsonEncode(body)}");
+
+      await ApiService.request(
+        endpoint: "/marketplace/listings",
+        method: Api.POST,
+        body: body,
+        onSuccess: (response) {
+          marketController.fetchMarketplaceListings(isRefresh: true);
+
+          Fluttertoast.showToast(
+            msg: response.data["message"] ?? "Listing created",
+          );
+
+          clearFields();
+          Get.back(result: true);
+        },
+        onServerError: (code, msg) {
+          Fluttertoast.showToast(msg: "Server error");
+        },
+        onError: (error) {
+          Fluttertoast.showToast(msg: error.toString());
+        },
+      );
+    } catch (e) {
+      log("CREATE ERROR: $e");
+      Fluttertoast.showToast(msg: e.toString());
+    } finally {
+      isLoading = false;
+      update();
+    }
+  }
+
+  /// -----------------------------
+  /// CLEAR
+  /// -----------------------------
   void clearFields() {
     titleController.clear();
     descriptionController.clear();
@@ -300,12 +179,11 @@ Future<void> createListing() async {
     zipcodeController.clear();
     placeController.clear();
 
-    selectedCategory =
-        "CRADLES";
+    selectedCategory = "CRADLES";
     selectedCondition = "NEW";
 
-    imageUrl = "";
-    selectedImage = null;
+    imageUrls.clear();
+    selectedImages.clear();
 
     update();
   }
