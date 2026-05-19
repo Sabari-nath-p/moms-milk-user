@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Models/MarketListingModel.dart';
+import 'package:mommilk_user/Screens/ChatListScreen/Controller/ChatController.dart';
 import 'package:mommilk_user/Screens/MarketScreen/Additem_screen.dart';
 import 'package:mommilk_user/Screens/MarketScreen/Service/market_controller.dart';
 
@@ -514,24 +515,55 @@ Widget _productCard(
                   ),
 
               child:
-                  image.isNotEmpty
-                      ? Image.network(
-                        image,
-                        width: 135,
-                        height: 155,
-                        fit: BoxFit.cover,
-                      )
-                      : Container(
-                        width: 135,
-                        height: 155,
-                        color:
-                            Colors.grey.shade200,
+                 
+                      SizedBox(
+  width: 135,
+  height: 155,
 
-                        child: const Icon(
-                          Icons.image,
-                          size: 34,
-                        ),
-                      ),
+  child: image.isNotEmpty
+      ? Image.network(
+          image,
+          fit: BoxFit.cover,
+
+          /// Loading Placeholder
+          loadingBuilder: (
+            context,
+            child,
+            loadingProgress,
+          ) {
+            if (loadingProgress == null) {
+              return child;
+            }
+
+            return Container(
+              color: Colors.grey.shade100,
+              child: Center(
+                child: SizedBox(
+                  height: 22,
+                  width: 22,
+                  child:
+                      CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: primaryRed,
+                  ),
+                ),
+              ),
+            );
+          },
+
+          /// Error / Broken Image Placeholder
+          errorBuilder: (
+            context,
+            error,
+            stackTrace,
+          ) {
+            return _imagePlaceholder();
+          },
+        )
+
+      /// Empty Image Placeholder
+      : _imagePlaceholder(),
+)
             ),
 
             /// LOCATION
@@ -822,7 +854,15 @@ Widget _productCard(
 
                   child:
                       ElevatedButton.icon(
-                        onPressed: () {},
+                      onPressed: () {
+  Chatcontroller cctrl = Get.put(Chatcontroller());
+
+  cctrl.OpenChatUser(
+    userID: p.user.id,
+    isDonar: false,
+    userName: p.user.name,
+  );
+},
 
                         style: ElevatedButton.styleFrom(
                           backgroundColor:
@@ -866,4 +906,35 @@ Widget _productCard(
     ),
   );
 }
+}
+Widget _imagePlaceholder() {
+  return Container(
+    width: 135,
+    height: 155,
+    color: const Color(0xFFF8F8F8),
+
+    child: Column(
+      mainAxisAlignment:
+          MainAxisAlignment.center,
+
+      children: [
+        Icon(
+          Icons.image_outlined,
+          size: 34,
+          color: Colors.grey.shade400,
+        ),
+
+        SizedBox(height: 6.h),
+
+        Text(
+          "No Image",
+          style: TextStyle(
+            fontSize: 11.sp,
+            color: Colors.grey.shade500,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ],
+    ),
+  );
 }

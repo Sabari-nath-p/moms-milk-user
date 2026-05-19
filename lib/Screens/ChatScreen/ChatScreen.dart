@@ -23,7 +23,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
+   
     ctrl.currentUser = -1;
     ctrl.currentUserName = "";
     ctrl.sessionID = -1;

@@ -2,10 +2,11 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
-import 'package:mommilk_user/Screens/ChatListScreen/ChatScreen.dart'; // Ensure correct import path
+
 import 'package:mommilk_user/Screens/ChatListScreen/Models/ChatModel.dart';
 import 'package:mommilk_user/Screens/ChatListScreen/Models/SessionModel.dart';
-import 'package:mommilk_user/Screens/ChatScreen/ChatScreen.dart'; // Ensure correct import path
+import 'package:mommilk_user/Screens/ChatScreen/ChatScreen.dart';
+
 import 'package:mommilk_user/Utils/ApiService.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
@@ -32,7 +33,7 @@ class Chatcontroller extends GetxController with WidgetsBindingObserver {
   @override
   void onInit() {
     super.onInit();
-    // 2. Register the observer to listen to app changes
+   
     WidgetsBinding.instance.addObserver(this);
 
     startWebsocketConnection();
@@ -94,7 +95,9 @@ class Chatcontroller extends GetxController with WidgetsBindingObserver {
 
     // Added reconnection options for better stability
     socket = io(
-      "wss://api.momsmilk.app/chat",
+      /// please not here change the url to staging or production accordingly
+      "wss://staging.momsmilk.app/chat",
+
       OptionBuilder()
           .setTransports(['websocket'])
           .setAuth({'token': authToken})
@@ -106,7 +109,8 @@ class Chatcontroller extends GetxController with WidgetsBindingObserver {
 
     socket.onConnect((_) {
       log('✅ Connected to chat socket', name: 'ChatController');
-      // Optional: re-emit any join rooms logic here if needed
+
+     
     });
 
     socket.onDisconnect((reason) {
@@ -271,26 +275,43 @@ class Chatcontroller extends GetxController with WidgetsBindingObserver {
     });
   }
 
-  void OpenChatUser({
-    required int userID,
-    int session = 0,
-    required bool isDonar,
-    required userName,
-  }) {
-    currentUser = userID;
-    currentUserName = userName;
-    this.isDonar = isDonar;
+ void OpenChatUser({
+  required int userID,
+  int session = 0,
+  required bool isDonar,
+  required userName,
+}) {
+  currentUser = userID;
+  currentUserName = userName;
+  this.isDonar = isDonar;
 
-    // Use Get.to to navigate
-    Get.to(() => ChatScreen(), transition: Transition.rightToLeft);
+  if (session != 0) {
+    sessionID = session;
 
-    if (session != 0) {
-      sessionID = session;
-      loadUserFullMessage(sID: sessionID);
-    } else {
-      loadSessionData(userID);
-    }
+    loadUserFullMessage(sID: sessionID);
+
+    Get.to(
+      () => ChatScreen(),
+      transition: Transition.rightToLeft,
+    );
+  } else {
+    ApiService.request(
+      endpoint: "/chat/session/$userID",
+      method: Api.GET,
+      onSuccess: (dataResponse) {
+        sessionID = dataResponse.data["id"];
+
+        loadUserFullMessage(sID: sessionID);
+
+        Get.to(
+          () => ChatScreen(),
+          transition: Transition.rightToLeft,
+        );
+      },
+      onError: (error) {},
+    );
   }
+}
 
   void loadUserFullMessage({required int sID}) {
     ApiService.request(

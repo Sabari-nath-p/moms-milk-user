@@ -36,9 +36,6 @@ class AddMarketplaceController extends GetxController {
     update();
   }
 
-  /// -----------------------------
-  /// UPLOAD MULTIPLE IMAGES
-  /// -----------------------------
   Future<void> uploadImages(List<File> images) async {
     try {
       isUploadingImage = true;
@@ -105,9 +102,6 @@ class AddMarketplaceController extends GetxController {
     }
   }
 
-  /// -----------------------------
-  /// CREATE LISTING
-  /// -----------------------------
   Future<void> createListing() async {
     try {
       if (imageUrls.isEmpty) {
@@ -127,7 +121,7 @@ class AddMarketplaceController extends GetxController {
         "zipcode": zipcodeController.text.trim(),
         "placeName": placeController.text.trim(),
 
-        // ✅ MULTIPLE IMAGES FIX
+        
         "images": imageUrls.map((url) {
           return {
             "url": url,
@@ -169,9 +163,6 @@ class AddMarketplaceController extends GetxController {
     }
   }
 
-  /// -----------------------------
-  /// CLEAR
-  /// -----------------------------
   void clearFields() {
     titleController.clear();
     descriptionController.clear();
