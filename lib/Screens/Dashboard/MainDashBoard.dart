@@ -150,7 +150,7 @@ class MainDashboard extends StatelessWidget {
                     size: 20,
                     color: AppTheme.primaryColor,
                   ),
-                  label: 'Report'.tr,
+                  label: 'Market'.tr,
                 ),
 
                 NavigationDestination(

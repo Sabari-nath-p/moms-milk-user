@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Models/UserModel.dart';
@@ -22,60 +23,59 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: GetBuilder<Homecontroller>(
-        builder:
-            (controller) => Scaffold(
-              backgroundColor: Colors.white,
+        builder: (controller) => Scaffold(
+          backgroundColor: Colors.white,
 
-              // -------------------------------
-              // ✅ PINK THEME APP BAR ADDED HERE
-              // -------------------------------
-              appBar: AppBar(
-                backgroundColor: Colors.white,
-                elevation: 0,
-                title: Text(
-                  "Profile".tr,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black,
-                    fontFamily: "Inter",
-                  ),
-                ),
-                centerTitle: true,
-
-                iconTheme: IconThemeData(color: Color(0xFFFB7185)),
-              ),
-
-              body: RefreshIndicator(
-                onRefresh: () async {
-                  await Future.delayed(Duration(milliseconds: 500));
-                },
-                child: CustomScrollView(
-                  slivers: [
-                    SliverPadding(
-                      padding: EdgeInsets.all(16),
-                      sliver: SliverList(
-                        delegate: SliverChildListDelegate([
-                          _buildUserCard(context),
-                          SizedBox(height: 20),
-                          if (user.userType == "DONOR")
-                            buildUserTypeSection(context),
-                          SizedBox(height: 20),
-                          HBabyCard(),
-
-                          SizedBox(height: 20),
-
-                          _buildSettingsSection(context),
-                          SizedBox(height: 20),
-
-                          _buildAppInfoSection(context),
-                        ]),
-                      ),
-                    ),
-                  ],
-                ),
+          // -------------------------------
+          // ✅ PINK THEME APP BAR ADDED HERE
+          // -------------------------------
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            elevation: 0,
+            title: Text(
+              "Profile".tr,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+                fontFamily: "Inter",
               ),
             ),
+            centerTitle: true,
+
+            iconTheme: IconThemeData(color: Color(0xFFFB7185)),
+          ),
+
+          body: RefreshIndicator(
+            onRefresh: () async {
+              await Future.delayed(Duration(milliseconds: 500));
+            },
+            child: CustomScrollView(
+              slivers: [
+                SliverPadding(
+                  padding: EdgeInsets.all(16),
+                  sliver: SliverList(
+                    delegate: SliverChildListDelegate([
+                      _buildUserCard(context),
+                      SizedBox(height: 20),
+                      if (user.userType == "DONOR")
+                        buildUserTypeSection(context),
+                      SizedBox(height: 20),
+                      HBabyCard(),
+
+                      SizedBox(height: 20),
+
+                      _buildSettingsSection(context),
+                      SizedBox(height: 20),
+
+                      _buildAppInfoSection(context),
+                    ]),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -151,7 +151,19 @@ class ProfileScreen extends StatelessWidget {
                 context,
               ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
             ),
-            SizedBox(height: 16),
+            SizedBox(height: 16.h),
+
+            _buildSettingItem(
+              context,
+              'My Listings'.tr,
+              'Manage your marketplace items'.tr,
+              Icons.inventory_2_outlined,
+              () {
+                Get.to(() => MyListingsScreen());
+              },
+            ),
+
+            Divider(height: 24),
             _buildSettingItem(
               context,
               'Language'.tr,
@@ -222,20 +234,6 @@ class ProfileScreen extends StatelessWidget {
               () => _showLogoutConfirmation(context),
               isDestructive: true,
             ),
-
-            Divider(height: 24),
-
-_buildSettingItem(
-  context,
-  'My Listings',
-  'Manage your marketplace items',
-  Icons.inventory_2_outlined,
-  () {
-    Get.to(() => MyListingsScreen());
-  },
-),
-
-Divider(height: 24),
           ],
         ),
       ),
@@ -387,168 +385,166 @@ Divider(height: 24),
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder:
-          (context) => Container(
-            height: MediaQuery.of(context).size.height * 0.85,
-            decoration: BoxDecoration(
-              color: Theme.of(context).scaffoldBackgroundColor,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      builder: (context) => Container(
+        height: MediaQuery.of(context).size.height * 0.85,
+        decoration: BoxDecoration(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.only(top: 8),
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: Theme.of(context).dividerColor,
+                borderRadius: BorderRadius.circular(2),
+              ),
             ),
-            child: Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(top: 8),
-                  width: 40,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).dividerColor,
-                    borderRadius: BorderRadius.circular(2),
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: Row(
+                children: [
+                  Text(
+                    'Edit Profile'.tr,
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Edit Profile'.tr,
-                        style: Theme.of(context).textTheme.headlineSmall
-                            ?.copyWith(fontWeight: FontWeight.w600),
-                      ),
-                      Spacer(),
-                      IconButton(
-                        onPressed: () => Navigator.pop(context),
-                        icon: Icon(Icons.close),
-                      ),
-                    ],
+                  Spacer(),
+                  IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: Icon(Icons.close),
                   ),
-                ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: Column(
+                ],
+              ),
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: [
+                    TextField(
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                        labelText: 'Name'.tr,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        filled: true,
+                        fillColor: Theme.of(context).colorScheme.surface,
+                      ),
+                    ),
+                    SizedBox(height: 16),
+                    TextField(
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                        labelText: 'Email'.tr,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        filled: true,
+                        fillColor: Theme.of(context).colorScheme.surface,
+                      ),
+                    ),
+                    SizedBox(height: 16),
+                    TextField(
+                      textInputAction: TextInputAction.done,
+                      decoration: InputDecoration(
+                        labelText: 'Phone'.tr,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        filled: true,
+                        fillColor: Theme.of(context).colorScheme.surface,
+                      ),
+                    ),
+                    SizedBox(height: 32),
+                    Row(
                       children: [
-                        TextField(
-                          textInputAction: TextInputAction.next,
-                          decoration: InputDecoration(
-                            labelText: 'Name'.tr,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            filled: true,
-                            fillColor: Theme.of(context).colorScheme.surface,
-                          ),
-                        ),
-                        SizedBox(height: 16),
-                        TextField(
-                          textInputAction: TextInputAction.next,
-                          decoration: InputDecoration(
-                            labelText: 'Email'.tr,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            filled: true,
-                            fillColor: Theme.of(context).colorScheme.surface,
-                          ),
-                        ),
-                        SizedBox(height: 16),
-                        TextField(
-                          textInputAction: TextInputAction.done,
-                          decoration: InputDecoration(
-                            labelText: 'Phone'.tr,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            filled: true,
-                            fillColor: Theme.of(context).colorScheme.surface,
-                          ),
-                        ),
-                        SizedBox(height: 32),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: OutlinedButton(
-                                onPressed: () => Navigator.pop(context),
-                                style: OutlinedButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(vertical: 16),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                ),
-                                child: Text('Cancel'.tr),
+                        Expanded(
+                          child: OutlinedButton(
+                            onPressed: () => Navigator.pop(context),
+                            style: OutlinedButton.styleFrom(
+                              padding: EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
                               ),
                             ),
-                            SizedBox(width: 16),
-                            Expanded(
-                              child: ElevatedButton(
-                                onPressed: () => Navigator.pop(context),
-                                style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(vertical: 16),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                ),
-                                child: Text('Save'.tr),
+                            child: Text('Cancel'.tr),
+                          ),
+                        ),
+                        SizedBox(width: 16),
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () => Navigator.pop(context),
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
                               ),
                             ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).viewInsets.bottom + 20,
+                            child: Text('Save'.tr),
+                          ),
                         ),
                       ],
                     ),
-                  ),
+                    SizedBox(
+                      height: MediaQuery.of(context).viewInsets.bottom + 20,
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
+          ],
+        ),
+      ),
     );
   }
 
   void _showPrivacySettings(BuildContext context) {
     showDialog(
       context: context,
-      builder:
-          (context) => AlertDialog(
-            title: Text('Privacy & Security'.tr),
-            content: Text(
-              'Privacy and security settings will be implemented here.'.tr,
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text('OK'),
-              ),
-            ],
+      builder: (context) => AlertDialog(
+        title: Text('Privacy & Security'.tr),
+        content: Text(
+          'Privacy and security settings will be implemented here.'.tr,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('OK'),
           ),
+        ],
+      ),
     );
   }
 
   void _showDeleteAccount(BuildContext context) {
     showDialog(
       context: context,
-      builder:
-          (context) => AlertDialog(
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      builder: (context) => AlertDialog(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
 
-            title: Text('Delete Mom\'s Account'.tr),
-            content: Text(
-              'Your account is scheduled for deletion in 60 days and will be reactivated automatically if you log in again within this period.'
-                  .tr,
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text('Cancel'.tr),
-              ),
-              TextButton(
-                onPressed: () {
-                  _performDelete(context);
-                },
-                child: Text('Delete'.tr),
-              ),
-            ],
+        title: Text('Delete Mom\'s Account'.tr),
+        content: Text(
+          'Your account is scheduled for deletion in 60 days and will be reactivated automatically if you log in again within this period.'
+              .tr,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Cancel'.tr),
           ),
+          TextButton(
+            onPressed: () {
+              _performDelete(context);
+            },
+            child: Text('Delete'.tr),
+          ),
+        ],
+      ),
     );
   }
 
@@ -575,7 +571,7 @@ Divider(height: 24),
               const SizedBox(height: 20),
 
               ListTile(
-                title:  Text("English".tr),
+                title: Text("English".tr),
                 onTap: () {
                   Get.find<Homecontroller>().changeLanguage("English");
                   Get.back();
@@ -583,7 +579,7 @@ Divider(height: 24),
               ),
 
               ListTile(
-                title:  Text("Spanish".tr),
+                title: Text("Spanish".tr),
                 onTap: () {
                   Get.find<Homecontroller>().changeLanguage("Spanish");
                   Get.back();
@@ -599,19 +595,16 @@ Divider(height: 24),
   void _showHelpSupport(BuildContext context) {
     showDialog(
       context: context,
-      builder:
-          (context) => AlertDialog(
-            title: Text('Help & Support'.tr),
-            content: Text(
-              'Help and support options will be implemented here.'.tr,
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text('OK'.tr),
-              ),
-            ],
+      builder: (context) => AlertDialog(
+        title: Text('Help & Support'.tr),
+        content: Text('Help and support options will be implemented here.'.tr),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('OK'.tr),
           ),
+        ],
+      ),
     );
   }
 
@@ -808,47 +801,46 @@ Widget buildUserTypeSection(BuildContext context) {
           // Show switch only for DONOR
           if (user.userType == "DONOR") ...[
             GetBuilder<Homecontroller>(
-              builder:
-                  (controller) => SwitchListTile(
-                    title: Text(
-                      'Available for Donations'.tr,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    subtitle: Text(
-                      'Allow others to see your donation availability'.tr,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-
-                    // ----------------------------
-                    // 🔥 PINK THEMED SWITCH COLORS
-                    // ----------------------------
-                    activeColor: Colors.white,
-                    activeTrackColor: Colors.pink,
-                    inactiveThumbColor: Colors.pink,
-                    inactiveTrackColor: Colors.pinkAccent.shade100,
-
-                    value: user.isAvailable ?? false,
-
-                    onChanged: (value) async {
-                      user.isAvailable = value;
-                      controller.update();
-
-                      ApiService.request(
-                        endpoint: "/requests/availability",
-                        body: {"isAvailable": value},
-                        method: Api.PATCH,
-                      );
-                    },
-
-                    contentPadding: EdgeInsets.zero,
+              builder: (controller) => SwitchListTile(
+                title: Text(
+                  'Available for Donations'.tr,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
                   ),
+                ),
+                subtitle: Text(
+                  'Allow others to see your donation availability'.tr,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+
+                // ----------------------------
+                // 🔥 PINK THEMED SWITCH COLORS
+                // ----------------------------
+                activeColor: Colors.white,
+                activeTrackColor: Colors.pink,
+                inactiveThumbColor: Colors.pink,
+                inactiveTrackColor: Colors.pinkAccent.shade100,
+
+                value: user.isAvailable ?? false,
+
+                onChanged: (value) async {
+                  user.isAvailable = value;
+                  controller.update();
+
+                  ApiService.request(
+                    endpoint: "/requests/availability",
+                    body: {"isAvailable": value},
+                    method: Api.PATCH,
+                  );
+                },
+
+                contentPadding: EdgeInsets.zero,
+              ),
             ),
           ],
         ],

@@ -18,8 +18,8 @@ class MyListingsScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
-        title: const Text(
-          "My Listings",
+        title: Text(
+          "My Listings".tr,
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w600,

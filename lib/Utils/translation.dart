@@ -3,10 +3,7 @@ import 'package:get/get.dart';
 class AppTranslations extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
-   
-
     'es': {
-      
       "Report": "Informe",
       "Connect": "Conectar",
       "Message": "Mensaje",
@@ -76,9 +73,9 @@ class AppTranslations extends Translations {
       "Failed to delete. Please try again.":
           "No se pudo eliminar. Inténtalo de nuevo.",
       "Logging out...": "Cerrando sesión...",
-       "Server error. Please try after some time":
+      "Server error. Please try after some time":
           "Error del servidor. Por favor, inténtalo más tarde",
-          "N/A": "No disponible",
+      "N/A": "No disponible",
       "No buyer connected yet": "Aún no hay compradores conectados",
 
       "Not connected with\nany donor": "No estás conectado con\nningún donante",
@@ -314,7 +311,6 @@ class AppTranslations extends Translations {
       "You have not placed any requests yet.":
           "Aún no has realizado solicitudes",
 
-     
       "Details": "Detalles",
       "Filter Activities": "Filtrar actividades",
       "Feeding": "Alimentación",
@@ -334,50 +330,43 @@ class AppTranslations extends Translations {
       "Allow others to see your donation availability":
           "Permitir que otros vean tu disponibilidad para donar",
       "Connections": "Conexiones",
-     
+
       "feeding": "alimentación",
       "diaper": "pañal",
       "sleep": "sueño",
       'Active Filters': 'Filtros activos',
       "Quick Actions": "Acciones rápidas",
       "View Baby Activity": "Ver actividad del bebé",
-      
+
       'Try adjusting your search criteria or filters.':
           'Intenta ajustar tus criterios de búsqueda o filtros.',
-     
+
       'Medical Records': 'Historial médico',
       'Select date and time': 'Seleccionar fecha y hora',
-      
-          
 
-      
-
-      
-     
       'Send Request to @name': 'Enviar solicitud a @name',
       'Please enter a description': 'Por favor ingrese una descripción',
       'Requested': 'Solicitado',
-     
+
       'pending': 'Pendiente',
       'accepted': 'Aceptado',
       'rejected': 'Rechazado',
       'completed': 'Completado',
       "Log Failed": "Registro fallido",
       'Send Request': 'Enviar solicitud',
-      
+
       'Donor Available': 'Donante disponible',
       'Milk Request': 'Solicitud de leche',
-      
-  
+
       "Validation Error": "Error de validación",
-      
+
       "Baby Profile": "Perfil del bebé",
       "Unknown age": "Edad desconocida",
       "Delete Baby Profile": "Eliminar perfil del bebé",
       "Are you sure you want to delete \${baby.name}? This cannot be undone.":
           "¿Estás seguro de que deseas eliminar \${baby.name}? Esto no se puede deshacer.",
       "Select Feeding Date": "Seleccionar fecha de alimentación",
-      
+
       "Feed Type": "Tipo de alimentación",
       "Position": "Posición",
       "Amount(ml)": "Cantidad (ml)",
@@ -386,7 +375,7 @@ class AppTranslations extends Translations {
       "Others": "Otros",
       "Solid": "Sólido",
       "Liquid": "Líquido",
-       "Left": "Izquierda",
+      "Left": "Izquierda",
       "Right": "Derecha",
       "Both": "Ambos",
       "Empty": "Vacío",
@@ -407,7 +396,7 @@ class AppTranslations extends Translations {
           "Por favor ingresa una cantidad válida en ml",
       "Please select a position for breast feeding":
           "Por favor selecciona una posición para la lactancia",
-          'Please select sleep date before submission':
+      'Please select sleep date before submission':
           'Seleccione la fecha de sueño antes de enviar',
 
       'Please select start time before submission':
@@ -442,7 +431,7 @@ class AppTranslations extends Translations {
       "Decline": "Rechazar",
       "Accept": "Aceptar",
       "Send a message": "Enviar un mensaje",
-       "Enter Message": "Ingrese mensaje",
+      "Enter Message": "Ingrese mensaje",
 
       "Please provide additional information to help ensure safe milk donation":
           "Por favor proporciona información adicional para ayudar a garantizar una donación segura de leche",
@@ -450,9 +439,6 @@ class AppTranslations extends Translations {
       "Select Delivery Date": "Seleccionar fecha de parto",
       "Your Blood Group": "Tu grupo sanguíneo",
 
-      
-
-     
       "Facebook Profile link": "Enlace de perfil de Facebook",
       "Enter your facebook profile link":
           "Ingresa el enlace de tu perfil de Facebook",
@@ -503,9 +489,9 @@ class AppTranslations extends Translations {
       "journey": "recorrido",
       "Feedings": "Alimentaciones",
       "Diapers": "Pañales",
-     
+
       'Other': 'Otro',
-     
+
       "CRIB": "CUNA",
       "Crib": "Cuna",
       "BED": "CAMA",
@@ -553,15 +539,15 @@ class AppTranslations extends Translations {
       "Send Request to 'Donor'": "Enviar solicitud al donante",
       "Request Note": "Nota de solicitud",
       "Quantity Needed (ml)": "Cantidad necesaria (ml)",
-      
+
       "Language": "Idioma",
       "Search Donors": "Buscar donantes",
       "Sent a note...": "Enviar una nota...",
-      
+
       "No Donors Found": "No se encontraron donantes",
       "We’re actively welcoming milk donors. If no donors appear in your area yet, don’t worry more will be joining shortly. Thank you for your patience and support and if new donars comes near you we will notify":
           "Estamos dando la bienvenida activamente a donantes de leche. Si aún no aparecen donantes en tu área, no te preocupes, pronto se unirán más. Gracias por tu paciencia y apoyo; te notificaremos cuando haya nuevos donantes cerca.",
-      
+
       "Previous": "Anterior",
       "Log": "registro",
       "BOY": "NIÑO",
@@ -576,11 +562,11 @@ class AppTranslations extends Translations {
       "Available": "Disponible",
       "Enter your email address": "Ingresa tu dirección de correo electrónico",
       "What'your role?": "¿Cuál es tu rol?",
-      
+
       "Medium": "Medio",
       "Choose your preferred language": "Elige tu idioma preferido",
       "Low": "Bajo",
-      
+
       "Please enter your zip code": "Por favor ingresa tu código postal",
       "greeting": "¡Buenos @time, @name!",
       'Good': "Bueno",
@@ -591,36 +577,62 @@ class AppTranslations extends Translations {
       'Feeding Log logged successfully!':
           'Registro de alimentación guardado correctamente',
       'Born today': 'Nacido hoy',
-        "Please select diaper change date before submission":
-            "Seleccione la fecha del cambio de pañal antes de enviar",
-        "Please select diaper change time before submission":
-            "Seleccione la hora del cambio de pañal antes de enviar",
-            "Failed to load donors:": "Error al cargar donantes:",
-  "Blood:": "Grupo sanguíneo:",
-  "Medical Records": "Registros médicos",
-  "All Donors": "Todos los donantes",
-  "Zip:": "Código postal:",
-  "Name:": "Nombre:",
-  "km": "km",
-  "★": "★",
-  "Navigate to donor profile:": "Ir al perfil del donante:",
-  "Contact donor:": "Contactar donante:",
-  "Milk Request": "Solicitud de leche",
-  "Request sent successfully!": "¡Solicitud enviada con éxito!",
-  "Failed to send request:": "Error al enviar la solicitud:",
-  "Available": "Disponible",
-  "Unavailable": "No disponible",
-  
-        
-        "days_old": ":days días",
-        "Select Feeding Date" : "Seleccionar fecha de alimentación",
-        'Log': 'Registro',
+      "Please select diaper change date before submission":
+          "Seleccione la fecha del cambio de pañal antes de enviar",
+      "Please select diaper change time before submission":
+          "Seleccione la hora del cambio de pañal antes de enviar",
+      "Failed to load donors:": "Error al cargar donantes:",
+      "Blood:": "Grupo sanguíneo:",
+      "Medical Records": "Registros médicos",
+      "All Donors": "Todos los donantes",
+      "Zip:": "Código postal:",
+      "Name:": "Nombre:",
+      "km": "km",
+      "★": "★",
+      "Navigate to donor profile:": "Ir al perfil del donante:",
+      "Contact donor:": "Contactar donante:",
+      "Milk Request": "Solicitud de leche",
+      "Request sent successfully!": "¡Solicitud enviada con éxito!",
+      "Failed to send request:": "Error al enviar la solicitud:",
+      "Available": "Disponible",
+      "Unavailable": "No disponible",
+
+      "days_old": ":days días",
+      "Select Feeding Date": "Seleccionar fecha de alimentación",
+      'Log': 'Registro',
       'Baby Activity Summary': 'Resumen de actividad del bebé',
 
-        "Delete": "borrar",
-        "Gender": "Género",
-        "Change Email" : "Cambiar correo electrónico",
-       
+      "Delete": "borrar",
+      "Gender": "Género",
+      "Change Email": "Cambiar correo electrónico",
+
+      "My Listings": "Mis publicaciones",
+      "Manage your marketplace items": "Gestiona tus artículos del mercado",
+
+      "Marketplace": "Mercado",
+      "Search products": "Buscar productos",
+      "All": "Todos",
+      "CRADLES": "CUNAS",
+      "TOYS": "JUGUETES",
+      "CLOTHING": "ROPA",
+      "STROLLERS": "COCHECITOS",
+      "CAR_SEATS": "ASIENTOS DE AUTO",
+      "FEEDING": "ALIMENTACIÓN",
+      "BATH": "BAÑO",
+      "SAFETY": "SEGURIDAD",
+      "BOOKS": "LIBROS",
+      "EDUCATIONAL": "EDUCATIVO",
+      "OTHER": "OTRO",
+      "Product Details" : "Detalles del producto",
+      "Product Description" : "Descripción del producto",
+      "About Seller" : "Acerca del vendedor",
+      "No product found" : "No se encontró ningún producto",
+      "List an Item" : "Publicar un artículo",
+      "Post Item" : "Publicar artículo",
+      "Chat With Seller" : "Chatear con el vendedor",
+      "Market" : "Mercado"
+    
+    
     },
   };
 }

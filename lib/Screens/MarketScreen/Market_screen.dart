@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:mommilk_user/Models/MarketListingModel.dart';
 import 'package:mommilk_user/Screens/ChatListScreen/Controller/ChatController.dart';
 import 'package:mommilk_user/Screens/MarketScreen/Additem_screen.dart';
+//import 'package:mommilk_user/Screens/MarketScreen/Additem_screen.dart';
+import 'package:mommilk_user/Screens/MarketScreen/ProductDetailScreen.dart';
 import 'package:mommilk_user/Screens/MarketScreen/Service/market_controller.dart';
 
 class MarketScreen extends StatefulWidget {
@@ -31,18 +33,18 @@ class _MarketScreenState extends State<MarketScreen> {
   static const Color tabBg = Color(0xFFFDE8E6);
 
   final List<String> categories = [
-    'All',
-    'CRADLES',
-    'TOYS',
-    'CLOTHING',
-    'STROLLERS',
-    'CAR_SEATS',
-    'FEEDING',
-    'BATH',
-    'SAFETY',
-    'BOOKS',
-    'EDUCATIONAL',
-    'OTHER',
+    'All'.tr,
+    'CRADLES'.tr,
+    'TOYS'.tr,
+    'CLOTHING'.tr,
+    'STROLLERS'.tr,
+    'CAR_SEATS'.tr,
+    'FEEDING'.tr,
+    'BATH'.tr,
+    'SAFETY'.tr,
+    'BOOKS'.tr,
+    'EDUCATIONAL'.tr,
+    'OTHER'.tr,
   ];
 
   @override
@@ -84,11 +86,13 @@ class _MarketScreenState extends State<MarketScreen> {
         elevation: 0,
         centerTitle: true,
 
-        title: const Text(
-          "Marketplace",
+        title: Text(
+          "Marketplace".tr,
           style: TextStyle(
+            fontSize: 20.sp,
             color: Colors.black,
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w600,
+            fontFamily: "Inter",
           ),
         ),
         actions: [
@@ -99,7 +103,7 @@ class _MarketScreenState extends State<MarketScreen> {
 
     child: GestureDetector(
       onTap: () {
-        Get.to(() => const AddItemScreen());
+        Get.to(() =>  AddItemScreen());
       },
 
       child: Container(
@@ -176,12 +180,12 @@ class _MarketScreenState extends State<MarketScreen> {
                               },
 
                               decoration:
-                                  const InputDecoration(
+                                   InputDecoration(
                                     border:
                                         InputBorder.none,
 
                                     hintText:
-                                        "Search products",
+                                        "Search products".tr,
 
                                     prefixIcon: Icon(
                                       Icons.search,
@@ -463,446 +467,330 @@ class _MarketScreenState extends State<MarketScreen> {
     );
   }
 
-
-
-Widget _productCard(
-  MarketplaceListing p,
-) {
+Widget _productCard(MarketplaceListing p) {
   final image =
       p.images.isNotEmpty
           ? p.images.first.url
           : "";
 
-  return Container(
-    margin: const EdgeInsets.only(bottom: 12),
+  return InkWell(
+    borderRadius: BorderRadius.circular(10.r),
 
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(20),
+   onTap: () {
+   Get.to(
+      () => ProductDetailsScreen(
+         listingId: p.id,
+      ),
+   );
+},
 
-      border: Border.all(
-        color: const Color(0xFFF1E6E4),
+    child: Container(
+      margin: const EdgeInsets.only(
+        bottom: 12,
       ),
 
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black.withOpacity(0.025),
-          blurRadius: 8,
-          offset: const Offset(0, 2),
+      decoration: BoxDecoration(
+        color: Colors.white,
+
+        borderRadius:
+            BorderRadius.circular(10.r),
+
+        border: Border.all(
+          color: const Color(0xFFF1E6E4),
         ),
-      ],
-    ),
 
-    child: Row(
-      crossAxisAlignment:
-          CrossAxisAlignment.start,
-
-      children: [
-   
-
-        Stack(
-          children: [
-            ClipRRect(
-              borderRadius:
-                  const BorderRadius.only(
-                    topLeft: Radius.circular(
-                      20,
-                    ),
-                    bottomLeft:
-                        Radius.circular(
-                          20,
-                        ),
-                  ),
-
-              child:
-                 
-                      SizedBox(
-  width: 135,
-  height: 155,
-
-  child: image.isNotEmpty
-      ? Image.network(
-          image,
-          fit: BoxFit.cover,
-
-          /// Loading Placeholder
-          loadingBuilder: (
-            context,
-            child,
-            loadingProgress,
-          ) {
-            if (loadingProgress == null) {
-              return child;
-            }
-
-            return Container(
-              color: Colors.grey.shade100,
-              child: Center(
-                child: SizedBox(
-                  height: 22,
-                  width: 22,
-                  child:
-                      CircularProgressIndicator(
-                    strokeWidth: 2,
-                    color: primaryRed,
-                  ),
-                ),
-              ),
-            );
-          },
-
-          /// Error / Broken Image Placeholder
-          errorBuilder: (
-            context,
-            error,
-            stackTrace,
-          ) {
-            return _imagePlaceholder();
-          },
-        )
-
-      /// Empty Image Placeholder
-      : _imagePlaceholder(),
-)
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(
+              0.025,
             ),
 
-            /// LOCATION
+            blurRadius: 8,
 
-            Positioned(
-              bottom: 8,
-              left: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
 
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 6,
-                    ),
+      child: SizedBox(
+        height: 110.h,
 
-                decoration: BoxDecoration(
-                  color: Colors.white,
+        child: Row(
+          crossAxisAlignment:
+              CrossAxisAlignment.stretch,
+
+          children: [
+            /// ================= IMAGE =================
+
+            Stack(
+              children: [
+                ClipRRect(
                   borderRadius:
-                      BorderRadius.circular(
-                        22,
+                      BorderRadius.only(
+                        topLeft:
+                            Radius.circular(
+                              10.r,
+                            ),
+
+                        bottomLeft:
+                            Radius.circular(
+                              10.r,
+                            ),
                       ),
+
+                  child: SizedBox(
+                    width: 135.w,
+                    height: 150.h,
+
+                    child:
+                        image.isNotEmpty
+                            ? Image.network(
+                                image,
+                                fit: BoxFit.cover,
+
+                                loadingBuilder: (
+                                  context,
+                                  child,
+                                  progress,
+                                ) {
+                                  if (progress ==
+                                      null) {
+                                    return child;
+                                  }
+
+                                  return Container(
+                                    color: Colors
+                                        .grey
+                                        .shade100,
+
+                                    child:
+                                        const Center(
+                                          child:
+                                              SizedBox(
+                                                height:
+                                                    22,
+                                                width:
+                                                    22,
+
+                                                child:
+                                                    CircularProgressIndicator(
+                                                      strokeWidth:
+                                                          2,
+                                                      color:
+                                                          primaryRed,
+                                                    ),
+                                              ),
+                                        ),
+                                  );
+                                },
+
+                                errorBuilder:
+                                    (
+                                      _,
+                                      __,
+                                      ___,
+                                    ) => _imagePlaceholder(),
+                              )
+                            : _imagePlaceholder(),
+                  ),
                 ),
 
-                child: Row(
+                /// ================= LOCATION =================
+
+                Positioned(
+                  bottom: 8,
+                  left: 8,
+
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 6,
+                        ),
+
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+
+                      borderRadius:
+                          BorderRadius.circular(
+                            22,
+                          ),
+                    ),
+
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons
+                              .location_on_outlined,
+
+                          size: 13,
+                          color: primaryRed,
+                        ),
+
+                        const SizedBox(
+                          width: 3,
+                        ),
+
+                        Text(
+                          p.placeName.isEmpty
+                              ? "Unknown"
+                              : p.placeName,
+
+                          style: TextStyle(
+                            fontSize: 9.sp,
+                            fontWeight:
+                                FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            /// ================= DETAILS =================
+
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.all(
+                  12.w,
+                ),
+
+                child: Column(
+                  mainAxisAlignment:
+                      MainAxisAlignment
+                          .spaceBetween,
+
+                  crossAxisAlignment:
+                      CrossAxisAlignment
+                          .start,
+
                   children: [
-                    const Icon(
-                      Icons.location_on_outlined,
-                      size: 13,
-                      color: primaryRed,
+                    /// ================= TOP =================
+
+                    Column(
+                      crossAxisAlignment:
+                          CrossAxisAlignment
+                              .start,
+
+                      children: [
+                        /// TITLE
+
+                        Text(
+                          p.title,
+
+                          maxLines: 1,
+
+                          overflow:
+                              TextOverflow
+                                  .ellipsis,
+
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            fontWeight:
+                                FontWeight.w700,
+
+                            color:
+                                Colors.black87,
+                          ),
+                        ),
+
+                        SizedBox(height: 8.h),
+
+                        /// PRICE
+
+                        Text(
+                          "₹${p.price}",
+
+                          style: TextStyle(
+                            color: primaryRed,
+
+                            fontSize: 16.sp,
+
+                            fontWeight:
+                                FontWeight.w700,
+                          ),
+                        ),
+
+                        SizedBox(height: 8.h),
+
+                        /// SELLER
+
+                        Row(
+                          children: [
+                            Container(
+                              height: 24.h,
+                              width: 24.w,
+
+                              decoration:
+                                  const BoxDecoration(
+                                    color: Color(
+                                      0xFFFFD7CF,
+                                    ),
+
+                                    shape:
+                                        BoxShape
+                                            .circle,
+                                  ),
+
+                              child: Center(
+                                child: Text(
+                                  p.user.name
+                                          .isNotEmpty
+                                      ? p
+                                          .user
+                                          .name[0]
+                                          .toUpperCase()
+                                      : "U",
+
+                                  style: TextStyle(
+                                    fontWeight:
+                                        FontWeight
+                                            .w700,
+
+                                    fontSize:
+                                        10.sp,
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            SizedBox(width: 8.w),
+
+                            Expanded(
+                              child: Text(
+                                "Sold by: ${p.user.name}",
+
+                                maxLines: 1,
+
+                                overflow:
+                                    TextOverflow
+                                        .ellipsis,
+
+                                style: TextStyle(
+                                  fontSize:
+                                      10.sp,
+
+                                  fontWeight:
+                                      FontWeight
+                                          .w500,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
 
-                    const SizedBox(width: 3),
-
-                    Text(
-                      p.placeName.isEmpty
-                          ? "2 miles away"
-                          : p.placeName,
-
-                      style:  TextStyle(
-                        fontSize: 9.sp,
-                        fontWeight:
-                            FontWeight.w500,
-                      ),
-                    ),
+                   
                   ],
                 ),
               ),
             ),
           ],
         ),
-
-        /// ================= DETAILS =================
-
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(
-              12,
-            ),
-
-            child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
-
-              children: [
-                /// TOP
-
-                Row(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start,
-
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment:
-                            CrossAxisAlignment
-                                .start,
-
-                        children: [
-                          Text(
-                            p.title,
-
-                            maxLines: 1,
-
-                            overflow:
-                                TextOverflow
-                                    .ellipsis,
-
-                            style:
-                                 TextStyle(
-                                  fontSize:
-                                      14.sp,
-                                  fontWeight:
-                                      FontWeight
-                                          .w700,
-                                  color:
-                                      Colors
-                                          .black87,
-                                ),
-                          ),
-
-                          const SizedBox(
-                            height: 4,
-                          ),
-
-                          Text(
-                            p.description,
-
-                            maxLines: 2,
-
-                            overflow:
-                                TextOverflow
-                                    .ellipsis,
-
-                            style: TextStyle(
-                              fontSize:
-                                  12,
-                              color: Colors
-                                  .grey
-                                  .shade600,
-                              height: 1.25,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    const SizedBox(width: 6),
-
-                    Container(
-                      height: 28,
-                      width: 28,
-
-                      decoration:
-                          BoxDecoration(
-                            color:
-                                Colors.white,
-                            shape:
-                                BoxShape.circle,
-
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors
-                                    .black
-                                    .withOpacity(
-                                      0.04,
-                                    ),
-                                blurRadius: 4,
-                              ),
-                            ],
-                          ),
-
-                      child: Icon(
-                        Icons.favorite_border,
-                        color: primaryRed,
-                        size: 17,
-                      ),
-                    ),
-                  ],
-                ),
-
-                 SizedBox(height: 8.h),
-
-                /// PRICE
-
-                Row(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.end,
-
-                  children: [
-                    Text(
-                      "₹${p.price}",
-
-                      style:
-                           TextStyle(
-                            color:
-                                primaryRed,
-                            fontSize: 16.sp,
-                            fontWeight:
-                                FontWeight
-                                    .w700,
-                          ),
-                    ),
-
-                    // const SizedBox(width: 8),
-
-                    // Text(
-                    //   "₹2500",
-
-                    //   style: TextStyle(
-                    //     color: Colors
-                    //         .grey
-                    //         .shade500,
-
-                    //     fontSize: 13,
-
-                    //     decoration:
-                    //         TextDecoration
-                    //             .lineThrough,
-                    //   ),
-                    // ),
-                  ],
-                ),
-
-                 SizedBox(height: 8.h),
-
-                
-
-                Row(
-                  children: [
-                    Container(
-                      height: 28.h,
-                      width: 28.w,
-
-                      decoration:
-                          const BoxDecoration(
-                            color:
-                                Color(0xFFFFD7CF),
-                            shape:
-                                BoxShape.circle,
-                          ),
-
-                      child: Center(
-                        child: Text(
-                          p.user.name
-                                  .isNotEmpty
-                              ? p.user.name
-                                  .substring(
-                                    0,
-                                    1,
-                                  )
-                                  .toUpperCase()
-                              : "U",
-
-                          style:
-                               TextStyle(
-                                fontWeight:
-                                    FontWeight
-                                        .w700,
-                                fontSize: 10.sp,
-                              ),
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(width: 8),
-
-                    Expanded(
-                      child: Text(
-                        "Sold by: ${p.user.name}",
-
-                        maxLines: 1,
-
-                        overflow:
-                            TextOverflow
-                                .ellipsis,
-
-                        style:
-                             TextStyle(
-                              fontSize: 10.sp,
-                              fontWeight:
-                                  FontWeight
-                                      .w500,
-                            ),
-                      ),
-                    ),
-
-                    // const Text(
-                    //   "20% off ↓",
-
-                    //   style: TextStyle(
-                    //     color:
-                    //         Color(0xFF22C55E),
-                    //     fontWeight:
-                    //         FontWeight.w700,
-                    //     fontSize: 12,
-                    //   ),
-                    // ),
-                  ],
-                ),
-
-                const SizedBox(height: 14),
-
-                /// BUTTON
-
-                SizedBox(
-                  width: 200.w,
-                  height: 40,
-
-                  child:
-                      ElevatedButton.icon(
-                      onPressed: () {
-  Chatcontroller cctrl = Get.put(Chatcontroller());
-
-  cctrl.OpenChatUser(
-    userID: p.user.id,
-    isDonar: false,
-    userName: p.user.name,
-  );
-},
-
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              primaryRed,
-
-                          elevation: 0,
-
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(
-                                  14,
-                                ),
-                          ),
-                        ),
-
-                        icon: const Icon(
-                          Icons.chat_bubble_outline,
-                          color: Colors.white,
-                          size: 16,
-                        ),
-
-                        label: const Text(
-                          "Chat with seller",
-
-                          style: TextStyle(
-                            color:
-                                Colors.white,
-                            fontSize: 13,
-                            fontWeight:
-                                FontWeight
-                                    .w600,
-                          ),
-                        ),
-                      ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
+      ),
     ),
   );
 }

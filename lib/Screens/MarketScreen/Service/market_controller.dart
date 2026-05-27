@@ -4,6 +4,7 @@ import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:mommilk_user/Models/MarketListingModel.dart';
+import 'package:mommilk_user/Models/MarketPlaceDetailModel.dart';
 import 'package:mommilk_user/Utils/ApiService.dart';
 
 class MarketController extends GetxController {
@@ -25,6 +26,12 @@ class MarketController extends GetxController {
   String search = "";
   String selectedCategory = "";
   String selectedCondition = "";
+
+MarketplaceDetailsModel?
+    marketplaceDetails;
+
+bool isDetailsLoading = false;
+
 
   /// ================= LIST =================
 
@@ -153,7 +160,156 @@ class MarketController extends GetxController {
       update();
     }
   }
+/// ================= SINGLE LISTING =================
+/// ================= DETAILS =================
 
+/// ================= FETCH DETAILS =================
+Future<void> fetchMarketplaceDetails(
+  int listingId,
+) async {
+  try {
+    isDetailsLoading = true;
+    update();
+
+    final endpoint =
+        "/marketplace/listings/$listingId";
+
+    log("================================");
+    log("DETAIL API CALL START");
+    log("ENDPOINT => $endpoint");
+    log("LISTING ID => $listingId");
+    log("================================");
+
+    await _apiService.get(
+      endpoint: endpoint,
+      requiresAuth: false,
+      onSuccess: (response) {
+  try {
+    log("DETAIL RESPONSE => ${response.data}");
+
+    final jsonData = response.data;
+
+    /// ✅ handle both API formats safely
+    final Map<String, dynamic>? data =
+        (jsonData is Map<String, dynamic> &&
+                jsonData.containsKey("data"))
+            ? jsonData["data"]
+            : jsonData;
+
+    if (data == null) {
+      log("DATA IS NULL");
+     isDetailsLoading = true;
+marketplaceDetails = null;
+update();
+      return;
+    }
+
+    marketplaceDetails =
+        MarketplaceDetailsModel.fromJson(data);
+
+    log("DETAIL LOADED => ${marketplaceDetails?.title}");
+  } catch (e, st) {
+    log("DETAIL PARSE ERROR => $e");
+    log("$st");
+  }
+},
+
+      onServerError: (
+        status,
+        message,
+      ) {
+        log(
+          "================================",
+        );
+
+        log(
+          "DETAIL SERVER ERROR",
+        );
+
+        log(
+          "STATUS => $status",
+        );
+
+        log(
+          "MESSAGE => $message",
+        );
+
+        log(
+          "================================",
+        );
+      },
+
+      onNetworkError: (
+        message,
+      ) {
+        log(
+          "================================",
+        );
+
+        log(
+          "DETAIL NETWORK ERROR",
+        );
+
+        log(
+          "MESSAGE => $message",
+        );
+
+        log(
+          "================================",
+        );
+      },
+
+      onError: (error) {
+        log(
+          "================================",
+        );
+
+        log(
+          "DETAIL UNKNOWN ERROR",
+        );
+
+        log(
+          "ERROR => $error",
+        );
+
+        log(
+          "================================",
+        );
+      },
+    );
+  } catch (e, stackTrace) {
+    log(
+      "================================",
+    );
+
+    log(
+      "DETAIL FETCH ERROR => $e",
+    );
+
+    log(
+      "STACK TRACE => $stackTrace",
+    );
+
+    log(
+      "================================",
+    );
+  } finally {
+    isDetailsLoading = false;
+
+    update();
+
+    log(
+      "DETAIL LOADING FINISHED",
+    );
+  }
+}
+
+/// ================= CLEAR DETAILS =================
+
+void clearMarketplaceDetails() {
+  marketplaceDetails = null;
+  update();
+}
   /// ================= LOAD MORE =================
 
   Future<void> loadMore() async {
