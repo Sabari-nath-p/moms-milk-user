@@ -205,52 +205,49 @@ void initState() {
 
                   /// IMAGE
 
-                  ClipRRect(
-                    borderRadius:
-                        BorderRadius
-                            .circular(
-                                10.r),
+                 ClipRRect(
+  borderRadius: BorderRadius.circular(10.r),
+  child: product.images.isNotEmpty
+      ? Image.network(
+          product.images[0].url,
+          height: 200.h,
+          width: double.infinity,
+          fit: BoxFit.cover,
 
-                    child:
-                        Image.network(
-                      product.images
-                              .isNotEmpty
-                          ? product
-                              .images[0]
-                              .url
-                          : "",
-
-                      height: 200.h,
-
-                      width: double
-                          .infinity,
-
-                      fit: BoxFit.cover,
-
-                      errorBuilder:
-                          (
-                        context,
-                        error,
-                        stackTrace,
-                      ) {
-                        return Container(
-                          height:
-                              340.h,
-
-                          color: Colors
-                              .grey
-                              .shade200,
-
-                          child:
-                              const Icon(
-                            Icons.image,
-                            size: 60,
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-
+          errorBuilder: (
+            context,
+            error,
+            stackTrace,
+          ) {
+            return Container(
+              height: 200.h,
+              width: double.infinity,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade100,
+              ),
+              child: Icon(
+                Icons.image_outlined,
+                size: 60.sp,
+                color: Colors.grey.shade500,
+              ),
+            );
+          },
+        )
+      : Container(
+          height: 200.h,
+          width: double.infinity,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: Colors.grey.shade100,
+          ),
+          child: Icon(
+            Icons.image_outlined,
+            size: 60.sp,
+            color: Colors.grey.shade500,
+          ),
+        ),
+),
                   SizedBox(
                       height: 20.h),
 
