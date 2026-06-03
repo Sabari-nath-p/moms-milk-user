@@ -21,7 +21,7 @@ enum Api { POST, GET, PATCH, PUT, DELETE }
 
 class ApiService {
   static String baseUrl =
-      (true)
+      (false)
           ? "https://api.momsmilk.app"
           : "https://staging.momsmilk.app"; // "http://145.223.19.248:3001";
 

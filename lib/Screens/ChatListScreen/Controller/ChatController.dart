@@ -96,7 +96,7 @@ class Chatcontroller extends GetxController with WidgetsBindingObserver {
     // Added reconnection options for better stability
     socket = io(
       /// please not here change the url to staging or production accordingly
-      "wss://api.momsmilk.app/chat",
+      "wss://staging.momsmilk.app/chat",
 
       OptionBuilder()
           .setTransports(['websocket'])
