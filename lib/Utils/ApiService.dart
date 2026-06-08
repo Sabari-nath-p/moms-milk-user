@@ -20,10 +20,9 @@ class ResponseModel {
 enum Api { POST, GET, PATCH, PUT, DELETE }
 
 class ApiService {
-  static String baseUrl =
-      (false)
-          ? "https://api.momsmilk.app"
-          : "https://staging.momsmilk.app"; // "http://145.223.19.248:3001";
+  static String baseUrl = (false)
+      ? "https://api.momsmilk.app"
+      : "https://staging.momsmilk.app";
 
   static Future<String?> getAuthToken() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
@@ -42,17 +41,14 @@ class ApiService {
     Function(String message)? onNetworkError,
     Function(dynamic error)? onError,
   }) async {
-    //try {
-    // Prepare URL
     final Uri uri = Uri.parse('$baseUrl$endpoint');
-    // Prepare headers
     final Map<String, String> requestHeaders = headers ?? {};
     requestHeaders['Content-Type'] = 'application/json';
     requestHeaders["Accept"] = 'application/json';
 
-    // Add auth token if required
     if (requiresAuth) {
       final String? token = await getAuthToken();
+      log("TOKEN = $token");
       if (token != null) {
         requestHeaders['Authorization'] = 'Bearer $token';
       } else if (onUnauthenticated != null) {
@@ -61,10 +57,8 @@ class ApiService {
       }
     }
 
-    // Prepare request
     http.Response response;
 
-    // Execute request based on method
     switch (method) {
       case Api.GET:
         response = await http.get(uri, headers: requestHeaders);
@@ -100,11 +94,15 @@ class ApiService {
       default:
         throw Exception('Unsupported HTTP method: $method');
     }
-    log("[ ${method} ] $endpoint ==> ${response.statusCode}");
+
+    // ─── LOG EVERY RESPONSE SO WE CAN SEE REAL ERRORS ───────────────────
+    log("[ $method ] $endpoint ==> ${response.statusCode}");
+    log("RAW RESPONSE BODY: ${response.body}");
+    // ────────────────────────────────────────────────────────────────────
+
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final decoded = json.decode(response.body);
 
-      //  CHECK BACKEND SUCCESS FLAG
       if (decoded is Map && decoded["success"] == false) {
         if (onUnauthenticated != null) {
           onUnauthenticated();
@@ -123,65 +121,95 @@ class ApiService {
       }
     } else if (response.statusCode == 401) {
       if (onUnauthenticated != null) {
-        print("hit here");
         onUnauthenticated();
       } else {
-        Get.deleteAll(); // Deletes every registered controller
+        Get.deleteAll();
         Get.offAll(
           () => Authenticationscreen(),
           transition: Transition.rightToLeft,
         );
         Fluttertoast.showToast(
-          msg:
-              'You need to log in to continue. Please sign in and try again.'
-                  .tr,
+          msg: 'You need to log in to continue. Please sign in and try again.'
+              .tr,
         );
       }
     } else if (response.statusCode >= 500) {
+      // ─── SAFELY PARSE ERROR MESSAGE — handles Map, List, or plain text ──
+      String errorMessage = 'Server error occurred';
+      try {
+        if (response.body.isNotEmpty) {
+          final decoded = json.decode(response.body);
+          if (decoded is Map) {
+            // e.g. {"statusCode":500,"message":"Internal server error"}
+            final msg = decoded["message"];
+            if (msg is String) {
+              errorMessage = msg;
+            } else if (msg is List) {
+              // e.g. {"message": ["field must be a string", ...]}  — NestJS validation
+              errorMessage = msg.join(', ');
+            } else {
+              errorMessage = decoded["error"]?.toString() ?? response.body;
+            }
+          } else if (decoded is List) {
+            // raw list response — join all string items
+            errorMessage = decoded.map((e) => e.toString()).join(', ');
+          } else {
+            errorMessage = response.body;
+          }
+        }
+      } catch (_) {
+        // body is not valid JSON — use raw text
+        errorMessage = response.body.isNotEmpty
+            ? response.body
+            : 'Server error occurred';
+      }
+      log("SERVER ERROR DETAIL: $errorMessage");
+      // ────────────────────────────────────────────────────────────────────
+
       if (onServerError != null) {
-        onServerError(
-          response.statusCode,
-          response.body.isNotEmpty ? response.body : 'Server error occurred',
-        );
+        onServerError(response.statusCode, errorMessage);
       } else {
         Fluttertoast.showToast(
           msg: 'Something went wrong on our end. Please try again later.'.tr,
         );
       }
     } else {
-      // Other errors
+      // 400–499 errors — treat as server/validation errors, NOT success
+      String errorMessage = 'Request failed';
+      try {
+        if (response.body.isNotEmpty) {
+          final decoded = json.decode(response.body);
+          if (decoded is Map) {
+            final msg = decoded["message"];
+            if (msg is String) {
+              errorMessage = msg;
+            } else if (msg is List) {
+              // NestJS validation errors: {"message": ["field must be X", ...]}
+              errorMessage = msg.join('\n');
+            } else {
+              errorMessage = decoded["error"]?.toString() ?? response.body;
+            }
+          } else {
+            errorMessage = response.body;
+          }
+        }
+      } catch (_) {
+        errorMessage = response.body.isNotEmpty
+            ? response.body
+            : 'Request failed';
+      }
+      log("CLIENT ERROR ${response.statusCode}: $errorMessage");
 
-      if (onSuccess != null) {
-        onSuccess(
-          ResponseModel(
-            statusCode: response.statusCode,
-            data: json.decode(response.body),
-          ),
-        );
+      if (onServerError != null) {
+        onServerError(response.statusCode, errorMessage);
+      } else {
+        Fluttertoast.showToast(msg: errorMessage);
       }
     }
-    // } on SocketException catch (e) {
-    //   // Network error
-    //   if (onNetworkError != null) {
-    //     onNetworkError('Network error: ${e.message}');
-    //   } else {
-    //     Get.snackbar(
-    //       "No Internet Connection".tr,
-    //       "You're currently offline. Please check your connection and try again.",
-    //     );
-    //   }
-    // } catch (e) {
-    //   // Other errors
-    //   if (onError != null) {
-    //     onError(e);
-    //   }
-    //   if (kDebugMode) {
-    //     print('API Request Error: $e');
-    //   }
-    // }
   }
 
-  // Convenience methods for common HTTP methods
+  // ── Convenience methods ───────────────────────────────────────────────────
+
   Future<void> get({
     required String endpoint,
     Map<String, String>? headers,

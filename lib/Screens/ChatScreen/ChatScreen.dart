@@ -23,11 +23,13 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void dispose() {
-   
     ctrl.currentUser = -1;
     ctrl.currentUserName = "";
     ctrl.sessionID = -1;
-    Get.back();
+    // ✅ FIX ISSUE 3: REMOVED Get.back() from dispose()
+    // Get.back() here was popping the stack a second time,
+    // causing the app to skip Find Buyers and go straight to Connections.
+    // The back button on the AppBar (in MessageTitleCard) already handles navigation.
     super.dispose();
   }
 
@@ -54,7 +56,6 @@ class _ChatScreenState extends State<ChatScreen> {
                         spacing: 20,
                         children: [
                           SizedBox(height: 20),
-
                           for (var data in __.messageList)
                             MessageCard(
                               isRead: data.isRead,
@@ -62,7 +63,6 @@ class _ChatScreenState extends State<ChatScreen> {
                               message: data.content,
                               messageTime: data.createdAt.toLocal().toString(),
                             ),
-
                           SizedBox(height: 20),
                         ],
                       ),
