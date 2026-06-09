@@ -155,8 +155,8 @@ class AddMarketplaceController extends GetxController {
       final streamed = await request.send();
       final response = await http.Response.fromStream(streamed);
 
-      log("UPLOAD RESPONSE STATUS: ${response.statusCode}");
-      log("UPLOAD RESPONSE BODY: ${response.body}");
+      print("UPLOAD STATUS => ${response.statusCode}");
+      print("UPLOAD BODY => ${response.body}");
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final data = jsonDecode(response.body);

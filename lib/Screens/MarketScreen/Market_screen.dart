@@ -20,6 +20,7 @@ class _MarketScreenState extends State<MarketScreen> {
   RangeValues _priceRange = const RangeValues(0, 50000);
   double _maxDistance = 50;
   bool _distanceFilterActive = false;
+  String _sortBy = ''; // FIX: sort state
   final TextEditingController searchController = TextEditingController();
 
   static const Color _red = Color(0xFFE8453C);
@@ -46,6 +47,14 @@ class _MarketScreenState extends State<MarketScreen> {
     'Books',
     'Educational',
     'Other',
+  ];
+
+  // Sort options: label → controller key
+  static const _sortOptions = [
+    ('Newest First', 'newest'),
+    ('Oldest First', 'oldest'),
+    ('Price: Low to High', 'price_asc'),
+    ('Price: High to Low', 'price_desc'),
   ];
 
   String _catApiValue(String label) {
@@ -83,10 +92,21 @@ class _MarketScreenState extends State<MarketScreen> {
   }
 
   void _filter() {
+    // FIX: pass price range and sort to controller
+    // minPrice = 0 means no lower bound; maxPrice = 50000 (max) means no upper bound
+    final int minP = _priceRange.start.toInt();
+    final int maxP = _priceRange.end.toInt() >= 50000
+        ? 0
+        : _priceRange.end.toInt();
+
     controller.fetchMarketplaceListings(
       searchText: searchController.text.trim(),
       category: _catApiValue(selectedCategory),
       condition: selectedCondition ?? '',
+      minPriceVal: minP,
+      maxPriceVal: maxP,
+      maxDistanceVal: _distanceFilterActive ? _maxDistance : 0,
+      sortByVal: _sortBy,
       page: 1,
       isRefresh: true,
     );
@@ -153,6 +173,14 @@ class _MarketScreenState extends State<MarketScreen> {
       default:
         return c.replaceAll('_', ' ');
     }
+  }
+
+  // FIX: human-readable label for current sort
+  String get _sortLabel {
+    for (final opt in _sortOptions) {
+      if (opt.$2 == _sortBy) return opt.$1;
+    }
+    return 'Sort';
   }
 
   @override
@@ -513,7 +541,7 @@ class _MarketScreenState extends State<MarketScreen> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
-                        '₹${_tempPrice.start.toInt()}  –  ₹${_tempPrice.end.toInt()}',
+                        '₹${_tempPrice.start.toInt()}  –  ${_tempPrice.end.toInt() >= 50000 ? 'Any' : '₹${_tempPrice.end.toInt()}'}',
                         style: const TextStyle(
                           fontSize: 12,
                           color: _red,
@@ -881,37 +909,156 @@ class _MarketScreenState extends State<MarketScreen> {
         const SizedBox(width: 8),
         Icon(Icons.view_list_outlined, size: 22, color: Colors.grey.shade400),
         const SizedBox(width: 12),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: Colors.grey.shade200),
-          ),
-          child: Row(
-            children: [
-              Icon(Icons.sort, size: 14, color: Colors.grey.shade500),
-              const SizedBox(width: 4),
-              Text(
-                'Sort',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey.shade600,
-                  fontWeight: FontWeight.w500,
+
+        // ── FIX: Sort dropdown ──────────────────────────────────────────────
+        GestureDetector(
+          onTap: _showSortSheet,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            decoration: BoxDecoration(
+              color: _sortBy.isNotEmpty ? _red : Colors.white,
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(
+                color: _sortBy.isNotEmpty ? _red : Colors.grey.shade200,
+              ),
+            ),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.sort,
+                  size: 14,
+                  color: _sortBy.isNotEmpty
+                      ? Colors.white
+                      : Colors.grey.shade500,
                 ),
-              ),
-              const SizedBox(width: 2),
-              Icon(
-                Icons.keyboard_arrow_down,
-                size: 14,
-                color: Colors.grey.shade500,
-              ),
-            ],
+                const SizedBox(width: 4),
+                Text(
+                  _sortLabel,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: _sortBy.isNotEmpty
+                        ? Colors.white
+                        : Colors.grey.shade600,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(width: 2),
+                Icon(
+                  Icons.keyboard_arrow_down,
+                  size: 14,
+                  color: _sortBy.isNotEmpty
+                      ? Colors.white
+                      : Colors.grey.shade500,
+                ),
+              ],
+            ),
           ),
         ),
       ],
     ),
   );
+
+  // FIX: Sort bottom sheet
+  void _showSortSheet() {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      backgroundColor: Colors.white,
+      builder: (_) => Padding(
+        padding: const EdgeInsets.fromLTRB(20, 16, 20, 28),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Container(
+                width: 40,
+                height: 4,
+                margin: const EdgeInsets.only(bottom: 16),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade300,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+            Row(
+              children: [
+                const Text(
+                  'Sort By',
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w800,
+                    color: Colors.black,
+                  ),
+                ),
+                const Spacer(),
+                if (_sortBy.isNotEmpty)
+                  GestureDetector(
+                    onTap: () {
+                      setState(() => _sortBy = '');
+                      _filter();
+                      Navigator.pop(context);
+                    },
+                    child: const Text(
+                      'Clear',
+                      style: TextStyle(
+                        color: _red,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            ..._sortOptions.map((opt) {
+              final isSelected = _sortBy == opt.$2;
+              return GestureDetector(
+                onTap: () {
+                  setState(() => _sortBy = opt.$2);
+                  _filter();
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(bottom: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 14,
+                  ),
+                  decoration: BoxDecoration(
+                    color: isSelected ? _redLight : const Color(0xFFF7F7F7),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: isSelected
+                          ? _red.withOpacity(0.4)
+                          : Colors.transparent,
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Text(
+                        opt.$1,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: isSelected ? _red : Colors.black87,
+                        ),
+                      ),
+                      const Spacer(),
+                      if (isSelected)
+                        const Icon(Icons.check_circle, color: _red, size: 18),
+                    ],
+                  ),
+                ),
+              );
+            }),
+          ],
+        ),
+      ),
+    );
+  }
 
   Widget _card(MarketplaceListing p) {
     final img = p.images.isNotEmpty ? p.images.first.url : '';
@@ -1110,8 +1257,6 @@ class _MarketScreenState extends State<MarketScreen> {
                       ],
                     ),
                     const SizedBox(height: 6),
-
-                    // Seller — avatar + name only
                     Row(
                       children: [
                         CircleAvatar(
@@ -1144,8 +1289,6 @@ class _MarketScreenState extends State<MarketScreen> {
                       ],
                     ),
                     const SizedBox(height: 5),
-
-                    // Location — pin + place + distance
                     Row(
                       children: [
                         const Icon(Icons.location_on, size: 12, color: _red),
@@ -1180,10 +1323,7 @@ class _MarketScreenState extends State<MarketScreen> {
                         ],
                       ],
                     ),
-
                     const Spacer(),
-
-                    // Chat | View
                     Container(
                       height: 36,
                       decoration: BoxDecoration(

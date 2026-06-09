@@ -13,6 +13,10 @@ class MarketController extends GetxController {
   String search = "";
   String selectedCategory = "";
   String selectedCondition = "";
+  int minPrice = 0;
+  int maxPrice = 0; // 0 means no upper limit
+  double maxDistance = 0; // 0 means no distance filter
+  String sortBy = ""; // e.g. "price_asc", "price_desc", "newest", "oldest"
   MarketplaceDetailsModel? marketplaceDetails;
   bool isDetailsLoading = false;
   List<MarketplaceListing> listings = [];
@@ -21,12 +25,17 @@ class MarketController extends GetxController {
     String searchText = "",
     String category = "",
     String condition = "",
+    int minPriceVal = 0,
+    int maxPriceVal = 0,
+    double maxDistanceVal = 0,
+    String sortByVal = "",
     int page = 1,
     int limit = 20,
     bool isRefresh = false,
   }) async {
     print("======= FETCH MARKETPLACE CALLED =======");
     print("instance: $hashCode | page: $page | category: $category");
+    print("price: $minPriceVal - $maxPriceVal | sort: $sortByVal");
 
     try {
       if (page == 1) {
@@ -43,6 +52,10 @@ class MarketController extends GetxController {
       search = searchText;
       selectedCategory = category;
       selectedCondition = condition;
+      minPrice = minPriceVal;
+      maxPrice = maxPriceVal;
+      maxDistance = maxDistanceVal;
+      sortBy = sortByVal;
 
       final queryParams = <String, String>{
         "page": page.toString(),
@@ -52,6 +65,43 @@ class MarketController extends GetxController {
       if (searchText.isNotEmpty) queryParams["search"] = searchText;
       if (category.isNotEmpty) queryParams["category"] = category;
       if (condition.isNotEmpty) queryParams["condition"] = condition;
+
+      // ── Price filter ──────────────────────────────────────────────────────
+      if (minPriceVal > 0) {
+        queryParams["minPrice"] = minPriceVal.toString();
+      }
+      if (maxPriceVal > 0) {
+        queryParams["maxPrice"] = maxPriceVal.toString();
+      }
+
+      // ── Distance filter ───────────────────────────────────────────────────
+      if (maxDistanceVal > 0) {
+        queryParams["maxDistance"] = maxDistanceVal.toStringAsFixed(0);
+      }
+
+      // ── Sort ──────────────────────────────────────────────────────────────
+      if (sortByVal.isNotEmpty) {
+        // Map UI sort keys to whatever your backend expects
+        // e.g. "price_asc" → sortBy=price&order=asc
+        switch (sortByVal) {
+          case "price_asc":
+            queryParams["sortBy"] = "price";
+            queryParams["order"] = "asc";
+            break;
+          case "price_desc":
+            queryParams["sortBy"] = "price";
+            queryParams["order"] = "desc";
+            break;
+          case "newest":
+            queryParams["sortBy"] = "createdAt";
+            queryParams["order"] = "desc";
+            break;
+          case "oldest":
+            queryParams["sortBy"] = "createdAt";
+            queryParams["order"] = "asc";
+            break;
+        }
+      }
 
       final endpoint =
           "/marketplace/listings?${Uri(queryParameters: queryParams).query}";
@@ -64,7 +114,6 @@ class MarketController extends GetxController {
         requiresAuth: true,
         onSuccess: (response) {
           print("======= MARKET API SUCCESS =======");
-          print("RAW RESPONSE: ${response.data}");
 
           try {
             final jsonData = response.data;
@@ -193,6 +242,10 @@ class MarketController extends GetxController {
         searchText: search,
         category: selectedCategory,
         condition: selectedCondition,
+        minPriceVal: minPrice,
+        maxPriceVal: maxPrice,
+        maxDistanceVal: maxDistance,
+        sortByVal: sortBy,
         page: currentPage + 1,
       );
     }
@@ -203,6 +256,10 @@ class MarketController extends GetxController {
       searchText: search,
       category: selectedCategory,
       condition: selectedCondition,
+      minPriceVal: minPrice,
+      maxPriceVal: maxPrice,
+      maxDistanceVal: maxDistance,
+      sortByVal: sortBy,
       page: 1,
       isRefresh: true,
     );
