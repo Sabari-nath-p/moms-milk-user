@@ -130,13 +130,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
         return Scaffold(
           backgroundColor: Colors.white,
+          // FIX: Only Chat With Seller — full width, no Buy Now
           bottomNavigationBar: _bottomBar(p),
           body: SafeArea(
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // ── HERO IMAGE CARD (contained, rounded all sides) ──────────
                   _heroImageCard(
                     images,
                     condColor,
@@ -144,7 +144,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     catLabel,
                     p.category,
                   ),
-
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Column(
@@ -163,7 +162,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         ),
                         const SizedBox(height: 8),
 
-                        // ── PRICE ROW ──────────────────────────────────────────
+                        // Price row
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -210,7 +209,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         ),
                         const SizedBox(height: 10),
 
-                        // ── CONDITION ROW ──────────────────────────────────────
+                        // Condition row
                         Row(
                           children: [
                             Container(
@@ -278,7 +277,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         ),
                         const SizedBox(height: 14),
 
-                        // ── SELLER CARD ────────────────────────────────────────
+                        // Seller card
                         Container(
                           padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
                           decoration: BoxDecoration(
@@ -292,7 +291,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  // Avatar
                                   CircleAvatar(
                                     radius: 20,
                                     backgroundColor: const Color(0xFFFFD7CF),
@@ -313,7 +311,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        // Name only — no rating, no verified
                                         Row(
                                           children: [
                                             Flexible(
@@ -329,7 +326,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                           ],
                                         ),
                                         const SizedBox(height: 3),
-                                        // Active • Listings • Sales
                                         Text(
                                           'Active $activeAgo  •  $totalListings Listings',
                                           style: TextStyle(
@@ -341,39 +337,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       ],
                                     ),
                                   ),
-                                  const SizedBox(width: 8),
-                                  OutlinedButton(
-                                    onPressed: () {},
-                                    style: OutlinedButton.styleFrom(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 10,
-                                        vertical: 6,
-                                      ),
-                                      side: BorderSide(
-                                        color: Colors.grey.shade400,
-                                      ),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      minimumSize: Size.zero,
-                                      tapTargetSize:
-                                          MaterialTapTargetSize.shrinkWrap,
-                                    ),
-                                    child: const Text(
-                                      'View Profile',
-                                      style: TextStyle(
-                                        fontSize: 11,
-                                        color: Colors.black87,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ),
                                 ],
                               ),
                               const SizedBox(height: 10),
                               Divider(height: 1, color: Colors.grey.shade200),
                               const SizedBox(height: 10),
-                              // Location row
                               Row(
                                 children: [
                                   const Icon(
@@ -405,7 +373,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
                         const SizedBox(height: 18),
 
-                        // ── PRODUCT DETAILS ────────────────────────────────────
+                        // Product Details
                         const Text(
                           'Product Details',
                           style: TextStyle(
@@ -445,7 +413,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
                         const SizedBox(height: 16),
 
-                        // ── SPEC GRID ──────────────────────────────────────────
                         _specGrid([
                           _Spec(
                             Icons.sell_outlined,
@@ -500,7 +467,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         Divider(color: Colors.grey.shade200),
                         const SizedBox(height: 14),
 
-                        // ── ABOUT THE SELLER ───────────────────────────────────
+                        // About the Seller
                         const Text(
                           'About the Seller',
                           style: TextStyle(
@@ -509,31 +476,16 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           ),
                         ),
                         const SizedBox(height: 12),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  _aboutRow(
-                                    Icons.calendar_today_outlined,
-                                    joinedLabel,
-                                  ),
-                                  const SizedBox(height: 10),
-                                  _aboutRow(
-                                    Icons.chat_outlined,
-                                    'Responds within 1 hour',
-                                  ),
-                                  const SizedBox(height: 10),
-                                  _aboutRow(
-                                    Icons.bolt_outlined,
-                                    'Usually replies quickly',
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
+                        _aboutRow(Icons.calendar_today_outlined, joinedLabel),
+                        const SizedBox(height: 10),
+                        _aboutRow(
+                          Icons.chat_outlined,
+                          'Responds within 1 hour',
+                        ),
+                        const SizedBox(height: 10),
+                        _aboutRow(
+                          Icons.bolt_outlined,
+                          'Usually replies quickly',
                         ),
 
                         const SizedBox(height: 100),
@@ -543,19 +495,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 ],
               ),
             ),
-          ), // SafeArea
+          ),
         );
       },
     );
   }
-
-  // ══════════════════════════════════════════════════════════════════════════
-  // HERO IMAGE — back/share/heart are in a ROW above the image card
-  // Image card has rounded corners on ALL sides, contained with padding
-  // Category badge = white pill with colored text (top-left of image)
-  // Condition badge = colored solid pill (bottom-left of image)
-  // Counter = dark pill (bottom-right of image)
-  // ══════════════════════════════════════════════════════════════════════════
 
   Widget _heroImageCard(
     List images,
@@ -567,28 +511,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // ── TOP NAV ROW — back (left) + share/heart (right) ─────────────────
-        // This is ABOVE the image card, in the white page area
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 12, 16, 10),
           child: Row(
             children: [
-              // Back button
               GestureDetector(
                 onTap: () => Get.back(),
                 child: _circleBtn(Icons.arrow_back_ios_new, size: 15),
               ),
-              const Spacer(),
-              // Share
-              _circleBtn(Icons.ios_share_outlined),
-              const SizedBox(width: 8),
-              // Heart
-              _circleBtn(Icons.favorite_border, iconColor: Colors.red),
             ],
           ),
         ),
 
-        // ── IMAGE CARD — contained, rounded all sides ────────────────────────
+        // ── Main image with PageView ──────────────────────────────────────
         Padding(
           padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
           child: ClipRRect(
@@ -599,21 +534,74 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  // Image pager
+                  // PageView allows swiping between all images
                   images.isNotEmpty
                       ? PageView.builder(
                           controller: _pageCtrl,
                           itemCount: images.length,
                           onPageChanged: (i) => setState(() => _imgIndex = i),
-                          itemBuilder: (_, i) => Image.network(
-                            images[i].url,
-                            fit: BoxFit.cover,
-                            errorBuilder: (_, __, ___) => Container(
-                              color: Colors.grey.shade100,
-                              child: const Icon(
-                                Icons.image_outlined,
-                                size: 48,
-                                color: Colors.grey,
+                          itemBuilder: (_, i) => GestureDetector(
+                            onTap: () {
+                              // Full screen viewer on tap
+                              showDialog(
+                                context: context,
+                                barrierColor: Colors.black87,
+                                builder: (_) => Dialog(
+                                  backgroundColor: Colors.transparent,
+                                  insetPadding: EdgeInsets.zero,
+                                  child: Stack(
+                                    children: [
+                                      InteractiveViewer(
+                                        minScale: 0.5,
+                                        maxScale: 4.0,
+                                        child: Center(
+                                          child: Image.network(
+                                            images[i].url,
+                                            fit: BoxFit.contain,
+                                            errorBuilder: (_, __, ___) =>
+                                                const Icon(
+                                                  Icons.broken_image,
+                                                  color: Colors.white,
+                                                  size: 60,
+                                                ),
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        top: 40,
+                                        right: 16,
+                                        child: GestureDetector(
+                                          onTap: () => Navigator.pop(context),
+                                          child: Container(
+                                            width: 34,
+                                            height: 34,
+                                            decoration: const BoxDecoration(
+                                              color: Colors.black45,
+                                              shape: BoxShape.circle,
+                                            ),
+                                            child: const Icon(
+                                              Icons.close,
+                                              color: Colors.white,
+                                              size: 18,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Image.network(
+                              images[i].url,
+                              fit: BoxFit.cover,
+                              errorBuilder: (_, __, ___) => Container(
+                                color: Colors.grey.shade100,
+                                child: const Icon(
+                                  Icons.image_outlined,
+                                  size: 48,
+                                  color: Colors.grey,
+                                ),
                               ),
                             ),
                           ),
@@ -627,7 +615,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           ),
                         ),
 
-                  // Category badge — white pill top-left with colored text
+                  // Category badge top-left
                   Positioned(
                     top: 12,
                     left: 12,
@@ -658,7 +646,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     ),
                   ),
 
-                  // Condition badge — solid color bottom-left
+                  // Condition badge bottom-left
                   Positioned(
                     bottom: 14,
                     left: 12,
@@ -682,7 +670,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     ),
                   ),
 
-                  // Image counter — bottom-right
+                  // Image counter bottom-right
                   if (images.length > 1)
                     Positioned(
                       bottom: 14,
@@ -710,6 +698,89 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
           ),
         ),
+
+        // ── Dot indicators ────────────────────────────────────────────────
+        if (images.length > 1)
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(images.length, (i) {
+                final active = i == _imgIndex;
+                return GestureDetector(
+                  onTap: () {
+                    _pageCtrl.animateToPage(
+                      i,
+                      duration: const Duration(milliseconds: 250),
+                      curve: Curves.easeInOut,
+                    );
+                  },
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    margin: const EdgeInsets.symmetric(horizontal: 3),
+                    width: active ? 20 : 8,
+                    height: 8,
+                    decoration: BoxDecoration(
+                      color: active ? _red : Colors.grey.shade300,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                );
+              }),
+            ),
+          ),
+
+        // ── Thumbnail strip — shows ALL images, tap to jump ──────────────
+        if (images.length > 1)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(12, 10, 12, 0),
+            child: SizedBox(
+              height: 60,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: images.length,
+                itemBuilder: (_, i) {
+                  final active = i == _imgIndex;
+                  return GestureDetector(
+                    onTap: () {
+                      _pageCtrl.animateToPage(
+                        i,
+                        duration: const Duration(milliseconds: 250),
+                        curve: Curves.easeInOut,
+                      );
+                    },
+                    child: Container(
+                      width: 60,
+                      height: 60,
+                      margin: const EdgeInsets.only(right: 8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: active ? _red : Colors.grey.shade300,
+                          width: active ? 2 : 1,
+                        ),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(7),
+                        child: Image.network(
+                          images[i].url,
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, __, ___) => Container(
+                            color: Colors.grey.shade100,
+                            child: const Icon(
+                              Icons.image_outlined,
+                              size: 20,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
       ],
     );
   }
@@ -731,8 +802,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     child: Icon(icon, size: size, color: iconColor),
   );
 
-  // ── BOTTOM BAR ────────────────────────────────────────────────────────────
-
+  // FIX: Full-width Chat With Seller — no Buy Now button
   Widget _bottomBar(dynamic p) => Container(
     padding: EdgeInsets.fromLTRB(
       16,
@@ -750,59 +820,34 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         ),
       ],
     ),
-    child: Row(
-      children: [
-        Expanded(
-          child: OutlinedButton.icon(
-            onPressed: () {
-              final c = Get.put(Chatcontroller());
-              c.OpenChatUser(
-                userID: p.user.id,
-                isDonar: false,
-                userName: p.user.name,
-              );
-            },
-            style: OutlinedButton.styleFrom(
-              foregroundColor: _red,
-              side: const BorderSide(color: _red),
-              minimumSize: const Size(double.infinity, 50),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-            icon: const Icon(Icons.chat_bubble_outline, size: 17),
-            label: const Text(
-              'Chat With Seller',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-            ),
+    child: SizedBox(
+      width: double.infinity,
+      height: 50,
+      child: ElevatedButton.icon(
+        onPressed: () {
+          final c = Get.put(Chatcontroller());
+          c.OpenChatUser(
+            userID: p.user.id,
+            isDonar: false,
+            userName: p.user.name,
+          );
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: _red,
+          foregroundColor: Colors.white,
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
           ),
         ),
-        const SizedBox(width: 10),
-        Expanded(
-          child: ElevatedButton(
-            onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Purchase feature coming soon!')),
-            ),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: _red,
-              foregroundColor: Colors.white,
-              minimumSize: const Size(double.infinity, 50),
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-            child: const Text(
-              'Buy Now',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
-            ),
-          ),
+        icon: const Icon(Icons.chat_bubble_outline, size: 18),
+        label: const Text(
+          'Chat With Seller',
+          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
         ),
-      ],
+      ),
     ),
   );
-
-  // ── SPEC GRID ─────────────────────────────────────────────────────────────
 
   Widget _specGrid(List<_Spec> items) {
     final rows = <Widget>[];

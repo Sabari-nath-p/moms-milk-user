@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 import 'package:mommilk_user/Screens/MarketScreen/Service/market_controller.dart';
 import 'package:mommilk_user/Utils/ApiService.dart';
 import 'package:mime/mime.dart';
@@ -40,6 +39,8 @@ class AddMarketplaceController extends GetxController {
   String selectedCondition = "NEW";
 
   // ── Images ────────────────────────────────────────────────────────────────
+  // imageUrls: populated by uploadImages() during step 0 photo picking.
+  // createListing() uses these directly — no re-upload.
   List<String> imageUrls = [];
   List<File> selectedImages = [];
 
@@ -119,35 +120,40 @@ class AddMarketplaceController extends GetxController {
     update();
   }
 
+  // ── Upload images ─────────────────────────────────────────────────────────
+  // Called after the user picks photos. Appends new URLs to imageUrls list.
+  // createListing() reuses these — never re-uploads.
   Future<void> uploadImages(List<File> images) async {
+    if (images.isEmpty) return;
+
     try {
       isUploadingImage = true;
       update();
 
       final token = await ApiService.getAuthToken();
 
-      var request = http.MultipartRequest(
-        "POST",
-        Uri.parse("${ApiService.baseUrl}/uploads/images"),
+      final request = http.MultipartRequest(
+        'POST',
+        Uri.parse('${ApiService.baseUrl}/uploads/images'),
       );
 
       request.headers.addAll({
-        "Authorization": "Bearer $token",
-        "Accept": "application/json",
+        'Authorization': 'Bearer $token',
+        'Accept': 'application/json',
       });
 
       for (final image in images) {
         final mimeType = lookupMimeType(image.path);
-        if (mimeType == null || !mimeType.startsWith("image/")) {
-          Fluttertoast.showToast(msg: "Invalid image skipped");
+        if (mimeType == null || !mimeType.startsWith('image/')) {
+          Fluttertoast.showToast(msg: 'Invalid image skipped');
           continue;
         }
-        final mimeSplit = mimeType.split("/");
+        final parts = mimeType.split('/');
         request.files.add(
           await http.MultipartFile.fromPath(
-            "files",
+            'files',
             image.path,
-            contentType: http.MediaType(mimeSplit[0], mimeSplit[1]),
+            contentType: http.MediaType(parts[0], parts[1]),
           ),
         );
       }
@@ -155,23 +161,25 @@ class AddMarketplaceController extends GetxController {
       final streamed = await request.send();
       final response = await http.Response.fromStream(streamed);
 
-      print("UPLOAD STATUS => ${response.statusCode}");
-      print("UPLOAD BODY => ${response.body}");
+      log('UPLOAD STATUS: ${response.statusCode}');
+      log('UPLOAD BODY: ${response.body}');
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final data = jsonDecode(response.body);
         if (data is List) {
-          imageUrls = data.map<String>((e) => e["url"].toString()).toList();
-          Fluttertoast.showToast(msg: "Images uploaded successfully");
+          // APPEND new URLs — supports picking photos in multiple batches
+          final newUrls = data.map<String>((e) => e['url'].toString()).toList();
+          imageUrls = [...imageUrls, ...newUrls];
+          Fluttertoast.showToast(msg: 'Images uploaded successfully');
         } else {
-          Fluttertoast.showToast(msg: "Invalid upload response");
+          Fluttertoast.showToast(msg: 'Invalid upload response');
         }
       } else {
-        Fluttertoast.showToast(msg: "Upload failed: ${response.statusCode}");
+        Fluttertoast.showToast(msg: 'Upload failed (${response.statusCode})');
       }
     } catch (e) {
-      log("UPLOAD ERROR: $e");
-      Fluttertoast.showToast(msg: e.toString());
+      log('UPLOAD ERROR: $e');
+      Fluttertoast.showToast(msg: 'Upload error: ${e.toString()}');
     } finally {
       isUploadingImage = false;
       update();
@@ -179,101 +187,84 @@ class AddMarketplaceController extends GetxController {
   }
 
   // ── Create listing ────────────────────────────────────────────────────────
-
+  // Uses imageUrls already populated in step 0. Does NOT re-upload.
   Future<void> createListing() async {
-    log("===== CREATE LISTING CALLED =====");
+    log('===== CREATE LISTING CALLED =====');
 
     try {
-      if (selectedImages.isEmpty) {
-        Fluttertoast.showToast(msg: "Please select images");
+      if (imageUrls.isEmpty) {
+        Fluttertoast.showToast(
+          msg: 'Please add at least one photo before posting',
+        );
         return;
       }
-      await uploadImages(selectedImages);
+
       isLoading = true;
       update();
 
-      // ── Build images array ────────────────────────────────────────────
+      // Build images payload — index 0 is primary
       final imagesPayload = imageUrls
+          .asMap()
+          .entries
           .map(
-            (url) => {
-              "url": url,
-              "isPrimary": url == imageUrls.first,
-              "sortOrder": imageUrls.indexOf(url),
+            (e) => {
+              'url': e.value,
+              'isPrimary': e.key == 0,
+              'sortOrder': e.key,
             },
           )
           .toList();
 
-      // ── Parse price fields as integers ────────────────────────────────
       final priceInt = int.tryParse(priceController.text.trim()) ?? 0;
       final originPriceInt = int.tryParse(originalPriceController.text.trim());
 
-      // ── FIX: zipcode must be an int, not a string ─────────────────────
-      // The GET response returns  zipcode: 688004  (number)
-      // Sending it as "688004" (string) causes a backend 500 error.
-      final zipcodeInt = int.tryParse(zipcodeController.text.trim());
-
-      // ── Build payload ─────────────────────────────────────────────────
       final body = <String, dynamic>{
-        "title": titleController.text.trim(),
-        "description": descriptionController.text.trim(),
-        "price": priceInt,
-        "category": selectedCategory,
-        "condition": selectedCondition,
-
-        // ✅ FIXED: send as int, fallback to 0 if not parseable
-        "zipcode": zipcodeController.text.trim(),
-
-        "placeName": placeController.text.trim(),
-
-        // Optional fields — only included when non-null / non-empty
-        if (originPriceInt != null) "originPrice": originPriceInt,
-
+        'title': titleController.text.trim(),
+        'description': descriptionController.text.trim(),
+        'price': priceInt,
+        'category': selectedCategory,
+        'condition': selectedCondition,
+        'zipcode': zipcodeController.text.trim(),
+        'placeName': placeController.text.trim(),
+        if (originPriceInt != null) 'originPrice': originPriceInt,
         if (purchasedOn != null)
-          // ISO-8601 full datetime — avoids backend date-parse failures
-          "purchasedOn": purchasedOn!.toUtc().toIso8601String(),
-
+          'purchasedOn': purchasedOn!.toUtc().toIso8601String(),
         if (brandController.text.trim().isNotEmpty)
-          "brand": brandController.text.trim(),
-
-        if (materials.isNotEmpty) "materials": materials,
-
-        if (colors.isNotEmpty) "colors": colors,
-
+          'brand': brandController.text.trim(),
+        if (materials.isNotEmpty) 'materials': materials,
+        if (colors.isNotEmpty) 'colors': colors,
         if (dimensionsController.text.trim().isNotEmpty)
-          "dimensions": dimensionsController.text.trim(),
-
-        if (boxContains.isNotEmpty) "boxContains": boxContains,
-
-        "images": imagesPayload,
+          'dimensions': dimensionsController.text.trim(),
+        if (boxContains.isNotEmpty) 'boxContains': boxContains,
+        'images': imagesPayload,
       };
 
-      log("CREATE LISTING REQUEST BODY: ${jsonEncode(body)}");
+      log('CREATE LISTING BODY: ${jsonEncode(body)}');
 
       await ApiService.request(
-        endpoint: "/marketplace/listings",
+        endpoint: '/marketplace/listings',
         method: Api.POST,
         body: body,
         onSuccess: (response) {
-          log("CREATE LISTING SUCCESS: ${response.data}");
+          log('CREATE SUCCESS: ${response.data}');
           marketController.fetchMarketplaceListings(isRefresh: true);
           Fluttertoast.showToast(
-            msg: response.data["message"] ?? "Listing created successfully",
+            msg: response.data['message'] ?? 'Listing created successfully',
           );
           clearFields();
           Get.back(result: true);
         },
         onServerError: (code, msg) {
-          // msg is now the parsed human-readable message from ApiService
-          log("SERVER ERROR $code: $msg");
-          Fluttertoast.showToast(msg: "Error: $msg");
+          log('SERVER ERROR $code: $msg');
+          Fluttertoast.showToast(msg: 'Error: $msg');
         },
         onError: (error) {
-          log("CREATE ERROR: $error");
+          log('CREATE ERROR: $error');
           Fluttertoast.showToast(msg: error.toString());
         },
       );
     } catch (e) {
-      log("CREATE LISTING EXCEPTION: $e");
+      log('CREATE LISTING EXCEPTION: $e');
       Fluttertoast.showToast(msg: e.toString());
     } finally {
       isLoading = false;
@@ -281,7 +272,7 @@ class AddMarketplaceController extends GetxController {
     }
   }
 
-  // ── Clear ─────────────────────────────────────────────────────────────────
+  // ── Clear all fields ──────────────────────────────────────────────────────
 
   void clearFields() {
     titleController.clear();
@@ -296,8 +287,8 @@ class AddMarketplaceController extends GetxController {
     materials = [];
     colors = [];
     boxContains = [];
-    selectedCategory = "CRADLES";
-    selectedCondition = "NEW";
+    selectedCategory = 'CRADLES';
+    selectedCondition = 'NEW';
     imageUrls.clear();
     selectedImages.clear();
     update();

@@ -20,7 +20,8 @@ class _MarketScreenState extends State<MarketScreen> {
   RangeValues _priceRange = const RangeValues(0, 50000);
   double _maxDistance = 50;
   bool _distanceFilterActive = false;
-  String _sortBy = ''; // FIX: sort state
+  String _sortBy = '';
+  bool _isGridView = true; // toggle grid/list view
   final TextEditingController searchController = TextEditingController();
 
   static const Color _red = Color(0xFFE8453C);
@@ -213,7 +214,7 @@ class _MarketScreenState extends State<MarketScreen> {
                       ),
                     ),
                   )
-                else
+                else if (_isGridView)
                   SliverPadding(
                     padding: const EdgeInsets.fromLTRB(12, 0, 12, 24),
                     sliver: SliverGrid(
@@ -228,6 +229,19 @@ class _MarketScreenState extends State<MarketScreen> {
                             mainAxisSpacing: 10,
                             mainAxisExtent: 330,
                           ),
+                    ),
+                  )
+                else
+                  SliverPadding(
+                    padding: const EdgeInsets.fromLTRB(12, 0, 12, 24),
+                    sliver: SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (_, i) => Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: _listCard(controller.listings[i]),
+                        ),
+                        childCount: controller.listings.length,
+                      ),
                     ),
                   ),
               ],
@@ -264,27 +278,6 @@ class _MarketScreenState extends State<MarketScreen> {
             ],
           ),
         ),
-        Container(
-          width: 38,
-          height: 38,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.06),
-                blurRadius: 8,
-                offset: const Offset(0, 2),
-              ),
-            ],
-          ),
-          child: Icon(
-            Icons.shopping_cart_outlined,
-            color: Colors.grey.shade400,
-            size: 20,
-          ),
-        ),
-        const SizedBox(width: 10),
         GestureDetector(
           onTap: () => Get.to(() => AddItemScreen()),
           child: Container(
@@ -798,9 +791,9 @@ class _MarketScreenState extends State<MarketScreen> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 14),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: _redLight,
                 borderRadius: BorderRadius.circular(18),
-                border: Border.all(color: Colors.grey.shade300, width: 1),
+                border: Border.all(color: const Color(0xFFEDD8D8), width: 1),
               ),
               alignment: Alignment.center,
               child: Row(
@@ -818,7 +811,7 @@ class _MarketScreenState extends State<MarketScreen> {
                   Icon(
                     Icons.keyboard_arrow_down,
                     size: 16,
-                    color: Colors.black54,
+                    color: Colors.grey.shade600,
                   ),
                 ],
               ),
@@ -897,17 +890,31 @@ class _MarketScreenState extends State<MarketScreen> {
           ),
         ),
         const Spacer(),
-        Container(
-          width: 32,
-          height: 32,
-          decoration: BoxDecoration(
-            color: _red.withOpacity(0.10),
-            borderRadius: BorderRadius.circular(7),
+        GestureDetector(
+          onTap: () => setState(() => _isGridView = true),
+          child: Container(
+            width: 32,
+            height: 32,
+            decoration: BoxDecoration(
+              color: _isGridView ? _red.withOpacity(0.10) : Colors.transparent,
+              borderRadius: BorderRadius.circular(7),
+            ),
+            child: Icon(
+              Icons.grid_view_rounded,
+              size: 17,
+              color: _isGridView ? _red : Colors.grey.shade400,
+            ),
           ),
-          child: const Icon(Icons.grid_view_rounded, size: 17, color: _red),
         ),
         const SizedBox(width: 8),
-        Icon(Icons.view_list_outlined, size: 22, color: Colors.grey.shade400),
+        GestureDetector(
+          onTap: () => setState(() => _isGridView = false),
+          child: Icon(
+            Icons.view_list_outlined,
+            size: 22,
+            color: _isGridView ? Colors.grey.shade400 : _red,
+          ),
+        ),
         const SizedBox(width: 12),
 
         // ── FIX: Sort dropdown ──────────────────────────────────────────────
@@ -998,7 +1005,7 @@ class _MarketScreenState extends State<MarketScreen> {
                   GestureDetector(
                     onTap: () {
                       setState(() => _sortBy = '');
-                      _filter();
+                      controller.applySort('');
                       Navigator.pop(context);
                     },
                     child: const Text(
@@ -1018,7 +1025,7 @@ class _MarketScreenState extends State<MarketScreen> {
               return GestureDetector(
                 onTap: () {
                   setState(() => _sortBy = opt.$2);
-                  _filter();
+                  controller.applySort(opt.$2); // client-side sort, no re-fetch
                   Navigator.pop(context);
                 },
                 child: Container(
@@ -1090,20 +1097,73 @@ class _MarketScreenState extends State<MarketScreen> {
           children: [
             Stack(
               children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(16),
-                  ),
-                  child: SizedBox(
-                    height: 148,
-                    width: double.infinity,
-                    child: img.isNotEmpty
-                        ? Image.network(
-                            img,
-                            fit: BoxFit.cover,
-                            errorBuilder: (_, __, ___) => _placeholder(),
-                          )
-                        : _placeholder(),
+                GestureDetector(
+                  onTap: () {
+                    if (img.isNotEmpty) {
+                      showDialog(
+                        context: context,
+                        barrierColor: Colors.black87,
+                        builder: (_) => Dialog(
+                          backgroundColor: Colors.transparent,
+                          insetPadding: EdgeInsets.zero,
+                          child: Stack(
+                            children: [
+                              InteractiveViewer(
+                                minScale: 0.5,
+                                maxScale: 4.0,
+                                child: Center(
+                                  child: Image.network(
+                                    img,
+                                    fit: BoxFit.contain,
+                                    errorBuilder: (_, __, ___) => const Icon(
+                                      Icons.broken_image,
+                                      color: Colors.white,
+                                      size: 60,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                top: 40,
+                                right: 16,
+                                child: GestureDetector(
+                                  onTap: () => Navigator.pop(context),
+                                  child: Container(
+                                    width: 34,
+                                    height: 34,
+                                    decoration: const BoxDecoration(
+                                      color: Colors.black45,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: const Icon(
+                                      Icons.close,
+                                      color: Colors.white,
+                                      size: 18,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(16),
+                    ),
+                    child: SizedBox(
+                      height: 148,
+                      width: double.infinity,
+                      child: img.isNotEmpty
+                          ? Image.network(
+                              img,
+                              fit: BoxFit.cover,
+                              errorBuilder: (_, __, ___) => _placeholder(),
+                            )
+                          : _placeholder(),
+                    ),
                   ),
                 ),
                 Positioned(
@@ -1304,7 +1364,8 @@ class _MarketScreenState extends State<MarketScreen> {
                             ),
                           ),
                         ),
-                        if (p.distanceLabel != null) ...[
+                        // Always show distance if available — show raw km if distanceLabel is null
+                        if (p.distanceKm != null) ...[
                           Text(
                             ' • ',
                             style: TextStyle(
@@ -1313,7 +1374,9 @@ class _MarketScreenState extends State<MarketScreen> {
                             ),
                           ),
                           Text(
-                            p.distanceLabel!,
+                            p.distanceKm! < 10
+                                ? '${p.distanceKm!.toStringAsFixed(1)} km'
+                                : '${p.distanceKm!.round()} km',
                             style: TextStyle(
                               fontSize: 10,
                               color: Colors.grey.shade500,
@@ -1325,12 +1388,12 @@ class _MarketScreenState extends State<MarketScreen> {
                     ),
                     const Spacer(),
                     Container(
-                      height: 36,
+                      height: 34,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: _redLight,
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(
-                          color: _red.withOpacity(0.35),
+                          color: const Color(0xFFEDD8D8),
                           width: 1,
                         ),
                       ),
@@ -1354,7 +1417,7 @@ class _MarketScreenState extends State<MarketScreen> {
                                     size: 13,
                                     color: _red,
                                   ),
-                                  SizedBox(width: 5),
+                                  SizedBox(width: 4),
                                   Text(
                                     'Chat',
                                     style: TextStyle(
@@ -1369,8 +1432,8 @@ class _MarketScreenState extends State<MarketScreen> {
                           ),
                           Container(
                             width: 1,
-                            height: 18,
-                            color: _red.withOpacity(0.25),
+                            height: 20,
+                            color: const Color(0xFFEDD8D8),
                           ),
                           Expanded(
                             child: GestureDetector(
@@ -1385,7 +1448,7 @@ class _MarketScreenState extends State<MarketScreen> {
                                     size: 13,
                                     color: _red,
                                   ),
-                                  SizedBox(width: 5),
+                                  SizedBox(width: 4),
                                   Text(
                                     'View',
                                     style: TextStyle(
@@ -1395,6 +1458,314 @@ class _MarketScreenState extends State<MarketScreen> {
                                     ),
                                   ),
                                 ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ── LIST VIEW CARD ─────────────────────────────────────────────────────────
+  Widget _listCard(MarketplaceListing p) {
+    final img = p.images.isNotEmpty ? p.images.first.url : '';
+    final condColor = _condColor(p.condition);
+    final condLabel = _condLabel(p.condition);
+    final int? origPrice = p.originPrice;
+    final int? discPct = p.discountPercent;
+
+    return GestureDetector(
+      onTap: () => Get.to(() => ProductDetailsScreen(listingId: p.id)),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(14),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.06),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            // Image
+            GestureDetector(
+              onTap: () {
+                if (img.isNotEmpty) {
+                  showDialog(
+                    context: context,
+                    barrierColor: Colors.black87,
+                    builder: (_) => Dialog(
+                      backgroundColor: Colors.transparent,
+                      insetPadding: EdgeInsets.zero,
+                      child: Stack(
+                        children: [
+                          InteractiveViewer(
+                            minScale: 0.5,
+                            maxScale: 4.0,
+                            child: Center(
+                              child: Image.network(img, fit: BoxFit.contain),
+                            ),
+                          ),
+                          Positioned(
+                            top: 40,
+                            right: 16,
+                            child: GestureDetector(
+                              onTap: () => Navigator.pop(context),
+                              child: Container(
+                                width: 34,
+                                height: 34,
+                                decoration: const BoxDecoration(
+                                  color: Colors.black45,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(
+                                  Icons.close,
+                                  color: Colors.white,
+                                  size: 18,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+              },
+              child: ClipRRect(
+                borderRadius: const BorderRadius.horizontal(
+                  left: Radius.circular(14),
+                ),
+                child: SizedBox(
+                  width: 110,
+                  height: 110,
+                  child: img.isNotEmpty
+                      ? Image.network(
+                          img,
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, __, ___) => _placeholder(),
+                        )
+                      : _placeholder(),
+                ),
+              ),
+            ),
+            // Details
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      p.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Row(
+                      children: [
+                        Text(
+                          '₹${p.price}',
+                          style: const TextStyle(
+                            color: _red,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                        const SizedBox(width: 5),
+                        if (origPrice != null)
+                          Text(
+                            '₹$origPrice',
+                            style: TextStyle(
+                              color: Colors.grey.shade400,
+                              fontSize: 11,
+                              decoration: TextDecoration.lineThrough,
+                              decorationColor: Colors.grey.shade400,
+                            ),
+                          ),
+                        const SizedBox(width: 4),
+                        if (discPct != null)
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 5,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFDCFCE7),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Text(
+                              '$discPct% OFF',
+                              style: const TextStyle(
+                                color: Color(0xFF16A34A),
+                                fontSize: 9,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 6,
+                        vertical: 2,
+                      ),
+                      decoration: BoxDecoration(
+                        color: condColor.withOpacity(0.10),
+                        borderRadius: BorderRadius.circular(4),
+                        border: Border.all(
+                          color: condColor.withOpacity(0.4),
+                          width: 0.8,
+                        ),
+                      ),
+                      child: Text(
+                        condLabel,
+                        style: TextStyle(
+                          color: condColor,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Row(
+                      children: [
+                        const Icon(Icons.location_on, size: 11, color: _red),
+                        const SizedBox(width: 2),
+                        Flexible(
+                          child: Text(
+                            p.placeName.isNotEmpty ? p.placeName : '—',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: Colors.grey.shade600,
+                            ),
+                          ),
+                        ),
+                        if (p.distanceKm != null) ...[
+                          Text(
+                            ' • ',
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: Colors.grey.shade400,
+                            ),
+                          ),
+                          Text(
+                            p.distanceKm! < 10
+                                ? '${p.distanceKm!.toStringAsFixed(1)} km'
+                                : '${p.distanceKm!.round()} km',
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: Colors.grey.shade500,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                    const SizedBox(height: 6),
+                    Container(
+                      height: 30,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(7),
+                        border: Border.all(color: _red.withOpacity(0.4)),
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {
+                                final c = Get.put(Chatcontroller());
+                                c.OpenChatUser(
+                                  userID: p.userId,
+                                  isDonar: false,
+                                  userName: p.user.name,
+                                );
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: _red.withOpacity(0.08),
+                                  borderRadius: const BorderRadius.horizontal(
+                                    left: Radius.circular(6),
+                                  ),
+                                ),
+                                child: const Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.chat_bubble_outline,
+                                      size: 11,
+                                      color: _red,
+                                    ),
+                                    SizedBox(width: 3),
+                                    Text(
+                                      'Chat',
+                                      style: TextStyle(
+                                        fontSize: 11,
+                                        color: _red,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: 1,
+                            height: 18,
+                            color: _red.withOpacity(0.3),
+                          ),
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () => Get.to(
+                                () => ProductDetailsScreen(listingId: p.id),
+                              ),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: _red.withOpacity(0.08),
+                                  borderRadius: const BorderRadius.horizontal(
+                                    right: Radius.circular(6),
+                                  ),
+                                ),
+                                child: const Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.remove_red_eye_outlined,
+                                      size: 11,
+                                      color: _red,
+                                    ),
+                                    SizedBox(width: 3),
+                                    Text(
+                                      'View',
+                                      style: TextStyle(
+                                        fontSize: 11,
+                                        color: _red,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),

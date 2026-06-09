@@ -1,15 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import 'package:mommilk_user/Screens/MarketScreen/Service/add_marketcontroller.dart';
-
-// ─────────────────────────────────────────────────────────────────────────────
-//  CONSTANTS
-// ─────────────────────────────────────────────────────────────────────────────
 
 const Color _kRed = Color(0xFFE8453C);
 const Color _kRedLight = Color(0xFFFFE5E3);
@@ -20,6 +17,8 @@ const Color _kHint = Color(0xFFBBBBBB);
 const Color _kLabel = Color(0xFF1A1A1A);
 const Color _kSubLabel = Color(0xFF6B7280);
 const Color _kBorder = Color(0xFFE8E8E8);
+
+const int _kMaxPhotos = 8;
 
 class AddItemScreen extends StatefulWidget {
   const AddItemScreen({super.key});
@@ -40,6 +39,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
   final _boxInputCtrl = TextEditingController();
   final _pincodeCtrl = TextEditingController();
 
+  final _materialsFocus = FocusNode();
+  final _colorsFocus = FocusNode();
+  final _boxFocus = FocusNode();
+
   final List<String> _categories = [
     'CRADLES',
     'TOYS',
@@ -56,15 +59,40 @@ class _AddItemScreenState extends State<AddItemScreen> {
   final List<String> _conditions = ['NEW', 'LIKE_NEW', 'GOOD', 'FAIR', 'POOR'];
 
   @override
+  void initState() {
+    super.initState();
+    _materialsFocus.addListener(() {
+      if (!_materialsFocus.hasFocus &&
+          _materialsInputCtrl.text.trim().isNotEmpty) {
+        controller.addMaterial(_materialsInputCtrl.text.trim());
+        _materialsInputCtrl.clear();
+      }
+    });
+    _colorsFocus.addListener(() {
+      if (!_colorsFocus.hasFocus && _colorsInputCtrl.text.trim().isNotEmpty) {
+        controller.addColor(_colorsInputCtrl.text.trim());
+        _colorsInputCtrl.clear();
+      }
+    });
+    _boxFocus.addListener(() {
+      if (!_boxFocus.hasFocus && _boxInputCtrl.text.trim().isNotEmpty) {
+        controller.addBoxItem(_boxInputCtrl.text.trim());
+        _boxInputCtrl.clear();
+      }
+    });
+  }
+
+  @override
   void dispose() {
     _materialsInputCtrl.dispose();
     _colorsInputCtrl.dispose();
     _boxInputCtrl.dispose();
     _pincodeCtrl.dispose();
+    _materialsFocus.dispose();
+    _colorsFocus.dispose();
+    _boxFocus.dispose();
     super.dispose();
   }
-
-  // ── helpers ───────────────────────────────────────────────────────────────
 
   String _catLabel(String c) => c
       .split('_')
@@ -98,12 +126,174 @@ class _AddItemScreenState extends State<AddItemScreen> {
     }
   }
 
-  Future<void> _pickImages() async {
-    final picked = await ImagePicker().pickMultiImage(imageQuality: 80);
-    if (picked.isNotEmpty) {
-      final files = picked.map((e) => File(e.path)).toList();
-      controller.setSelectedImages([...controller.selectedImages, ...files]);
+  // ── Photo picker: show bottom sheet → Camera or Gallery ──────────────────
+  // This is called when user taps the main "Tap to add photos" box OR the "+ Add more" button.
+  // Design matches screenshot 4: single tap box → bottom sheet → pick source.
+  void _showPhotoSourceSheet() {
+    if (controller.selectedImages.length >= _kMaxPhotos) {
+      Get.snackbar(
+        'Limit Reached',
+        'You can only add up to $_kMaxPhotos photos.',
+        backgroundColor: _kRed,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return;
     }
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) {
+        final remaining = _kMaxPhotos - controller.selectedImages.length;
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Handle
+                Center(
+                  child: Container(
+                    width: 40,
+                    height: 4,
+                    margin: const EdgeInsets.symmetric(vertical: 12),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade300,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+                const Text(
+                  'Add Photo',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: _kLabel,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                // Camera option
+                ListTile(
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 4),
+                  leading: Container(
+                    width: 44,
+                    height: 44,
+                    decoration: BoxDecoration(
+                      color: _kRedLight,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Icon(
+                      Icons.camera_alt_outlined,
+                      color: _kRed,
+                      size: 22,
+                    ),
+                  ),
+                  title: const Text(
+                    'Take a Photo',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                      color: _kLabel,
+                    ),
+                  ),
+                  subtitle: const Text(
+                    'Open camera and click a photo',
+                    style: TextStyle(fontSize: 12, color: _kSubLabel),
+                  ),
+                  trailing: const Icon(
+                    Icons.arrow_forward_ios,
+                    size: 14,
+                    color: _kSubLabel,
+                  ),
+                  onTap: () async {
+                    Navigator.pop(context);
+                    await _pickFromCamera();
+                  },
+                ),
+                const Divider(height: 1),
+                // Gallery option
+                ListTile(
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 4),
+                  leading: Container(
+                    width: 44,
+                    height: 44,
+                    decoration: BoxDecoration(
+                      color: _kRedLight,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Icon(
+                      Icons.photo_library_outlined,
+                      color: _kRed,
+                      size: 22,
+                    ),
+                  ),
+                  title: const Text(
+                    'Choose from Gallery',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                      color: _kLabel,
+                    ),
+                  ),
+                  subtitle: Text(
+                    'Select up to $remaining photo${remaining == 1 ? '' : 's'}',
+                    style: const TextStyle(fontSize: 12, color: _kSubLabel),
+                  ),
+                  trailing: const Icon(
+                    Icons.arrow_forward_ios,
+                    size: 14,
+                    color: _kSubLabel,
+                  ),
+                  onTap: () async {
+                    Navigator.pop(context);
+                    await _pickFromGallery();
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _pickFromCamera() async {
+    if (controller.selectedImages.length >= _kMaxPhotos) return;
+    final picked = await ImagePicker().pickImage(
+      source: ImageSource.camera,
+      imageQuality: 80,
+    );
+    if (picked == null) return;
+    final file = File(picked.path);
+    controller.setSelectedImages([...controller.selectedImages, file]);
+    await controller.uploadImages([file]);
+  }
+
+  Future<void> _pickFromGallery() async {
+    final currentCount = controller.selectedImages.length;
+    if (currentCount >= _kMaxPhotos) return;
+    final remaining = _kMaxPhotos - currentCount;
+    final picked = await ImagePicker().pickMultiImage(imageQuality: 80);
+    if (picked.isEmpty) return;
+
+    final allowed = picked.take(remaining).toList();
+    if (picked.length > remaining) {
+      Get.snackbar(
+        'Too Many Photos',
+        'Only $remaining more photo${remaining == 1 ? '' : 's'} allowed. First $remaining selected.',
+        backgroundColor: _kRed,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+        duration: const Duration(seconds: 3),
+      );
+    }
+    final files = allowed.map((e) => File(e.path)).toList();
+    controller.setSelectedImages([...controller.selectedImages, ...files]);
+    await controller.uploadImages(files);
   }
 
   Future<void> _pickDate() async {
@@ -122,72 +312,110 @@ class _AddItemScreenState extends State<AddItemScreen> {
     if (d != null) controller.setPurchasedOn(d);
   }
 
+  bool _hasRealText(String value) =>
+      RegExp(r'[a-zA-Z0-9\u0900-\u097F]').hasMatch(value);
+
   bool _validateStep() {
     switch (_step) {
       case 0:
         if (controller.selectedImages.isEmpty) {
-          Get.snackbar(
-            'Error',
-            'Please add at least one photo',
-            backgroundColor: _kRed,
-            colorText: Colors.white,
-          );
+          _snack('Please add at least one photo');
           return false;
         }
         return true;
+
       case 1:
-        if (controller.titleController.text.trim().isEmpty) {
-          Get.snackbar(
-            'Error',
-            'Enter item name',
-            backgroundColor: _kRed,
-            colorText: Colors.white,
-          );
+        final title = controller.titleController.text.trim();
+        final price = controller.priceController.text.trim();
+        if (title.isEmpty) {
+          _snack('Enter item name');
           return false;
         }
-        if (controller.priceController.text.trim().isEmpty) {
-          Get.snackbar(
-            'Error',
-            'Enter price',
-            backgroundColor: _kRed,
-            colorText: Colors.white,
-          );
+        if (!_hasRealText(title)) {
+          _snack('Item name must contain valid characters');
           return false;
+        }
+        if (price.isEmpty) {
+          _snack('Enter price');
+          return false;
+        }
+        final priceInt = int.tryParse(price);
+        if (priceInt == null || priceInt <= 0) {
+          _snack('Enter a valid price');
+          return false;
+        }
+        final origText = controller.originalPriceController.text.trim();
+        if (origText.isNotEmpty) {
+          final origInt = int.tryParse(origText);
+          if (origInt == null || origInt <= 0) {
+            _snack('Enter a valid original price');
+            return false;
+          }
+          if (origInt <= priceInt) {
+            _snack('Original price must be higher than selling price');
+            return false;
+          }
         }
         return true;
+
       case 2:
-        if (_pincodeCtrl.text.trim().isEmpty) {
-          Get.snackbar(
-            'Error',
-            'Enter pin code',
-            backgroundColor: _kRed,
-            colorText: Colors.white,
-          );
+        if (_materialsInputCtrl.text.trim().isNotEmpty) {
+          controller.addMaterial(_materialsInputCtrl.text.trim());
+          _materialsInputCtrl.clear();
+        }
+        if (_colorsInputCtrl.text.trim().isNotEmpty) {
+          controller.addColor(_colorsInputCtrl.text.trim());
+          _colorsInputCtrl.clear();
+        }
+        if (_boxInputCtrl.text.trim().isNotEmpty) {
+          controller.addBoxItem(_boxInputCtrl.text.trim());
+          _boxInputCtrl.clear();
+        }
+        final pincode = _pincodeCtrl.text.trim();
+        final place = controller.placeController.text.trim();
+        final desc = controller.descriptionController.text.trim();
+        if (pincode.isEmpty) {
+          _snack('Enter pin code');
           return false;
         }
-        if (controller.placeController.text.trim().isEmpty) {
-          Get.snackbar(
-            'Error',
-            'Enter place',
-            backgroundColor: _kRed,
-            colorText: Colors.white,
-          );
+        if (!RegExp(r'^\d{5,10}$').hasMatch(pincode)) {
+          _snack('Pin code must be 5–10 digits');
           return false;
         }
-        if (controller.descriptionController.text.trim().isEmpty) {
-          Get.snackbar(
-            'Error',
-            'Enter description',
-            backgroundColor: _kRed,
-            colorText: Colors.white,
-          );
+        if (place.isEmpty) {
+          _snack('Enter place');
+          return false;
+        }
+        if (!_hasRealText(place)) {
+          _snack('Place must contain valid characters');
+          return false;
+        }
+        if (desc.isEmpty) {
+          _snack('Enter description');
+          return false;
+        }
+        if (desc.length < 10) {
+          _snack('Description must be at least 10 characters');
+          return false;
+        }
+        if (!_hasRealText(desc)) {
+          _snack('Description must contain real text');
           return false;
         }
         return true;
+
       default:
         return true;
     }
   }
+
+  void _snack(String msg) => Get.snackbar(
+    'Error',
+    msg,
+    backgroundColor: _kRed,
+    colorText: Colors.white,
+    snackPosition: SnackPosition.BOTTOM,
+  );
 
   void _next() {
     if (!_validateStep()) return;
@@ -198,7 +426,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     }
   }
 
-  void _submit() async {
+  void _submit() {
     controller.zipcodeController.text = _pincodeCtrl.text.trim();
     controller.createListing();
   }
@@ -210,10 +438,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
     'Next: Review',
     'Post Item',
   ];
-
-  // ══════════════════════════════════════════════════════════════════════════
-  //  BUILD
-  // ══════════════════════════════════════════════════════════════════════════
 
   @override
   Widget build(BuildContext context) {
@@ -237,8 +461,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
     );
   }
 
-  // ── APP BAR ───────────────────────────────────────────────────────────────
-
   PreferredSizeWidget _appBar() => AppBar(
     backgroundColor: Colors.white,
     elevation: 0,
@@ -257,30 +479,22 @@ class _AddItemScreenState extends State<AddItemScreen> {
     ),
   );
 
-  // ── STEP INDICATOR — FIX 1: full width, edge to edge ─────────────────────
-
-  // ── Step indicator: circle — line — circle — line — circle — line — circle
-  // Each circle is NOT wrapped in Expanded; only the 3 lines between are Expanded.
-  // This makes circles stay same size and lines fill ALL remaining space equally,
-  // so "Review" lands exactly at the right edge.
-  Widget _stepIndicator() {
-    return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 14),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _stepNode(0),
-          Expanded(child: _linePad(0 < _step)),
-          _stepNode(1),
-          Expanded(child: _linePad(1 < _step)),
-          _stepNode(2),
-          Expanded(child: _linePad(2 < _step)),
-          _stepNode(3),
-        ],
-      ),
-    );
-  }
+  Widget _stepIndicator() => Container(
+    color: Colors.white,
+    padding: const EdgeInsets.fromLTRB(16, 12, 16, 14),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _stepNode(0),
+        Expanded(child: _linePad(0 < _step)),
+        _stepNode(1),
+        Expanded(child: _linePad(1 < _step)),
+        _stepNode(2),
+        Expanded(child: _linePad(2 < _step)),
+        _stepNode(3),
+      ],
+    ),
+  );
 
   Widget _stepNode(int i) {
     final done = i < _step;
@@ -302,7 +516,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
     );
   }
 
-  // vertically centres the dashed line with the circle midpoint (circle=28px → 14px from top)
   Widget _linePad(bool active) => Padding(
     padding: const EdgeInsets.only(top: 14, bottom: 20),
     child: _dashedLine(active),
@@ -359,8 +572,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
     },
   );
 
-  // ── STEP BODY ─────────────────────────────────────────────────────────────
-
   Widget _stepBody(AddMarketplaceController ctrl) {
     switch (_step) {
       case 0:
@@ -378,92 +589,148 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   // ══════════════════════════════════════════════════════════════════════════
   //  STEP 0 — PHOTOS
+  //  Design: single "Tap to add photos" box (like screenshot 4)
+  //  Tapping opens a bottom sheet with Camera / Gallery options
+  //  After photos added: thumbnails appear below with "+ Add more" button
   // ══════════════════════════════════════════════════════════════════════════
 
-  Widget _photosStep(AddMarketplaceController ctrl) => Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      const Text(
-        'Add photos of your item',
-        style: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.w700,
-          color: _kLabel,
-        ),
-      ),
-      const SizedBox(height: 4),
-      const Text(
-        'Good photos sell faster!',
-        style: TextStyle(fontSize: 13, color: _kSubLabel),
-      ),
-      const SizedBox(height: 16),
+  Widget _photosStep(AddMarketplaceController ctrl) {
+    final limitReached = ctrl.selectedImages.length >= _kMaxPhotos;
 
-      GestureDetector(
-        onTap: _pickImages,
-        child: Container(
-          height: 180,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: const Color(0xFFFFF5F5),
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: _kRedBorder, width: 1.5),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 56,
-                height: 56,
-                decoration: BoxDecoration(
-                  color: _kRedLight,
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                child: const Icon(
-                  Icons.add_a_photo_outlined,
-                  color: _kRed,
-                  size: 26,
-                ),
-              ),
-              const SizedBox(height: 12),
-              const Text(
-                'Tap to add photos',
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                  color: _kLabel,
-                ),
-              ),
-              const SizedBox(height: 4),
-              const Text(
-                'Upload up to 8 photos',
-                style: TextStyle(fontSize: 12, color: _kSubLabel),
-              ),
-            ],
-          ),
-        ),
-      ),
-
-      const SizedBox(height: 16),
-
-      if (ctrl.selectedImages.isNotEmpty)
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: List.generate(
-            ctrl.selectedImages.length,
-            (i) => _thumb(ctrl, i),
-          ),
-        ),
-
-      const SizedBox(height: 20),
-      _tipsCard(),
-    ],
-  );
-
-  Widget _thumb(AddMarketplaceController ctrl, int i) {
-    return Stack(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ClipRRect(
+        const Text(
+          'Add photos of your item',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            color: _kLabel,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          'Good photos sell faster! (${ctrl.selectedImages.length}/$_kMaxPhotos)',
+          style: const TextStyle(fontSize: 13, color: _kSubLabel),
+        ),
+        const SizedBox(height: 16),
+
+        // ALWAYS show the tap box — even after photos are added
+        // Tapping always opens Camera/Gallery sheet
+        GestureDetector(
+          onTap: limitReached ? null : _showPhotoSourceSheet,
+          child: Container(
+            height: 160,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: limitReached
+                  ? const Color(0xFFF5F5F5)
+                  : const Color(0xFFFFF5F5),
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(
+                color: limitReached ? const Color(0xFFDDDDDD) : _kRedBorder,
+                width: 1.5,
+              ),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 56,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    color: limitReached ? const Color(0xFFEEEEEE) : _kRedLight,
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: Icon(
+                    Icons.add_a_photo_outlined,
+                    color: limitReached ? Colors.grey : _kRed,
+                    size: 26,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  limitReached
+                      ? 'Maximum $_kMaxPhotos photos reached'
+                      : 'Tap to add photos',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: limitReached ? Colors.grey : _kLabel,
+                  ),
+                ),
+                if (!limitReached) ...[
+                  const SizedBox(height: 4),
+                  const Text(
+                    'Upload up to 8 photos',
+                    style: TextStyle(fontSize: 12, color: _kSubLabel),
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ),
+
+        // Thumbnails grid below the tap box
+        if (ctrl.selectedImages.isNotEmpty) ...[
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: List.generate(
+              ctrl.selectedImages.length,
+              (i) => _thumb(ctrl, i),
+            ),
+          ),
+        ],
+
+        const SizedBox(height: 20),
+        _tipsCard(),
+      ],
+    );
+  }
+
+  void _viewPhotoFullScreen(BuildContext context, File file) {
+    showDialog(
+      context: context,
+      barrierColor: Colors.black87,
+      builder: (_) => Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: EdgeInsets.zero,
+        child: Stack(
+          children: [
+            InteractiveViewer(
+              minScale: 0.5,
+              maxScale: 4.0,
+              child: Center(child: Image.file(file, fit: BoxFit.contain)),
+            ),
+            Positioned(
+              top: 40,
+              right: 16,
+              child: GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: Container(
+                  width: 34,
+                  height: 34,
+                  decoration: const BoxDecoration(
+                    color: Colors.black45,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(Icons.close, color: Colors.white, size: 18),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _thumb(AddMarketplaceController ctrl, int i) => Stack(
+    children: [
+      GestureDetector(
+        onTap: () => _viewPhotoFullScreen(context, ctrl.selectedImages[i]),
+        child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: SizedBox(
             width: 80,
@@ -471,52 +738,50 @@ class _AddItemScreenState extends State<AddItemScreen> {
             child: Image.file(ctrl.selectedImages[i], fit: BoxFit.cover),
           ),
         ),
-        if (i == 0)
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 3),
-              decoration: const BoxDecoration(
-                color: _kRed,
-                borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(10),
-                ),
-              ),
-              child: const Text(
-                'Primary',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 9,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-          ),
+      ),
+      if (i == 0)
         Positioned(
-          top: 4,
-          right: 4,
-          child: GestureDetector(
-            onTap: () {
-              final imgs = List<File>.from(ctrl.selectedImages)..removeAt(i);
-              ctrl.setSelectedImages(imgs);
-            },
-            child: Container(
-              width: 18,
-              height: 18,
-              decoration: const BoxDecoration(
-                color: Colors.black54,
-                shape: BoxShape.circle,
+          bottom: 0,
+          left: 0,
+          right: 0,
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 3),
+            decoration: const BoxDecoration(
+              color: _kRed,
+              borderRadius: BorderRadius.vertical(bottom: Radius.circular(10)),
+            ),
+            child: const Text(
+              'Primary',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 9,
+                fontWeight: FontWeight.w600,
               ),
-              child: const Icon(Icons.close, color: Colors.white, size: 11),
             ),
           ),
         ),
-      ],
-    );
-  }
+      Positioned(
+        top: 4,
+        right: 4,
+        child: GestureDetector(
+          onTap: () {
+            final imgs = List<File>.from(ctrl.selectedImages)..removeAt(i);
+            ctrl.setSelectedImages(imgs);
+          },
+          child: Container(
+            width: 18,
+            height: 18,
+            decoration: const BoxDecoration(
+              color: Colors.black54,
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(Icons.close, color: Colors.white, size: 11),
+          ),
+        ),
+      ),
+    ],
+  );
 
   Widget _tipsCard() => Container(
     padding: const EdgeInsets.all(14),
@@ -528,10 +793,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
-          children: [
-            const Icon(Icons.lightbulb_outline, color: _kRed, size: 16),
-            const SizedBox(width: 6),
-            const Text(
+          children: const [
+            Icon(Icons.lightbulb_outline, color: _kRed, size: 16),
+            SizedBox(width: 6),
+            Text(
               'Tips for good photos',
               style: TextStyle(
                 fontSize: 13,
@@ -628,9 +893,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
                 _fieldLabel('Price *'),
                 _inputField(
                   controller: ctrl.priceController,
-                  hint: '₹ 1,500',
+                  hint: '1500',
                   prefix: '₹ ',
                   keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 ),
               ],
             ),
@@ -643,9 +909,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
                 _fieldLabel('Original Price'),
                 _inputField(
                   controller: ctrl.originalPriceController,
-                  hint: '₹ 2,999',
+                  hint: '2999',
                   prefix: '₹ ',
                   keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 ),
               ],
             ),
@@ -667,7 +934,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
               const Icon(Icons.local_offer_outlined, color: _kGreen, size: 14),
               const SizedBox(width: 6),
               Text(
-                'You save ₹${ctrl.savings} (${ctrl.discountPercent}% off) for buyers',
+                'Buyers save ₹${ctrl.savings} (${ctrl.discountPercent}% off)',
                 style: const TextStyle(
                   fontSize: 11,
                   color: _kGreen,
@@ -780,6 +1047,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   controller: _pincodeCtrl,
                   hint: '600001',
                   keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(10),
+                  ],
                   prefixIcon: const Icon(
                     Icons.location_on_outlined,
                     color: _kSubLabel,
@@ -797,12 +1068,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                 _fieldLabel('Place *'),
                 _inputField(
                   controller: ctrl.placeController,
-                  hint: 'Chennai, Tamil Nadu',
-                  suffixIcon: const Icon(
-                    Icons.my_location_outlined,
-                    color: _kSubLabel,
-                    size: 18,
-                  ),
+                  hint: 'e.g. Alappuzha, Kerala',
                 ),
               ],
             ),
@@ -824,7 +1090,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
           maxLength: 500,
           style: const TextStyle(fontSize: 14, color: _kLabel),
           decoration: const InputDecoration(
-            hintText: 'Tell us more about the item',
+            hintText: 'Tell us more about the item (min 10 characters)',
             hintStyle: TextStyle(color: _kHint, fontSize: 14),
             border: InputBorder.none,
             contentPadding: EdgeInsets.all(12),
@@ -835,13 +1101,13 @@ class _AddItemScreenState extends State<AddItemScreen> {
       const SizedBox(height: 16),
 
       _fieldLabel('Materials'),
-      // FIX 4: tag input with correct alignment
       _tagInputField(
         tags: ctrl.materials,
         inputCtrl: _materialsInputCtrl,
+        focusNode: _materialsFocus,
         hint: '+ Add',
         onAdd: () {
-          ctrl.addMaterial(_materialsInputCtrl.text.trim());
+          controller.addMaterial(_materialsInputCtrl.text.trim());
           _materialsInputCtrl.clear();
         },
         onRemove: ctrl.removeMaterial,
@@ -852,9 +1118,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
       _tagInputField(
         tags: ctrl.colors,
         inputCtrl: _colorsInputCtrl,
+        focusNode: _colorsFocus,
         hint: '+ Add',
         onAdd: () {
-          ctrl.addColor(_colorsInputCtrl.text.trim());
+          controller.addColor(_colorsInputCtrl.text.trim());
           _colorsInputCtrl.clear();
         },
         onRemove: ctrl.removeColor,
@@ -877,52 +1144,51 @@ class _AddItemScreenState extends State<AddItemScreen> {
       _tagInputField(
         tags: ctrl.boxContains,
         inputCtrl: _boxInputCtrl,
+        focusNode: _boxFocus,
         hint: '+ Add',
         onAdd: () {
-          ctrl.addBoxItem(_boxInputCtrl.text.trim());
+          controller.addBoxItem(_boxInputCtrl.text.trim());
           _boxInputCtrl.clear();
         },
         onRemove: ctrl.removeBoxItem,
       ),
-
       const SizedBox(height: 20),
-      _tipsInfoCard(),
-    ],
-  );
 
-  Widget _tipsInfoCard() => Container(
-    padding: const EdgeInsets.all(12),
-    decoration: BoxDecoration(
-      color: const Color(0xFFFFF5F5),
-      borderRadius: BorderRadius.circular(12),
-    ),
-    child: const Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(Icons.lightbulb_outline, color: _kRed, size: 16),
-        SizedBox(width: 8),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Tips',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w700,
-                  color: _kLabel,
-                ),
-              ),
-              SizedBox(height: 2),
-              Text(
-                'More details build trust and help you sell faster!',
-                style: TextStyle(fontSize: 12, color: _kSubLabel),
-              ),
-            ],
-          ),
+      Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: const Color(0xFFFFF5F5),
+          borderRadius: BorderRadius.circular(12),
         ),
-      ],
-    ),
+        child: const Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(Icons.lightbulb_outline, color: _kRed, size: 16),
+            SizedBox(width: 8),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Tips',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                      color: _kLabel,
+                    ),
+                  ),
+                  SizedBox(height: 2),
+                  Text(
+                    'More details build trust and help you sell faster!',
+                    style: TextStyle(fontSize: 12, color: _kSubLabel),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    ],
   );
 
   // ══════════════════════════════════════════════════════════════════════════
@@ -952,7 +1218,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
         ),
         const SizedBox(height: 16),
 
-        // Preview card
         Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
@@ -963,7 +1228,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // image — no edit icon (removed)
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: Stack(
@@ -1079,7 +1343,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
         const SizedBox(height: 16),
 
-        // FIX 2: detail table — Expanded on value side so it's always right-aligned
         Container(
           decoration: BoxDecoration(
             color: Colors.white,
@@ -1135,23 +1398,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     ? '₹$price (${disc}% off)\nOriginal: ₹${ctrl.originalPriceController.text}'
                     : '₹$price',
               ),
-              if (ctrl.boxContains.isNotEmpty) ...[
-                _reviewDivider(),
-                _reviewRowTags(
-                  Icons.inventory_2_outlined,
-                  'Box Contains',
-                  ctrl.boxContains,
-                ),
-              ],
-              if (ctrl.dimensionsController.text.isNotEmpty) ...[
-                _reviewDivider(),
-                _reviewRow(
-                  Icons.straighten_outlined,
-                  _kSubLabel,
-                  'Dimensions',
-                  ctrl.dimensionsController.text,
-                ),
-              ],
               if (ctrl.materials.isNotEmpty) ...[
                 _reviewDivider(),
                 _reviewRow(
@@ -1236,9 +1482,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
     );
   }
 
-  // ── Review helper widgets ─────────────────────────────────────────────────
-
-  // FIX 2: use Expanded instead of Flexible+Spacer so value is always right-aligned
   Widget _reviewRow(
     IconData icon,
     Color iconColor,
@@ -1250,10 +1493,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
       children: [
         Icon(icon, size: 16, color: iconColor),
         const SizedBox(width: 10),
-        // Label takes only what it needs
         Text(label, style: const TextStyle(fontSize: 13, color: _kSubLabel)),
         const SizedBox(width: 8),
-        // Value fills the rest and aligns right
         Expanded(
           child: Text(
             value,
@@ -1263,55 +1504,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
               fontWeight: FontWeight.w600,
               color: _kLabel,
             ),
-          ),
-        ),
-      ],
-    ),
-  );
-
-  Widget _reviewRowTags(
-    IconData icon,
-    String label,
-    List<String> tags,
-  ) => Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Icon(icon, size: 16, color: _kSubLabel),
-        const SizedBox(width: 10),
-        Text(label, style: const TextStyle(fontSize: 13, color: _kSubLabel)),
-        const SizedBox(width: 8),
-        Expanded(
-          child: Wrap(
-            spacing: 4,
-            runSpacing: 4,
-            alignment: WrapAlignment.end,
-            children: [
-              ...tags
-                  .take(3)
-                  .map(
-                    (t) => Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 3,
-                      ),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF5F5F5),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: Text(
-                        t,
-                        style: const TextStyle(fontSize: 11, color: _kLabel),
-                      ),
-                    ),
-                  ),
-              if (tags.length > 3)
-                Text(
-                  '+${tags.length - 3} more',
-                  style: const TextStyle(fontSize: 11, color: _kSubLabel),
-                ),
-            ],
           ),
         ),
       ],
@@ -1374,8 +1566,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   Widget _reviewDivider() => Divider(height: 1, color: _kBorder, indent: 40);
 
-  // ── BOTTOM BAR — FIX 2: "Edit Details" button removed ────────────────────
-
   Widget _bottomBar(AddMarketplaceController ctrl) => Container(
     padding: EdgeInsets.fromLTRB(
       16,
@@ -1424,8 +1614,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
     ),
   );
 
-  // ── SHARED FIELD WIDGETS ──────────────────────────────────────────────────
-
   Widget _fieldLabel(String text) => Padding(
     padding: const EdgeInsets.only(bottom: 6),
     child: Text(
@@ -1448,10 +1636,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
     bool usePrefix = true,
     Widget? prefixIcon,
     Widget? suffixIcon,
+    List<TextInputFormatter>? inputFormatters,
   }) => TextField(
     controller: controller,
     keyboardType: keyboardType,
     maxLength: maxLength,
+    inputFormatters: inputFormatters,
     style: const TextStyle(fontSize: 14, color: _kLabel),
     onChanged: (_) => setState(() {}),
     decoration: InputDecoration(
@@ -1538,11 +1728,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
     ),
   );
 
-  // FIX 4: tag input — "+ Add" input is now always at the end of the Wrap,
-  // aligned left with the tags naturally, not floating awkwardly
   Widget _tagInputField({
     required List<String> tags,
     required TextEditingController inputCtrl,
+    required FocusNode focusNode,
     required String hint,
     required VoidCallback onAdd,
     required void Function(String) onRemove,
@@ -1556,10 +1745,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
     child: Wrap(
       spacing: 6,
       runSpacing: 6,
-      crossAxisAlignment:
-          WrapCrossAlignment.center, // ← centres tags + input vertically
+      crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        // existing tags
         ...tags.map(
           (t) => Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
@@ -1580,12 +1767,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
             ),
           ),
         ),
-        // inline "+ Add" input — fixed width, same height as tags
         IntrinsicWidth(
           child: ConstrainedBox(
             constraints: const BoxConstraints(minWidth: 60, maxWidth: 100),
             child: TextField(
               controller: inputCtrl,
+              focusNode: focusNode,
               style: const TextStyle(
                 fontSize: 13,
                 color: _kRed,
