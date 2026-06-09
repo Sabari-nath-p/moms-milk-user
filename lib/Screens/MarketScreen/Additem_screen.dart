@@ -103,7 +103,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
     if (picked.isNotEmpty) {
       final files = picked.map((e) => File(e.path)).toList();
       controller.setSelectedImages([...controller.selectedImages, ...files]);
-      await controller.uploadImages(files);
     }
   }
 
@@ -199,7 +198,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     }
   }
 
-  void _submit() {
+  void _submit() async {
     controller.zipcodeController.text = _pincodeCtrl.text.trim();
     controller.createListing();
   }

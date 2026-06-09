@@ -184,11 +184,11 @@ class AddMarketplaceController extends GetxController {
     log("===== CREATE LISTING CALLED =====");
 
     try {
-      if (imageUrls.isEmpty) {
-        Fluttertoast.showToast(msg: "Please upload images");
+      if (selectedImages.isEmpty) {
+        Fluttertoast.showToast(msg: "Please select images");
         return;
       }
-
+      await uploadImages(selectedImages);
       isLoading = true;
       update();
 
