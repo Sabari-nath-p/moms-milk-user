@@ -7,7 +7,7 @@ import 'package:mommilk_user/Screens/MarketScreen/Service/market_controller.dart
 import 'package:mommilk_user/Screens/ChatListScreen/Controller/ChatController.dart';
 
 class MarketScreen extends StatefulWidget {
-  const MarketScreen({super.key});
+  MarketScreen({super.key});
   @override
   State<MarketScreen> createState() => _MarketScreenState();
 }
@@ -15,9 +15,9 @@ class MarketScreen extends StatefulWidget {
 class _MarketScreenState extends State<MarketScreen> {
   late MarketController controller;
 
-  String selectedCategory = 'All';
+  String selectedCategory = 'All'.tr;
   String? selectedCondition;
-  RangeValues _priceRange = const RangeValues(0, 50000);
+  RangeValues _priceRange = RangeValues(0, 50000);
   double _maxDistance = 50;
   bool _distanceFilterActive = false;
   String _sortBy = '';
@@ -51,15 +51,15 @@ class _MarketScreenState extends State<MarketScreen> {
   ];
 
   // Sort options: label → controller key
-  static const _sortOptions = [
-    ('Newest First', 'newest'),
-    ('Oldest First', 'oldest'),
-    ('Price: Low to High', 'price_asc'),
-    ('Price: High to Low', 'price_desc'),
+  static List<(String, String)> get _sortOptions => [
+    ('Newest First'.tr, 'newest'),
+    ('Oldest First'.tr, 'oldest'),
+    ('Price: Low to High'.tr, 'price_asc'),
+    ('Price: High to Low'.tr, 'price_desc'),
   ];
 
   String _catApiValue(String label) {
-    if (label == 'All') return '';
+    if (label == 'All'.tr) return '';
     return label.toUpperCase().replaceAll(' ', '_');
   }
 
@@ -116,27 +116,27 @@ class _MarketScreenState extends State<MarketScreen> {
   Color _catColor(String apiVal) {
     switch (apiVal) {
       case 'TOYS':
-        return const Color(0xFF7C3AED);
+        return Color(0xFF7C3AED);
       case 'CRADLES':
-        return const Color(0xFF9333EA);
+        return Color(0xFF9333EA);
       case 'STROLLERS':
-        return const Color(0xFF2563EB);
+        return Color(0xFF2563EB);
       case 'CLOTHING':
-        return const Color(0xFFF59E0B);
+        return Color(0xFFF59E0B);
       case 'FEEDING':
-        return const Color(0xFF10B981);
+        return Color(0xFF10B981);
       case 'BATH':
-        return const Color(0xFF06B6D4);
+        return Color(0xFF06B6D4);
       case 'CAR_SEATS':
-        return const Color(0xFFEF4444);
+        return Color(0xFFEF4444);
       case 'SAFETY':
-        return const Color(0xFF0EA5E9);
+        return Color(0xFF0EA5E9);
       case 'BOOKS':
-        return const Color(0xFFF97316);
+        return Color(0xFFF97316);
       case 'EDUCATIONAL':
-        return const Color(0xFF8B5CF6);
+        return Color(0xFF8B5CF6);
       default:
-        return const Color(0xFF6B7280);
+        return Color(0xFF6B7280);
     }
   }
 
@@ -145,32 +145,32 @@ class _MarketScreenState extends State<MarketScreen> {
       case 'NEW':
       case 'LIKE_NEW':
       case 'EXCELLENT':
-        return const Color(0xFF16A34A);
+        return Color(0xFF16A34A);
       case 'GOOD':
-        return const Color(0xFFF59E0B);
+        return Color(0xFFF59E0B);
       case 'FAIR':
-        return const Color(0xFFF97316);
+        return Color(0xFFF97316);
       case 'POOR':
-        return const Color(0xFFDC2626);
+        return Color(0xFFDC2626);
       default:
-        return const Color(0xFF6B7280);
+        return Color(0xFF6B7280);
     }
   }
 
   String _condLabel(String c) {
     switch (c) {
       case 'LIKE_NEW':
-        return 'Like New';
+        return 'Like New'.tr;
       case 'NEW':
-        return 'New';
+        return 'New'.tr;
       case 'EXCELLENT':
-        return 'Excellent';
+        return 'Excellent'.tr;
       case 'GOOD':
-        return 'Good';
+        return 'Good'.tr;
       case 'FAIR':
-        return 'Fair';
+        return 'Fair'.tr;
       case 'POOR':
-        return 'Poor';
+        return 'Poor'.tr;
       default:
         return c.replaceAll('_', ' ');
     }
@@ -181,7 +181,7 @@ class _MarketScreenState extends State<MarketScreen> {
     for (final opt in _sortOptions) {
       if (opt.$2 == _sortBy) return opt.$1;
     }
-    return 'Sort';
+    return 'Sort'.tr;
   }
 
   @override
@@ -200,16 +200,16 @@ class _MarketScreenState extends State<MarketScreen> {
                 SliverToBoxAdapter(child: _categoryBar()),
                 SliverToBoxAdapter(child: _resultHeader()),
                 if (controller.isLoading && controller.listings.isEmpty)
-                  const SliverFillRemaining(
+                  SliverFillRemaining(
                     child: Center(
                       child: CircularProgressIndicator(color: _red),
                     ),
                   )
                 else if (!controller.isLoading && controller.listings.isEmpty)
-                  const SliverFillRemaining(
+                  SliverFillRemaining(
                     child: Center(
                       child: Text(
-                        'No products found',
+                        'No products found'.tr.tr,
                         style: TextStyle(color: Colors.grey, fontSize: 14),
                       ),
                     ),
@@ -222,13 +222,12 @@ class _MarketScreenState extends State<MarketScreen> {
                         (_, i) => _card(controller.listings[i]),
                         childCount: controller.listings.length,
                       ),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                            mainAxisExtent: 330,
-                          ),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                        mainAxisExtent: 330,
+                      ),
                     ),
                   )
                 else
@@ -261,8 +260,8 @@ class _MarketScreenState extends State<MarketScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Marketplace',
+              Text(
+                'Marketplace'.tr,
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w800,
@@ -270,9 +269,9 @@ class _MarketScreenState extends State<MarketScreen> {
                   letterSpacing: -0.3,
                 ),
               ),
-              const SizedBox(height: 1),
+              SizedBox(height: 1),
               Text(
-                'Buy and sell pre-loved baby products',
+                'Buy and sell pre-loved baby products'.tr,
                 style: TextStyle(fontSize: 12, color: Colors.grey.shade500),
               ),
             ],
@@ -287,7 +286,7 @@ class _MarketScreenState extends State<MarketScreen> {
               color: _red,
               borderRadius: BorderRadius.circular(10),
             ),
-            child: const Icon(Icons.add, color: Colors.white, size: 22),
+            child: Icon(Icons.add, color: Colors.white, size: 22),
           ),
         ),
       ],
@@ -308,17 +307,17 @@ class _MarketScreenState extends State<MarketScreen> {
                 BoxShadow(
                   color: Colors.black.withOpacity(0.05),
                   blurRadius: 8,
-                  offset: const Offset(0, 2),
+                  offset: Offset(0, 2),
                 ),
               ],
             ),
             child: TextField(
               controller: searchController,
               onSubmitted: (_) => _filter(),
-              style: const TextStyle(fontSize: 14),
+              style: TextStyle(fontSize: 14),
               decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: 'Search for baby products',
+                hintText: 'Search for baby products'.tr,
                 hintStyle: TextStyle(fontSize: 14, color: Colors.grey.shade400),
                 prefixIcon: Icon(
                   Icons.search,
@@ -330,7 +329,7 @@ class _MarketScreenState extends State<MarketScreen> {
             ),
           ),
         ),
-        const SizedBox(width: 10),
+        SizedBox(width: 10),
         GestureDetector(
           onTap: _showFilter,
           child: Stack(
@@ -345,7 +344,7 @@ class _MarketScreenState extends State<MarketScreen> {
                     BoxShadow(
                       color: Colors.black.withOpacity(0.05),
                       blurRadius: 8,
-                      offset: const Offset(0, 2),
+                      offset: Offset(0, 2),
                     ),
                   ],
                 ),
@@ -362,14 +361,14 @@ class _MarketScreenState extends State<MarketScreen> {
                   child: Container(
                     width: 16,
                     height: 16,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       color: Colors.white,
                       shape: BoxShape.circle,
                     ),
                     child: Center(
                       child: Text(
                         '$_activeFilterCount',
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: _red,
                           fontSize: 9,
                           fontWeight: FontWeight.w800,
@@ -403,7 +402,7 @@ class _MarketScreenState extends State<MarketScreen> {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (ctx) => StatefulBuilder(
@@ -432,26 +431,26 @@ class _MarketScreenState extends State<MarketScreen> {
                 ),
                 Row(
                   children: [
-                    const Text(
-                      'Filters',
+                    Text(
+                      'Filters'.tr,
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w800,
                         color: Colors.black,
                       ),
                     ),
-                    const Spacer(),
+                    Spacer(),
                     TextButton(
                       onPressed: () {
                         setSheet(() {
                           _tempCondition = null;
-                          _tempPrice = const RangeValues(0, 50000);
+                          _tempPrice = RangeValues(0, 50000);
                           _tempDist = 50;
                           _tempDistActive = false;
                         });
                       },
-                      child: const Text(
-                        'Clear All',
+                      child: Text(
+                        'Clear All'.tr,
                         style: TextStyle(
                           color: _red,
                           fontWeight: FontWeight.w600,
@@ -461,18 +460,18 @@ class _MarketScreenState extends State<MarketScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: 4),
                 Divider(color: Colors.grey.shade200),
-                const SizedBox(height: 16),
-                const Text(
-                  'Condition',
+                SizedBox(height: 16),
+                Text(
+                  'Condition'.tr,
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
                     color: Colors.black,
                   ),
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12),
                 Wrap(
                   spacing: 8,
                   runSpacing: 8,
@@ -497,7 +496,7 @@ class _MarketScreenState extends State<MarketScreen> {
                             ),
                           ),
                           child: Text(
-                            c.replaceAll('_', ' '),
+                            _condLabel(c),
                             style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w600,
@@ -510,20 +509,20 @@ class _MarketScreenState extends State<MarketScreen> {
                       ),
                   ],
                 ),
-                const SizedBox(height: 24),
+                SizedBox(height: 24),
                 Divider(color: Colors.grey.shade200),
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
                 Row(
                   children: [
-                    const Text(
-                      'Price Range',
+                    Text(
+                      'Price Range'.tr,
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
                         color: Colors.black,
                       ),
                     ),
-                    const Spacer(),
+                    Spacer(),
                     Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 10,
@@ -534,8 +533,8 @@ class _MarketScreenState extends State<MarketScreen> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
-                        '₹${_tempPrice.start.toInt()}  –  ${_tempPrice.end.toInt() >= 50000 ? 'Any' : '₹${_tempPrice.end.toInt()}'}',
-                        style: const TextStyle(
+                        '₹${_tempPrice.start.toInt()}  –  ${_tempPrice.end.toInt() >= 50000 ? 'Any'.tr : '₹${_tempPrice.end.toInt()}'}',
+                        style: TextStyle(
                           fontSize: 12,
                           color: _red,
                           fontWeight: FontWeight.w700,
@@ -544,14 +543,14 @@ class _MarketScreenState extends State<MarketScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
                 SliderTheme(
                   data: SliderTheme.of(ctx).copyWith(
                     activeTrackColor: _red,
                     inactiveTrackColor: Colors.grey.shade200,
                     thumbColor: _red,
                     overlayColor: _red.withOpacity(0.12),
-                    rangeThumbShape: const RoundRangeSliderThumbShape(
+                    rangeThumbShape: RoundRangeSliderThumbShape(
                       enabledThumbRadius: 10,
                     ),
                     trackHeight: 4,
@@ -569,10 +568,10 @@ class _MarketScreenState extends State<MarketScreen> {
                   runSpacing: 6,
                   children: [
                     for (final preset in [
-                      ['Under ₹500', const RangeValues(0, 500)],
-                      ['₹500–₹2000', const RangeValues(500, 2000)],
-                      ['₹2000–₹5000', const RangeValues(2000, 5000)],
-                      ['₹5000+', const RangeValues(5000, 50000)],
+                      ['${'Under'.tr} ₹500', RangeValues(0, 500)],
+                      ['₹500–₹2000', RangeValues(500, 2000)],
+                      ['₹2000–₹5000', RangeValues(2000, 5000)],
+                      ['₹5000+', RangeValues(5000, 50000)],
                     ])
                       GestureDetector(
                         onTap: () => setSheet(
@@ -586,7 +585,7 @@ class _MarketScreenState extends State<MarketScreen> {
                           decoration: BoxDecoration(
                             color: _tempPrice == preset[1]
                                 ? _red
-                                : const Color(0xFFF5F5F5),
+                                : Color(0xFFF5F5F5),
                             borderRadius: BorderRadius.circular(14),
                           ),
                           child: Text(
@@ -603,20 +602,20 @@ class _MarketScreenState extends State<MarketScreen> {
                       ),
                   ],
                 ),
-                const SizedBox(height: 24),
+                SizedBox(height: 24),
                 Divider(color: Colors.grey.shade200),
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
                 Row(
                   children: [
-                    const Text(
-                      'Distance',
+                    Text(
+                      'Distance'.tr,
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
                         color: Colors.black,
                       ),
                     ),
-                    const Spacer(),
+                    Spacer(),
                     Transform.scale(
                       scale: 0.8,
                       child: Switch(
@@ -628,14 +627,14 @@ class _MarketScreenState extends State<MarketScreen> {
                   ],
                 ),
                 if (_tempDistActive) ...[
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4),
                   Row(
                     children: [
-                      const Icon(Icons.location_on, color: _red, size: 16),
-                      const SizedBox(width: 4),
+                      Icon(Icons.location_on, color: _red, size: 16),
+                      SizedBox(width: 4),
                       Text(
-                        'Within ${_tempDist.toInt()} km',
-                        style: const TextStyle(
+                        '${'Within'.tr} ${_tempDist.toInt()} km',
+                        style: TextStyle(
                           fontSize: 13,
                           color: _red,
                           fontWeight: FontWeight.w600,
@@ -649,9 +648,7 @@ class _MarketScreenState extends State<MarketScreen> {
                       inactiveTrackColor: Colors.grey.shade200,
                       thumbColor: _red,
                       overlayColor: _red.withOpacity(0.12),
-                      thumbShape: const RoundSliderThumbShape(
-                        enabledThumbRadius: 10,
-                      ),
+                      thumbShape: RoundSliderThumbShape(enabledThumbRadius: 10),
                       trackHeight: 4,
                     ),
                     child: Slider(
@@ -675,9 +672,7 @@ class _MarketScreenState extends State<MarketScreen> {
                               vertical: 6,
                             ),
                             decoration: BoxDecoration(
-                              color: _tempDist == km
-                                  ? _red
-                                  : const Color(0xFFF5F5F5),
+                              color: _tempDist == km ? _red : Color(0xFFF5F5F5),
                               borderRadius: BorderRadius.circular(14),
                             ),
                             child: Text(
@@ -698,14 +693,14 @@ class _MarketScreenState extends State<MarketScreen> {
                   Padding(
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
-                      'Enable to filter by distance from you',
+                      'Enable to filter by distance from you'.tr,
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.grey.shade400,
                       ),
                     ),
                   ),
-                const SizedBox(height: 28),
+                SizedBox(height: 28),
                 SizedBox(
                   width: double.infinity,
                   height: 50,
@@ -728,8 +723,8 @@ class _MarketScreenState extends State<MarketScreen> {
                         borderRadius: BorderRadius.circular(14),
                       ),
                     ),
-                    child: const Text(
-                      'Apply Filters',
+                    child: Text(
+                      'Apply Filters'.tr,
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
@@ -769,13 +764,13 @@ class _MarketScreenState extends State<MarketScreen> {
                     color: sel ? _red : _redLight,
                     borderRadius: BorderRadius.circular(18),
                     border: Border.all(
-                      color: sel ? _red : const Color(0xFFEDD8D8),
+                      color: sel ? _red : Color(0xFFEDD8D8),
                       width: 1,
                     ),
                   ),
                   alignment: Alignment.center,
                   child: Text(
-                    cat,
+                    cat.tr,
                     style: TextStyle(
                       color: sel ? Colors.white : Colors.black87,
                       fontWeight: FontWeight.w600,
@@ -793,21 +788,21 @@ class _MarketScreenState extends State<MarketScreen> {
               decoration: BoxDecoration(
                 color: _redLight,
                 borderRadius: BorderRadius.circular(18),
-                border: Border.all(color: const Color(0xFFEDD8D8), width: 1),
+                border: Border.all(color: Color(0xFFEDD8D8), width: 1),
               ),
               alignment: Alignment.center,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text(
-                    'More',
+                  Text(
+                    'More'.tr,
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 13,
                       color: Colors.black87,
                     ),
                   ),
-                  const SizedBox(width: 2),
+                  SizedBox(width: 2),
                   Icon(
                     Icons.keyboard_arrow_down,
                     size: 16,
@@ -824,7 +819,7 @@ class _MarketScreenState extends State<MarketScreen> {
 
   void _showAllCats() => showModalBottomSheet(
     context: context,
-    shape: const RoundedRectangleBorder(
+    shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
     ),
     builder: (_) => Padding(
@@ -833,11 +828,11 @@ class _MarketScreenState extends State<MarketScreen> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'All Categories',
+          Text(
+            'All Categories'.tr,
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           Wrap(
             spacing: 8,
             runSpacing: 8,
@@ -856,11 +851,11 @@ class _MarketScreenState extends State<MarketScreen> {
                     vertical: 8,
                   ),
                   decoration: BoxDecoration(
-                    color: sel ? _red : const Color(0xFFF5F5F5),
+                    color: sel ? _red : Color(0xFFF5F5F5),
                     borderRadius: BorderRadius.circular(18),
                   ),
                   child: Text(
-                    cat,
+                    cat.tr,
                     style: TextStyle(
                       color: sel ? Colors.white : Colors.black87,
                       fontWeight: FontWeight.w600,
@@ -871,7 +866,7 @@ class _MarketScreenState extends State<MarketScreen> {
               );
             }).toList(),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
         ],
       ),
     ),
@@ -883,13 +878,13 @@ class _MarketScreenState extends State<MarketScreen> {
       children: [
         Text(
           '${controller.listings.length} items',
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w600,
             color: Colors.black87,
           ),
         ),
-        const Spacer(),
+        Spacer(),
         GestureDetector(
           onTap: () => setState(() => _isGridView = true),
           child: Container(
@@ -906,7 +901,7 @@ class _MarketScreenState extends State<MarketScreen> {
             ),
           ),
         ),
-        const SizedBox(width: 8),
+        SizedBox(width: 8),
         GestureDetector(
           onTap: () => setState(() => _isGridView = false),
           child: Icon(
@@ -915,7 +910,7 @@ class _MarketScreenState extends State<MarketScreen> {
             color: _isGridView ? Colors.grey.shade400 : _red,
           ),
         ),
-        const SizedBox(width: 12),
+        SizedBox(width: 12),
 
         // ── FIX: Sort dropdown ──────────────────────────────────────────────
         GestureDetector(
@@ -938,7 +933,7 @@ class _MarketScreenState extends State<MarketScreen> {
                       ? Colors.white
                       : Colors.grey.shade500,
                 ),
-                const SizedBox(width: 4),
+                SizedBox(width: 4),
                 Text(
                   _sortLabel,
                   style: TextStyle(
@@ -949,7 +944,7 @@ class _MarketScreenState extends State<MarketScreen> {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                const SizedBox(width: 2),
+                SizedBox(width: 2),
                 Icon(
                   Icons.keyboard_arrow_down,
                   size: 14,
@@ -969,7 +964,7 @@ class _MarketScreenState extends State<MarketScreen> {
   void _showSortSheet() {
     showModalBottomSheet(
       context: context,
-      shape: const RoundedRectangleBorder(
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
       backgroundColor: Colors.white,
@@ -992,15 +987,15 @@ class _MarketScreenState extends State<MarketScreen> {
             ),
             Row(
               children: [
-                const Text(
-                  'Sort By',
+                Text(
+                  'Sort By'.tr,
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w800,
                     color: Colors.black,
                   ),
                 ),
-                const Spacer(),
+                Spacer(),
                 if (_sortBy.isNotEmpty)
                   GestureDetector(
                     onTap: () {
@@ -1008,8 +1003,8 @@ class _MarketScreenState extends State<MarketScreen> {
                       controller.applySort('');
                       Navigator.pop(context);
                     },
-                    child: const Text(
-                      'Clear',
+                    child: Text(
+                      'Clear'.tr,
                       style: TextStyle(
                         color: _red,
                         fontSize: 13,
@@ -1019,7 +1014,7 @@ class _MarketScreenState extends State<MarketScreen> {
                   ),
               ],
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
             ..._sortOptions.map((opt) {
               final isSelected = _sortBy == opt.$2;
               return GestureDetector(
@@ -1035,7 +1030,7 @@ class _MarketScreenState extends State<MarketScreen> {
                     vertical: 14,
                   ),
                   decoration: BoxDecoration(
-                    color: isSelected ? _redLight : const Color(0xFFF7F7F7),
+                    color: isSelected ? _redLight : Color(0xFFF7F7F7),
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
                       color: isSelected
@@ -1053,9 +1048,9 @@ class _MarketScreenState extends State<MarketScreen> {
                           color: isSelected ? _red : Colors.black87,
                         ),
                       ),
-                      const Spacer(),
+                      Spacer(),
                       if (isSelected)
-                        const Icon(Icons.check_circle, color: _red, size: 18),
+                        Icon(Icons.check_circle, color: _red, size: 18),
                     ],
                   ),
                 ),
@@ -1088,7 +1083,7 @@ class _MarketScreenState extends State<MarketScreen> {
             BoxShadow(
               color: Colors.black.withOpacity(0.07),
               blurRadius: 10,
-              offset: const Offset(0, 3),
+              offset: Offset(0, 3),
             ),
           ],
         ),
@@ -1115,7 +1110,7 @@ class _MarketScreenState extends State<MarketScreen> {
                                   child: Image.network(
                                     img,
                                     fit: BoxFit.contain,
-                                    errorBuilder: (_, __, ___) => const Icon(
+                                    errorBuilder: (_, __, ___) => Icon(
                                       Icons.broken_image,
                                       color: Colors.white,
                                       size: 60,
@@ -1131,11 +1126,11 @@ class _MarketScreenState extends State<MarketScreen> {
                                   child: Container(
                                     width: 34,
                                     height: 34,
-                                    decoration: const BoxDecoration(
+                                    decoration: BoxDecoration(
                                       color: Colors.black45,
                                       shape: BoxShape.circle,
                                     ),
-                                    child: const Icon(
+                                    child: Icon(
                                       Icons.close,
                                       color: Colors.white,
                                       size: 18,
@@ -1180,7 +1175,7 @@ class _MarketScreenState extends State<MarketScreen> {
                     ),
                     child: Text(
                       catBadgeLabel,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.white,
                         fontSize: 9,
                         fontWeight: FontWeight.w700,
@@ -1205,11 +1200,7 @@ class _MarketScreenState extends State<MarketScreen> {
                         ),
                       ],
                     ),
-                    child: const Icon(
-                      Icons.favorite_border,
-                      size: 15,
-                      color: _red,
-                    ),
+                    child: Icon(Icons.favorite_border, size: 15, color: _red),
                   ),
                 ),
               ],
@@ -1224,26 +1215,26 @@ class _MarketScreenState extends State<MarketScreen> {
                       p.title,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w700,
                         color: Colors.black,
                         height: 1.25,
                       ),
                     ),
-                    const SizedBox(height: 5),
+                    SizedBox(height: 5),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
                           '₹${p.price}',
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: _red,
                             fontSize: 15,
                             fontWeight: FontWeight.w800,
                           ),
                         ),
-                        const SizedBox(width: 5),
+                        SizedBox(width: 5),
                         if (origPrice != null)
                           Text(
                             '₹$origPrice',
@@ -1254,7 +1245,7 @@ class _MarketScreenState extends State<MarketScreen> {
                               decorationColor: Colors.grey.shade400,
                             ),
                           ),
-                        const SizedBox(width: 4),
+                        SizedBox(width: 4),
                         if (discPct != null)
                           Container(
                             padding: const EdgeInsets.symmetric(
@@ -1262,12 +1253,12 @@ class _MarketScreenState extends State<MarketScreen> {
                               vertical: 2,
                             ),
                             decoration: BoxDecoration(
-                              color: const Color(0xFFDCFCE7),
+                              color: Color(0xFFDCFCE7),
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Text(
                               '$discPct% OFF',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: Color(0xFF16A34A),
                                 fontSize: 9,
                                 fontWeight: FontWeight.w700,
@@ -1276,7 +1267,7 @@ class _MarketScreenState extends State<MarketScreen> {
                           ),
                       ],
                     ),
-                    const SizedBox(height: 5),
+                    SizedBox(height: 5),
                     Row(
                       children: [
                         Container(
@@ -1301,7 +1292,7 @@ class _MarketScreenState extends State<MarketScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(width: 6),
+                        SizedBox(width: 6),
                         if (usedDur != null)
                           Flexible(
                             child: Text(
@@ -1316,7 +1307,7 @@ class _MarketScreenState extends State<MarketScreen> {
                           ),
                       ],
                     ),
-                    const SizedBox(height: 6),
+                    SizedBox(height: 6),
                     Row(
                       children: [
                         CircleAvatar(
@@ -1326,20 +1317,20 @@ class _MarketScreenState extends State<MarketScreen> {
                             p.user.name.isNotEmpty
                                 ? p.user.name[0].toUpperCase()
                                 : 'U',
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 9,
                               fontWeight: FontWeight.w700,
                               color: _red,
                             ),
                           ),
                         ),
-                        const SizedBox(width: 4),
+                        SizedBox(width: 4),
                         Flexible(
                           child: Text(
                             p.user.name,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 11,
                               fontWeight: FontWeight.w600,
                               color: Colors.black87,
@@ -1348,11 +1339,11 @@ class _MarketScreenState extends State<MarketScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 5),
+                    SizedBox(height: 5),
                     Row(
                       children: [
-                        const Icon(Icons.location_on, size: 12, color: _red),
-                        const SizedBox(width: 3),
+                        Icon(Icons.location_on, size: 12, color: _red),
+                        SizedBox(width: 3),
                         Flexible(
                           child: Text(
                             p.placeName.isNotEmpty ? p.placeName : '—',
@@ -1386,16 +1377,13 @@ class _MarketScreenState extends State<MarketScreen> {
                         ],
                       ],
                     ),
-                    const Spacer(),
+                    Spacer(),
                     Container(
                       height: 34,
                       decoration: BoxDecoration(
                         color: _redLight,
                         borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                          color: const Color(0xFFEDD8D8),
-                          width: 1,
-                        ),
+                        border: Border.all(color: Color(0xFFEDD8D8), width: 1),
                       ),
                       child: Row(
                         children: [
@@ -1409,7 +1397,7 @@ class _MarketScreenState extends State<MarketScreen> {
                                   userName: p.user.name,
                                 );
                               },
-                              child: const Row(
+                              child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Icon(
@@ -1419,7 +1407,7 @@ class _MarketScreenState extends State<MarketScreen> {
                                   ),
                                   SizedBox(width: 4),
                                   Text(
-                                    'Chat',
+                                    'Chat'.tr,
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: _red,
@@ -1433,14 +1421,14 @@ class _MarketScreenState extends State<MarketScreen> {
                           Container(
                             width: 1,
                             height: 20,
-                            color: const Color(0xFFEDD8D8),
+                            color: Color(0xFFEDD8D8),
                           ),
                           Expanded(
                             child: GestureDetector(
                               onTap: () => Get.to(
                                 () => ProductDetailsScreen(listingId: p.id),
                               ),
-                              child: const Row(
+                              child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Icon(
@@ -1450,7 +1438,7 @@ class _MarketScreenState extends State<MarketScreen> {
                                   ),
                                   SizedBox(width: 4),
                                   Text(
-                                    'View',
+                                    'View'.tr,
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: _red,
@@ -1492,7 +1480,7 @@ class _MarketScreenState extends State<MarketScreen> {
             BoxShadow(
               color: Colors.black.withOpacity(0.06),
               blurRadius: 8,
-              offset: const Offset(0, 2),
+              offset: Offset(0, 2),
             ),
           ],
         ),
@@ -1525,11 +1513,11 @@ class _MarketScreenState extends State<MarketScreen> {
                               child: Container(
                                 width: 34,
                                 height: 34,
-                                decoration: const BoxDecoration(
+                                decoration: BoxDecoration(
                                   color: Colors.black45,
                                   shape: BoxShape.circle,
                                 ),
-                                child: const Icon(
+                                child: Icon(
                                   Icons.close,
                                   color: Colors.white,
                                   size: 18,
@@ -1571,24 +1559,24 @@ class _MarketScreenState extends State<MarketScreen> {
                       p.title,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w700,
                         color: Colors.black,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4),
                     Row(
                       children: [
                         Text(
                           '₹${p.price}',
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: _red,
                             fontSize: 14,
                             fontWeight: FontWeight.w800,
                           ),
                         ),
-                        const SizedBox(width: 5),
+                        SizedBox(width: 5),
                         if (origPrice != null)
                           Text(
                             '₹$origPrice',
@@ -1599,7 +1587,7 @@ class _MarketScreenState extends State<MarketScreen> {
                               decorationColor: Colors.grey.shade400,
                             ),
                           ),
-                        const SizedBox(width: 4),
+                        SizedBox(width: 4),
                         if (discPct != null)
                           Container(
                             padding: const EdgeInsets.symmetric(
@@ -1607,12 +1595,12 @@ class _MarketScreenState extends State<MarketScreen> {
                               vertical: 2,
                             ),
                             decoration: BoxDecoration(
-                              color: const Color(0xFFDCFCE7),
+                              color: Color(0xFFDCFCE7),
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Text(
                               '$discPct% OFF',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: Color(0xFF16A34A),
                                 fontSize: 9,
                                 fontWeight: FontWeight.w700,
@@ -1621,7 +1609,7 @@ class _MarketScreenState extends State<MarketScreen> {
                           ),
                       ],
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4),
                     Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 6,
@@ -1644,11 +1632,11 @@ class _MarketScreenState extends State<MarketScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4),
                     Row(
                       children: [
-                        const Icon(Icons.location_on, size: 11, color: _red),
-                        const SizedBox(width: 2),
+                        Icon(Icons.location_on, size: 11, color: _red),
+                        SizedBox(width: 2),
                         Flexible(
                           child: Text(
                             p.placeName.isNotEmpty ? p.placeName : '—',
@@ -1681,7 +1669,7 @@ class _MarketScreenState extends State<MarketScreen> {
                         ],
                       ],
                     ),
-                    const SizedBox(height: 6),
+                    SizedBox(height: 6),
                     Container(
                       height: 30,
                       decoration: BoxDecoration(
@@ -1708,7 +1696,7 @@ class _MarketScreenState extends State<MarketScreen> {
                                     left: Radius.circular(6),
                                   ),
                                 ),
-                                child: const Row(
+                                child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(
@@ -1718,7 +1706,7 @@ class _MarketScreenState extends State<MarketScreen> {
                                     ),
                                     SizedBox(width: 3),
                                     Text(
-                                      'Chat',
+                                      'Chat'.tr,
                                       style: TextStyle(
                                         fontSize: 11,
                                         color: _red,
@@ -1747,7 +1735,7 @@ class _MarketScreenState extends State<MarketScreen> {
                                     right: Radius.circular(6),
                                   ),
                                 ),
-                                child: const Row(
+                                child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(
@@ -1757,7 +1745,7 @@ class _MarketScreenState extends State<MarketScreen> {
                                     ),
                                     SizedBox(width: 3),
                                     Text(
-                                      'View',
+                                      'View'.tr,
                                       style: TextStyle(
                                         fontSize: 11,
                                         color: _red,
@@ -1784,7 +1772,7 @@ class _MarketScreenState extends State<MarketScreen> {
 }
 
 Widget _placeholder() => Container(
-  color: const Color(0xFFF0F0F0),
+  color: Color(0xFFF0F0F0),
   child: Center(
     child: Icon(Icons.image_outlined, size: 30, color: Colors.grey.shade400),
   ),

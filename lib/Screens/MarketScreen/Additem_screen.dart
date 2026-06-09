@@ -21,7 +21,7 @@ const Color _kBorder = Color(0xFFE8E8E8);
 const int _kMaxPhotos = 8;
 
 class AddItemScreen extends StatefulWidget {
-  const AddItemScreen({super.key});
+  AddItemScreen({super.key});
 
   @override
   State<AddItemScreen> createState() => _AddItemScreenState();
@@ -94,17 +94,27 @@ class _AddItemScreenState extends State<AddItemScreen> {
     super.dispose();
   }
 
-  String _catLabel(String c) => c
-      .split('_')
-      .map((w) => w[0].toUpperCase() + w.substring(1).toLowerCase())
-      .join(' ');
+  String _catLabel(String c) {
+    // Human-readable label, then translated
+    final label = c
+        .split('_')
+        .map((w) => w[0].toUpperCase() + w.substring(1).toLowerCase())
+        .join(' ');
+    return label.tr;
+  }
 
   String _condLabel(String c) {
     switch (c) {
       case 'LIKE_NEW':
-        return 'Like New';
+        return 'Like New'.tr;
       case 'NEW':
-        return 'New';
+        return 'New'.tr;
+      case 'GOOD':
+        return 'Good'.tr;
+      case 'FAIR':
+        return 'Fair'.tr;
+      case 'POOR':
+        return 'Poor'.tr;
       default:
         return c[0] + c.substring(1).toLowerCase();
     }
@@ -116,11 +126,11 @@ class _AddItemScreenState extends State<AddItemScreen> {
       case 'LIKE_NEW':
         return _kGreen;
       case 'GOOD':
-        return const Color(0xFFF59E0B);
+        return Color(0xFFF59E0B);
       case 'FAIR':
-        return const Color(0xFFF97316);
+        return Color(0xFFF97316);
       case 'POOR':
-        return const Color(0xFFDC2626);
+        return Color(0xFFDC2626);
       default:
         return _kSubLabel;
     }
@@ -144,7 +154,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (_) {
@@ -167,15 +177,15 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     ),
                   ),
                 ),
-                const Text(
-                  'Add Photo',
+                Text(
+                  'Add Photo'.tr,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
                     color: _kLabel,
                   ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
                 // Camera option
                 ListTile(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 4),
@@ -186,25 +196,25 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       color: _kRedLight,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const Icon(
+                    child: Icon(
                       Icons.camera_alt_outlined,
                       color: _kRed,
                       size: 22,
                     ),
                   ),
-                  title: const Text(
-                    'Take a Photo',
+                  title: Text(
+                    'Take a Photo'.tr,
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 14,
                       color: _kLabel,
                     ),
                   ),
-                  subtitle: const Text(
-                    'Open camera and click a photo',
+                  subtitle: Text(
+                    'Open camera and click a photo'.tr,
                     style: TextStyle(fontSize: 12, color: _kSubLabel),
                   ),
-                  trailing: const Icon(
+                  trailing: Icon(
                     Icons.arrow_forward_ios,
                     size: 14,
                     color: _kSubLabel,
@@ -214,7 +224,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     await _pickFromCamera();
                   },
                 ),
-                const Divider(height: 1),
+                Divider(height: 1),
                 // Gallery option
                 ListTile(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 4),
@@ -225,14 +235,14 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       color: _kRedLight,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const Icon(
+                    child: Icon(
                       Icons.photo_library_outlined,
                       color: _kRed,
                       size: 22,
                     ),
                   ),
-                  title: const Text(
-                    'Choose from Gallery',
+                  title: Text(
+                    'Choose from Gallery'.tr,
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 14,
@@ -241,9 +251,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   ),
                   subtitle: Text(
                     'Select up to $remaining photo${remaining == 1 ? '' : 's'}',
-                    style: const TextStyle(fontSize: 12, color: _kSubLabel),
+                    style: TextStyle(fontSize: 12, color: _kSubLabel),
                   ),
-                  trailing: const Icon(
+                  trailing: Icon(
                     Icons.arrow_forward_ios,
                     size: 14,
                     color: _kSubLabel,
@@ -288,7 +298,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
         backgroundColor: _kRed,
         colorText: Colors.white,
         snackPosition: SnackPosition.BOTTOM,
-        duration: const Duration(seconds: 3),
+        duration: Duration(seconds: 3),
       );
     }
     final files = allowed.map((e) => File(e.path)).toList();
@@ -431,12 +441,17 @@ class _AddItemScreenState extends State<AddItemScreen> {
     controller.createListing();
   }
 
-  static const _stepLabels = ['Photos', 'Details', 'Info', 'Review'];
-  static const _stepNext = [
-    'Next: Item Details',
-    'Next: More Info',
-    'Next: Review',
-    'Post Item',
+  static List<String> get _stepLabels => [
+    'Photos'.tr,
+    'Details'.tr,
+    'Info'.tr,
+    'Review'.tr,
+  ];
+  static List<String> get _stepNext => [
+    'Next: Item Details'.tr,
+    'Next: More Info'.tr,
+    'Next: Review'.tr,
+    'Post Item'.tr,
   ];
 
   @override
@@ -467,10 +482,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
     centerTitle: true,
     leading: IconButton(
       onPressed: () => _step > 0 ? setState(() => _step--) : Get.back(),
-      icon: const Icon(Icons.arrow_back_ios, color: Colors.black, size: 18),
+      icon: Icon(Icons.arrow_back_ios, color: Colors.black, size: 18),
     ),
-    title: const Text(
-      'List an Item',
+    title: Text(
+      'List an Item'.tr,
       style: TextStyle(
         color: Colors.black,
         fontWeight: FontWeight.w700,
@@ -503,7 +518,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       mainAxisSize: MainAxisSize.min,
       children: [
         _stepCircle(i + 1, done: done, current: current),
-        const SizedBox(height: 4),
+        SizedBox(height: 4),
         Text(
           _stepLabels[i],
           style: TextStyle(
@@ -526,18 +541,18 @@ class _AddItemScreenState extends State<AddItemScreen> {
       return Container(
         width: 28,
         height: 28,
-        decoration: const BoxDecoration(color: _kRed, shape: BoxShape.circle),
-        child: const Icon(Icons.check, color: Colors.white, size: 14),
+        decoration: BoxDecoration(color: _kRed, shape: BoxShape.circle),
+        child: Icon(Icons.check, color: Colors.white, size: 14),
       );
     }
     return Container(
       width: 28,
       height: 28,
       decoration: BoxDecoration(
-        color: current ? _kRed : const Color(0xFFFFE5E3),
+        color: current ? _kRed : Color(0xFFFFE5E3),
         shape: BoxShape.circle,
         border: Border.all(
-          color: current ? _kRed : const Color(0xFFDDDDDD),
+          color: current ? _kRed : Color(0xFFDDDDDD),
           width: 1.5,
         ),
       ),
@@ -565,7 +580,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
             width: dashW,
             height: 1.5,
             margin: const EdgeInsets.only(right: gap),
-            color: active ? _kRed : const Color(0xFFDDDDDD),
+            color: active ? _kRed : Color(0xFFDDDDDD),
           ),
         ),
       );
@@ -583,7 +598,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       case 3:
         return _reviewStep(ctrl);
       default:
-        return const SizedBox();
+        return SizedBox();
     }
   }
 
@@ -600,20 +615,20 @@ class _AddItemScreenState extends State<AddItemScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Add photos of your item',
+        Text(
+          'Add photos of your item'.tr,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w700,
             color: _kLabel,
           ),
         ),
-        const SizedBox(height: 4),
+        SizedBox(height: 4),
         Text(
           'Good photos sell faster! (${ctrl.selectedImages.length}/$_kMaxPhotos)',
-          style: const TextStyle(fontSize: 13, color: _kSubLabel),
+          style: TextStyle(fontSize: 13, color: _kSubLabel),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16),
 
         // ALWAYS show the tap box — even after photos are added
         // Tapping always opens Camera/Gallery sheet
@@ -623,12 +638,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
             height: 160,
             width: double.infinity,
             decoration: BoxDecoration(
-              color: limitReached
-                  ? const Color(0xFFF5F5F5)
-                  : const Color(0xFFFFF5F5),
+              color: limitReached ? Color(0xFFF5F5F5) : Color(0xFFFFF5F5),
               borderRadius: BorderRadius.circular(14),
               border: Border.all(
-                color: limitReached ? const Color(0xFFDDDDDD) : _kRedBorder,
+                color: limitReached ? Color(0xFFDDDDDD) : _kRedBorder,
                 width: 1.5,
               ),
             ),
@@ -639,7 +652,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   width: 56,
                   height: 56,
                   decoration: BoxDecoration(
-                    color: limitReached ? const Color(0xFFEEEEEE) : _kRedLight,
+                    color: limitReached ? Color(0xFFEEEEEE) : _kRedLight,
                     borderRadius: BorderRadius.circular(14),
                   ),
                   child: Icon(
@@ -648,11 +661,11 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     size: 26,
                   ),
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12),
                 Text(
                   limitReached
                       ? 'Maximum $_kMaxPhotos photos reached'
-                      : 'Tap to add photos',
+                      : 'Tap to add photos'.tr,
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
@@ -660,9 +673,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   ),
                 ),
                 if (!limitReached) ...[
-                  const SizedBox(height: 4),
-                  const Text(
-                    'Upload up to 8 photos',
+                  SizedBox(height: 4),
+                  Text(
+                    'Upload up to 8 photos'.tr,
                     style: TextStyle(fontSize: 12, color: _kSubLabel),
                   ),
                 ],
@@ -673,7 +686,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
         // Thumbnails grid below the tap box
         if (ctrl.selectedImages.isNotEmpty) ...[
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           Wrap(
             spacing: 8,
             runSpacing: 8,
@@ -684,7 +697,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
           ),
         ],
 
-        const SizedBox(height: 20),
+        SizedBox(height: 20),
         _tipsCard(),
       ],
     );
@@ -712,11 +725,11 @@ class _AddItemScreenState extends State<AddItemScreen> {
                 child: Container(
                   width: 34,
                   height: 34,
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     color: Colors.black45,
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(Icons.close, color: Colors.white, size: 18),
+                  child: Icon(Icons.close, color: Colors.white, size: 18),
                 ),
               ),
             ),
@@ -746,12 +759,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
           right: 0,
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 3),
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               color: _kRed,
               borderRadius: BorderRadius.vertical(bottom: Radius.circular(10)),
             ),
-            child: const Text(
-              'Primary',
+            child: Text(
+              'Primary'.tr,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white,
@@ -772,11 +785,11 @@ class _AddItemScreenState extends State<AddItemScreen> {
           child: Container(
             width: 18,
             height: 18,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               color: Colors.black54,
               shape: BoxShape.circle,
             ),
-            child: const Icon(Icons.close, color: Colors.white, size: 11),
+            child: Icon(Icons.close, color: Colors.white, size: 11),
           ),
         ),
       ),
@@ -786,18 +799,18 @@ class _AddItemScreenState extends State<AddItemScreen> {
   Widget _tipsCard() => Container(
     padding: const EdgeInsets.all(14),
     decoration: BoxDecoration(
-      color: const Color(0xFFFFF5F5),
+      color: Color(0xFFFFF5F5),
       borderRadius: BorderRadius.circular(12),
     ),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
-          children: const [
+          children: [
             Icon(Icons.lightbulb_outline, color: _kRed, size: 16),
             SizedBox(width: 6),
             Text(
-              'Tips for good photos',
+              'Tips for good photos'.tr,
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
@@ -806,22 +819,19 @@ class _AddItemScreenState extends State<AddItemScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: 8),
         for (final t in [
-          'Use natural light',
-          'Show all angles',
-          'Include any flaws',
+          'Use natural light'.tr,
+          'Show all angles'.tr,
+          'Include any flaws'.tr,
         ])
           Padding(
             padding: const EdgeInsets.only(top: 4),
             child: Row(
               children: [
-                const Icon(Icons.check, color: _kRed, size: 14),
-                const SizedBox(width: 6),
-                Text(
-                  t,
-                  style: const TextStyle(fontSize: 12, color: _kSubLabel),
-                ),
+                Icon(Icons.check, color: _kRed, size: 14),
+                SizedBox(width: 6),
+                Text(t, style: TextStyle(fontSize: 12, color: _kSubLabel)),
               ],
             ),
           ),
@@ -836,26 +846,26 @@ class _AddItemScreenState extends State<AddItemScreen> {
   Widget _detailsStep(AddMarketplaceController ctrl) => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      const Text(
-        'Basic Details',
+      Text(
+        'Basic Details'.tr,
         style: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w700,
           color: _kLabel,
         ),
       ),
-      const SizedBox(height: 20),
+      SizedBox(height: 20),
 
-      _fieldLabel('Item Name *'),
+      _fieldLabel('Item Name *'.tr),
       _inputField(
         controller: ctrl.titleController,
         hint: 'e.g. Wooden Baby Cradle - Barely Used',
         maxLength: 60,
         showCounter: true,
       ),
-      const SizedBox(height: 16),
+      SizedBox(height: 16),
 
-      _fieldLabel('Category *'),
+      _fieldLabel('Category *'.tr),
       _dropdownField<String>(
         value: ctrl.selectedCategory,
         items: _categories,
@@ -867,9 +877,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
           ctrl.update();
         },
       ),
-      const SizedBox(height: 16),
+      SizedBox(height: 16),
 
-      _fieldLabel('Condition *'),
+      _fieldLabel('Condition *'.tr),
       _dropdownField<String>(
         value: ctrl.selectedCondition,
         items: _conditions,
@@ -881,7 +891,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
           ctrl.update();
         },
       ),
-      const SizedBox(height: 16),
+      SizedBox(height: 16),
 
       Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -890,7 +900,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _fieldLabel('Price *'),
+                _fieldLabel('Price *'.tr),
                 _inputField(
                   controller: ctrl.priceController,
                   hint: '1500',
@@ -901,12 +911,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
               ],
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _fieldLabel('Original Price'),
+                _fieldLabel('Original Price'.tr),
                 _inputField(
                   controller: ctrl.originalPriceController,
                   hint: '2999',
@@ -925,17 +935,17 @@ class _AddItemScreenState extends State<AddItemScreen> {
           margin: const EdgeInsets.only(top: 8),
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
           decoration: BoxDecoration(
-            color: const Color(0xFFF0FDF4),
+            color: Color(0xFFF0FDF4),
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: const Color(0xFFBBF7D0)),
+            border: Border.all(color: Color(0xFFBBF7D0)),
           ),
           child: Row(
             children: [
-              const Icon(Icons.local_offer_outlined, color: _kGreen, size: 14),
-              const SizedBox(width: 6),
+              Icon(Icons.local_offer_outlined, color: _kGreen, size: 14),
+              SizedBox(width: 6),
               Text(
-                'Buyers save ₹${ctrl.savings} (${ctrl.discountPercent}% off)',
-                style: const TextStyle(
+                '${'Buyers save'.tr} ₹${ctrl.savings} (${ctrl.discountPercent}% ${'off'.tr})',
+                style: TextStyle(
                   fontSize: 11,
                   color: _kGreen,
                   fontWeight: FontWeight.w500,
@@ -945,7 +955,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
           ),
         ),
 
-      const SizedBox(height: 16),
+      SizedBox(height: 16),
 
       Row(
         children: [
@@ -953,7 +963,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _fieldLabel('Purchased On'),
+                _fieldLabel('Purchased On'.tr),
                 GestureDetector(
                   onTap: _pickDate,
                   child: Container(
@@ -966,12 +976,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     ),
                     child: Row(
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.calendar_month_outlined,
                           color: _kRed,
                           size: 16,
                         ),
-                        const SizedBox(width: 8),
+                        SizedBox(width: 8),
                         Text(
                           ctrl.purchasedOn != null
                               ? DateFormat(
@@ -983,8 +993,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
                             color: ctrl.purchasedOn != null ? _kLabel : _kHint,
                           ),
                         ),
-                        const Spacer(),
-                        const Icon(
+                        Spacer(),
+                        Icon(
                           Icons.keyboard_arrow_down,
                           color: _kSubLabel,
                           size: 18,
@@ -996,12 +1006,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
               ],
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _fieldLabel('Brand'),
+                _fieldLabel('Brand'.tr),
                 _inputField(
                   controller: ctrl.brandController,
                   hint: 'Fisher-Price',
@@ -1021,20 +1031,20 @@ class _AddItemScreenState extends State<AddItemScreen> {
   Widget _infoStep(AddMarketplaceController ctrl) => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      const Text(
-        'More Information',
+      Text(
+        'More Information'.tr,
         style: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w700,
           color: _kLabel,
         ),
       ),
-      const SizedBox(height: 4),
-      const Text(
-        'Add more details to help buyers know your item better.',
+      SizedBox(height: 4),
+      Text(
+        'Add more details to help buyers know your item better.'.tr,
         style: TextStyle(fontSize: 13, color: _kSubLabel),
       ),
-      const SizedBox(height: 20),
+      SizedBox(height: 20),
 
       Row(
         children: [
@@ -1042,7 +1052,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _fieldLabel('Pin Code *'),
+                _fieldLabel('Pin Code *'.tr),
                 _inputField(
                   controller: _pincodeCtrl,
                   hint: '600001',
@@ -1051,7 +1061,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     FilteringTextInputFormatter.digitsOnly,
                     LengthLimitingTextInputFormatter(10),
                   ],
-                  prefixIcon: const Icon(
+                  prefixIcon: Icon(
                     Icons.location_on_outlined,
                     color: _kSubLabel,
                     size: 18,
@@ -1060,12 +1070,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
               ],
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _fieldLabel('Place *'),
+                _fieldLabel('Place *'.tr),
                 _inputField(
                   controller: ctrl.placeController,
                   hint: 'e.g. Alappuzha, Kerala',
@@ -1075,9 +1085,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
           ),
         ],
       ),
-      const SizedBox(height: 16),
+      SizedBox(height: 16),
 
-      _fieldLabel('Description *'),
+      _fieldLabel('Description *'.tr),
       Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -1088,9 +1098,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
           controller: ctrl.descriptionController,
           maxLines: 5,
           maxLength: 500,
-          style: const TextStyle(fontSize: 14, color: _kLabel),
-          decoration: const InputDecoration(
-            hintText: 'Tell us more about the item (min 10 characters)',
+          style: TextStyle(fontSize: 14, color: _kLabel),
+          decoration: InputDecoration(
+            hintText: 'Tell us more about the item (min 10 characters)'.tr,
             hintStyle: TextStyle(color: _kHint, fontSize: 14),
             border: InputBorder.none,
             contentPadding: EdgeInsets.all(12),
@@ -1098,69 +1108,69 @@ class _AddItemScreenState extends State<AddItemScreen> {
           ),
         ),
       ),
-      const SizedBox(height: 16),
+      SizedBox(height: 16),
 
-      _fieldLabel('Materials'),
+      _fieldLabel('Materials'.tr),
       _tagInputField(
         tags: ctrl.materials,
         inputCtrl: _materialsInputCtrl,
         focusNode: _materialsFocus,
-        hint: '+ Add',
+        hint: '+ Add'.tr,
         onAdd: () {
           controller.addMaterial(_materialsInputCtrl.text.trim());
           _materialsInputCtrl.clear();
         },
         onRemove: ctrl.removeMaterial,
       ),
-      const SizedBox(height: 16),
+      SizedBox(height: 16),
 
-      _fieldLabel('Colors'),
+      _fieldLabel('Colors'.tr),
       _tagInputField(
         tags: ctrl.colors,
         inputCtrl: _colorsInputCtrl,
         focusNode: _colorsFocus,
-        hint: '+ Add',
+        hint: '+ Add'.tr,
         onAdd: () {
           controller.addColor(_colorsInputCtrl.text.trim());
           _colorsInputCtrl.clear();
         },
         onRemove: ctrl.removeColor,
       ),
-      const SizedBox(height: 16),
+      SizedBox(height: 16),
 
-      _fieldLabel('Dimensions'),
+      _fieldLabel('Dimensions'.tr),
       _inputField(
         controller: ctrl.dimensionsController,
         hint: '60cm x 40cm x 35cm',
-        prefixIcon: const Icon(
+        prefixIcon: Icon(
           Icons.straighten_outlined,
           color: _kSubLabel,
           size: 18,
         ),
       ),
-      const SizedBox(height: 16),
+      SizedBox(height: 16),
 
-      _fieldLabel('Box Contains'),
+      _fieldLabel('Box Contains'.tr),
       _tagInputField(
         tags: ctrl.boxContains,
         inputCtrl: _boxInputCtrl,
         focusNode: _boxFocus,
-        hint: '+ Add',
+        hint: '+ Add'.tr,
         onAdd: () {
           controller.addBoxItem(_boxInputCtrl.text.trim());
           _boxInputCtrl.clear();
         },
         onRemove: ctrl.removeBoxItem,
       ),
-      const SizedBox(height: 20),
+      SizedBox(height: 20),
 
       Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: const Color(0xFFFFF5F5),
+          color: Color(0xFFFFF5F5),
           borderRadius: BorderRadius.circular(12),
         ),
-        child: const Row(
+        child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Icon(Icons.lightbulb_outline, color: _kRed, size: 16),
@@ -1170,7 +1180,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Tips',
+                    'Tips'.tr,
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
@@ -1179,7 +1189,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   ),
                   SizedBox(height: 2),
                   Text(
-                    'More details build trust and help you sell faster!',
+                    'More details build trust and help you sell faster!'.tr,
                     style: TextStyle(fontSize: 12, color: _kSubLabel),
                   ),
                 ],
@@ -1203,20 +1213,20 @@ class _AddItemScreenState extends State<AddItemScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Review Your Listing',
+        Text(
+          'Review Your Listing'.tr,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w700,
             color: _kLabel,
           ),
         ),
-        const SizedBox(height: 4),
-        const Text(
-          'Please review all details before posting your item.',
+        SizedBox(height: 4),
+        Text(
+          'Please review all details before posting your item.'.tr,
           style: TextStyle(fontSize: 13, color: _kSubLabel),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16),
 
         Container(
           padding: const EdgeInsets.all(12),
@@ -1241,8 +1251,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
                               fit: BoxFit.cover,
                             )
                           : Container(
-                              color: const Color(0xFFF5F5F5),
-                              child: const Icon(
+                              color: Color(0xFFF5F5F5),
+                              child: Icon(
                                 Icons.image_outlined,
                                 color: _kSubLabel,
                               ),
@@ -1254,14 +1264,14 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       right: 0,
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 3),
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           color: _kRed,
                           borderRadius: BorderRadius.vertical(
                             bottom: Radius.circular(10),
                           ),
                         ),
-                        child: const Text(
-                          'Primary',
+                        child: Text(
+                          'Primary'.tr,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.white,
@@ -1274,7 +1284,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   ],
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -1282,29 +1292,29 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     Text(
                       ctrl.titleController.text.trim().isNotEmpty
                           ? ctrl.titleController.text.trim()
-                          : 'Item Title',
-                      style: const TextStyle(
+                          : 'Item Title'.tr,
+                      style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
                         color: _kLabel,
                       ),
                     ),
-                    const SizedBox(height: 6),
+                    SizedBox(height: 6),
                     Row(
                       children: [
                         Text(
                           '₹$price',
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: _kRed,
                             fontSize: 18,
                             fontWeight: FontWeight.w800,
                           ),
                         ),
-                        const SizedBox(width: 6),
+                        SizedBox(width: 6),
                         if (origPrice != null)
                           Text(
                             '₹$origPrice',
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: _kSubLabel,
                               fontSize: 13,
                               decoration: TextDecoration.lineThrough,
@@ -1314,19 +1324,19 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       ],
                     ),
                     if (disc != null) ...[
-                      const SizedBox(height: 4),
+                      SizedBox(height: 4),
                       Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 7,
                           vertical: 3,
                         ),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFDCFCE7),
+                          color: Color(0xFFDCFCE7),
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: Text(
                           '$disc% OFF',
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: _kGreen,
                             fontSize: 11,
                             fontWeight: FontWeight.w700,
@@ -1341,7 +1351,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
           ),
         ),
 
-        const SizedBox(height: 16),
+        SizedBox(height: 16),
 
         Container(
           decoration: BoxDecoration(
@@ -1354,21 +1364,21 @@ class _AddItemScreenState extends State<AddItemScreen> {
               _reviewRow(
                 Icons.sell_outlined,
                 _kRed,
-                'Category',
+                'Category'.tr,
                 _catLabel(ctrl.selectedCategory),
               ),
               _reviewDivider(),
               _reviewRow(
                 Icons.circle,
                 _condDot(ctrl.selectedCondition),
-                'Condition',
+                'Condition'.tr,
                 _condLabel(ctrl.selectedCondition),
               ),
               _reviewDivider(),
               _reviewRow(
                 Icons.branding_watermark_outlined,
                 _kSubLabel,
-                'Brand',
+                'Brand'.tr,
                 ctrl.brandController.text.isNotEmpty
                     ? ctrl.brandController.text
                     : '—',
@@ -1377,7 +1387,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
               _reviewRow(
                 Icons.calendar_today_outlined,
                 _kSubLabel,
-                'Purchased On',
+                'Purchased On'.tr,
                 ctrl.purchasedOn != null
                     ? DateFormat('dd MMM yyyy').format(ctrl.purchasedOn!)
                     : '—',
@@ -1386,14 +1396,14 @@ class _AddItemScreenState extends State<AddItemScreen> {
               _reviewRow(
                 Icons.location_on_outlined,
                 _kSubLabel,
-                'Location',
+                'Location'.tr,
                 '${ctrl.placeController.text} (${_pincodeCtrl.text})',
               ),
               _reviewDivider(),
               _reviewRow(
                 Icons.attach_money_outlined,
                 _kSubLabel,
-                'Price',
+                'Price'.tr,
                 disc != null
                     ? '₹$price (${disc}% off)\nOriginal: ₹${ctrl.originalPriceController.text}'
                     : '₹$price',
@@ -1403,20 +1413,20 @@ class _AddItemScreenState extends State<AddItemScreen> {
                 _reviewRow(
                   Icons.texture_outlined,
                   _kSubLabel,
-                  'Materials',
+                  'Materials'.tr,
                   ctrl.materials.join(', '),
                 ),
               ],
               if (ctrl.colors.isNotEmpty) ...[
                 _reviewDivider(),
-                _reviewRowColors('Colors', ctrl.colors),
+                _reviewRowColors('Colors'.tr, ctrl.colors),
               ],
               if (ctrl.descriptionController.text.isNotEmpty) ...[
                 _reviewDivider(),
                 _reviewRow(
                   Icons.description_outlined,
                   _kSubLabel,
-                  'Description',
+                  'Description'.tr,
                   ctrl.descriptionController.text.length > 80
                       ? '${ctrl.descriptionController.text.substring(0, 80)}...'
                       : ctrl.descriptionController.text,
@@ -1426,14 +1436,14 @@ class _AddItemScreenState extends State<AddItemScreen> {
           ),
         ),
 
-        const SizedBox(height: 16),
+        SizedBox(height: 16),
 
         Container(
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: const Color(0xFFF0FDF4),
+            color: Color(0xFFF0FDF4),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: const Color(0xFFBBF7D0)),
+            border: Border.all(color: Color(0xFFBBF7D0)),
           ),
           child: Row(
             children: [
@@ -1441,26 +1451,23 @@ class _AddItemScreenState extends State<AddItemScreen> {
                 width: 32,
                 height: 32,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFEFFBF3),
+                  color: Color(0xFFEFFBF3),
                   borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: const Color(0xFF22C55E),
-                    width: 1.2,
-                  ),
+                  border: Border.all(color: Color(0xFF22C55E), width: 1.2),
                 ),
-                child: const Icon(
+                child: Icon(
                   Icons.verified_user_outlined,
                   color: Color(0xFF22C55E),
                   size: 18,
                 ),
               ),
-              const SizedBox(width: 12),
-              const Expanded(
+              SizedBox(width: 12),
+              Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Your listing looks good!',
+                      'Your listing looks good!'.tr,
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
@@ -1468,7 +1475,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       ),
                     ),
                     Text(
-                      'Buyers will see all details clearly.',
+                      'Buyers will see all details clearly.'.tr,
                       style: TextStyle(fontSize: 12, color: _kSubLabel),
                     ),
                   ],
@@ -1477,7 +1484,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16),
       ],
     );
   }
@@ -1492,14 +1499,14 @@ class _AddItemScreenState extends State<AddItemScreen> {
     child: Row(
       children: [
         Icon(icon, size: 16, color: iconColor),
-        const SizedBox(width: 10),
-        Text(label, style: const TextStyle(fontSize: 13, color: _kSubLabel)),
-        const SizedBox(width: 8),
+        SizedBox(width: 10),
+        Text(label, style: TextStyle(fontSize: 13, color: _kSubLabel)),
+        SizedBox(width: 8),
         Expanded(
           child: Text(
             value,
             textAlign: TextAlign.right,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
               color: _kLabel,
@@ -1514,10 +1521,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
     padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
     child: Row(
       children: [
-        const Icon(Icons.color_lens_outlined, size: 16, color: _kSubLabel),
-        const SizedBox(width: 10),
-        Text(label, style: const TextStyle(fontSize: 13, color: _kSubLabel)),
-        const Spacer(),
+        Icon(Icons.color_lens_outlined, size: 16, color: _kSubLabel),
+        SizedBox(width: 10),
+        Text(label, style: TextStyle(fontSize: 13, color: _kSubLabel)),
+        Spacer(),
         Row(
           children: colors
               .take(4)
@@ -1588,7 +1595,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
           ),
         ),
         child: ctrl.isLoading
-            ? const SizedBox(
+            ? SizedBox(
                 width: 22,
                 height: 22,
                 child: CircularProgressIndicator(
@@ -1601,13 +1608,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
                 children: [
                   Text(
                     _stepNext[_step],
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700,
-                    ),
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
                   ),
-                  const SizedBox(width: 6),
-                  const Icon(Icons.arrow_forward_ios, size: 13),
+                  SizedBox(width: 6),
+                  Icon(Icons.arrow_forward_ios, size: 13),
                 ],
               ),
       ),
@@ -1618,7 +1622,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     padding: const EdgeInsets.only(bottom: 6),
     child: Text(
       text,
-      style: const TextStyle(
+      style: TextStyle(
         fontSize: 13,
         fontWeight: FontWeight.w600,
         color: _kLabel,
@@ -1642,29 +1646,29 @@ class _AddItemScreenState extends State<AddItemScreen> {
     keyboardType: keyboardType,
     maxLength: maxLength,
     inputFormatters: inputFormatters,
-    style: const TextStyle(fontSize: 14, color: _kLabel),
+    style: TextStyle(fontSize: 14, color: _kLabel),
     onChanged: (_) => setState(() {}),
     decoration: InputDecoration(
       hintText: hint,
-      hintStyle: const TextStyle(color: _kHint, fontSize: 14),
+      hintStyle: TextStyle(color: _kHint, fontSize: 14),
       filled: true,
       fillColor: Colors.white,
       prefixText: (usePrefix && prefix != null) ? prefix : null,
-      prefixStyle: const TextStyle(fontSize: 14, color: _kLabel),
+      prefixStyle: TextStyle(fontSize: 14, color: _kLabel),
       prefixIcon: prefixIcon,
       suffixIcon: suffixIcon,
       counterText: showCounter ? null : '',
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
-        borderSide: const BorderSide(color: _kBorder),
+        borderSide: BorderSide(color: _kBorder),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
-        borderSide: const BorderSide(color: _kBorder),
+        borderSide: BorderSide(color: _kBorder),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
-        borderSide: const BorderSide(color: _kRed, width: 1.5),
+        borderSide: BorderSide(color: _kRed, width: 1.5),
       ),
       contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
     ),
@@ -1690,8 +1694,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
       child: DropdownButton<T>(
         value: value,
         isExpanded: true,
-        icon: const Icon(Icons.keyboard_arrow_down, color: _kSubLabel),
-        style: const TextStyle(fontSize: 14, color: _kLabel),
+        icon: Icon(Icons.keyboard_arrow_down, color: _kSubLabel),
+        style: TextStyle(fontSize: 14, color: _kLabel),
         items: items
             .map(
               (item) => DropdownMenuItem<T>(
@@ -1704,7 +1708,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                         color: iconColor ?? _kSubLabel,
                         size: 16,
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: 8),
                     ],
                     if (leadingDot && item == value) ...[
                       Container(
@@ -1715,7 +1719,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                           shape: BoxShape.circle,
                         ),
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: 8),
                     ],
                     Text(label(item)),
                   ],
@@ -1751,17 +1755,17 @@ class _AddItemScreenState extends State<AddItemScreen> {
           (t) => Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
             decoration: BoxDecoration(
-              color: const Color(0xFFF5F5F5),
+              color: Color(0xFFF5F5F5),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(t, style: const TextStyle(fontSize: 13, color: _kLabel)),
-                const SizedBox(width: 4),
+                Text(t, style: TextStyle(fontSize: 13, color: _kLabel)),
+                SizedBox(width: 4),
                 GestureDetector(
                   onTap: () => onRemove(t),
-                  child: const Icon(Icons.close, size: 13, color: _kSubLabel),
+                  child: Icon(Icons.close, size: 13, color: _kSubLabel),
                 ),
               ],
             ),
@@ -1769,11 +1773,11 @@ class _AddItemScreenState extends State<AddItemScreen> {
         ),
         IntrinsicWidth(
           child: ConstrainedBox(
-            constraints: const BoxConstraints(minWidth: 60, maxWidth: 100),
+            constraints: BoxConstraints(minWidth: 60, maxWidth: 100),
             child: TextField(
               controller: inputCtrl,
               focusNode: focusNode,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 13,
                 color: _kRed,
                 fontWeight: FontWeight.w600,
@@ -1781,7 +1785,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
               onSubmitted: (_) => onAdd(),
               decoration: InputDecoration(
                 hintText: hint,
-                hintStyle: const TextStyle(
+                hintStyle: TextStyle(
                   color: _kRed,
                   fontSize: 13,
                   fontWeight: FontWeight.w600,

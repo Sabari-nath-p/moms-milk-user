@@ -124,6 +124,20 @@ class MarketController extends GetxController {
             final List<dynamic> data = jsonData["data"] ?? [];
             print("======= DATA LENGTH: ${data.length} =======");
 
+            // DEBUG: find exact distance field name from API
+            if (data.isNotEmpty) {
+              final firstItem = data[0] as Map<String, dynamic>;
+              print("======= ALL KEYS: ${firstItem.keys.toList()} =======");
+              final distKeys = firstItem.keys
+                  .where((k) => k.toLowerCase().contains('dist'))
+                  .toList();
+              print("======= DISTANCE KEYS: $distKeys =======");
+              for (final k in distKeys) {
+                print("======= $k = ${firstItem[k]} =======");
+              }
+              print("======= distanceKm = ${firstItem['distanceKm']} =======");
+            }
+
             final fetchedListings = data
                 .map((e) => MarketplaceListing.fromJson(e))
                 .toList();

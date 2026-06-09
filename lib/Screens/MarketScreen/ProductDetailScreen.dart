@@ -5,7 +5,7 @@ import 'package:mommilk_user/Screens/ChatListScreen/Controller/ChatController.da
 
 class ProductDetailsScreen extends StatefulWidget {
   final int listingId;
-  const ProductDetailsScreen({super.key, required this.listingId});
+  ProductDetailsScreen({super.key, required this.listingId});
 
   @override
   State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
@@ -41,32 +41,32 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       case 'NEW':
       case 'LIKE_NEW':
       case 'EXCELLENT':
-        return const Color(0xFF16A34A);
+        return Color(0xFF16A34A);
       case 'GOOD':
-        return const Color(0xFFF59E0B);
+        return Color(0xFFF59E0B);
       case 'FAIR':
-        return const Color(0xFFF97316);
+        return Color(0xFFF97316);
       case 'POOR':
-        return const Color(0xFFDC2626);
+        return Color(0xFFDC2626);
       default:
-        return const Color(0xFF6B7280);
+        return Color(0xFF6B7280);
     }
   }
 
   String _conditionLabel(String c) {
     switch (c) {
       case 'LIKE_NEW':
-        return 'Like New';
+        return 'Like New'.tr;
       case 'NEW':
-        return 'New';
+        return 'New'.tr;
       case 'EXCELLENT':
-        return 'Excellent';
+        return 'Excellent'.tr;
       case 'GOOD':
-        return 'Good';
+        return 'Good'.tr;
       case 'FAIR':
-        return 'Fair';
+        return 'Fair'.tr;
       case 'POOR':
-        return 'Poor';
+        return 'Poor'.tr;
       default:
         return c.replaceAll('_', ' ');
     }
@@ -75,17 +75,17 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   Color _categoryBadgeColor(String cat) {
     switch (cat) {
       case 'TOYS':
-        return const Color(0xFF7C3AED);
+        return Color(0xFF7C3AED);
       case 'CRADLES':
-        return const Color(0xFFEC4899);
+        return Color(0xFFEC4899);
       case 'STROLLERS':
-        return const Color(0xFF2563EB);
+        return Color(0xFF2563EB);
       case 'CLOTHING':
-        return const Color(0xFFF59E0B);
+        return Color(0xFFF59E0B);
       case 'FEEDING':
-        return const Color(0xFF10B981);
+        return Color(0xFF10B981);
       default:
-        return const Color(0xFF6B7280);
+        return Color(0xFF6B7280);
     }
   }
 
@@ -94,7 +94,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     return GetBuilder<MarketController>(
       builder: (ctrl) {
         if (ctrl.isDetailsLoading) {
-          return const Scaffold(
+          return Scaffold(
             body: Center(
               child: CircularProgressIndicator(color: Color(0xFFE8453C)),
             ),
@@ -112,7 +112,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         final catLabel = p.category
             .split('_')
             .map((w) => w[0].toUpperCase() + w.substring(1).toLowerCase())
-            .join(' ');
+            .join(' ')
+            .tr;
 
         final int? originPrice = p.originPrice;
         final int? discountPct = p.discountPercent;
@@ -149,18 +150,18 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 14),
+                        SizedBox(height: 14),
 
                         // Title
                         Text(
                           p.title,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
                             color: Colors.black,
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        SizedBox(height: 8),
 
                         // Price row
                         Row(
@@ -168,13 +169,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           children: [
                             Text(
                               '₹${p.price.toStringAsFixed(0)}',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: _red,
                                 fontSize: 22,
                                 fontWeight: FontWeight.w800,
                               ),
                             ),
-                            const SizedBox(width: 8),
+                            SizedBox(width: 8),
                             if (originPrice != null)
                               Text(
                                 '₹$originPrice',
@@ -185,7 +186,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   decorationColor: Colors.grey.shade400,
                                 ),
                               ),
-                            const SizedBox(width: 8),
+                            SizedBox(width: 8),
                             if (discountPct != null)
                               Container(
                                 padding: const EdgeInsets.symmetric(
@@ -193,12 +194,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   vertical: 3,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: const Color(0xFFDCFCE7),
+                                  color: Color(0xFFDCFCE7),
                                   borderRadius: BorderRadius.circular(5),
                                 ),
                                 child: Text(
                                   '$discountPct% OFF',
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     color: Color(0xFF16A34A),
                                     fontSize: 12,
                                     fontWeight: FontWeight.w700,
@@ -207,7 +208,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               ),
                           ],
                         ),
-                        const SizedBox(height: 10),
+                        SizedBox(height: 10),
 
                         // Condition row
                         Row(
@@ -230,7 +231,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 8),
+                            SizedBox(width: 8),
                             if (usedDuration != null)
                               Container(
                                 padding: const EdgeInsets.symmetric(
@@ -242,21 +243,21 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   borderRadius: BorderRadius.circular(7),
                                 ),
                                 child: Text(
-                                  'Used $usedDuration',
-                                  style: const TextStyle(
+                                  '${'Used'.tr} $usedDuration',
+                                  style: TextStyle(
                                     color: Colors.black54,
                                     fontSize: 13,
                                   ),
                                 ),
                               ),
-                            const SizedBox(width: 8),
+                            SizedBox(width: 8),
                             if (originPrice != null)
                               Expanded(
                                 child: Row(
                                   children: [
                                     Flexible(
                                       child: Text(
-                                        'Original Price: ₹$originPrice',
+                                        '${'Original Price'.tr}: ₹$originPrice',
                                         style: TextStyle(
                                           fontSize: 11,
                                           color: Colors.grey.shade500,
@@ -264,7 +265,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
-                                    const SizedBox(width: 3),
+                                    SizedBox(width: 3),
                                     Icon(
                                       Icons.info_outline,
                                       size: 13,
@@ -275,13 +276,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               ),
                           ],
                         ),
-                        const SizedBox(height: 14),
+                        SizedBox(height: 14),
 
                         // Seller card
                         Container(
                           padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
                           decoration: BoxDecoration(
-                            color: const Color(0xFFF9F9F9),
+                            color: Color(0xFFF9F9F9),
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(color: Colors.grey.shade200),
                           ),
@@ -293,19 +294,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 children: [
                                   CircleAvatar(
                                     radius: 20,
-                                    backgroundColor: const Color(0xFFFFD7CF),
+                                    backgroundColor: Color(0xFFFFD7CF),
                                     child: Text(
                                       p.user.name.isNotEmpty
                                           ? p.user.name[0].toUpperCase()
                                           : 'U',
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontWeight: FontWeight.w700,
                                         fontSize: 16,
                                         color: Colors.black87,
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                  SizedBox(width: 10),
                                   Expanded(
                                     child: Column(
                                       crossAxisAlignment:
@@ -317,7 +318,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                               child: Text(
                                                 p.user.name,
                                                 overflow: TextOverflow.ellipsis,
-                                                style: const TextStyle(
+                                                style: TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w700,
                                                 ),
@@ -325,9 +326,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                             ),
                                           ],
                                         ),
-                                        const SizedBox(height: 3),
+                                        SizedBox(height: 3),
                                         Text(
-                                          'Active $activeAgo  •  $totalListings Listings',
+                                          '${'Active'.tr} $activeAgo  •  $totalListings ${'Listings'.tr}',
                                           style: TextStyle(
                                             fontSize: 11,
                                             color: Colors.grey.shade500,
@@ -339,27 +340,27 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 10),
+                              SizedBox(height: 10),
                               Divider(height: 1, color: Colors.grey.shade200),
-                              const SizedBox(height: 10),
+                              SizedBox(height: 10),
                               Row(
                                 children: [
-                                  const Icon(
+                                  Icon(
                                     Icons.location_on,
                                     color: _red,
                                     size: 15,
                                   ),
-                                  const SizedBox(width: 5),
+                                  SizedBox(width: 5),
                                   Text(
                                     p.placeName.isNotEmpty ? p.placeName : '—',
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
-                                  const SizedBox(width: 8),
+                                  SizedBox(width: 8),
                                   Text(
-                                    '— km away',
+                                    '— ${'km away'.tr}',
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: Colors.grey.shade500,
@@ -371,24 +372,24 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           ),
                         ),
 
-                        const SizedBox(height: 18),
+                        SizedBox(height: 18),
 
                         // Product Details
-                        const Text(
-                          'Product Details',
+                        Text(
+                          'Product Details'.tr,
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        SizedBox(height: 8),
                         Text(
                           p.description,
                           maxLines: _descExpanded ? null : 4,
                           overflow: _descExpanded
                               ? TextOverflow.visible
                               : TextOverflow.ellipsis,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 14,
                             color: Colors.black87,
                             height: 1.55,
@@ -401,8 +402,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             child: Padding(
                               padding: const EdgeInsets.only(top: 4),
                               child: Text(
-                                _descExpanded ? 'View less ∧' : 'View more ∨',
-                                style: const TextStyle(
+                                _descExpanded
+                                    ? 'View less ∧'.tr
+                                    : 'View more ∨'.tr,
+                                style: TextStyle(
                                   color: _red,
                                   fontSize: 13,
                                   fontWeight: FontWeight.w600,
@@ -411,39 +414,39 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             ),
                           ),
 
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16),
 
                         _specGrid([
                           _Spec(
                             Icons.sell_outlined,
-                            'Category',
+                            'Category'.tr,
                             catLabel.isNotEmpty ? catLabel : '—',
                           ),
-                          _Spec(Icons.star_border, 'Condition', condLabel),
+                          _Spec(Icons.star_border, 'Condition'.tr, condLabel),
                           _Spec(
                             Icons.branding_watermark_outlined,
-                            'Brand',
+                            'Brand'.tr,
                             brand ?? '—',
                           ),
                           _Spec(
                             Icons.people_outline,
-                            'Suitable For',
-                            '0 – 24 Months',
+                            'Suitable For'.tr,
+                            '0 – 24 Months'.tr,
                           ),
-                          _Spec(Icons.texture, 'Material', material ?? '—'),
+                          _Spec(Icons.texture, 'Material'.tr, material ?? '—'),
                           _Spec(
                             Icons.straighten,
-                            'Dimensions',
+                            'Dimensions'.tr,
                             dimensions ?? '—',
                           ),
                           _Spec(
                             Icons.color_lens_outlined,
-                            'Color',
+                            'Color'.tr,
                             color ?? '—',
                           ),
                           _Spec(
                             Icons.category_outlined,
-                            'Type',
+                            'Type'.tr,
                             p.boxContains.isNotEmpty
                                 ? p.boxContains.join(', ')
                                 : '—',
@@ -454,8 +457,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           onTap: () =>
                               setState(() => _specsExpanded = !_specsExpanded),
                           child: Text(
-                            _specsExpanded ? 'View less ∧' : 'View more ∨',
-                            style: const TextStyle(
+                            _specsExpanded
+                                ? 'View less ∧'.tr
+                                : 'View more ∨'.tr,
+                            style: TextStyle(
                               color: _red,
                               fontSize: 13,
                               fontWeight: FontWeight.w600,
@@ -463,32 +468,32 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           ),
                         ),
 
-                        const SizedBox(height: 18),
+                        SizedBox(height: 18),
                         Divider(color: Colors.grey.shade200),
-                        const SizedBox(height: 14),
+                        SizedBox(height: 14),
 
                         // About the Seller
-                        const Text(
-                          'About the Seller',
+                        Text(
+                          'About the Seller'.tr,
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
-                        const SizedBox(height: 12),
+                        SizedBox(height: 12),
                         _aboutRow(Icons.calendar_today_outlined, joinedLabel),
-                        const SizedBox(height: 10),
+                        SizedBox(height: 10),
                         _aboutRow(
                           Icons.chat_outlined,
-                          'Responds within 1 hour',
+                          'Responds within 1 hour'.tr,
                         ),
-                        const SizedBox(height: 10),
+                        SizedBox(height: 10),
                         _aboutRow(
                           Icons.bolt_outlined,
-                          'Usually replies quickly',
+                          'Usually replies quickly'.tr,
                         ),
 
-                        const SizedBox(height: 100),
+                        SizedBox(height: 100),
                       ],
                     ),
                   ),
@@ -558,12 +563,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                           child: Image.network(
                                             images[i].url,
                                             fit: BoxFit.contain,
-                                            errorBuilder: (_, __, ___) =>
-                                                const Icon(
-                                                  Icons.broken_image,
-                                                  color: Colors.white,
-                                                  size: 60,
-                                                ),
+                                            errorBuilder: (_, __, ___) => Icon(
+                                              Icons.broken_image,
+                                              color: Colors.white,
+                                              size: 60,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -575,11 +579,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                           child: Container(
                                             width: 34,
                                             height: 34,
-                                            decoration: const BoxDecoration(
+                                            decoration: BoxDecoration(
                                               color: Colors.black45,
                                               shape: BoxShape.circle,
                                             ),
-                                            child: const Icon(
+                                            child: Icon(
                                               Icons.close,
                                               color: Colors.white,
                                               size: 18,
@@ -597,7 +601,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               fit: BoxFit.cover,
                               errorBuilder: (_, __, ___) => Container(
                                 color: Colors.grey.shade100,
-                                child: const Icon(
+                                child: Icon(
                                   Icons.image_outlined,
                                   size: 48,
                                   color: Colors.grey,
@@ -608,7 +612,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         )
                       : Container(
                           color: Colors.grey.shade100,
-                          child: const Icon(
+                          child: Icon(
                             Icons.image_outlined,
                             size: 48,
                             color: Colors.grey,
@@ -660,8 +664,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
-                        '$condLabel Condition',
-                        style: const TextStyle(
+                        '$condLabel ${'Condition'.tr}',
+                        style: TextStyle(
                           color: Colors.white,
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
@@ -686,10 +690,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         ),
                         child: Text(
                           '${_imgIndex + 1} / ${images.length}',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 11,
-                          ),
+                          style: TextStyle(color: Colors.white, fontSize: 11),
                         ),
                       ),
                     ),
@@ -711,12 +712,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   onTap: () {
                     _pageCtrl.animateToPage(
                       i,
-                      duration: const Duration(milliseconds: 250),
+                      duration: Duration(milliseconds: 250),
                       curve: Curves.easeInOut,
                     );
                   },
                   child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
+                    duration: Duration(milliseconds: 200),
                     margin: const EdgeInsets.symmetric(horizontal: 3),
                     width: active ? 20 : 8,
                     height: 8,
@@ -745,7 +746,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     onTap: () {
                       _pageCtrl.animateToPage(
                         i,
-                        duration: const Duration(milliseconds: 250),
+                        duration: Duration(milliseconds: 250),
                         curve: Curves.easeInOut,
                       );
                     },
@@ -767,7 +768,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           fit: BoxFit.cover,
                           errorBuilder: (_, __, ___) => Container(
                             color: Colors.grey.shade100,
-                            child: const Icon(
+                            child: Icon(
                               Icons.image_outlined,
                               size: 20,
                               color: Colors.grey,
@@ -816,7 +817,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         BoxShadow(
           color: Colors.black.withOpacity(0.08),
           blurRadius: 12,
-          offset: const Offset(0, -2),
+          offset: Offset(0, -2),
         ),
       ],
     ),
@@ -840,9 +841,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             borderRadius: BorderRadius.circular(12),
           ),
         ),
-        icon: const Icon(Icons.chat_bubble_outline, size: 18),
-        label: const Text(
-          'Chat With Seller',
+        icon: Icon(Icons.chat_bubble_outline, size: 18),
+        label: Text(
+          'Chat With Seller'.tr,
           style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
         ),
       ),
@@ -859,11 +860,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(child: _specCell(items[i])),
-              const SizedBox(width: 16),
+              SizedBox(width: 16),
               Expanded(
                 child: i + 1 < items.length
                     ? _specCell(items[i + 1])
-                    : const SizedBox(),
+                    : SizedBox(),
               ),
             ],
           ),
@@ -877,7 +878,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Icon(s.icon, size: 15, color: Colors.grey.shade400),
-      const SizedBox(width: 6),
+      SizedBox(width: 6),
       Expanded(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -886,10 +887,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               s.label,
               style: TextStyle(fontSize: 11, color: Colors.grey.shade500),
             ),
-            const SizedBox(height: 2),
+            SizedBox(height: 2),
             Text(
               s.value,
-              style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
             ),
           ],
         ),
@@ -900,7 +901,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   Widget _aboutRow(IconData icon, String text) => Row(
     children: [
       Icon(icon, size: 15, color: Colors.grey.shade400),
-      const SizedBox(width: 8),
+      SizedBox(width: 8),
       Flexible(
         child: Text(
           text,

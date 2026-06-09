@@ -70,8 +70,8 @@ class _EditListingScreenState extends State<EditListingScreen> {
                   ),
                 ),
               ),
-              const Text(
-                'Add Photo',
+              Text(
+                'Add Photo'.tr,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
@@ -94,12 +94,12 @@ class _EditListingScreenState extends State<EditListingScreen> {
                     size: 22,
                   ),
                 ),
-                title: const Text(
-                  'Take a Photo',
+                title: Text(
+                  'Take a Photo'.tr,
                   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
                 ),
-                subtitle: const Text(
-                  'Open camera and click a photo',
+                subtitle: Text(
+                  'Open camera and click a photo'.tr,
                   style: TextStyle(fontSize: 12, color: Color(0xFF6B7280)),
                 ),
                 trailing: const Icon(
@@ -134,12 +134,12 @@ class _EditListingScreenState extends State<EditListingScreen> {
                     size: 22,
                   ),
                 ),
-                title: const Text(
-                  'Choose from Gallery',
+                title: Text(
+                  'Choose from Gallery'.tr,
                   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
                 ),
-                subtitle: const Text(
-                  'Select one or more photos',
+                subtitle: Text(
+                  'Select one or more photos'.tr,
                   style: TextStyle(fontSize: 12, color: Color(0xFF6B7280)),
                 ),
                 trailing: const Icon(
@@ -414,7 +414,7 @@ class _EditListingScreenState extends State<EditListingScreen> {
                                 onTap: () {
                                   // Absorb tap so parent GestureDetector (pickImages) is NOT triggered
                                   Get.snackbar(
-                                    'Cannot Remove',
+                                    'Cannot Remove'.tr,
                                     'At least 1 photo is required.',
                                     backgroundColor: const Color(0xFFE8453C),
                                     colorText: Colors.white,
@@ -507,7 +507,7 @@ class _EditListingScreenState extends State<EditListingScreen> {
               Text(
                 hasImages
                     ? '${images.length} photo${images.length == 1 ? '' : 's'} • Swipe to browse • Tap image to add more'
-                    : 'At least 1 photo is required',
+                    : 'At least 1 photo is required'.tr,
                 style: TextStyle(
                   fontSize: 12.sp,
                   color: hasImages ? Colors.grey.shade600 : primaryRed,
