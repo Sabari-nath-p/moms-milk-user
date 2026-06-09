@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Models/MarketListingModel.dart';
 import 'package:mommilk_user/Models/MarketPlaceDetailModel.dart';
+import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
 import 'package:mommilk_user/Utils/ApiService.dart';
 
 class MarketController extends GetxController {
@@ -64,7 +65,7 @@ class MarketController extends GetxController {
     String condition = "",
     int minPriceVal = 0,
     int maxPriceVal = 0,
-    double maxDistanceVal = 0,
+    double maxDistanceVal = 100000,
     String sortByVal = "",
     int page = 1,
     int limit = 20,
@@ -104,13 +105,13 @@ class MarketController extends GetxController {
       if (minPriceVal > 0) queryParams["minPrice"] = minPriceVal.toString();
       if (maxPriceVal > 0) queryParams["maxPrice"] = maxPriceVal.toString();
       if (maxDistanceVal > 0) {
-        queryParams["maxDistance"] = maxDistanceVal.toStringAsFixed(0);
+        queryParams["radiusKm"] = maxDistanceVal.toStringAsFixed(0);
       }
 
       // ⚠️ Sort NOT sent to backend — handled client-side in _sortedListings()
 
       final endpoint =
-          "/marketplace/listings?${Uri(queryParameters: queryParams).query}";
+          "/marketplace/listings?zipcode=${user.zipcode}&${Uri(queryParameters: queryParams).query}";
       print("======= ENDPOINT: $endpoint =======");
 
       await ApiService.request(

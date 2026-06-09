@@ -52,23 +52,20 @@ class MyListingsScreen extends StatelessWidget {
                 return Container(
                   margin: const EdgeInsets.only(bottom: 14),
 
-               decoration: BoxDecoration(
-  color: Colors.white,
-  borderRadius: BorderRadius.circular(18),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(18),
 
-  border: Border.all(
-    color: Colors.grey.shade200,
-    width: 1,
-  ),
+                    border: Border.all(color: Colors.grey.shade200, width: 1),
 
-  boxShadow: [
-    BoxShadow(
-      color: Colors.black.withOpacity(0.03),
-      blurRadius: 6,
-      offset: const Offset(0, 2),
-    ),
-  ],
-),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.03),
+                        blurRadius: 6,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.all(12),
                     child: Row(
@@ -195,8 +192,6 @@ class MyListingsScreen extends StatelessWidget {
                                 ],
                               ),
 
-                              
-
                               /// DESCRIPTION
                               Text(
                                 item["description"] ?? "",
@@ -282,10 +277,6 @@ class MyListingsScreen extends StatelessWidget {
                     ),
                   ),
                 );
-
-
-                
-
               },
             ),
           );
