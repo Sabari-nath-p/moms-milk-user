@@ -33,7 +33,7 @@ class MarketController extends GetxController {
   List<MarketplaceListing> _sortedListings() {
     final list = List<MarketplaceListing>.from(_rawListings);
 
-    // FIX #2490: when distance filter active, sort nearest first
+    // when distance filter active, sort nearest first
     if (maxDistance > 0 && sortBy.isEmpty) {
       list.sort((a, b) {
         final da = a.distanceKm ?? double.infinity;
@@ -65,7 +65,7 @@ class MarketController extends GetxController {
     String condition = "",
     int minPriceVal = 0,
     int maxPriceVal = 0,
-    double maxDistanceVal = 100000,
+    double maxDistanceVal = 0,
     String sortByVal = "",
     int page = 1,
     int limit = 20,
@@ -109,9 +109,12 @@ class MarketController extends GetxController {
       }
 
       // ⚠️ Sort NOT sent to backend — handled client-side in _sortedListings()
-
-      final endpoint =
-          "/marketplace/listings?zipcode=${user.zipcode}&${Uri(queryParameters: queryParams).query}";
+      // Send zipcode so backend can calculate distanceKm per listing.
+      // If user has no zipcode, fetch without it (items still load, just no distance).
+       final zipcode = (user.zipcode ?? '').trim();
+      final endpoint = zipcode.isNotEmpty
+          ? "/marketplace/listings?zipcode=$zipcode&${Uri(queryParameters: queryParams).query}"
+          : "/marketplace/listings?${Uri(queryParameters: queryParams).query}";
       print("======= ENDPOINT: $endpoint =======");
 
       await ApiService.request(
@@ -124,20 +127,6 @@ class MarketController extends GetxController {
             final jsonData = response.data;
             final List<dynamic> data = jsonData["data"] ?? [];
             print("======= DATA LENGTH: ${data.length} =======");
-
-            // DEBUG: find exact distance field name from API
-            if (data.isNotEmpty) {
-              final firstItem = data[0] as Map<String, dynamic>;
-              print("======= ALL KEYS: ${firstItem.keys.toList()} =======");
-              final distKeys = firstItem.keys
-                  .where((k) => k.toLowerCase().contains('dist'))
-                  .toList();
-              print("======= DISTANCE KEYS: $distKeys =======");
-              for (final k in distKeys) {
-                print("======= $k = ${firstItem[k]} =======");
-              }
-              print("======= distanceKm = ${firstItem['distanceKm']} =======");
-            }
 
             final fetchedListings = data
                 .map((e) => MarketplaceListing.fromJson(e))

@@ -15,7 +15,7 @@ class MarketScreen extends StatefulWidget {
 class _MarketScreenState extends State<MarketScreen> {
   late MarketController controller;
 
-  String selectedCategory = 'All'.tr;
+  String selectedCategory = 'All'; // plain English key, .tr applied at render
   String? selectedCondition;
   RangeValues _priceRange = RangeValues(0, 50000);
   double _maxDistance = 50;
@@ -59,7 +59,7 @@ class _MarketScreenState extends State<MarketScreen> {
   ];
 
   String _catApiValue(String label) {
-    if (label == 'All'.tr) return '';
+    if (label == 'All') return '';
     return label.toUpperCase().replaceAll(' ', '_');
   }
 
@@ -209,7 +209,7 @@ class _MarketScreenState extends State<MarketScreen> {
                   SliverFillRemaining(
                     child: Center(
                       child: Text(
-                        'No products found'.tr.tr,
+                        'No products found'.tr,
                         style: TextStyle(color: Colors.grey, fontSize: 14),
                       ),
                     ),
@@ -226,7 +226,7 @@ class _MarketScreenState extends State<MarketScreen> {
                         crossAxisCount: 2,
                         crossAxisSpacing: 10,
                         mainAxisSpacing: 10,
-                        mainAxisExtent: 330,
+                        mainAxisExtent: 290,
                       ),
                     ),
                   )
@@ -278,7 +278,22 @@ class _MarketScreenState extends State<MarketScreen> {
           ),
         ),
         GestureDetector(
-          onTap: () => Get.to(() => AddItemScreen()),
+          onTap: () => Get.to(() => AddItemScreen())?.then((_) {
+            // Refresh marketplace when returning from Add Item screen
+            controller.fetchMarketplaceListings(
+              searchText: searchController.text.trim(),
+              category: _catApiValue(selectedCategory),
+              condition: selectedCondition ?? '',
+              minPriceVal: _priceRange.start.toInt(),
+              maxPriceVal: _priceRange.end.toInt() >= 50000
+                  ? 0
+                  : _priceRange.end.toInt(),
+              maxDistanceVal: _distanceFilterActive ? _maxDistance : 0,
+              sortByVal: _sortBy,
+              page: 1,
+              isRefresh: true,
+            );
+          }),
           child: Container(
             width: 38,
             height: 38,
@@ -1074,7 +1089,9 @@ class _MarketScreenState extends State<MarketScreen> {
     final String? usedDur = p.usedDuration;
 
     return GestureDetector(
-      onTap: () => Get.to(() => ProductDetailsScreen(listingId: p.id)),
+      onTap: () => Get.to(
+        () => ProductDetailsScreen(listingId: p.id, distanceKm: p.distanceKm),
+      ),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -1092,75 +1109,24 @@ class _MarketScreenState extends State<MarketScreen> {
           children: [
             Stack(
               children: [
-                GestureDetector(
-                  onTap: () {
-                    if (img.isNotEmpty) {
-                      showDialog(
-                        context: context,
-                        barrierColor: Colors.black87,
-                        builder: (_) => Dialog(
-                          backgroundColor: Colors.transparent,
-                          insetPadding: EdgeInsets.zero,
-                          child: Stack(
-                            children: [
-                              InteractiveViewer(
-                                minScale: 0.5,
-                                maxScale: 4.0,
-                                child: Center(
-                                  child: Image.network(
-                                    img,
-                                    fit: BoxFit.contain,
-                                    errorBuilder: (_, __, ___) => Icon(
-                                      Icons.broken_image,
-                                      color: Colors.white,
-                                      size: 60,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                top: 40,
-                                right: 16,
-                                child: GestureDetector(
-                                  onTap: () => Navigator.pop(context),
-                                  child: Container(
-                                    width: 34,
-                                    height: 34,
-                                    decoration: BoxDecoration(
-                                      color: Colors.black45,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Icon(
-                                      Icons.close,
-                                      color: Colors.white,
-                                      size: 18,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    }
-                  },
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(16),
-                    ),
-                    child: SizedBox(
-                      height: 148,
-                      width: double.infinity,
-                      child: img.isNotEmpty
-                          ? Image.network(
-                              img,
-                              fit: BoxFit.cover,
-                              errorBuilder: (_, __, ___) => _placeholder(),
-                            )
-                          : _placeholder(),
-                    ),
+                // FIX 2: No fullscreen dialog on card — just navigate to detail
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(16),
+                  ),
+                  child: SizedBox(
+                    height: 125,
+                    width: double.infinity,
+                    child: img.isNotEmpty
+                        ? Image.network(
+                            img,
+                            fit: BoxFit.cover,
+                            errorBuilder: (_, __, ___) => _placeholder(),
+                          )
+                        : _placeholder(),
                   ),
                 ),
+                // Category badge — top left
                 Positioned(
                   top: 9,
                   left: 9,
@@ -1180,6 +1146,29 @@ class _MarketScreenState extends State<MarketScreen> {
                         fontSize: 9,
                         fontWeight: FontWeight.w700,
                         letterSpacing: 0.3,
+                      ),
+                    ),
+                  ),
+                ),
+                // FIX 1: Condition badge — bottom left inside photo
+                Positioned(
+                  bottom: 8,
+                  left: 9,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 7,
+                      vertical: 3,
+                    ),
+                    decoration: BoxDecoration(
+                      color: condColor.withOpacity(0.85),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Text(
+                      condLabel,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 9,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),
@@ -1268,46 +1257,20 @@ class _MarketScreenState extends State<MarketScreen> {
                       ],
                     ),
                     SizedBox(height: 5),
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 7,
-                            vertical: 3,
-                          ),
-                          decoration: BoxDecoration(
-                            color: condColor.withOpacity(0.10),
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: condColor.withOpacity(0.4),
-                              width: 0.8,
-                            ),
-                          ),
-                          child: Text(
-                            condLabel,
-                            style: TextStyle(
-                              color: condColor,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w700,
-                            ),
+                    if (usedDur != null)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 4),
+                        child: Text(
+                          '${'Used'.tr} $usedDur',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: Colors.grey.shade500,
                           ),
                         ),
-                        SizedBox(width: 6),
-                        if (usedDur != null)
-                          Flexible(
-                            child: Text(
-                              'Used $usedDur',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 10,
-                                color: Colors.grey.shade500,
-                              ),
-                            ),
-                          ),
-                      ],
-                    ),
-                    SizedBox(height: 6),
+                      ),
+                    SizedBox(height: 2),
                     Row(
                       children: [
                         CircleAvatar(
@@ -1355,26 +1318,6 @@ class _MarketScreenState extends State<MarketScreen> {
                             ),
                           ),
                         ),
-                        // Always show distance if available — show raw km if distanceLabel is null
-                        if (p.distanceKm != null) ...[
-                          Text(
-                            ' • ',
-                            style: TextStyle(
-                              fontSize: 10,
-                              color: Colors.grey.shade400,
-                            ),
-                          ),
-                          Text(
-                            p.distanceKm! < 10
-                                ? '${p.distanceKm!.toStringAsFixed(1)} km'
-                                : '${p.distanceKm!.round()} km',
-                            style: TextStyle(
-                              fontSize: 10,
-                              color: Colors.grey.shade500,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
                       ],
                     ),
                     Spacer(),
@@ -1426,7 +1369,10 @@ class _MarketScreenState extends State<MarketScreen> {
                           Expanded(
                             child: GestureDetector(
                               onTap: () => Get.to(
-                                () => ProductDetailsScreen(listingId: p.id),
+                                () => ProductDetailsScreen(
+                                  listingId: p.id,
+                                  distanceKm: p.distanceKm,
+                                ),
                               ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -1471,7 +1417,9 @@ class _MarketScreenState extends State<MarketScreen> {
     final int? discPct = p.discountPercent;
 
     return GestureDetector(
-      onTap: () => Get.to(() => ProductDetailsScreen(listingId: p.id)),
+      onTap: () => Get.to(
+        () => ProductDetailsScreen(listingId: p.id, distanceKm: p.distanceKm),
+      ),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -1486,66 +1434,21 @@ class _MarketScreenState extends State<MarketScreen> {
         ),
         child: Row(
           children: [
-            // Image
-            GestureDetector(
-              onTap: () {
-                if (img.isNotEmpty) {
-                  showDialog(
-                    context: context,
-                    barrierColor: Colors.black87,
-                    builder: (_) => Dialog(
-                      backgroundColor: Colors.transparent,
-                      insetPadding: EdgeInsets.zero,
-                      child: Stack(
-                        children: [
-                          InteractiveViewer(
-                            minScale: 0.5,
-                            maxScale: 4.0,
-                            child: Center(
-                              child: Image.network(img, fit: BoxFit.contain),
-                            ),
-                          ),
-                          Positioned(
-                            top: 40,
-                            right: 16,
-                            child: GestureDetector(
-                              onTap: () => Navigator.pop(context),
-                              child: Container(
-                                width: 34,
-                                height: 34,
-                                decoration: BoxDecoration(
-                                  color: Colors.black45,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(
-                                  Icons.close,
-                                  color: Colors.white,
-                                  size: 18,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                }
-              },
-              child: ClipRRect(
-                borderRadius: const BorderRadius.horizontal(
-                  left: Radius.circular(14),
-                ),
-                child: SizedBox(
-                  width: 110,
-                  height: 110,
-                  child: img.isNotEmpty
-                      ? Image.network(
-                          img,
-                          fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => _placeholder(),
-                        )
-                      : _placeholder(),
-                ),
+            // Image — FIX 2: no fullscreen dialog on card
+            ClipRRect(
+              borderRadius: const BorderRadius.horizontal(
+                left: Radius.circular(14),
+              ),
+              child: SizedBox(
+                width: 110,
+                height: 110,
+                child: img.isNotEmpty
+                    ? Image.network(
+                        img,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) => _placeholder(),
+                      )
+                    : _placeholder(),
               ),
             ),
             // Details
@@ -1648,25 +1551,6 @@ class _MarketScreenState extends State<MarketScreen> {
                             ),
                           ),
                         ),
-                        if (p.distanceKm != null) ...[
-                          Text(
-                            ' • ',
-                            style: TextStyle(
-                              fontSize: 10,
-                              color: Colors.grey.shade400,
-                            ),
-                          ),
-                          Text(
-                            p.distanceKm! < 10
-                                ? '${p.distanceKm!.toStringAsFixed(1)} km'
-                                : '${p.distanceKm!.round()} km',
-                            style: TextStyle(
-                              fontSize: 10,
-                              color: Colors.grey.shade500,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
                       ],
                     ),
                     SizedBox(height: 6),
@@ -1726,7 +1610,10 @@ class _MarketScreenState extends State<MarketScreen> {
                           Expanded(
                             child: GestureDetector(
                               onTap: () => Get.to(
-                                () => ProductDetailsScreen(listingId: p.id),
+                                () => ProductDetailsScreen(
+                                  listingId: p.id,
+                                  distanceKm: p.distanceKm,
+                                ),
                               ),
                               child: Container(
                                 decoration: BoxDecoration(

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Screens/MarketScreen/Service/market_controller.dart';
 import 'package:mommilk_user/Screens/ChatListScreen/Controller/ChatController.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   final int listingId;
-  ProductDetailsScreen({super.key, required this.listingId});
+  final double? distanceKm;
+  ProductDetailsScreen({super.key, required this.listingId, this.distanceKm});
 
   @override
   State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
@@ -134,22 +134,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           backgroundColor: Colors.white,
           // FIX: Only Chat With Seller — full width, no Buy Now
           bottomNavigationBar: _bottomBar(p),
-          appBar: AppBar(
-            title: Text(
-              "Product Details",
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 16.sp,
-                color: Colors.black,
-              ),
-            ),
-          ),
           body: SafeArea(
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 10),
                   _heroImageCard(
                     images,
                     condColor,
@@ -372,7 +361,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   ),
                                   SizedBox(width: 8),
                                   Text(
-                                    '— ${'km away'.tr}',
+                                    widget.distanceKm != null
+                                        ? (widget.distanceKm! < 10
+                                              ? '${widget.distanceKm!.toStringAsFixed(1)} km'
+                                              : '${widget.distanceKm!.round()} km')
+                                        : '— km',
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: Colors.grey.shade500,
@@ -457,8 +450,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             color ?? '—',
                           ),
                           _Spec(
-                            Icons.category_outlined,
-                            'Type'.tr,
+                            Icons.inventory_2_outlined,
+                            'Box Contains'.tr,
                             p.boxContains.isNotEmpty
                                 ? p.boxContains.join(', ')
                                 : '—',
@@ -528,17 +521,17 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Padding(
-        //   padding: const EdgeInsets.fromLTRB(16, 12, 16, 10),
-        //   child: Row(
-        //     children: [
-        //       GestureDetector(
-        //         onTap: () => Get.back(),
-        //         child: _circleBtn(Icons.arrow_back_ios_new, size: 15),
-        //       ),
-        //     ],
-        //   ),
-        // ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 10),
+          child: Row(
+            children: [
+              GestureDetector(
+                onTap: () => Get.back(),
+                child: _circleBtn(Icons.arrow_back_ios_new, size: 15),
+              ),
+            ],
+          ),
+        ),
 
         // ── Main image with PageView ──────────────────────────────────────
         Padding(
