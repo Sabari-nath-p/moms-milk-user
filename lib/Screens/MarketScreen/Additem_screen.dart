@@ -143,7 +143,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     if (controller.selectedImages.length >= _kMaxPhotos) {
       Get.snackbar(
         'Limit Reached',
-        'You can only add up to $_kMaxPhotos photos.',
+        'Only up to $_kMaxPhotos photos can be added.',
         backgroundColor: _kRed,
         colorText: Colors.white,
         snackPosition: SnackPosition.BOTTOM,
@@ -272,12 +272,33 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   Future<void> _pickFromCamera() async {
-    if (controller.selectedImages.length >= _kMaxPhotos) return;
+    final current = controller.selectedImages.length;
+    if (current >= _kMaxPhotos) {
+      Get.snackbar(
+        'Limit Reached',
+        'Only up to $_kMaxPhotos photos can be added.',
+        backgroundColor: _kRed,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return;
+    }
     final picked = await ImagePicker().pickImage(
       source: ImageSource.camera,
-      imageQuality: 80,
+      imageQuality: 60,
     );
     if (picked == null) return;
+    // Recheck after picking — user may have been at limit-1
+    if (controller.selectedImages.length >= _kMaxPhotos) {
+      Get.snackbar(
+        'Limit Reached',
+        'Only up to $_kMaxPhotos photos can be added.',
+        backgroundColor: _kRed,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return;
+    }
     final file = File(picked.path);
     controller.setSelectedImages([...controller.selectedImages, file]);
     await controller.uploadImages([file]);
@@ -285,11 +306,21 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   Future<void> _pickFromGallery() async {
     final currentCount = controller.selectedImages.length;
-    if (currentCount >= _kMaxPhotos) return;
+    if (currentCount >= _kMaxPhotos) {
+      Get.snackbar(
+        'Limit Reached',
+        'Only up to $_kMaxPhotos photos can be added.',
+        backgroundColor: _kRed,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return;
+    }
     final remaining = _kMaxPhotos - currentCount;
-    final picked = await ImagePicker().pickMultiImage(imageQuality: 80);
+    final picked = await ImagePicker().pickMultiImage(imageQuality: 60);
     if (picked.isEmpty) return;
 
+    // Hard-cap: only take what fits
     final allowed = picked.take(remaining).toList();
     if (picked.length > remaining) {
       Get.snackbar(
@@ -328,8 +359,18 @@ class _AddItemScreenState extends State<AddItemScreen> {
   bool _validateStep() {
     switch (_step) {
       case 0:
+        if (controller.isUploadingImage) {
+          _snack('Please wait — photos are still uploading');
+          return false;
+        }
         if (controller.selectedImages.isEmpty) {
           _snack('Please add at least one photo');
+          return false;
+        }
+        if (controller.imageUrls.isEmpty) {
+          _snack(
+            'Photo upload failed. Please remove the photo and try adding it again.',
+          );
           return false;
         }
         return true;

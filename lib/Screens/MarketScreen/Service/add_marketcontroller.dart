@@ -165,14 +165,24 @@ class AddMarketplaceController extends GetxController {
         final data = jsonDecode(response.body);
         if (data is List) {
           // APPEND new URLs — supports picking photos in multiple batches
+          // Hard-cap at 8 as safety net even if UI somehow allowed more
           final newUrls = data.map<String>((e) => e['url'].toString()).toList();
-          imageUrls = [...imageUrls, ...newUrls];
+          imageUrls = [...imageUrls, ...newUrls].take(8).toList();
           Fluttertoast.showToast(msg: 'Images uploaded successfully');
         } else {
           Fluttertoast.showToast(msg: 'Invalid upload response');
         }
+      } else if (response.statusCode == 413) {
+        // 413 = file too large for server
+        Fluttertoast.showToast(
+          msg:
+              'Image file size is too large. Please choose a smaller photo (max ~5MB each) and try again.',
+          toastLength: Toast.LENGTH_LONG,
+        );
       } else {
-        Fluttertoast.showToast(msg: 'Upload failed (${response.statusCode})');
+        Fluttertoast.showToast(
+          msg: 'Upload failed (${response.statusCode}). Please try again.',
+        );
       }
     } catch (e) {
       log('UPLOAD ERROR: $e');
@@ -192,6 +202,14 @@ class AddMarketplaceController extends GetxController {
       if (imageUrls.isEmpty) {
         Fluttertoast.showToast(
           msg: 'Please add at least one photo before posting',
+        );
+        return;
+      }
+
+      if (imageUrls.length > 8) {
+        Fluttertoast.showToast(
+          msg:
+              'Too many images — only up to 8 photos are allowed. Please remove some and try again.',
         );
         return;
       }

@@ -11,11 +11,9 @@ class SearchDonarController extends GetxController {
   );
   TextEditingController donarSearchText = TextEditingController();
 
-  // Loading states
   bool isLoading = false;
   bool isSearching = false;
 
-  // Sorting
   String sortBy = 'distance';
   final List<String> sortOptions = [
     'distance',
@@ -24,17 +22,14 @@ class SearchDonarController extends GetxController {
     'availability',
   ];
 
-  // Filters
   String bloodGroupFilter = '';
   bool medicalRecordsRequired = false;
   bool onlyAvailableDonors = true;
 
-  // Data lists
   List<SearchDonarModel> allDonors = [];
   List<SearchDonarModel> filteredDonors = [];
   List<String> activeFilters = [];
 
-  // Pagination
   int currentPage = 1;
   int limit = 10;
   bool hasMoreData = true;
@@ -88,25 +83,15 @@ class SearchDonarController extends GetxController {
         'limit': limit.toString(),
       };
 
-      if (bloodGroupFilter.isNotEmpty) {
+      if (bloodGroupFilter.isNotEmpty)
         queryParams['bloodGroup'] = bloodGroupFilter;
-      }
-
-      if (medicalRecordsRequired) {
+      if (medicalRecordsRequired)
         queryParams['ableToShareMedicalRecord'] = 'true';
-      }
-
-      if (onlyAvailableDonors) {
-        queryParams['isAvailable'] = 'true';
-      }
-
-      if (zipSearchText.text.isNotEmpty) {
+      if (onlyAvailableDonors) queryParams['isAvailable'] = 'true';
+      if (zipSearchText.text.isNotEmpty)
         queryParams['zipcode'] = zipSearchText.text;
-      }
-
-      if (donarSearchText.text.isNotEmpty) {
+      if (donarSearchText.text.isNotEmpty)
         queryParams['donorName'] = donarSearchText.text;
-      }
 
       String endpoint = "/requests/search/donors";
       if (queryParams.isNotEmpty) {
@@ -126,10 +111,9 @@ class SearchDonarController extends GetxController {
           List<dynamic> donorsData = data.data['data'] ?? [];
           Map<String, dynamic>? paginationData = data.data['pagination'];
 
-          List<SearchDonarModel> newDonors =
-              donorsData
-                  .map((item) => SearchDonarModel.fromJson(item))
-                  .toList();
+          List<SearchDonarModel> newDonors = donorsData
+              .map((item) => SearchDonarModel.fromJson(item))
+              .toList();
 
           if (loadMore) {
             allDonors.addAll(newDonors);
@@ -147,11 +131,11 @@ class SearchDonarController extends GetxController {
           filteredDonors = List.from(allDonors);
         },
         onError: (error) {
-          Fluttertoast.showToast(msg: 'Failed to load donors: $error'.tr);
+          Fluttertoast.showToast(msg: 'Failed to load donors: $error');
         },
       );
     } catch (e) {
-      Fluttertoast.showToast(msg: 'Failed to load donors: $e'.tr);
+      Fluttertoast.showToast(msg: 'Failed to load donors: $e');
     } finally {
       isLoading = false;
       isLoadingMore = false;
@@ -185,7 +169,6 @@ class SearchDonarController extends GetxController {
     onlyAvailableDonors = true;
     zipSearchText.clear();
     donarSearchText.clear();
-
     updateActiveFilters();
     loadDonors();
   }
@@ -194,23 +177,25 @@ class SearchDonarController extends GetxController {
     activeFilters.clear();
 
     if (bloodGroupFilter.isNotEmpty) {
-      activeFilters.add('Blood: $bloodGroupFilter'.tr);
+      activeFilters.add('Blood: $bloodGroupFilter');
     }
 
     if (medicalRecordsRequired) {
-      activeFilters.add('Medical Records'.tr);
+      activeFilters.add('Medical Records');
     }
 
-    if (!onlyAvailableDonors) {
-      activeFilters.add('All Donors'.tr);
+    // FIX: chip shows when available filter IS ON (not when off)
+    // Previously was `if (!onlyAvailableDonors)` which showed chip for wrong state
+    if (onlyAvailableDonors) {
+      activeFilters.add('Available Donors');
     }
 
     if (zipSearchText.text.isNotEmpty) {
-      activeFilters.add('Zip: ${zipSearchText.text}'.tr);
+      activeFilters.add('Zip: ${zipSearchText.text}');
     }
 
     if (donarSearchText.text.isNotEmpty) {
-      activeFilters.add('Name: ${donarSearchText.text}'.tr);
+      activeFilters.add('Name: ${donarSearchText.text}');
     }
   }
 
@@ -219,8 +204,9 @@ class SearchDonarController extends GetxController {
       bloodGroupFilter = '';
     } else if (filter == 'Medical Records') {
       medicalRecordsRequired = false;
-    } else if (filter == 'All Donors') {
-      onlyAvailableDonors = true;
+    } else if (filter == 'Available Donors') {
+      // tapping X on this chip → show ALL donors, not just available
+      onlyAvailableDonors = false;
     } else if (filter.startsWith('Zip:')) {
       zipSearchText.clear();
     } else if (filter.startsWith('Name:')) {
@@ -236,12 +222,12 @@ class SearchDonarController extends GetxController {
 
   String getDonorDistance(Map<String, dynamic> donor) {
     double distance = donor['distance']?.toDouble() ?? 0.0;
-    return '${distance.toStringAsFixed(1)}km'.tr;
+    return '${distance.toStringAsFixed(1)}km';
   }
 
   String getDonorRating(Map<String, dynamic> donor) {
     double rating = donor['rating']?.toDouble() ?? 0.0;
-    return '${rating.toStringAsFixed(1)}★'.tr;
+    return '${rating.toStringAsFixed(1)}★';
   }
 
   String getAvailabilityText(bool isAvailable) {
@@ -249,11 +235,11 @@ class SearchDonarController extends GetxController {
   }
 
   void viewDonorProfile(Map<String, dynamic> donor) {
-    print('Navigate to donor profile: ${donor['name']}'.tr);
+    print('Navigate to donor profile: ${donor['name']}');
   }
 
   void contactDonor(Map<String, dynamic> donor) {
-    print('Contact donor: ${donor['name']}'.tr);
+    print('Contact donor: ${donor['name']}');
   }
 
   void refreshDonors() {
@@ -292,11 +278,11 @@ class SearchDonarController extends GetxController {
           Fluttertoast.showToast(msg: 'Request sent successfully!'.tr);
         },
         onError: (error) {
-          Fluttertoast.showToast(msg: 'Failed to send request: $error'.tr);
+          Fluttertoast.showToast(msg: 'Failed to send request: $error');
         },
       );
     } catch (e) {
-      Fluttertoast.showToast(msg: 'Failed to send request: $e'.tr);
+      Fluttertoast.showToast(msg: 'Failed to send request: $e');
     }
   }
 }

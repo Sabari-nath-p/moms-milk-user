@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Screens/SearchBuyerScreen/Controller/SearchBuyerController.dart';
 import 'package:mommilk_user/Screens/SearchBuyerScreen/Views/SearchBuyerCard.dart';
@@ -117,6 +118,10 @@ class _SearchBuyerScreenState extends State<SearchBuyerScreen> {
                 controller: controller.zipSearchText,
                 keyboardType: TextInputType.text,
                 textInputAction: TextInputAction.done,
+                // FIX #2529: Only allow alphanumeric, spaces and hyphens — no special characters
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9\s\-]')),
+                ],
                 onSubmitted: (_) {
                   FocusScope.of(context).unfocus();
                   controller.searchBuyers();
@@ -276,16 +281,10 @@ class _SearchBuyerScreenState extends State<SearchBuyerScreen> {
   Widget _buildBuyersList(BuildContext context) {
     return GetBuilder<SearchBuyerController>(
       builder: (controller) {
-        if (controller.isLoading) {
+        if (controller.isLoading)
           return Center(child: CircularProgressIndicator());
-        }
-
         final buyers = controller.filteredBuyers;
-
-        if (buyers.isEmpty) {
-          return _buildEmptyState(context);
-        }
-
+        if (buyers.isEmpty) return _buildEmptyState(context);
         return ListView.builder(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
@@ -395,7 +394,6 @@ class _SearchBuyerScreenState extends State<SearchBuyerScreen> {
                 ],
               ),
             ),
-            
             Spacer(),
             Padding(
               padding: EdgeInsets.all(20),

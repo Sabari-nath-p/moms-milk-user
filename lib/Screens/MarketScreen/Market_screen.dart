@@ -1369,7 +1369,9 @@ class _MarketScreenState extends State<MarketScreen> {
                           Expanded(
                             child: GestureDetector(
                               onTap: () {
-                                final c = Get.put(Chatcontroller());
+                                final c = Get.isRegistered<Chatcontroller>()
+                                    ? Get.find<Chatcontroller>()
+                                    : Get.put(Chatcontroller());
                                 c.OpenChatUser(
                                   userID: p.userId,
                                   isDonar: false,
@@ -1602,7 +1604,9 @@ class _MarketScreenState extends State<MarketScreen> {
                           Expanded(
                             child: GestureDetector(
                               onTap: () {
-                                final c = Get.put(Chatcontroller());
+                                final c = Get.isRegistered<Chatcontroller>()
+                                    ? Get.find<Chatcontroller>()
+                                    : Get.put(Chatcontroller());
                                 c.OpenChatUser(
                                   userID: p.userId,
                                   isDonar: false,
