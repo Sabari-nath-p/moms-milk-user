@@ -1209,25 +1209,6 @@ class _MarketScreenState extends State<MarketScreen> {
                     ),
                   ),
                 ),
-                Positioned(
-                  top: 8,
-                  right: 8,
-                  child: Container(
-                    width: 30,
-                    height: 30,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.12),
-                          blurRadius: 4,
-                        ),
-                      ],
-                    ),
-                    child: Icon(Icons.favorite_border, size: 15, color: _red),
-                  ),
-                ),
               ],
             ),
             Expanded(

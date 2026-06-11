@@ -40,8 +40,14 @@ class Requestcontroller extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    loadInitialData();
     isLoadingUserData = false;
+    isUserDataLoaded = true;
+    if (user.userType == 'DONOR') {
+      fetchIncomingRequests();
+      fetchHistoryRequests();
+    } else {
+      fetchMyRequests();
+    }
     update();
   }
 
@@ -58,11 +64,9 @@ class Requestcontroller extends GetxController {
   }
 
   // Fetch incoming requests for donors
-  Future<void> fetchIncomingRequests({bool loadMore = false}) async {
-    if (user.userType != 'DONOR') {
-      print('User is not a donor, skipping incoming requests fetch');
-      return;
-    }
+ Future<void> fetchIncomingRequests({bool loadMore = false}) async {
+    if (user.userType != 'DONOR') return;
+ 
 
     if (loadMore) {
       if (!hasMoreIncoming || isLoadingMoreIncoming) return;
@@ -137,11 +141,8 @@ class Requestcontroller extends GetxController {
   }
 
   // Fetch history requests for donors
-  Future<void> fetchHistoryRequests({bool loadMore = false}) async {
-    if (user.userType != 'DONOR') {
-      print('User is not a donor, skipping history requests fetch');
-      return;
-    }
+ Future<void> fetchHistoryRequests({bool loadMore = false}) async {
+    if (user.userType != 'DONOR') return;
 
     if (loadMore) {
       if (!hasMoreHistory || isLoadingMoreHistory) return;

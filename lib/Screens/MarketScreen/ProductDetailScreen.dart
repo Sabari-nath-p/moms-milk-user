@@ -16,8 +16,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   final MarketController _ctrl = Get.find<MarketController>();
   final PageController _pageCtrl = PageController();
   int _imgIndex = 0;
-  bool _descExpanded = false;
-  bool _specsExpanded = true;
 
   static const Color _red = Color(0xFFE8453C);
   static const Color _redLight = Color(0xFFFFF0EF);
@@ -96,9 +94,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       builder: (ctrl) {
         if (ctrl.isDetailsLoading) {
           return Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(color: Color(0xFFE8453C)),
-            ),
+            body: Center(child: CircularProgressIndicator(color: _red)),
           );
         }
         final p = ctrl.marketplaceDetails;
@@ -132,7 +128,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
         return Scaffold(
           backgroundColor: Colors.white,
-          // FIX: Only Chat With Seller — full width, no Buy Now
           bottomNavigationBar: _bottomBar(p),
           body: SafeArea(
             child: SingleChildScrollView(
@@ -313,19 +308,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Row(
-                                          children: [
-                                            Flexible(
-                                              child: Text(
-                                                p.user.name,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w700,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
+                                        Text(
+                                          p.user.name,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w700,
+                                          ),
                                         ),
                                         SizedBox(height: 3),
                                         Text(
@@ -379,7 +368,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
                         SizedBox(height: 18),
 
-                        // Product Details
+                        // Product Details — description always fully shown, NO view more/less
                         Text(
                           'Product Details'.tr,
                           style: TextStyle(
@@ -390,37 +379,16 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         SizedBox(height: 8),
                         Text(
                           p.description,
-                          maxLines: _descExpanded ? null : 4,
-                          overflow: _descExpanded
-                              ? TextOverflow.visible
-                              : TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.black87,
                             height: 1.55,
                           ),
                         ),
-                        if (p.description.length > 100)
-                          GestureDetector(
-                            onTap: () =>
-                                setState(() => _descExpanded = !_descExpanded),
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 4),
-                              child: Text(
-                                _descExpanded
-                                    ? 'View less ∧'.tr
-                                    : 'View more ∨'.tr,
-                                style: TextStyle(
-                                  color: _red,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                          ),
 
                         SizedBox(height: 16),
 
+                        // Spec grid — always fully shown, NO view more/less
                         _specGrid([
                           _Spec(
                             Icons.sell_outlined,
@@ -428,50 +396,34 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             catLabel.isNotEmpty ? catLabel : '—',
                           ),
                           _Spec(Icons.star_border, 'Condition'.tr, condLabel),
-                          _Spec(
-                            Icons.branding_watermark_outlined,
-                            'Brand'.tr,
-                            brand ?? '—',
-                          ),
+                          if (brand != null)
+                            _Spec(
+                              Icons.branding_watermark_outlined,
+                              'Brand'.tr,
+                              brand,
+                            ),
                           _Spec(
                             Icons.people_outline,
                             'Suitable For'.tr,
                             '0 – 24 Months'.tr,
                           ),
-                          _Spec(Icons.texture, 'Material'.tr, material ?? '—'),
-                          _Spec(
-                            Icons.straighten,
-                            'Dimensions'.tr,
-                            dimensions ?? '—',
-                          ),
-                          _Spec(
-                            Icons.color_lens_outlined,
-                            'Color'.tr,
-                            color ?? '—',
-                          ),
-                          _Spec(
-                            Icons.inventory_2_outlined,
-                            'Box Contains'.tr,
-                            p.boxContains.isNotEmpty
-                                ? p.boxContains.join(', ')
-                                : '—',
-                          ),
-                        ]),
-
-                        GestureDetector(
-                          onTap: () =>
-                              setState(() => _specsExpanded = !_specsExpanded),
-                          child: Text(
-                            _specsExpanded
-                                ? 'View less ∧'.tr
-                                : 'View more ∨'.tr,
-                            style: TextStyle(
-                              color: _red,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w600,
+                          if (material != null)
+                            _Spec(Icons.texture, 'Material'.tr, material),
+                          if (dimensions != null)
+                            _Spec(
+                              Icons.straighten,
+                              'Dimensions'.tr,
+                              dimensions,
                             ),
-                          ),
-                        ),
+                          if (color != null)
+                            _Spec(Icons.color_lens_outlined, 'Color'.tr, color),
+                          if (p.boxContains.isNotEmpty)
+                            _Spec(
+                              Icons.inventory_2_outlined,
+                              'Box Contains'.tr,
+                              p.boxContains.join(', '),
+                            ),
+                        ]),
 
                         SizedBox(height: 18),
                         Divider(color: Colors.grey.shade200),
@@ -532,8 +484,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ],
           ),
         ),
-
-        // ── Main image with PageView ──────────────────────────────────────
         Padding(
           padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
           child: ClipRRect(
@@ -544,7 +494,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  // PageView allows swiping between all images
                   images.isNotEmpty
                       ? PageView.builder(
                           controller: _pageCtrl,
@@ -552,7 +501,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           onPageChanged: (i) => setState(() => _imgIndex = i),
                           itemBuilder: (_, i) => GestureDetector(
                             onTap: () {
-                              // Full screen viewer on tap
                               showDialog(
                                 context: context,
                                 barrierColor: Colors.black87,
@@ -623,8 +571,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             color: Colors.grey,
                           ),
                         ),
-
-                  // Category badge top-left
                   Positioned(
                     top: 12,
                     left: 12,
@@ -654,8 +600,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       ),
                     ),
                   ),
-
-                  // Condition badge bottom-left
                   Positioned(
                     bottom: 14,
                     left: 12,
@@ -678,8 +622,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       ),
                     ),
                   ),
-
-                  // Image counter bottom-right
                   if (images.length > 1)
                     Positioned(
                       bottom: 14,
@@ -704,8 +646,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
           ),
         ),
-
-        // ── Dot indicators ────────────────────────────────────────────────
         if (images.length > 1)
           Padding(
             padding: const EdgeInsets.only(top: 10),
@@ -714,13 +654,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               children: List.generate(images.length, (i) {
                 final active = i == _imgIndex;
                 return GestureDetector(
-                  onTap: () {
-                    _pageCtrl.animateToPage(
-                      i,
-                      duration: Duration(milliseconds: 250),
-                      curve: Curves.easeInOut,
-                    );
-                  },
+                  onTap: () => _pageCtrl.animateToPage(
+                    i,
+                    duration: Duration(milliseconds: 250),
+                    curve: Curves.easeInOut,
+                  ),
                   child: AnimatedContainer(
                     duration: Duration(milliseconds: 200),
                     margin: const EdgeInsets.symmetric(horizontal: 3),
@@ -735,8 +673,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               }),
             ),
           ),
-
-        // ── Thumbnail strip — shows ALL images, tap to jump ──────────────
         if (images.length > 1)
           Padding(
             padding: const EdgeInsets.fromLTRB(12, 10, 12, 0),
@@ -748,13 +684,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 itemBuilder: (_, i) {
                   final active = i == _imgIndex;
                   return GestureDetector(
-                    onTap: () {
-                      _pageCtrl.animateToPage(
-                        i,
-                        duration: Duration(milliseconds: 250),
-                        curve: Curves.easeInOut,
-                      );
-                    },
+                    onTap: () => _pageCtrl.animateToPage(
+                      i,
+                      duration: Duration(milliseconds: 250),
+                      curve: Curves.easeInOut,
+                    ),
                     child: Container(
                       width: 60,
                       height: 60,
@@ -808,7 +742,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     child: Icon(icon, size: size, color: iconColor),
   );
 
-  // FIX: Full-width Chat With Seller — no Buy Now button
   Widget _bottomBar(dynamic p) => Container(
     padding: EdgeInsets.fromLTRB(
       16,

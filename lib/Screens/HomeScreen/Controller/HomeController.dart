@@ -206,6 +206,7 @@ class Homecontroller extends GetxController {
   }
 
   void fetchIncommingRequest() async {
+     if (user.userType != 'DONOR') return;
     ApiService.request(
       endpoint: "/requests/incoming?status=PENDING&page=1&limit=10",
       method: Api.GET,
