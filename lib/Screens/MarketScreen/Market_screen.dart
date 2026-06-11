@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Models/MarketListingModel.dart';
 import 'package:mommilk_user/Screens/MarketScreen/Additem_screen.dart';
+import 'package:mommilk_user/Screens/MarketScreen/MyListingScreen.dart';
 import 'package:mommilk_user/Screens/MarketScreen/ProductDetailScreen.dart';
 import 'package:mommilk_user/Screens/MarketScreen/Service/market_controller.dart';
 import 'package:mommilk_user/Screens/ChatListScreen/Controller/ChatController.dart';
@@ -14,6 +15,7 @@ class MarketScreen extends StatefulWidget {
 
 class _MarketScreenState extends State<MarketScreen> {
   late MarketController controller;
+  final ScrollController _scrollController = ScrollController();
 
   String selectedCategory = 'All'; // plain English key, .tr applied at render
   String? selectedCondition;
@@ -84,11 +86,20 @@ class _MarketScreenState extends State<MarketScreen> {
       print("======= POST FRAME CALLBACK - CALLING FETCH =======");
       controller.fetchMarketplaceListings();
     });
+
+    // Pagination: load more when user scrolls near the bottom
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels >=
+          _scrollController.position.maxScrollExtent - 300) {
+        controller.loadMore();
+      }
+    });
   }
 
   @override
   void dispose() {
     searchController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -188,12 +199,33 @@ class _MarketScreenState extends State<MarketScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: _pageBg,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Get.to(() => AddItemScreen())?.then((_) {
+          controller.fetchMarketplaceListings(
+            searchText: searchController.text.trim(),
+            category: _catApiValue(selectedCategory),
+            condition: selectedCondition ?? '',
+            minPriceVal: _priceRange.start.toInt(),
+            maxPriceVal: _priceRange.end.toInt() >= 50000
+                ? 0
+                : _priceRange.end.toInt(),
+            maxDistanceVal: _distanceFilterActive ? _maxDistance : 0,
+            sortByVal: _sortBy,
+            page: 1,
+            isRefresh: true,
+          );
+        }),
+        backgroundColor: _red,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        child: Icon(Icons.add, color: Colors.white, size: 26),
+      ),
       body: SafeArea(
         child: GetBuilder<MarketController>(
           builder: (_) => RefreshIndicator(
             color: _red,
             onRefresh: controller.refreshMarketplace,
             child: CustomScrollView(
+              controller: _scrollController,
               slivers: [
                 SliverToBoxAdapter(child: _appBar()),
                 SliverToBoxAdapter(child: _searchBar()),
@@ -216,7 +248,7 @@ class _MarketScreenState extends State<MarketScreen> {
                   )
                 else if (_isGridView)
                   SliverPadding(
-                    padding: const EdgeInsets.fromLTRB(12, 0, 12, 24),
+                    padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
                     sliver: SliverGrid(
                       delegate: SliverChildBuilderDelegate(
                         (_, i) => _card(controller.listings[i]),
@@ -232,7 +264,7 @@ class _MarketScreenState extends State<MarketScreen> {
                   )
                 else
                   SliverPadding(
-                    padding: const EdgeInsets.fromLTRB(12, 0, 12, 24),
+                    padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
                     sliver: SliverList(
                       delegate: SliverChildBuilderDelegate(
                         (_, i) => Padding(
@@ -243,6 +275,33 @@ class _MarketScreenState extends State<MarketScreen> {
                       ),
                     ),
                   ),
+
+                // ── Load more spinner / end indicator ──────────────────────
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    child: controller.isLoadingMore
+                        ? Center(
+                            child: CircularProgressIndicator(
+                              color: _red,
+                              strokeWidth: 2,
+                            ),
+                          )
+                        : controller.hasNextPage
+                        ? const SizedBox.shrink()
+                        : controller.listings.isNotEmpty
+                        ? Center(
+                            child: Text(
+                              'You\'ve seen all items'.tr,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey.shade400,
+                              ),
+                            ),
+                          )
+                        : const SizedBox.shrink(),
+                  ),
+                ),
               ],
             ),
           ),
@@ -278,30 +337,23 @@ class _MarketScreenState extends State<MarketScreen> {
           ),
         ),
         GestureDetector(
-          onTap: () => Get.to(() => AddItemScreen())?.then((_) {
-            // Refresh marketplace when returning from Add Item screen
-            controller.fetchMarketplaceListings(
-              searchText: searchController.text.trim(),
-              category: _catApiValue(selectedCategory),
-              condition: selectedCondition ?? '',
-              minPriceVal: _priceRange.start.toInt(),
-              maxPriceVal: _priceRange.end.toInt() >= 50000
-                  ? 0
-                  : _priceRange.end.toInt(),
-              maxDistanceVal: _distanceFilterActive ? _maxDistance : 0,
-              sortByVal: _sortBy,
-              page: 1,
-              isRefresh: true,
-            );
-          }),
+          onTap: () => Get.to(() => MyListingsScreen()),
           child: Container(
             width: 38,
             height: 38,
             decoration: BoxDecoration(
-              color: _red,
+              color: Colors.white,
               borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: Color(0xFFEDD8D8), width: 1),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.05),
+                  blurRadius: 6,
+                  offset: Offset(0, 2),
+                ),
+              ],
             ),
-            child: Icon(Icons.add, color: Colors.white, size: 22),
+            child: Icon(Icons.inventory_2_outlined, color: _red, size: 20),
           ),
         ),
       ],
@@ -900,34 +952,18 @@ class _MarketScreenState extends State<MarketScreen> {
           ),
         ),
         Spacer(),
-        GestureDetector(
-          onTap: () => setState(() => _isGridView = true),
-          child: Container(
-            width: 32,
-            height: 32,
-            decoration: BoxDecoration(
-              color: _isGridView ? _red.withOpacity(0.10) : Colors.transparent,
-              borderRadius: BorderRadius.circular(7),
-            ),
-            child: Icon(
-              Icons.grid_view_rounded,
-              size: 17,
-              color: _isGridView ? _red : Colors.grey.shade400,
-            ),
+        Container(
+          width: 32,
+          height: 32,
+          decoration: BoxDecoration(
+            color: _red.withOpacity(0.10),
+            borderRadius: BorderRadius.circular(7),
           ),
-        ),
-        SizedBox(width: 8),
-        GestureDetector(
-          onTap: () => setState(() => _isGridView = false),
-          child: Icon(
-            Icons.view_list_outlined,
-            size: 22,
-            color: _isGridView ? Colors.grey.shade400 : _red,
-          ),
+          child: Icon(Icons.grid_view_rounded, size: 17, color: _red),
         ),
         SizedBox(width: 12),
 
-        // ── FIX: Sort dropdown ──────────────────────────────────────────────
+        // ── Sort dropdown ───────────────────────────────────────────────────
         GestureDetector(
           onTap: _showSortSheet,
           child: Container(

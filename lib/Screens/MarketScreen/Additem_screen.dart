@@ -404,8 +404,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
           _snack('Enter description');
           return false;
         }
-        if (desc.length < 10) {
-          _snack('Description must be at least 10 characters');
+        if (desc.isEmpty) {
+          _snack('Description is required');
           return false;
         }
         if (!_hasRealText(desc)) {
@@ -1100,7 +1100,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
           maxLength: 500,
           style: TextStyle(fontSize: 14, color: _kLabel),
           decoration: InputDecoration(
-            hintText: 'Tell us more about the item (min 10 characters)'.tr,
+            hintText: 'Tell us more about the item'.tr,
             hintStyle: TextStyle(color: _kHint, fontSize: 14),
             border: InputBorder.none,
             contentPadding: EdgeInsets.all(12),
@@ -1115,7 +1115,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
         tags: ctrl.materials,
         inputCtrl: _materialsInputCtrl,
         focusNode: _materialsFocus,
-        hint: '+ Add'.tr,
+        hint: 'e.g. Wood, Plastic...',
         onAdd: () {
           controller.addMaterial(_materialsInputCtrl.text.trim());
           _materialsInputCtrl.clear();
@@ -1129,7 +1129,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
         tags: ctrl.colors,
         inputCtrl: _colorsInputCtrl,
         focusNode: _colorsFocus,
-        hint: '+ Add'.tr,
+        hint: 'e.g. Red, Blue...',
         onAdd: () {
           controller.addColor(_colorsInputCtrl.text.trim());
           _colorsInputCtrl.clear();
@@ -1155,7 +1155,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
         tags: ctrl.boxContains,
         inputCtrl: _boxInputCtrl,
         focusNode: _boxFocus,
-        hint: '+ Add'.tr,
+        hint: 'e.g. Manual, Charger...',
         onAdd: () {
           controller.addBoxItem(_boxInputCtrl.text.trim());
           _boxInputCtrl.clear();
@@ -1739,65 +1739,103 @@ class _AddItemScreenState extends State<AddItemScreen> {
     required String hint,
     required VoidCallback onAdd,
     required void Function(String) onRemove,
-  }) => Container(
-    padding: const EdgeInsets.all(10),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(10),
-      border: Border.all(color: _kBorder),
-    ),
-    child: Wrap(
-      spacing: 6,
-      runSpacing: 6,
-      crossAxisAlignment: WrapCrossAlignment.center,
-      children: [
-        ...tags.map(
-          (t) => Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-            decoration: BoxDecoration(
-              color: Color(0xFFF5F5F5),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(t, style: TextStyle(fontSize: 13, color: _kLabel)),
-                SizedBox(width: 4),
-                GestureDetector(
-                  onTap: () => onRemove(t),
-                  child: Icon(Icons.close, size: 13, color: _kSubLabel),
+  }) => Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      // Chips row
+      if (tags.isNotEmpty)
+        Wrap(
+          spacing: 6,
+          runSpacing: 6,
+          children: tags
+              .map(
+                (t) => Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: _kRed.withOpacity(0.08),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: _kRed.withOpacity(0.25)),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        t,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: _kRed,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      SizedBox(width: 5),
+                      GestureDetector(
+                        onTap: () => onRemove(t),
+                        child: Icon(
+                          Icons.cancel,
+                          size: 14,
+                          color: _kRed.withOpacity(0.6),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
-          ),
+              )
+              .toList(),
         ),
-        IntrinsicWidth(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(minWidth: 60, maxWidth: 100),
-            child: TextField(
-              controller: inputCtrl,
-              focusNode: focusNode,
-              style: TextStyle(
-                fontSize: 13,
-                color: _kRed,
-                fontWeight: FontWeight.w600,
+      if (tags.isNotEmpty) SizedBox(height: 8),
+      // Text field with arrow button
+      Container(
+        height: 44,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: _kBorder),
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: TextField(
+                controller: inputCtrl,
+                focusNode: focusNode,
+                style: TextStyle(fontSize: 13, color: _kLabel),
+                onSubmitted: (_) => onAdd(),
+                decoration: InputDecoration(
+                  hintText: hint,
+                  hintStyle: TextStyle(color: _kSubLabel, fontSize: 13),
+                  border: InputBorder.none,
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 12,
+                  ),
+                  isDense: true,
+                ),
               ),
-              onSubmitted: (_) => onAdd(),
-              decoration: InputDecoration(
-                hintText: hint,
-                hintStyle: TextStyle(
+            ),
+            GestureDetector(
+              onTap: onAdd,
+              child: Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
                   color: _kRed,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(10),
+                    bottomRight: Radius.circular(10),
+                  ),
                 ),
-                border: InputBorder.none,
-                contentPadding: const EdgeInsets.symmetric(vertical: 6),
-                isDense: true,
+                child: Icon(
+                  Icons.arrow_forward_rounded,
+                  color: Colors.white,
+                  size: 18,
+                ),
               ),
             ),
-          ),
+          ],
         ),
-      ],
-    ),
+      ),
+    ],
   );
 }

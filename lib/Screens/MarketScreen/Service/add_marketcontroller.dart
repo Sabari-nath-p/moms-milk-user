@@ -6,15 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:mommilk_user/Screens/MarketScreen/Service/market_controller.dart';
 import 'package:mommilk_user/Utils/ApiService.dart';
 import 'package:mime/mime.dart';
 
 class AddMarketplaceController extends GetxController {
   bool isLoading = false;
   bool isUploadingImage = false;
-
-  final MarketController marketController = Get.find<MarketController>();
 
   // ── Core controllers ──────────────────────────────────────────────────────
   final titleController = TextEditingController();
@@ -247,7 +244,6 @@ class AddMarketplaceController extends GetxController {
         body: body,
         onSuccess: (response) {
           log('CREATE SUCCESS: ${response.data}');
-          marketController.fetchMarketplaceListings(isRefresh: true);
           Fluttertoast.showToast(
             msg: response.data['message'] ?? 'Listing created successfully',
           );

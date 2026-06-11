@@ -14,16 +14,13 @@ class UserDetailsStep extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header
               Text(
                 'Personal Information'.tr,
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),
-
               SizedBox(height: 8),
-
               Text(
                 'Please provide your basic information to create your profile.'
                     .tr,
@@ -31,7 +28,6 @@ class UserDetailsStep extends StatelessWidget {
                   color: Colors.black.withOpacity(.8),
                 ),
               ),
-
               SizedBox(height: 32),
 
               // Name Field
@@ -60,16 +56,15 @@ class UserDetailsStep extends StatelessWidget {
                 ),
               ),
               Obx(
-                () =>
-                    controller.nameError.value.isNotEmpty
-                        ? Padding(
-                          padding: EdgeInsets.only(top: 6, left: 4),
-                          child: Text(
-                            controller.nameError.value,
-                            style: TextStyle(color: Colors.red, fontSize: 12),
-                          ),
-                        )
-                        : SizedBox.shrink(),
+                () => controller.nameError.value.isNotEmpty
+                    ? Padding(
+                        padding: EdgeInsets.only(top: 6, left: 4),
+                        child: Text(
+                          controller.nameError.value,
+                          style: TextStyle(color: Colors.red, fontSize: 12),
+                        ),
+                      )
+                    : SizedBox.shrink(),
               ),
 
               SizedBox(height: 20),
@@ -77,14 +72,12 @@ class UserDetailsStep extends StatelessWidget {
               // Phone Number with Country Code
               Row(
                 children: [
-                  // Country Code Dropdown
                   SizedBox(
                     width: 120,
                     child: DropdownButtonFormField<String>(
-                      value:
-                          controller.selectedCountryCode.isEmpty
-                              ? null
-                              : controller.selectedCountryCode,
+                      value: controller.selectedCountryCode.isEmpty
+                          ? null
+                          : controller.selectedCountryCode,
                       decoration: InputDecoration(
                         labelText: 'Code'.tr,
                         prefixIcon: Icon(Icons.flag_outlined),
@@ -103,29 +96,24 @@ class UserDetailsStep extends StatelessWidget {
                           ),
                         ),
                       ),
-                      items:
-                          controller.countryCodes.map((country) {
-                            return DropdownMenuItem<String>(
-                              value: country['code'],
-                              child: Text(
-                                '${country['code'.tr]} ${country['country'.tr]}',
-                                style: TextStyle(fontSize: 14),
-                              ),
-                            );
-                          }).toList(),
+                      items: controller.countryCodes.map((country) {
+                        return DropdownMenuItem<String>(
+                          value: country['code'],
+                          child: Text(
+                            '${country['code']} ${country['country']}',
+                            style: TextStyle(fontSize: 14),
+                          ),
+                        );
+                      }).toList(),
                       onChanged: (value) {
-                        if (value != null) {
+                        if (value != null)
                           controller.selectedCountryCode = value;
-                        }
                       },
                       isExpanded: true,
                       icon: Icon(Icons.arrow_drop_down),
                     ),
                   ),
-
                   SizedBox(width: 16),
-
-                  // Phone Number
                   Expanded(
                     child: TextField(
                       controller: controller.phoneController,
@@ -159,23 +147,20 @@ class UserDetailsStep extends StatelessWidget {
                           ),
                         ),
                       ),
-                      //onChanged: (value) => controller.phone.value = value,
                     ),
                   ),
                 ],
               ),
-
               Obx(
-                () =>
-                    controller.phoneError.value.isNotEmpty
-                        ? Padding(
-                          padding: EdgeInsets.only(top: 6, left: 4),
-                          child: Text(
-                            controller.phoneError.value,
-                            style: TextStyle(color: Colors.red, fontSize: 12),
-                          ),
-                        )
-                        : SizedBox.shrink(),
+                () => controller.phoneError.value.isNotEmpty
+                    ? Padding(
+                        padding: EdgeInsets.only(top: 6, left: 4),
+                        child: Text(
+                          controller.phoneError.value,
+                          style: TextStyle(color: Colors.red, fontSize: 12),
+                        ),
+                      )
+                    : SizedBox.shrink(),
               ),
 
               SizedBox(height: 20),
@@ -213,124 +198,67 @@ class UserDetailsStep extends StatelessWidget {
                     ),
                   ),
                 ),
-                //  onChanged: (value) => controller.zipCode.value = value,
               ),
               Obx(
-                () =>
-                    controller.zipError.value.isNotEmpty
-                        ? Padding(
-                          padding: EdgeInsets.only(top: 6, left: 4),
-                          child: Text(
-                            controller.zipError.value,
-                            style: TextStyle(color: Colors.red, fontSize: 12),
-                          ),
-                        )
-                        : SizedBox.shrink(),
+                () => controller.zipError.value.isNotEmpty
+                    ? Padding(
+                        padding: EdgeInsets.only(top: 6, left: 4),
+                        child: Text(
+                          controller.zipError.value,
+                          style: TextStyle(color: Colors.red, fontSize: 12),
+                        ),
+                      )
+                    : SizedBox.shrink(),
               ),
+
               SizedBox(height: 20),
 
-              SizedBox(
-                child: DropdownButtonFormField<String>(
-                  value:
-                      controller.selectedLanguage.isEmpty
-                          ? null
-                          : controller.selectedLanguage,
-                  decoration: InputDecoration(
-                    labelText: 'Select Language'.tr,
-                    prefixIcon: Icon(Icons.language),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: Colors.grey[400]!),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.primary,
-                        width: 2,
-                      ),
+              // ── LANGUAGE DROPDOWN FIX ──────────────────────────────────────
+              // value is always the fixed key "English" or "Spanish" — NEVER the
+              // translated string. So when locale changes "Spanish" → "Español",
+              // the dropdown value still matches an item and won't crash.
+              DropdownButtonFormField<String>(
+                value: controller.selectedLanguage,
+                decoration: InputDecoration(
+                  labelText: 'Select Language'.tr,
+                  prefixIcon: Icon(Icons.language),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.grey[400]!),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                      width: 2,
                     ),
                   ),
-                  items:
-                      ["English".tr, "Spanish".tr].map((lang) {
-                        return DropdownMenuItem<String>(
-                          value: lang,
-                          child: Text(lang, style: TextStyle(fontSize: 14)),
-                        );
-                      }).toList(),
-                  onChanged: (value) {
-                    if (value != null) {
-                      controller.selectedLanguage = value;
-                      String code = (value == "English") ? "en" : "es";
-                      Get.updateLocale(Locale(code));
-                      controller.update();
-                    }
-                  },
-                  isExpanded: true,
-                  icon: Icon(Icons.arrow_drop_down),
                 ),
+                items: [
+                  DropdownMenuItem<String>(
+                    value: "English",
+                    child: Text('English'.tr, style: TextStyle(fontSize: 14)),
+                  ),
+                  DropdownMenuItem<String>(
+                    value: "Spanish",
+                    child: Text('Spanish'.tr, style: TextStyle(fontSize: 14)),
+                  ),
+                ],
+                onChanged: (value) {
+                  if (value != null) {
+                    controller.selectedLanguage = value;
+                    Get.updateLocale(Locale(value == "English" ? "en" : "es"));
+                    controller.update();
+                  }
+                },
+                isExpanded: true,
+                icon: Icon(Icons.arrow_drop_down),
               ),
 
-              if (false) SizedBox(height: 32),
-
-              // Facebook Link
-              if (false)
-                TextField(
-                  controller: controller.facebookLinkController,
-                  textInputAction: TextInputAction.next,
-                  style: TextStyle(fontSize: 16),
-                  decoration: InputDecoration(
-                    labelText: 'Facebook Profile link'.tr,
-                    hintText: 'Enter your facebook profile link'.tr,
-                    prefixIcon: Icon(Icons.person_outline),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: Colors.grey[400]!),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.primary,
-                        width: 2,
-                      ),
-                    ),
-                  ),
-                ),
-
-              if (false) SizedBox(height: 20),
-
-              // Instagram Link
-              if (false)
-                TextField(
-                  controller: controller.instagramLinkController,
-                  textInputAction: TextInputAction.next,
-                  style: TextStyle(fontSize: 16),
-                  decoration: InputDecoration(
-                    labelText: 'Instagram Profile Link'.tr,
-                    hintText: 'Enter your Instagram profile link'.tr,
-                    prefixIcon: Icon(Icons.person_outline),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: Colors.grey[400]!),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.primary,
-                        width: 2,
-                      ),
-                    ),
-                  ),
-                ),
-
+              // ──────────────────────────────────────────────────────────────
               SizedBox(height: 32),
 
               // Info Card
