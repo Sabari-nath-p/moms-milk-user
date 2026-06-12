@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 class MarketplaceDetailsModel {
   final int id;
   final int userId;
@@ -12,7 +14,6 @@ class MarketplaceDetailsModel {
   final DateTime createdAt;
   final DateTime updatedAt;
 
-  // ── NEW fields ────────────────────────────────────────────────────────────
   final int? originPrice;
   final DateTime? purchasedOn;
   final String? brand;
@@ -25,6 +26,8 @@ class MarketplaceDetailsModel {
   final List<MarketplaceImage> images;
   final MarketplaceCount count;
   final List<dynamic> savedBy;
+  final String currencySymbol;
+  final String currencyCode;
 
   MarketplaceDetailsModel({
     required this.id,
@@ -50,25 +53,27 @@ class MarketplaceDetailsModel {
     required this.images,
     required this.count,
     required this.savedBy,
+    this.currencySymbol = '₹',
+    this.currencyCode = 'INR',
   });
 
-  /// Derived: discount % from originPrice
+  /// Discount % from originPrice
   int? get discountPercent {
     final op = originPrice;
     if (op == null || op <= price) return null;
     return (((op - price) / op) * 100).round();
   }
 
-  /// Derived: "X months" from purchasedOn
+  /// "X months" from purchasedOn — translated
   String? get usedDuration {
     if (purchasedOn == null) return null;
     final now = DateTime.now();
     final diff = now.difference(purchasedOn!);
     final months = (diff.inDays / 30).round();
-    if (months == 0) return 'less than a month';
-    if (months < 12) return '$months month${months == 1 ? '' : 's'}';
+    if (months == 0) return 'less than a month'.tr;
+    if (months < 12) return '$months ${'month'.tr}${months == 1 ? '' : 's'.tr}';
     final years = (months / 12).round();
-    return '$years year${years == 1 ? '' : 's'}';
+    return '$years ${'year'.tr}${years == 1 ? '' : 's'.tr}';
   }
 
   factory MarketplaceDetailsModel.fromJson(Map<String, dynamic> json) {
@@ -102,11 +107,13 @@ class MarketplaceDetailsModel {
           .toList(),
       count: MarketplaceCount.fromJson(json["_count"] ?? {}),
       savedBy: json["savedBy"] ?? [],
+      currencySymbol: json["currency"]?["symbol"] ?? '₹',
+      currencyCode: json["currency"]?["code"] ?? 'INR',
     );
   }
 }
 
-// ── USER (details screen has richer user object) ──────────────────────────────
+// ── USER ──────────────────────────────────────────────────────────────────────
 
 class MarketplaceDetailsUser {
   final int id;
@@ -114,7 +121,7 @@ class MarketplaceDetailsUser {
   final String zipcode;
   final DateTime? lastWsConnectedAt;
   final int totalListingsCount;
-  final DateTime? createdAt; // joined date
+  final DateTime? createdAt;
 
   MarketplaceDetailsUser({
     required this.id,
@@ -125,20 +132,20 @@ class MarketplaceDetailsUser {
     this.createdAt,
   });
 
-  /// "Active 2 hours ago" / "Active recently"
+  /// "Active X min ago" — translated
   String get activeAgo {
-    if (lastWsConnectedAt == null) return 'recently';
+    if (lastWsConnectedAt == null) return 'recently'.tr;
     final diff = DateTime.now().difference(lastWsConnectedAt!);
-    if (diff.inMinutes < 60) return '${diff.inMinutes} min ago';
-    if (diff.inHours < 24) return '${diff.inHours} hours ago';
-    if (diff.inDays == 1) return 'yesterday';
-    if (diff.inDays < 7) return '${diff.inDays} days ago';
-    return '${(diff.inDays / 7).round()} weeks ago';
+    if (diff.inMinutes < 60) return '${diff.inMinutes} ${'min ago'.tr}';
+    if (diff.inHours < 24) return '${diff.inHours} ${'hours ago'.tr}';
+    if (diff.inDays == 1) return 'yesterday'.tr;
+    if (diff.inDays < 7) return '${diff.inDays} ${'days ago'.tr}';
+    return '${(diff.inDays / 7).round()} ${'weeks ago'.tr}';
   }
 
-  /// "Joined in Feb 2022"
+  /// "Joined in Feb 2022" — translated
   String get joinedLabel {
-    if (createdAt == null) return 'Joined —';
+    if (createdAt == null) return '${'Joined'.tr} —';
     const months = [
       'Jan',
       'Feb',
@@ -153,7 +160,7 @@ class MarketplaceDetailsUser {
       'Nov',
       'Dec',
     ];
-    return 'Joined in ${months[createdAt!.month - 1]} ${createdAt!.year}';
+    return '${'Joined in'.tr} ${months[createdAt!.month - 1]} ${createdAt!.year}';
   }
 
   factory MarketplaceDetailsUser.fromJson(Map<String, dynamic> json) {
@@ -210,10 +217,7 @@ class MarketplaceImage {
 
 class MarketplaceCount {
   final int savedBy;
-
   MarketplaceCount({required this.savedBy});
-
-  factory MarketplaceCount.fromJson(Map<String, dynamic> json) {
-    return MarketplaceCount(savedBy: json["savedBy"] ?? 0);
-  }
+  factory MarketplaceCount.fromJson(Map<String, dynamic> json) =>
+      MarketplaceCount(savedBy: json["savedBy"] ?? 0);
 }

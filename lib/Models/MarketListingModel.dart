@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 class MarketplaceListing {
   final int id;
   final int userId;
@@ -19,9 +21,9 @@ class MarketplaceListing {
   final List<String> colors;
   final String? dimensions;
   final List<String> boxContains;
-
-  // FIX 3: distanceKm from API response — e.g. 14.93
   final double? distanceKm;
+  final String currencySymbol;
+  final String currencyCode;
 
   final MarketplaceUser user;
   final List<ListingImage> images;
@@ -47,21 +49,23 @@ class MarketplaceListing {
     this.colors = const [],
     this.dimensions,
     this.boxContains = const [],
-    this.distanceKm, // ← new
+    this.distanceKm,
+    this.currencySymbol = '₹',
+    this.currencyCode = 'INR',
     required this.user,
     required this.images,
     required this.count,
   });
 
-  /// "X months" / "X years" from purchasedOn → today
+  /// "X months" / "X years" from purchasedOn → today — translated
   String? get usedDuration {
     if (purchasedOn == null) return null;
     final months = (DateTime.now().difference(purchasedOn!).inDays / 30)
         .round();
-    if (months == 0) return 'less than a month';
-    if (months < 12) return '$months month${months == 1 ? '' : 's'}';
+    if (months == 0) return 'less than a month'.tr;
+    if (months < 12) return '$months ${'month'.tr}${months == 1 ? '' : 's'.tr}';
     final years = (months / 12).round();
-    return '$years year${years == 1 ? '' : 's'}';
+    return '$years ${'year'.tr}${years == 1 ? '' : 's'.tr}';
   }
 
   /// Discount % from originPrice vs price
@@ -70,13 +74,10 @@ class MarketplaceListing {
     return (((originPrice! - price) / originPrice!) * 100).round();
   }
 
-  /// Human-readable distance string, e.g. "1.8 km" or "15 km"
+  /// Human-readable distance string
   String? get distanceLabel {
     if (distanceKm == null) return null;
-    // show one decimal only when < 10 km, otherwise round
-    if (distanceKm! < 10) {
-      return '${distanceKm!.toStringAsFixed(1)} km';
-    }
+    if (distanceKm! < 10) return '${distanceKm!.toStringAsFixed(1)} km';
     return '${distanceKm!.round()} km';
   }
 
@@ -103,12 +104,11 @@ class MarketplaceListing {
       colors: List<String>.from(json["colors"] ?? []),
       dimensions: json["dimensions"] as String?,
       boxContains: List<String>.from(json["boxContains"] ?? []),
-
-      // FIX 3: parse distanceKm — API returns it as a double e.g. 14.93
       distanceKm: json["distanceKm"] != null
           ? (json["distanceKm"] as num).toDouble()
           : null,
-
+      currencySymbol: json["currency"]?["symbol"] ?? '₹',
+      currencyCode: json["currency"]?["code"] ?? 'INR',
       user: MarketplaceUser.fromJson(json["user"] ?? {}),
       images: (json["images"] as List<dynamic>? ?? [])
           .map((e) => ListingImage.fromJson(e))
@@ -135,14 +135,15 @@ class MarketplaceUser {
     this.totalListingsCount = 0,
   });
 
+  /// "Active X min ago" — translated
   String get activeAgo {
-    if (lastWsConnectedAt == null) return 'recently';
+    if (lastWsConnectedAt == null) return 'recently'.tr;
     final diff = DateTime.now().difference(lastWsConnectedAt!);
-    if (diff.inMinutes < 60) return '${diff.inMinutes} min ago';
-    if (diff.inHours < 24) return '${diff.inHours} hours ago';
-    if (diff.inDays == 1) return 'yesterday';
-    if (diff.inDays < 7) return '${diff.inDays} days ago';
-    return '${(diff.inDays / 7).round()} weeks ago';
+    if (diff.inMinutes < 60) return '${diff.inMinutes} ${'min ago'.tr}';
+    if (diff.inHours < 24) return '${diff.inHours} ${'hours ago'.tr}';
+    if (diff.inDays == 1) return 'yesterday'.tr;
+    if (diff.inDays < 7) return '${diff.inDays} ${'days ago'.tr}';
+    return '${(diff.inDays / 7).round()} ${'weeks ago'.tr}';
   }
 
   factory MarketplaceUser.fromJson(Map<String, dynamic> json) {
