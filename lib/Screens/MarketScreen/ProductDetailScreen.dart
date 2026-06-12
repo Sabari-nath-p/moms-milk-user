@@ -164,7 +164,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              '₹${p.price.toStringAsFixed(0)}',
+                              '\$${p.price.toStringAsFixed(0)}',
                               style: TextStyle(
                                 color: _red,
                                 fontSize: 22,
@@ -174,7 +174,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             SizedBox(width: 8),
                             if (originPrice != null)
                               Text(
-                                '₹$originPrice',
+                                '\$$originPrice',
                                 style: TextStyle(
                                   color: Colors.grey.shade400,
                                   fontSize: 15,
@@ -253,7 +253,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   children: [
                                     Flexible(
                                       child: Text(
-                                        '${'Original Price'.tr}: ₹$originPrice',
+                                        '${'Original Price'.tr}: ${'\$$originPrice'}',
                                         style: TextStyle(
                                           fontSize: 11,
                                           color: Colors.grey.shade500,

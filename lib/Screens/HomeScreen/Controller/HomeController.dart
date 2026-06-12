@@ -185,28 +185,28 @@ class Homecontroller extends GetxController {
 
     // Return appropriate format based on age
     if (adjustedYears >= 2) {
-       return '$adjustedYears ${'years old'.tr}';
+      return '$adjustedYears ${'years old'.tr}';
     } else if (adjustedYears == 1) {
-     return '1 ${'year old'.tr}';
+      return '1 ${'year old'.tr}';
     } else if (adjustedMonths >= 2) {
-     return '$adjustedMonths ${'months old'.tr}';
+      return '$adjustedMonths ${'months old'.tr}';
     } else if (adjustedMonths == 1) {
       return '1 ${'month old'.tr}';
     } else if (weeks >= 2) {
       return '$weeks ${'weeks old'.tr}';
     } else if (weeks == 1) {
-       return '1 ${'week old'.tr}';
+      return '1 ${'week old'.tr}';
     } else if (days >= 2) {
       return '$days ${'days old'.tr}';
     } else if (days == 1) {
-     return '1 ${'day old'.tr}';
+      return '1 ${'day old'.tr}';
     } else {
       return 'Born today'.tr;
     }
   }
 
   void fetchIncommingRequest() async {
-     if (user.userType != 'DONOR') return;
+    if (user.userType != 'DONOR') return;
     ApiService.request(
       endpoint: "/requests/incoming?status=PENDING&page=1&limit=10",
       method: Api.GET,

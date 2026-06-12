@@ -190,11 +190,6 @@ class _SearchBuyerScreenState extends State<SearchBuyerScreen> {
                 ),
               ),
             ),
-            IconButton(
-              onPressed: () => _showFiltersBottomSheet(context),
-              icon: Icon(Icons.tune),
-              tooltip: 'Filters'.tr,
-            ),
           ],
         ),
         SizedBox(height: 25),

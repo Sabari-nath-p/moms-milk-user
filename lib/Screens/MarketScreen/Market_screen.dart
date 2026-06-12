@@ -1233,7 +1233,7 @@ class _MarketScreenState extends State<MarketScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          '₹${p.price}',
+                          '\$${p.price}',
                           style: TextStyle(
                             color: _red,
                             fontSize: 15,
@@ -1243,7 +1243,7 @@ class _MarketScreenState extends State<MarketScreen> {
                         SizedBox(width: 5),
                         if (origPrice != null)
                           Text(
-                            '₹$origPrice',
+                            '\$$origPrice',
                             style: TextStyle(
                               color: Colors.grey.shade400,
                               fontSize: 11,
@@ -1491,7 +1491,7 @@ class _MarketScreenState extends State<MarketScreen> {
                     Row(
                       children: [
                         Text(
-                          '₹${p.price}',
+                          '\$${p.price}',
                           style: TextStyle(
                             color: _red,
                             fontSize: 14,
@@ -1501,7 +1501,7 @@ class _MarketScreenState extends State<MarketScreen> {
                         SizedBox(width: 5),
                         if (origPrice != null)
                           Text(
-                            '₹$origPrice',
+                            '\$$origPrice',
                             style: TextStyle(
                               color: Colors.grey.shade400,
                               fontSize: 11,
