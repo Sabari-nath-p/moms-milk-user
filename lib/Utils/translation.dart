@@ -158,14 +158,6 @@ class AppTranslations extends Translations {
       "Track baby's sleep patterns": "Registrar patrones de sueño del bebé",
       "Log Sleep": "Registrar sueño",
       "My Connection": "Mi conexión",
-      "Find Donors": "Buscar donantes",
-      "Log Sleep": "Registrar sueño",
-      "Date": "Fecha",
-      "Start Time": "Hora de inicio",
-      "End Time": "Hora de fin",
-      "Sleep Location": "Lugar de sueño",
-      "Cancel": "Cancelar",
-      "Save Log": "Guardar registro",
 
       "Please select sleep date before submission":
           "Por favor selecciona la fecha de sueño",
@@ -797,22 +789,8 @@ class AppTranslations extends Translations {
       "Any": "Cualquiera",
       "Within": "En un radio de",
       "Distance": "Distancia",
-      "Condition": "Condición",
-      "Price Range": "Rango de precio",
-      "Enable to filter by distance from you":
-          "Activar para filtrar por distancia",
-      "Apply Filters": "Aplicar filtros",
-      "Clear All": "Borrar todo",
-      "Filters": "Filtros",
 
-      // Sort options
-      "Newest First": "Más recientes primero",
-      "Oldest First": "Más antiguos primero",
-      "Price: Low to High": "Precio: menor a mayor",
-      "Price: High to Low": "Precio: mayor a menor",
-      "Sort": "Ordenar",
-      "Clear": "Limpiar",
-      "Any": "Cualquiera",
+     
       "Under": "Menos de",
      
       // ── Add Item screen ────────────────────────────────────────────────────
@@ -826,7 +804,28 @@ class AppTranslations extends Translations {
       "Original Price": "Precio original",
       "Used": "Usado",
       "Joined": "Se unió",
-
+      "Good photos sell faster! (@count/@max)":
+          "¡Las buenas fotos se venden más rápido! (@count/@max)",
+      "Images uploaded successfully": "Imágenes subidas con éxito",
+      "Listing created successfully": "Publicación creada con éxito",
+      "ACTIVE": "ACTIVO",
+      "INACTIVE": "INACTIVO",
+      "No listings found": "No se encontraron publicaciones",
+      "Delete Listing": "Eliminar publicación",
+      "Are you sure you want to delete this listing?":
+          "¿Estás seguro de que deseas eliminar esta publicación?",
+"less than a month": "menos de un mes",
+      "CLOTHING": "ROPA",
+      "STROLLERS": "COCHECITOS",
+      "CRADLES": "CUNAS",
+      "TOYS": "JUGUETES",
+      "CAR_SEATS": "ASIENTOS DE AUTO",
+      "FEEDING": "ALIMENTACIÓN",
+      "BATH": "BAÑO",
+      "SAFETY": "SEGURIDAD",
+      "BOOKS": "LIBROS",
+      "EDUCATIONAL": "EDUCATIVO",
+      "OTHER": "OTRO",
       
     
     },

@@ -381,6 +381,17 @@ class _MarketScreenState extends State<MarketScreen> {
             child: TextField(
               controller: searchController,
               onSubmitted: (_) => _filter(),
+              onChanged: (value) {
+                Future.delayed(Duration(milliseconds: 600), () {
+                  if (searchController.text.trim() == value.trim()) {
+                    // Reset category to All when searching by text
+                    if (value.trim().isNotEmpty && selectedCategory != 'All') {
+                      setState(() => selectedCategory = 'All');
+                    }
+                    _filter();
+                  }
+                });
+              },
               style: TextStyle(fontSize: 14),
               decoration: InputDecoration(
                 border: InputBorder.none,

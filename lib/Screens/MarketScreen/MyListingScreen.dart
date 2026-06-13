@@ -4,6 +4,17 @@ import 'package:get/get.dart';
 import 'package:mommilk_user/Screens/MarketScreen/EditListingScreen.dart';
 import 'package:mommilk_user/Screens/MarketScreen/Service/my_listing_controller.dart';
 
+String _translateStatus(String status) {
+  switch (status) {
+    case 'ACTIVE':
+      return 'ACTIVE'.tr;
+    case 'INACTIVE':
+      return 'INACTIVE'.tr;
+    default:
+      return status;
+  }
+}
+
 class MyListingsScreen extends StatelessWidget {
   MyListingsScreen({super.key});
 
@@ -32,7 +43,7 @@ class MyListingsScreen extends StatelessWidget {
           }
 
           if (controller.listings.isEmpty) {
-            return const Center(child: Text("No listings found"));
+            return Center(child: Text("No listings found".tr));
           }
 
           return RefreshIndicator(
@@ -55,9 +66,7 @@ class MyListingsScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(18),
-
                     border: Border.all(color: Colors.grey.shade200, width: 1),
-
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.03),
@@ -79,7 +88,6 @@ class MyListingsScreen extends StatelessWidget {
                             height: 110,
                             width: 110,
                             fit: BoxFit.cover,
-
                             errorBuilder: (context, error, stackTrace) {
                               return Container(
                                 height: 110,
@@ -120,7 +128,6 @@ class MyListingsScreen extends StatelessWidget {
                                       await controller.getListingById(
                                         item["id"],
                                       );
-
                                       Get.to(
                                         () => EditListingScreen(
                                           listingId: item["id"],
@@ -148,21 +155,19 @@ class MyListingsScreen extends StatelessWidget {
                                     onTap: () {
                                       Get.dialog(
                                         AlertDialog(
-                                          title: const Text("Delete Listing"),
-                                          content: const Text(
-                                            "Are you sure you want to delete this listing?",
+                                          title: Text("Delete Listing".tr),
+                                          content: Text(
+                                            "Are you sure you want to delete this listing?"
+                                                .tr,
                                           ),
-
                                           actions: [
                                             TextButton(
                                               onPressed: () => Get.back(),
-                                              child: const Text("Cancel"),
+                                              child: Text("Cancel".tr),
                                             ),
-
                                             ElevatedButton(
                                               onPressed: () {
                                                 Get.back();
-
                                                 controller.deleteListing(
                                                   item["id"],
                                                 );
@@ -170,7 +175,7 @@ class MyListingsScreen extends StatelessWidget {
                                               style: ElevatedButton.styleFrom(
                                                 backgroundColor: Colors.red,
                                               ),
-                                              child: const Text("Delete"),
+                                              child: Text("Delete".tr),
                                             ),
                                           ],
                                         ),
@@ -231,7 +236,7 @@ class MyListingsScreen extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                     child: Text(
-                                      item["status"] ?? "",
+                                      _translateStatus(item["status"] ?? ""),
                                       style: TextStyle(
                                         fontSize: 12,
                                         color: item["status"] == "ACTIVE"

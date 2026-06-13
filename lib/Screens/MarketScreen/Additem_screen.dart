@@ -666,7 +666,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
         ),
         SizedBox(height: 4),
         Text(
-          'Good photos sell faster! (${ctrl.selectedImages.length}/$_kMaxPhotos)',
+         'Good photos sell faster! (@count/@max)'.trParams({
+            'count': '${ctrl.selectedImages.length}',
+            'max': '$_kMaxPhotos',
+          }),
           style: TextStyle(fontSize: 13, color: _kSubLabel),
         ),
         SizedBox(height: 16),
