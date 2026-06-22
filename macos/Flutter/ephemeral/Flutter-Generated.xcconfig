@@ -1,10 +1,10 @@
 // This is a generated file; do not edit or check into version control.
-FLUTTER_ROOT=C:\flutter
-FLUTTER_APPLICATION_PATH=C:\Users\AGNES\Downloads\moms-milk-user
+FLUTTER_ROOT=/opt/homebrew/share/flutter
+FLUTTER_APPLICATION_PATH=/Users/reemasalam/Desktop/PARASYA/moms-milk-user
 COCOAPODS_PARALLEL_CODE_SIGN=true
 FLUTTER_BUILD_DIR=build
-FLUTTER_BUILD_NAME=1.0.8
-FLUTTER_BUILD_NUMBER=24
+FLUTTER_BUILD_NAME=1.0.9
+FLUTTER_BUILD_NUMBER=31
 DART_OBFUSCATION=false
 TRACK_WIDGET_CREATION=true
 TREE_SHAKE_ICONS=false

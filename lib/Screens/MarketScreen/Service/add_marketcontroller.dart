@@ -121,77 +121,110 @@ class AddMarketplaceController extends GetxController {
   // Called after the user picks photos. Appends new URLs to imageUrls list.
   // createListing() reuses these — never re-uploads.
   Future<void> uploadImages(List<File> images) async {
-    if (images.isEmpty) return;
+  if (images.isEmpty) return;
 
-    try {
-      isUploadingImage = true;
-      update();
+  try {
+    isUploadingImage = true;
+    update();
 
-      final token = await ApiService.getAuthToken();
+    final token = await ApiService.getAuthToken();
 
-      final request = http.MultipartRequest(
-        'POST',
-        Uri.parse('${ApiService.baseUrl}/uploads/images'),
-      );
+    final request = http.MultipartRequest(
+      'POST',
+      Uri.parse('${ApiService.baseUrl}/uploads/images'),
+    );
 
-      request.headers.addAll({
-        'Authorization': 'Bearer $token',
-        'Accept': 'application/json',
-      });
+    request.headers.addAll({
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json',
+    });
 
-      for (final image in images) {
-        final mimeType = lookupMimeType(image.path);
-        if (mimeType == null || !mimeType.startsWith('image/')) {
-          Fluttertoast.showToast(msg: 'Invalid image skipped');
-          continue;
-        }
-        final parts = mimeType.split('/');
-        request.files.add(
-          await http.MultipartFile.fromPath(
-            'files',
-            image.path,
-            contentType: http.MediaType(parts[0], parts[1]),
-          ),
-        );
+    // DEBUG LOGS
+    log('========== IMAGE UPLOAD REQUEST ==========');
+    log('URL: ${request.url}');
+    log('METHOD: ${request.method}');
+    log('TOKEN: $token');
+    log('HEADERS: ${request.headers}');
+
+    for (final image in images) {
+      final mimeType = lookupMimeType(image.path);
+
+      log('IMAGE PATH: ${image.path}');
+      log('IMAGE SIZE: ${await image.length()} bytes');
+      log('MIME TYPE: $mimeType');
+
+      if (mimeType == null || !mimeType.startsWith('image/')) {
+        Fluttertoast.showToast(msg: 'Invalid image skipped');
+        continue;
       }
 
-      final streamed = await request.send();
-      final response = await http.Response.fromStream(streamed);
+      final parts = mimeType.split('/');
 
-      log('UPLOAD STATUS: ${response.statusCode}');
-      log('UPLOAD BODY: ${response.body}');
+      request.files.add(
+        await http.MultipartFile.fromPath(
+          'files',
+          image.path,
+          contentType: http.MediaType(parts[0], parts[1]),
+        ),
+      );
+    }
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        final data = jsonDecode(response.body);
-        if (data is List) {
-          // APPEND new URLs — supports picking photos in multiple batches
-          // Hard-cap at 8 as safety net even if UI somehow allowed more
-          final newUrls = data.map<String>((e) => e['url'].toString()).toList();
-          imageUrls = [...imageUrls, ...newUrls].take(8).toList();
-          Fluttertoast.showToast(msg: 'Images uploaded successfully');
-        } else {
-          Fluttertoast.showToast(msg: 'Invalid upload response');
-        }
-      } else if (response.statusCode == 413) {
-        // 413 = file too large for server
+    log('TOTAL FILES: ${request.files.length}');
+    log('=========================================');
+
+    final streamedResponse = await request.send();
+
+    log('========== RAW RESPONSE ==========');
+    log('STATUS CODE: ${streamedResponse.statusCode}');
+    log('HEADERS: ${streamedResponse.headers}');
+    log('=================================');
+
+    final response = await http.Response.fromStream(streamedResponse);
+
+    log('========== RESPONSE BODY ==========');
+    log(response.body);
+    log('===================================');
+
+    if (response.statusCode == 200 ||
+        response.statusCode == 201) {
+      final data = jsonDecode(response.body);
+
+      if (data is List) {
+        final newUrls =
+            data.map<String>((e) => e['url'].toString()).toList();
+
+        imageUrls = [
+          ...imageUrls,
+          ...newUrls,
+        ].take(8).toList();
+
         Fluttertoast.showToast(
-          msg:
-              'Image file size is too large. Please choose a smaller photo (max ~5MB each) and try again.',
-          toastLength: Toast.LENGTH_LONG,
+          msg: 'Images uploaded successfully',
         );
       } else {
         Fluttertoast.showToast(
-          msg: 'Upload failed (${response.statusCode}). Please try again.',
+          msg: 'Invalid upload response',
         );
       }
-    } catch (e) {
-      log('UPLOAD ERROR: $e');
-      Fluttertoast.showToast(msg: 'Upload error: ${e.toString()}');
-    } finally {
-      isUploadingImage = false;
-      update();
+    } else {
+      Fluttertoast.showToast(
+        msg: 'Upload failed (${response.statusCode})',
+      );
     }
+  } catch (e, stackTrace) {
+    log('========== UPLOAD ERROR ==========');
+    log('ERROR: $e');
+    log('STACKTRACE: $stackTrace');
+    log('==================================');
+
+    Fluttertoast.showToast(
+      msg: 'Upload error: $e',
+    );
+  } finally {
+    isUploadingImage = false;
+    update();
   }
+}
 
   // ── Create listing ────────────────────────────────────────────────────────
   // Uses imageUrls already populated in step 0. Does NOT re-upload.
