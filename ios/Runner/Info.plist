@@ -4,6 +4,14 @@
 <dict>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+    <string>This app needs camera access to take photos.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>This app needs photo library access.</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>This app saves photos to your library.</string>
+	<key>NSMicrophoneUsageDescription</key>
+    <string>This app needs microphone access to audio call.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
