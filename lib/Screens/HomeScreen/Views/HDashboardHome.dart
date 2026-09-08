@@ -2,16 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:mommilk_user/Models/RequestModel.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
 import 'package:mommilk_user/Screens/Dashboard/Controller/DashboardController.dart';
+import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeDashboardController.dart';
 import 'package:mommilk_user/Screens/MarketScreen/ListingTypeSheet.dart';
 import 'package:mommilk_user/Screens/MarketScreen/MyListingScreen.dart';
+import 'package:mommilk_user/Screens/RequestScreen/RequestScreen.dart'
+    show formatDate;
 import 'package:mommilk_user/Screens/SearchDonarScreen/SearchDonarScreen.dart';
 import 'package:mommilk_user/theme/app_theme.dart';
 
-/// Exact UI replica of the Buyer / Donor home dashboard design.
-/// UI only — no data wiring / integrations. Values below are static
-/// placeholders matching the approved design.
+/// Buyer / Donor home dashboard.
+/// Summary stats and Recent Requests/Acceptances are wired to
+/// HomeDashboardController (GET /users/:id/{buyer,donor}-summary and
+/// -activity). Everything else on this screen is still static UI.
 class HDashboardHome extends StatelessWidget {
   const HDashboardHome({super.key});
 
@@ -46,37 +51,40 @@ class HDashboardHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: SafeArea(
-        bottom: false,
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildTopBar(context),
-              const SizedBox(height: 16),
-              _buildGreetingCard(context),
-              const SizedBox(height: 16),
-              _isDonor
-                  ? _buildDonorSummaryCard(context)
-                  : _buildBuyerRequestsCard(context),
-              const SizedBox(height: 16),
-              _isDonor
-                  ? _buildAddProductBanner(context)
-                  : _buildRequestMilkBanner(context),
-              const SizedBox(height: 16),
-              _buildQuickActionsGrid(context),
+    return GetBuilder<HomeDashboardController>(
+      init: HomeDashboardController(),
+      builder: (dctrl) => Container(
+        color: Colors.white,
+        child: SafeArea(
+          bottom: false,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildTopBar(context),
+                const SizedBox(height: 16),
+                _buildGreetingCard(context),
+                const SizedBox(height: 16),
+                _isDonor
+                    ? _buildDonorSummaryCard(context, dctrl)
+                    : _buildBuyerRequestsCard(context, dctrl),
+                const SizedBox(height: 16),
+                _isDonor
+                    ? _buildAddProductBanner(context)
+                    : _buildRequestMilkBanner(context),
+                const SizedBox(height: 16),
+                _buildQuickActionsGrid(context),
 
-              if (_isDonor) _buildMarketplaceSearchCard(context),
-              if (_isDonor) const SizedBox(height: 16),
-              _buildRecentRequestsCard(context),
-              const SizedBox(height: 16),
-              _isDonor
-                  ? _buildRecentAcceptancesCard(context)
-                  : _buildMarketplaceBrowseCard(context),
-            ],
+                if (_isDonor) _buildMarketplaceSearchCard(context),
+                if (_isDonor) const SizedBox(height: 16),
+                _buildRecentRequestsCard(context, dctrl),
+                const SizedBox(height: 16),
+                _isDonor
+                    ? _buildRecentAcceptancesCard(context, dctrl)
+                    : _buildMarketplaceBrowseCard(context),
+              ],
+            ),
           ),
         ),
       ),
@@ -234,8 +242,11 @@ class HDashboardHome extends StatelessWidget {
     required BuildContext context,
     required IconData leadingIcon,
     required String title,
-    required String actionLabel,
     required Widget child,
+    // Null hides the pill entirely (e.g. Donor Summary / Your Requests
+    // have no "view all" destination).
+    String? actionLabel,
+    VoidCallback? onActionTap,
   }) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 12.h),
@@ -270,7 +281,8 @@ class HDashboardHome extends StatelessWidget {
                   ),
                 ),
               ),
-              _pillLink(actionLabel),
+              if (actionLabel != null)
+                _pillLink(actionLabel, onTap: onActionTap),
             ],
           ),
           const SizedBox(height: 16),
@@ -308,32 +320,35 @@ class HDashboardHome extends StatelessWidget {
     );
   }
 
-  Widget _buildBuyerRequestsCard(BuildContext context) {
+  Widget _buildBuyerRequestsCard(
+    BuildContext context,
+    HomeDashboardController dctrl,
+  ) {
     final stats = [
       _statItem(
         context,
-        value: '2',
+        value: '${dctrl.activeRequests}',
         label: 'Active\nRequests'.tr,
         color: const Color(0xFF16A34A),
         icon: Icons.description,
       ),
       _statItem(
         context,
-        value: '1',
+        value: '${dctrl.pendingAcceptance}',
         label: 'Pending\nAcceptance'.tr,
         color: const Color(0xFFF97316),
         icon: Icons.access_time,
       ),
       _statItem(
         context,
-        value: '3',
+        value: '${dctrl.acceptedDonors}',
         label: 'Accepted\nDonors'.tr,
         color: const Color(0xFF2563EB),
         icon: Icons.check_circle,
       ),
       _statItem(
         context,
-        value: '1',
+        value: '${dctrl.completedDeliveries}',
         label: 'Completed\nDeliveries'.tr,
         color: const Color(0xFFE11D48),
         icon: Icons.favorite,
@@ -344,7 +359,6 @@ class HDashboardHome extends StatelessWidget {
       context: context,
       leadingIcon: Icons.description_outlined,
       title: 'Your Requests'.tr,
-      actionLabel: 'View All'.tr,
       child: Row(
         children: List.generate(stats.length * 2 - 1, (index) {
           // Divider
@@ -364,11 +378,14 @@ class HDashboardHome extends StatelessWidget {
     );
   }
 
-  Widget _buildDonorSummaryCard(BuildContext context) {
+  Widget _buildDonorSummaryCard(
+    BuildContext context,
+    HomeDashboardController dctrl,
+  ) {
     final stats = [
       _statItem(
         context,
-        value: '3',
+        value: '${dctrl.activeListings}',
         label: 'Active\nListings'.tr,
         color: const Color(0xFF16A34A),
         icon: FontAwesomeIcons.babyCarriage,
@@ -376,21 +393,21 @@ class HDashboardHome extends StatelessWidget {
       ),
       _statItem(
         context,
-        value: '2',
+        value: '${dctrl.donorPendingRequests}',
         label: 'Pending\nRequests'.tr,
         color: const Color(0xFFF97316),
         icon: Icons.access_time,
       ),
       _statItem(
         context,
-        value: '5',
+        value: '${dctrl.donorAcceptedRequests}',
         label: 'Accepted\nRequests'.tr,
         color: Colors.blue,
         icon: Icons.check_circle,
       ),
       _statItem(
         context,
-        value: '1',
+        value: '${dctrl.totalDonations}',
         label: 'Total\nDonations'.tr,
         color: const Color(0xFFE11D48),
         icon: Icons.favorite,
@@ -401,7 +418,6 @@ class HDashboardHome extends StatelessWidget {
       context: context,
       leadingIcon: Icons.person_outline,
       title: 'Donor Summary'.tr,
-      actionLabel: 'View Details'.tr,
       child: Row(
         children: List.generate(stats.length * 2 - 1, (index) {
           if (index.isOdd) {
@@ -828,30 +844,35 @@ class HDashboardHome extends StatelessWidget {
   // ---------------------------------------------------------------------
   // RECENT REQUESTS
   // ---------------------------------------------------------------------
-  Widget _buildRecentRequestsCard(BuildContext context) {
+  Widget _buildRecentRequestsCard(
+    BuildContext context,
+    HomeDashboardController dctrl,
+  ) {
+    final List<RequestModel> requests = _isDonor
+        ? dctrl.recentRequestsCame
+        : dctrl.recentRequests;
+
     final List<_RequestRow> rows = _isDonor
         ? [
-            _RequestRow(
-              name: 'dmir',
-              subtitle: 'Requested 2 bottles of milk'.tr,
-              meta: '2 days ago'.tr,
-              status: 'Pending'.tr,
-              avatarColor: const Color(0xFFE11D48),
-            ),
+            for (final (i, r) in requests.indexed)
+              _RequestRow(
+                name: r.requester?.name ?? 'Unknown'.tr,
+                subtitle:
+                    '${'Requested'.tr} ${r.quantity ?? 0} ${'ml of milk'.tr}',
+                meta: formatDate(r.createdAt ?? ''),
+                status: _statusLabel(r.status),
+                avatarColor: _rowAvatarColor(i),
+              ),
           ]
         : [
-            _RequestRow(
-              name: 'kavya',
-              subtitle: '1 bottle of milk • 3 days ago'.tr,
-              status: 'Pending'.tr,
-              avatarColor: const Color(0xFF7C3AED),
-            ),
-            _RequestRow(
-              name: 'reema',
-              subtitle: '2 bottles of milk • 1 week ago'.tr,
-              status: 'Accepted'.tr,
-              avatarColor: const Color(0xFFE11D48),
-            ),
+            for (final (i, r) in requests.indexed)
+              _RequestRow(
+                name: r.donor?.name ?? 'Searching for donor'.tr,
+                subtitle:
+                    '${r.quantity ?? 0} ${'ml'.tr} • ${formatDate(r.createdAt ?? '')}',
+                status: _statusLabel(r.status),
+                avatarColor: _rowAvatarColor(i),
+              ),
           ];
 
     return _sectionCard(
@@ -859,35 +880,109 @@ class HDashboardHome extends StatelessWidget {
       leadingIcon: Icons.people_outline,
       title: 'Recent Requests'.tr,
       actionLabel: 'View All'.tr,
-      child: Column(
-        children: [
-          for (int i = 0; i < rows.length; i++) ...[
-            _requestRowTile(context, rows[i]),
-            if (i != rows.length - 1) SizedBox(height: 5.h),
-          ],
-        ],
-      ),
+      onActionTap: () => _goToTab(2), // Connect tab
+      child: dctrl.isActivityLoading && rows.isEmpty
+          ? _activityLoadingHint()
+          : rows.isEmpty
+          ? _emptyActivityHint('No recent requests yet'.tr)
+          : Column(
+              children: [
+                for (int i = 0; i < rows.length; i++) ...[
+                  _requestRowTile(context, rows[i]),
+                  if (i != rows.length - 1) SizedBox(height: 5.h),
+                ],
+              ],
+            ),
     );
   }
 
-  Widget _buildRecentAcceptancesCard(BuildContext context) {
+  Widget _buildRecentAcceptancesCard(
+    BuildContext context,
+    HomeDashboardController dctrl,
+  ) {
+    final requests = dctrl.recentAcceptancesDone;
+    final List<_RequestRow> rows = [
+      for (final (i, r) in requests.indexed)
+        _RequestRow(
+          name: r.requester?.name ?? 'Unknown'.tr,
+          subtitle: 'Accepted your request'.tr,
+          meta: formatDate(r.acceptedAt ?? r.updatedAt ?? ''),
+          status: _statusLabel(r.status),
+          avatarColor: _rowAvatarColor(i),
+        ),
+    ];
+
     return _sectionCard(
       context: context,
       leadingIcon: Icons.check_circle_outline,
       title: 'Recent Acceptances'.tr,
       actionLabel: 'View All'.tr,
-      child: _requestRowTile(
-        context,
-        _RequestRow(
-          name: 'kavya',
-          subtitle: 'Accepted your milk request'.tr,
-          meta: '3 days ago'.tr,
-          status: 'Accepted'.tr,
-          avatarColor: const Color(0xFF7C3AED),
-        ),
-      ),
+      onActionTap: () => _goToTab(2), // Connect tab
+      child: dctrl.isActivityLoading && rows.isEmpty
+          ? _activityLoadingHint()
+          : rows.isEmpty
+          ? _emptyActivityHint('No recent acceptances yet'.tr)
+          : Column(
+              children: [
+                for (int i = 0; i < rows.length; i++) ...[
+                  _requestRowTile(context, rows[i]),
+                  if (i != rows.length - 1) SizedBox(height: 5.h),
+                ],
+              ],
+            ),
     );
   }
+
+  // ACCEPTED/COMPLETED render as the tile's "accepted" (green) state;
+  // everything else (PENDING, DECLINED, CANCELLED) as its default state.
+  String _statusLabel(String? raw) {
+    switch ((raw ?? 'pending').toUpperCase()) {
+      case 'ACCEPTED':
+        return 'Accepted'.tr;
+      case 'COMPLETED':
+        return 'Accepted'.tr;
+      case 'DECLINED':
+        return 'Declined'.tr;
+      case 'CANCELLED':
+        return 'Cancelled'.tr;
+      default:
+        return 'Pending'.tr;
+    }
+  }
+
+  static const List<Color> _avatarPalette = [
+    Color(0xFFE11D48),
+    Color(0xFF7C3AED),
+    Color(0xFF2563EB),
+    Color(0xFF16A34A),
+    Color(0xFFF97316),
+  ];
+
+  Color _rowAvatarColor(int index) =>
+      _avatarPalette[index % _avatarPalette.length];
+
+  Widget _activityLoadingHint() => Padding(
+    padding: EdgeInsets.symmetric(vertical: 16.h),
+    child: Center(
+      child: SizedBox(
+        width: 20,
+        height: 20,
+        child: CircularProgressIndicator(
+          strokeWidth: 2,
+          color: AppTheme.primaryColor,
+        ),
+      ),
+    ),
+  );
+
+  Widget _emptyActivityHint(String text) => Padding(
+    padding: EdgeInsets.symmetric(vertical: 12.h),
+    child: Text(
+      text,
+      textAlign: TextAlign.center,
+      style: TextStyle(color: AppTheme.textSecondaryColor, fontSize: 12.sp),
+    ),
+  );
 
   Widget _requestRowTile(BuildContext context, _RequestRow row) {
     final bool accepted =

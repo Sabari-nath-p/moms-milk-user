@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Screens/MarketScreen/SellerProfileScreen.dart';
 import 'package:mommilk_user/Screens/MarketScreen/Service/market_controller.dart';
-import 'package:mommilk_user/Screens/ChatListScreen/Controller/ChatController.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   final int listingId;
@@ -290,13 +289,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               // (name, bio & their other active listings).
                               GestureDetector(
                                 onTap: () => Get.to(
-                                  () => SellerProfileScreen(
-                                    userId: p.user.id,
-                                  ),
+                                  () => SellerProfileScreen(userId: p.user.id),
                                 ),
                                 child: Row(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     CircleAvatar(
                                       radius: 20,
@@ -779,14 +775,16 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       width: double.infinity,
       height: 50,
       child: ElevatedButton.icon(
-        onPressed: () {
-          final c = Get.put(Chatcontroller());
-          c.OpenChatUser(
-            userID: p.user.id,
-            isDonar: false,
-            userName: p.user.name,
-          );
-        },
+        // No cart/checkout — this starts (or resumes) a chat with the
+        // seller, seeded by the backend with a message referencing this
+        // listing, then jumps straight into that chat.
+        onPressed: _ctrl.isInitiatingChat
+            ? null
+            : () => _ctrl.initiatePurchaseChat(
+                listingId: p.id,
+                sellerId: p.user.id,
+                sellerName: p.user.name,
+              ),
         style: ElevatedButton.styleFrom(
           backgroundColor: _red,
           foregroundColor: Colors.white,
@@ -795,7 +793,16 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             borderRadius: BorderRadius.circular(12),
           ),
         ),
-        icon: Icon(Icons.chat_bubble_outline, size: 18),
+        icon: _ctrl.isInitiatingChat
+            ? SizedBox(
+                width: 16,
+                height: 16,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: Colors.white,
+                ),
+              )
+            : Icon(Icons.chat_bubble_outline, size: 18),
         label: Text(
           'Chat With Seller'.tr,
           style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),

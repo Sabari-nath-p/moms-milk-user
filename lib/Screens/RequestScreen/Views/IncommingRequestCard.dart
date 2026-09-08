@@ -57,10 +57,7 @@ class IncommingRequestCard extends StatelessWidget {
                 ),
                 SizedBox(width: 12),
                 Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 6,
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                   decoration: BoxDecoration(
                     color: getUrgencyColor(request.urgency ?? 'low'),
                     borderRadius: BorderRadius.circular(12),
@@ -95,10 +92,7 @@ class IncommingRequestCard extends StatelessWidget {
                 ),
                 Spacer(),
                 Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
                     color: Colors.blue.shade50,
                     borderRadius: BorderRadius.circular(8),
@@ -156,7 +150,11 @@ class IncommingRequestCard extends StatelessWidget {
                 SizedBox(width: 12),
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () => controller.acceptRequest(request.id ?? 0),
+                    onPressed: () => controller.acceptRequest(
+                      request.id ?? 0,
+                      requesterId: request.requester?.id,
+                      requesterName: request.requester?.name,
+                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green.shade500,
                       foregroundColor: Colors.white,

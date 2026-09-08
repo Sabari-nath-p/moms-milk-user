@@ -232,14 +232,23 @@ class _EditListingScreenState extends State<EditListingScreen> {
                     SizedBox(height: 16.h),
 
                     _label("Category *"),
-                    _dropdownField(
-                      value: controller.selectedCategory,
-                      items: categories,
-                      onChanged: (v) {
-                        controller.selectedCategory = v!;
-                        controller.update();
-                      },
-                    ),
+                    // A listing already saved as "MILK" can't be re-pointed
+                    // at the baby-item category dropdown — that list doesn't
+                    // (and shouldn't) contain "MILK", and feeding a dropdown
+                    // a value absent from its items crashes with "Either
+                    // zero or 2 or more [DropdownMenuItem]s ... detected
+                    // with the same value". Show it as a locked field
+                    // instead, same as the create-listing milk flow.
+                    controller.isMilk
+                        ? _lockedMilkCategoryField()
+                        : _dropdownField(
+                            value: controller.selectedCategory,
+                            items: categories,
+                            onChanged: (v) {
+                              controller.selectedCategory = v!;
+                              controller.update();
+                            },
+                          ),
                     SizedBox(height: 16.h),
 
                     _label("Condition *"),
@@ -253,13 +262,28 @@ class _EditListingScreenState extends State<EditListingScreen> {
                     ),
                     SizedBox(height: 16.h),
 
-                    _label("Price *"),
-                    _textField(
-                      controller: controller.priceController,
-                      hint: "e.g. 1500",
-                      keyboardType: TextInputType.number,
-                      prefix: "₹ ",
-                    ),
+                    if (controller.isMilk) ...[
+                      _label("Quantity (ml) *"),
+                      _textField(
+                        controller: controller.quantityController,
+                        hint: "e.g. 500",
+                        keyboardType: TextInputType.number,
+                      ),
+                      SizedBox(height: 16.h),
+                      _donationToggleCard(),
+                      SizedBox(height: 16.h),
+                    ],
+
+                    if (!(controller.isMilk && controller.isDonation)) ...[
+                      _label("Price *"),
+                      _textField(
+                        controller: controller.priceController,
+                        hint: "e.g. 1500",
+                        keyboardType: TextInputType.number,
+                        prefix: "₹ ",
+                      ),
+                    ] else
+                      _freeDonationBadge(),
                     SizedBox(height: 16.h),
 
                     _label("Description *"),
@@ -280,12 +304,15 @@ class _EditListingScreenState extends State<EditListingScreen> {
                     ),
                     SizedBox(height: 16.h),
 
-                    _label("Place Name *"),
-                    _textField(
-                      controller: controller.placeController,
-                      hint: "e.g. Chennai, Tamil Nadu",
-                    ),
-                    SizedBox(height: 16.h),
+                    // Milk listings send only "zipcode" — no place name.
+                    if (!controller.isMilk) ...[
+                      _label("Place Name *"),
+                      _textField(
+                        controller: controller.placeController,
+                        hint: "e.g. Chennai, Tamil Nadu",
+                      ),
+                      SizedBox(height: 16.h),
+                    ],
                   ],
                 ),
               ),
@@ -594,6 +621,107 @@ class _EditListingScreenState extends State<EditListingScreen> {
         .map((e) => DropdownMenuItem(value: e, child: Text(e)))
         .toList(),
     onChanged: onChanged,
+  );
+
+  // ── Milk-only: locked "Category" field (always MILK) ────────────────────
+  Widget _lockedMilkCategoryField() => Container(
+    height: 52,
+    padding: EdgeInsets.symmetric(horizontal: 14.w),
+    decoration: BoxDecoration(
+      color: const Color(0xFFF5F5F5),
+      borderRadius: BorderRadius.circular(14.r),
+      border: Border.all(color: _redBorder),
+    ),
+    child: Row(
+      children: [
+        const Icon(Icons.water_drop_outlined, color: primaryRed, size: 18),
+        const SizedBox(width: 8),
+        const Text("Milk", style: TextStyle(fontSize: 14)),
+        const Spacer(),
+        const Icon(Icons.lock_outline, color: Color(0xFF6B7280), size: 16),
+      ],
+    ),
+  );
+
+  // ── Milk-only: "Free Donation" toggle ────────────────────────────────────
+  Widget _donationToggleCard() => Container(
+    padding: EdgeInsets.all(12.w),
+    decoration: BoxDecoration(
+      color: controller.isDonation ? const Color(0xFFF0FDF4) : Colors.white,
+      borderRadius: BorderRadius.circular(14.r),
+      border: Border.all(
+        color: controller.isDonation ? const Color(0xFFBBF7D0) : _redBorder,
+      ),
+    ),
+    child: Row(
+      children: [
+        Container(
+          width: 36,
+          height: 36,
+          decoration: BoxDecoration(
+            color: controller.isDonation
+                ? const Color(0xFFEFFBF3)
+                : const Color(0xFFFFE5E3),
+            borderRadius: BorderRadius.circular(9),
+          ),
+          child: Icon(
+            Icons.volunteer_activism_outlined,
+            color: controller.isDonation ? const Color(0xFF16A34A) : primaryRed,
+            size: 18,
+          ),
+        ),
+        SizedBox(width: 10.w),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Free Donation",
+                style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w700),
+              ),
+              SizedBox(height: 2.h),
+              Text(
+                "Mark this as a free donation — price will be set to ₹0",
+                style: TextStyle(fontSize: 11.sp, color: Colors.grey.shade600),
+              ),
+            ],
+          ),
+        ),
+        Switch(
+          value: controller.isDonation,
+          activeColor: const Color(0xFF16A34A),
+          onChanged: (v) => controller.setIsDonation(v),
+        ),
+      ],
+    ),
+  );
+
+  // ── Milk-only: shown instead of the Price field when isDonation is true ─
+  Widget _freeDonationBadge() => Container(
+    padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+    decoration: BoxDecoration(
+      color: const Color(0xFFF0FDF4),
+      borderRadius: BorderRadius.circular(14.r),
+      border: Border.all(color: const Color(0xFFBBF7D0)),
+    ),
+    child: Row(
+      children: [
+        const Icon(
+          Icons.card_giftcard_outlined,
+          color: Color(0xFF16A34A),
+          size: 16,
+        ),
+        const SizedBox(width: 8),
+        Text(
+          "Free — ₹0 (Donation)",
+          style: TextStyle(
+            fontSize: 13.sp,
+            fontWeight: FontWeight.w700,
+            color: const Color(0xFF16A34A),
+          ),
+        ),
+      ],
+    ),
   );
 
   Widget _label(String text) => Padding(

@@ -8,6 +8,7 @@ import 'package:mommilk_user/Screens/ConnectScreen/ConnectScreen.dart';
 import 'package:mommilk_user/Screens/ChatListScreen/ChatScreen.dart';
 import 'package:mommilk_user/Screens/Dashboard/Controller/DashboardController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
+import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeDashboardController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/HomeScreen.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Views/HDashboardHome.dart';
 import 'package:mommilk_user/Screens/MarketScreen/Market_screen.dart';
@@ -46,6 +47,9 @@ class MainDashboard extends StatelessWidget {
             // NOTE: Homescreen() (the original "Log" screen) is intentionally kept
             // in the codebase and untouched — HDashboardHome() now renders in its
             // place as the Buyer/Donor home dashboard.
+            // Refresh its summary/recent-activity data on every visit — same
+            // pattern as the Connect tab's request re-fetch below.
+            Get.put(HomeDashboardController()).fetchDashboardData();
             currentScreen = HDashboardHome();
             break;
           case 1:
@@ -73,6 +77,13 @@ class MainDashboard extends StatelessWidget {
             if (user.userType == 'DONOR') {
               rctrl.fetchIncomingRequests();
               rctrl.fetchHistoryRequests();
+            } else {
+              // Requestcontroller is a singleton — its onInit() (which
+              // originally loaded this) only ever fires once, on first
+              // creation. Without an explicit re-fetch here, a request the
+              // buyer just sent from Searchdonarscreen wouldn't show up on
+              // this tab until a manual pull-to-refresh.
+              rctrl.fetchMyRequests();
             }
             currentScreen = ConnectScreen();
             break;

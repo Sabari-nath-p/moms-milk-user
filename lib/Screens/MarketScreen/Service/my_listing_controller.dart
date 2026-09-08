@@ -26,9 +26,19 @@ class MyListingsController extends GetxController {
   final priceController = TextEditingController();
   final zipcodeController = TextEditingController();
   final placeController = TextEditingController();
+  final quantityController = TextEditingController(); // milk volume in ml
 
   String selectedCategory = "CRADLES";
   String selectedCondition = "NEW";
+  bool isDonation = false; // milk-only — backend forces price to 0
+
+  bool get isMilk => selectedCategory == 'MILK';
+
+  void setIsDonation(bool value) {
+    isDonation = value;
+    if (value) priceController.text = '0';
+    update();
+  }
 
   /// All images (existing + newly uploaded)
   List<dynamic> editImages = [];
@@ -86,6 +96,9 @@ class MyListingsController extends GetxController {
           placeController.text = data["placeName"] ?? "";
           selectedCategory = data["category"] ?? "CRADLES";
           selectedCondition = data["condition"] ?? "NEW";
+          final quantity = data["quantity"];
+          quantityController.text = quantity == null ? "" : quantity.toString();
+          isDonation = data["isDonation"] == true;
           editImages = List<dynamic>.from(data["images"] ?? []);
           update();
         },
@@ -218,8 +231,11 @@ class MyListingsController extends GetxController {
       );
       return;
     }
-    if (priceController.text.trim().isEmpty ||
-        int.tryParse(priceController.text.trim()) == null) {
+    // Donation milk listings skip price validation — backend forces price
+    // to 0 regardless of what's sent.
+    if (!(isMilk && isDonation) &&
+        (priceController.text.trim().isEmpty ||
+            int.tryParse(priceController.text.trim()) == null)) {
       Get.snackbar(
         'Error',
         'Enter a valid price.',
@@ -249,10 +265,23 @@ class MyListingsController extends GetxController {
       );
       return;
     }
-    if (placeController.text.trim().isEmpty) {
+    // Milk listings send only "zipcode" — no separate place name field.
+    if (!isMilk && placeController.text.trim().isEmpty) {
       Get.snackbar(
         'Error',
         'Place name is required.',
+        backgroundColor: const Color(0xFFE8453C),
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return;
+    }
+    if (isMilk &&
+        (quantityController.text.trim().isEmpty ||
+            int.tryParse(quantityController.text.trim()) == null)) {
+      Get.snackbar(
+        'Error',
+        'Enter a valid quantity (ml).',
         backgroundColor: const Color(0xFFE8453C),
         colorText: Colors.white,
         snackPosition: SnackPosition.BOTTOM,
@@ -277,16 +306,35 @@ class MyListingsController extends GetxController {
           )
           .toList();
 
-      final body = {
-        "title": titleController.text.trim(),
-        "description": descriptionController.text.trim(),
-        "price": int.tryParse(priceController.text.trim()) ?? 0,
-        "category": selectedCategory,
-        "condition": selectedCondition,
-        "zipcode": zipcodeController.text.trim(),
-        "placeName": placeController.text.trim(),
-        "images": imagePayload,
-      };
+      final priceInt = int.tryParse(priceController.text.trim()) ?? 0;
+      final quantityInt = int.tryParse(quantityController.text.trim());
+
+      // Milk listings send ONLY the fields the milk payload needs — no
+      // placeName, matching the create-listing milk flow.
+      final Map<String, dynamic> body = isMilk
+          ? {
+              "title": titleController.text.trim(),
+              "description": descriptionController.text.trim(),
+              // Backend forces price to 0 for isDonation:true regardless of
+              // what we send, but we send 0 anyway to match local state.
+              "price": isDonation ? 0 : priceInt,
+              "category": "MILK",
+              "condition": selectedCondition,
+              "zipcode": zipcodeController.text.trim(),
+              if (quantityInt != null) "quantity": quantityInt,
+              "isDonation": isDonation,
+              "images": imagePayload,
+            }
+          : {
+              "title": titleController.text.trim(),
+              "description": descriptionController.text.trim(),
+              "price": priceInt,
+              "category": selectedCategory,
+              "condition": selectedCondition,
+              "zipcode": zipcodeController.text.trim(),
+              "placeName": placeController.text.trim(),
+              "images": imagePayload,
+            };
 
       log("UPDATE REQUEST => ${jsonEncode(body)}");
 
@@ -338,8 +386,10 @@ class MyListingsController extends GetxController {
     priceController.clear();
     zipcodeController.clear();
     placeController.clear();
+    quantityController.clear();
     selectedCategory = "CRADLES";
     selectedCondition = "NEW";
+    isDonation = false;
     editImages.clear();
     update();
   }
@@ -349,6 +399,7 @@ class MyListingsController extends GetxController {
     titleController.dispose();
     descriptionController.dispose();
     priceController.dispose();
+    quantityController.dispose();
     zipcodeController.dispose();
     placeController.dispose();
     super.onClose();

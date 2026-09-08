@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Models/SearchDonarModel.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
+import 'package:mommilk_user/Screens/RequestScreen/Controller/RequestController.dart';
 import 'package:mommilk_user/Utils/ApiService.dart';
 
 class SearchDonarController extends GetxController {
@@ -276,6 +277,12 @@ class SearchDonarController extends GetxController {
         body: requestBody,
         onSuccess: (data) {
           Fluttertoast.showToast(msg: 'Request sent successfully!'.tr);
+          // Keep the Connect tab's "My Requests" list in sync immediately —
+          // it's a singleton controller that otherwise only refetches on
+          // pull-to-refresh or the next full tab rebuild.
+          if (Get.isRegistered<Requestcontroller>()) {
+            Get.find<Requestcontroller>().fetchMyRequests();
+          }
         },
         onError: (error) {
           Fluttertoast.showToast(msg: 'Failed to send request: $error');

@@ -56,12 +56,12 @@ class RequestModel {
     notes = json['notes'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
-    requester =
-        json['requester'] != null
-            ? new Requester.fromJson(json['requester'])
-            : null;
-    donor =
-        json['donor'] != null ? new Requester.fromJson(json['donor']) : null;
+    requester = json['requester'] != null
+        ? new Requester.fromJson(json['requester'])
+        : null;
+    donor = json['donor'] != null
+        ? new Requester.fromJson(json['donor'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {

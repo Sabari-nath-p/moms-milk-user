@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Models/RequestModel.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
+import 'package:mommilk_user/Screens/ChatListScreen/Controller/ChatController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
 import 'package:mommilk_user/Utils/ApiService.dart';
 
@@ -64,9 +65,8 @@ class Requestcontroller extends GetxController {
   }
 
   // Fetch incoming requests for donors
- Future<void> fetchIncomingRequests({bool loadMore = false}) async {
+  Future<void> fetchIncomingRequests({bool loadMore = false}) async {
     if (user.userType != 'DONOR') return;
- 
 
     if (loadMore) {
       if (!hasMoreIncoming || isLoadingMoreIncoming) return;
@@ -106,8 +106,9 @@ class Requestcontroller extends GetxController {
         List<dynamic> requestsData = data.data['data'] ?? [];
         Map<String, dynamic>? paginationData = data.data['pagination'];
 
-        List<RequestModel> newRequests =
-            requestsData.map((item) => RequestModel.fromJson(item)).toList();
+        List<RequestModel> newRequests = requestsData
+            .map((item) => RequestModel.fromJson(item))
+            .toList();
 
         if (loadMore) {
           incomingRequests.addAll(newRequests);
@@ -127,7 +128,9 @@ class Requestcontroller extends GetxController {
       },
       onError: (error) {
         print('Incoming requests API error: $error');
-        Fluttertoast.showToast(msg: 'Failed to load incoming requests: $error'.tr);
+        Fluttertoast.showToast(
+          msg: 'Failed to load incoming requests: $error'.tr,
+        );
       },
     );
     // } catch (e) {
@@ -141,7 +144,7 @@ class Requestcontroller extends GetxController {
   }
 
   // Fetch history requests for donors
- Future<void> fetchHistoryRequests({bool loadMore = false}) async {
+  Future<void> fetchHistoryRequests({bool loadMore = false}) async {
     if (user.userType != 'DONOR') return;
 
     if (loadMore) {
@@ -183,8 +186,9 @@ class Requestcontroller extends GetxController {
         List<dynamic> requestsData = data.data['data'] ?? [];
         Map<String, dynamic>? paginationData = data.data['pagination'];
 
-        List<RequestModel> newRequests =
-            requestsData.map((item) => RequestModel.fromJson(item)).toList();
+        List<RequestModel> newRequests = requestsData
+            .map((item) => RequestModel.fromJson(item))
+            .toList();
 
         if (loadMore) {
           historyRequests.addAll(newRequests);
@@ -203,7 +207,9 @@ class Requestcontroller extends GetxController {
       },
       onError: (error) {
         print('History requests API error: $error');
-        Fluttertoast.showToast(msg: 'Failed to load history requests: $error'.tr);
+        Fluttertoast.showToast(
+          msg: 'Failed to load history requests: $error'.tr,
+        );
       },
     );
     // } catch (e) {
@@ -256,8 +262,9 @@ class Requestcontroller extends GetxController {
         List<dynamic> requestsData = data.data['data'] ?? [];
         Map<String, dynamic>? paginationData = data.data['pagination'];
 
-        List<RequestModel> newRequests =
-            requestsData.map((item) => RequestModel.fromJson(item)).toList();
+        List<RequestModel> newRequests = requestsData
+            .map((item) => RequestModel.fromJson(item))
+            .toList();
 
         if (loadMore) {
           myRequests.addAll(newRequests);
@@ -289,8 +296,16 @@ class Requestcontroller extends GetxController {
     // }
   }
 
-  // Accept a request (for donors)
-  Future<void> acceptRequest(int requestId) async {
+  // Accept a request (for donors).
+  // Backend now also auto-starts a chat session with the requester and
+  // seeds it with a message from the donor — pass the requester's id/name
+  // (when known) to jump straight into that chat on success, same as the
+  // Marketplace "Buy" flow does after POST .../buy.
+  Future<void> acceptRequest(
+    int requestId, {
+    int? requesterId,
+    String? requesterName,
+  }) async {
     //  try {
     await ApiService.request(
       endpoint: '/requests/$requestId/accept',
@@ -302,6 +317,19 @@ class Requestcontroller extends GetxController {
         Homecontroller hctrl = Get.find();
         hctrl.fetchIncommingRequest();
         fetchHistoryRequests();
+
+        if (requesterId != null) {
+          final chat = Get.isRegistered<Chatcontroller>()
+              ? Get.find<Chatcontroller>()
+              : Get.put(Chatcontroller());
+          // session left at 0 — OpenChatUser looks up the session the
+          // backend just created via GET /chat/session/:userID.
+          chat.OpenChatUser(
+            userID: requesterId,
+            isDonar: false,
+            userName: requesterName ?? 'N/A'.tr,
+          );
+        }
       },
       onError: (error) {
         Fluttertoast.showToast(msg: 'Failed to accept request: $error'.tr);
@@ -372,11 +400,14 @@ class Requestcontroller extends GetxController {
       Duration difference = now.difference(date);
 
       if (difference.inDays > 0) {
-        return '${difference.inDays} day${difference.inDays > 1 ? 's' : ''} ago'.tr;
+        return '${difference.inDays} day${difference.inDays > 1 ? 's' : ''} ago'
+            .tr;
       } else if (difference.inHours > 0) {
-        return '${difference.inHours} hour${difference.inHours > 1 ? 's' : ''} ago'.tr;
+        return '${difference.inHours} hour${difference.inHours > 1 ? 's' : ''} ago'
+            .tr;
       } else if (difference.inMinutes > 0) {
-        return '${difference.inMinutes} minute${difference.inMinutes > 1 ? 's' : ''} ago'.tr;
+        return '${difference.inMinutes} minute${difference.inMinutes > 1 ? 's' : ''} ago'
+            .tr;
       } else {
         return 'Just now'.tr;
       }
@@ -389,14 +420,12 @@ class Requestcontroller extends GetxController {
   void contactUser(RequestModel request) {
     // Implementation for contact functionality
     // You can navigate to chat screen or show contact details
-    String contactName =
-        user.userType == 'DONOR'
-            ? request.requester?.name ?? 'Unknown'
-            : request.donor?.name ?? 'Unknown'.tr;
-    String contactEmail =
-        user.userType == 'DONOR'
-            ? request.requester?.email ?? 'No email'
-            : request.donor?.email ?? 'No email'.tr;
+    String contactName = user.userType == 'DONOR'
+        ? request.requester?.name ?? 'Unknown'
+        : request.donor?.name ?? 'Unknown'.tr;
+    String contactEmail = user.userType == 'DONOR'
+        ? request.requester?.email ?? 'No email'
+        : request.donor?.email ?? 'No email'.tr;
 
     Fluttertoast.showToast(msg: 'Name: $contactName\nEmail: $contactEmail'.tr);
   }

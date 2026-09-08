@@ -6,7 +6,6 @@ import 'package:mommilk_user/Screens/MarketScreen/MyListingScreen.dart';
 import 'package:mommilk_user/Screens/MarketScreen/ProductDetailScreen.dart';
 import 'package:mommilk_user/Screens/MarketScreen/SellerProfileScreen.dart';
 import 'package:mommilk_user/Screens/MarketScreen/Service/market_controller.dart';
-import 'package:mommilk_user/Screens/ChatListScreen/Controller/ChatController.dart';
 
 class MarketScreen extends StatefulWidget {
   // Optional filter handed off by another screen (e.g. the Home dashboard's
@@ -1341,9 +1340,8 @@ class _MarketScreenState extends State<MarketScreen> {
                     // its own GestureDetector wins the tap over the card's
                     // outer one, so this doesn't also open the product.
                     GestureDetector(
-                      onTap: () => Get.to(
-                        () => SellerProfileScreen(userId: p.userId),
-                      ),
+                      onTap: () =>
+                          Get.to(() => SellerProfileScreen(userId: p.userId)),
                       child: Row(
                         children: [
                           CircleAvatar(
@@ -1406,16 +1404,11 @@ class _MarketScreenState extends State<MarketScreen> {
                         children: [
                           Expanded(
                             child: GestureDetector(
-                              onTap: () {
-                                final c = Get.isRegistered<Chatcontroller>()
-                                    ? Get.find<Chatcontroller>()
-                                    : Get.put(Chatcontroller());
-                                c.OpenChatUser(
-                                  userID: p.userId,
-                                  isDonar: false,
-                                  userName: p.user.name,
-                                );
-                              },
+                              onTap: () => controller.initiatePurchaseChat(
+                                listingId: p.id,
+                                sellerId: p.userId,
+                                sellerName: p.user.name,
+                              ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -1633,9 +1626,8 @@ class _MarketScreenState extends State<MarketScreen> {
                     // Seller name — tap opens their public profile (same
                     // pattern as the grid card above).
                     GestureDetector(
-                      onTap: () => Get.to(
-                        () => SellerProfileScreen(userId: p.userId),
-                      ),
+                      onTap: () =>
+                          Get.to(() => SellerProfileScreen(userId: p.userId)),
                       child: Row(
                         children: [
                           CircleAvatar(
@@ -1680,16 +1672,11 @@ class _MarketScreenState extends State<MarketScreen> {
                         children: [
                           Expanded(
                             child: GestureDetector(
-                              onTap: () {
-                                final c = Get.isRegistered<Chatcontroller>()
-                                    ? Get.find<Chatcontroller>()
-                                    : Get.put(Chatcontroller());
-                                c.OpenChatUser(
-                                  userID: p.userId,
-                                  isDonar: false,
-                                  userName: p.user.name,
-                                );
-                              },
+                              onTap: () => controller.initiatePurchaseChat(
+                                listingId: p.id,
+                                sellerId: p.userId,
+                                sellerName: p.user.name,
+                              ),
                               child: Container(
                                 decoration: BoxDecoration(
                                   color: _red.withOpacity(0.08),

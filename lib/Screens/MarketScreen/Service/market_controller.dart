@@ -1,8 +1,10 @@
 import 'dart:developer';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Models/MarketListingModel.dart';
 import 'package:mommilk_user/Models/MarketPlaceDetailModel.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
+import 'package:mommilk_user/Screens/ChatListScreen/Controller/ChatController.dart';
 import 'package:mommilk_user/Utils/ApiService.dart';
 
 class MarketController extends GetxController {
@@ -23,6 +25,11 @@ class MarketController extends GetxController {
 
   MarketplaceDetailsModel? marketplaceDetails;
   bool isDetailsLoading = false;
+
+  // "Buy" / "Contact" tap on a listing — no cart/checkout, this just starts
+  // (or resumes) a chat session with the listing owner, seeded by the
+  // backend with a message referencing the listing.
+  bool isInitiatingChat = false;
 
   // Raw listings from API
   List<MarketplaceListing> _rawListings = [];
@@ -111,7 +118,7 @@ class MarketController extends GetxController {
       // ⚠️ Sort NOT sent to backend — handled client-side in _sortedListings()
       // Send zipcode so backend can calculate distanceKm per listing.
       // If user has no zipcode, fetch without it (items still load, just no distance).
-       final zipcode = (user.zipcode ?? '').trim();
+      final zipcode = (user.zipcode ?? '').trim();
       final endpoint = zipcode.isNotEmpty
           ? "/marketplace/listings?zipcode=$zipcode&${Uri(queryParameters: queryParams).query}"
           : "/marketplace/listings?${Uri(queryParameters: queryParams).query}";
@@ -221,6 +228,67 @@ class MarketController extends GetxController {
       print("$st");
     } finally {
       isDetailsLoading = false;
+      update();
+    }
+  }
+
+  /// "Buy" / "Contact" tap on a listing (card, or the detail screen's
+  /// "Chat With Seller" button). No cart/checkout — the backend creates
+  /// (or reuses) a chat session with the listing owner and seeds it with a
+  /// message referencing this listing, then hands back the sessionId.
+  /// On success we jump straight into that chat via
+  /// [Chatcontroller.OpenChatUser]'s `session` shortcut, skipping its own
+  /// session-lookup call.
+  Future<void> initiatePurchaseChat({
+    required int listingId,
+    required int sellerId,
+    required String sellerName,
+  }) async {
+    if (isInitiatingChat) return;
+    log('===== INITIATE PURCHASE CHAT: listing $listingId =====');
+    try {
+      isInitiatingChat = true;
+      update();
+
+      await ApiService.request(
+        endpoint: '/marketplace/listings/$listingId/buy',
+        method: Api.POST,
+        onSuccess: (response) {
+          final data = response.data;
+          final rawSessionId = data is Map ? data['sessionId'] : null;
+          final sessionId = rawSessionId is int
+              ? rawSessionId
+              : int.tryParse(rawSessionId?.toString() ?? '');
+          if (sessionId == null) {
+            Fluttertoast.showToast(
+              msg: 'Could not start chat — please try again',
+            );
+            return;
+          }
+          final chat = Get.isRegistered<Chatcontroller>()
+              ? Get.find<Chatcontroller>()
+              : Get.put(Chatcontroller());
+          chat.OpenChatUser(
+            userID: sellerId,
+            session: sessionId,
+            isDonar: false,
+            userName: sellerName,
+          );
+        },
+        onServerError: (code, msg) {
+          log('BUY SERVER ERROR $code: $msg');
+          Fluttertoast.showToast(msg: msg);
+        },
+        onError: (error) {
+          log('BUY ERROR: $error');
+          Fluttertoast.showToast(msg: error.toString());
+        },
+      );
+    } catch (e, st) {
+      log('BUY EXCEPTION: $e');
+      log('$st');
+    } finally {
+      isInitiatingChat = false;
       update();
     }
   }
