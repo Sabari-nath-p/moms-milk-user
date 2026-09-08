@@ -9,6 +9,7 @@ import 'package:mommilk_user/Screens/ChatListScreen/ChatScreen.dart';
 import 'package:mommilk_user/Screens/Dashboard/Controller/DashboardController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/HomeScreen.dart';
+import 'package:mommilk_user/Screens/HomeScreen/Views/HDashboardHome.dart';
 import 'package:mommilk_user/Screens/MarketScreen/Market_screen.dart';
 import 'package:mommilk_user/Screens/ProfileScreen/ProfileScreen.dart';
 import 'package:mommilk_user/Screens/RequestScreen/Controller/RequestController.dart';
@@ -23,16 +24,46 @@ class MainDashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     DashboardController controller = Get.put(DashboardController());
 
+    // Homecontroller / Chatcontroller used to get registered implicitly as a
+    // side effect of Homescreen() being built on tab 0 (its field initializers
+    // called Get.put on both). Now that HDashboardHome() renders tab 0 instead,
+    // they're registered explicitly here so the bottom nav badges (Connect /
+    // Message) and ConnectScreen / ChatListScreen — which read them via
+    // GetBuilder without an init — always find them.
+    if (!Get.isRegistered<Homecontroller>()) {
+      Get.put(Homecontroller());
+    }
+    if (!Get.isRegistered<Chatcontroller>()) {
+      Get.put(Chatcontroller());
+    }
+
     return GetBuilder<DashboardController>(
       builder: (controller) {
         Widget currentScreen;
 
         switch (controller.selectedMenu) {
           case 0:
-            currentScreen = Homescreen();
+            // NOTE: Homescreen() (the original "Log" screen) is intentionally kept
+            // in the codebase and untouched — HDashboardHome() now renders in its
+            // place as the Buyer/Donor home dashboard.
+            currentScreen = HDashboardHome();
             break;
           case 1:
-            currentScreen = MarketScreen();
+            // Consume (and clear) any filter handed off by another screen
+            // (e.g. Home dashboard's marketplace search / category chips)
+            // via DashboardController.goToMarket() — so a later, plain
+            // switch to this tab starts blank again.
+            final pendingSearch = controller.pendingMarketSearch;
+            final pendingCategory = controller.pendingMarketCategory;
+            final pendingOpenFilter = controller.pendingOpenMarketFilter;
+            controller.pendingMarketSearch = null;
+            controller.pendingMarketCategory = null;
+            controller.pendingOpenMarketFilter = false;
+            currentScreen = MarketScreen(
+              initialSearch: pendingSearch,
+              initialCategory: pendingCategory,
+              openFilterOnStart: pendingOpenFilter,
+            );
             break;
           case 2:
             var rctrl = Get.put(Requestcontroller());
@@ -58,38 +89,25 @@ class MainDashboard extends StatelessWidget {
         return Scaffold(
           body: currentScreen,
           backgroundColor: Colors.white,
-          appBar: (controller.selectedMenu != 0)
-              ? (controller.selectedMenu == 3)
-                    ? AppBar(
-                        backgroundColor: Colors.white,
-                        elevation: 0,
-                        scrolledUnderElevation: 0,
-                        centerTitle: true,
-                        title: Text(
-                          "My Connections".tr,
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                            fontFamily: "Inter",
-                          ),
-                        ),
-                      )
-                    : null
-              : AppBar(
+          appBar: (controller.selectedMenu == 3)
+              ? AppBar(
+                  backgroundColor: Colors.white,
                   elevation: 0,
+                  scrolledUnderElevation: 0,
                   centerTitle: true,
-                  title: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset(
-                        "lib/Assets/fullIcon.png",
-                        height: 200,
-                        color: AppTheme.primaryColor,
-                      ),
-                    ],
+                  title: Text(
+                    "My Connections".tr,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                      fontFamily: "Inter",
+                    ),
                   ),
-                ),
+                )
+              // HDashboardHome() (tab 0) renders its own "Mom's Milk" header +
+              // notification bell, matching the approved design — no AppBar here.
+              : null,
           bottomNavigationBar: NavigationBarTheme(
             data: NavigationBarThemeData(
               labelTextStyle: WidgetStateProperty.resolveWith((states) {
@@ -120,16 +138,16 @@ class MainDashboard extends StatelessWidget {
               destinations: [
                 NavigationDestination(
                   icon: FaIcon(
-                    FontAwesomeIcons.add,
+                    FontAwesomeIcons.house,
                     size: 20,
                     color: Colors.black.withOpacity(.5),
                   ),
                   selectedIcon: FaIcon(
-                    FontAwesomeIcons.add,
+                    FontAwesomeIcons.house,
                     size: 20,
                     color: AppTheme.primaryColor,
                   ),
-                  label: 'Log'.tr,
+                  label: 'Home'.tr,
                 ),
                 NavigationDestination(
                   icon: FaIcon(
@@ -206,6 +224,26 @@ class MainDashboard extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  /// Original logo AppBar previously shown for tab 0 ("Home"), before
+  /// HDashboardHome() took over that tab with its own header. Kept, unused,
+  /// per request instead of being deleted.
+  AppBar _legacyLogoAppBar() {
+    return AppBar(
+      elevation: 0,
+      centerTitle: true,
+      title: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image.asset(
+            "lib/Assets/fullIcon.png",
+            height: 200,
+            color: AppTheme.primaryColor,
+          ),
+        ],
+      ),
     );
   }
 }

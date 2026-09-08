@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
-import 'package:mommilk_user/Screens/RequestScreen/Controller/RequestController.dart';
 import 'package:mommilk_user/Screens/RequestScreen/RequestScreen.dart';
 import 'package:mommilk_user/Screens/SearchBuyerScreen/SearchBuyerScreen.dart';
 import 'package:mommilk_user/Screens/SearchDonarScreen/SearchDonarScreen.dart';
@@ -69,20 +67,47 @@ class ConnectScreen extends StatelessWidget {
                   ),
                 ),
 
-              // BUYER → my requests icon (unchanged)
+              // BUYER gets compact search icon + text chip (mirrors DONOR)
               if (user.userType == "BUYER")
-                InkWell(
+                GestureDetector(
                   onTap: () {
-                    Requestcontroller ctrl = Get.put(Requestcontroller());
-                    ctrl.fetchMyRequests();
-                    Get.to(RequestScreen(), transition: Transition.rightToLeft);
+                    Get.to(
+                      () => Searchdonarscreen(),
+                      transition: Transition.rightToLeft,
+                    );
                   },
-                  child: Icon(
-                    FontAwesomeIcons.userGroup,
-                    color: AppTheme.primaryColor,
+                  child: Container(
+                    margin: EdgeInsets.only(right: 16),
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: AppTheme.primaryColor.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: AppTheme.primaryColor.withOpacity(0.3),
+                        width: 1,
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.search,
+                          size: 16,
+                          color: AppTheme.primaryColor,
+                        ),
+                        SizedBox(width: 4),
+                        Text(
+                          'Find Donors'.tr,
+                          style: TextStyle(
+                            color: AppTheme.primaryColor,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              if (user.userType == "BUYER") SizedBox(width: 20),
             ],
           ),
           body: _buildBody(context, controller),
@@ -92,12 +117,8 @@ class ConnectScreen extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context, Homecontroller controller) {
-    // BUYER → Search Donors (unchanged)
-    if (user.userType == "BUYER") {
-      return Searchdonarscreen();
-    }
-
-    // DONOR → My Connections only
+    // Both BUYER and DONOR → My Connections; use the search chip in the
+    // appbar to find buyers/donors instead.
     return RequestScreen();
   }
 }

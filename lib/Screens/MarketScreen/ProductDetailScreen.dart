@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mommilk_user/Screens/MarketScreen/SellerProfileScreen.dart';
 import 'package:mommilk_user/Screens/MarketScreen/Service/market_controller.dart';
 import 'package:mommilk_user/Screens/ChatListScreen/Controller/ChatController.dart';
 
@@ -285,50 +286,65 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  CircleAvatar(
-                                    radius: 20,
-                                    backgroundColor: Color(0xFFFFD7CF),
-                                    child: Text(
-                                      p.user.name.isNotEmpty
-                                          ? p.user.name[0].toUpperCase()
-                                          : 'U',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 16,
-                                        color: Colors.black87,
+                              // Tapping the seller opens their public profile
+                              // (name, bio & their other active listings).
+                              GestureDetector(
+                                onTap: () => Get.to(
+                                  () => SellerProfileScreen(
+                                    userId: p.user.id,
+                                  ),
+                                ),
+                                child: Row(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 20,
+                                      backgroundColor: Color(0xFFFFD7CF),
+                                      child: Text(
+                                        p.user.name.isNotEmpty
+                                            ? p.user.name[0].toUpperCase()
+                                            : 'U',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 16,
+                                          color: Colors.black87,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(width: 10),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          p.user.name,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w700,
+                                    SizedBox(width: 10),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            p.user.name,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w700,
+                                            ),
                                           ),
-                                        ),
-                                        SizedBox(height: 3),
-                                        Text(
-                                          '${'Active'.tr} $activeAgo  •  $totalListings ${'Listings'.tr}',
-                                          style: TextStyle(
-                                            fontSize: 11,
-                                            color: Colors.grey.shade500,
+                                          SizedBox(height: 3),
+                                          Text(
+                                            '${'Active'.tr} $activeAgo  •  $totalListings ${'Listings'.tr}',
+                                            style: TextStyle(
+                                              fontSize: 11,
+                                              color: Colors.grey.shade500,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
                                           ),
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                    Icon(
+                                      Icons.chevron_right,
+                                      color: Colors.grey.shade400,
+                                      size: 20,
+                                    ),
+                                  ],
+                                ),
                               ),
                               SizedBox(height: 10),
                               Divider(height: 1, color: Colors.grey.shade200),

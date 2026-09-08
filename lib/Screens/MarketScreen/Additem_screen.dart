@@ -21,7 +21,12 @@ const Color _kBorder = Color(0xFFE8E8E8);
 const int _kMaxPhotos = 8;
 
 class AddItemScreen extends StatefulWidget {
-  AddItemScreen({super.key});
+  // When true, this flow lists breast milk instead of a baby item —
+  // category is locked to "MILK" and the Details step adds a volume
+  // (quantity in ml) field plus a "free donation" toggle.
+  final bool isMilk;
+
+  AddItemScreen({super.key, this.isMilk = false});
 
   @override
   State<AddItemScreen> createState() => _AddItemScreenState();
@@ -61,6 +66,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   @override
   void initState() {
     super.initState();
+    controller.setMilkMode(widget.isMilk);
     _materialsFocus.addListener(() {
       if (!_materialsFocus.hasFocus &&
           _materialsInputCtrl.text.trim().isNotEmpty) {
@@ -377,7 +383,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
       case 1:
         final title = controller.titleController.text.trim();
-        final price = controller.priceController.text.trim();
         if (title.isEmpty) {
           _snack('Enter item name');
           return false;
@@ -386,6 +391,23 @@ class _AddItemScreenState extends State<AddItemScreen> {
           _snack('Item name must contain valid characters');
           return false;
         }
+
+        if (widget.isMilk) {
+          final qty = controller.quantityController.text.trim();
+          if (qty.isEmpty) {
+            _snack('Enter quantity in ml');
+            return false;
+          }
+          final qtyInt = int.tryParse(qty);
+          if (qtyInt == null || qtyInt <= 0) {
+            _snack('Enter a valid quantity');
+            return false;
+          }
+          // Donation listings skip price validation — backend forces price to 0.
+          if (controller.isDonation) return true;
+        }
+
+        final price = controller.priceController.text.trim();
         if (price.isEmpty) {
           _snack('Enter price');
           return false;
@@ -410,17 +432,19 @@ class _AddItemScreenState extends State<AddItemScreen> {
         return true;
 
       case 2:
-        if (_materialsInputCtrl.text.trim().isNotEmpty) {
-          controller.addMaterial(_materialsInputCtrl.text.trim());
-          _materialsInputCtrl.clear();
-        }
-        if (_colorsInputCtrl.text.trim().isNotEmpty) {
-          controller.addColor(_colorsInputCtrl.text.trim());
-          _colorsInputCtrl.clear();
-        }
-        if (_boxInputCtrl.text.trim().isNotEmpty) {
-          controller.addBoxItem(_boxInputCtrl.text.trim());
-          _boxInputCtrl.clear();
+        if (!widget.isMilk) {
+          if (_materialsInputCtrl.text.trim().isNotEmpty) {
+            controller.addMaterial(_materialsInputCtrl.text.trim());
+            _materialsInputCtrl.clear();
+          }
+          if (_colorsInputCtrl.text.trim().isNotEmpty) {
+            controller.addColor(_colorsInputCtrl.text.trim());
+            _colorsInputCtrl.clear();
+          }
+          if (_boxInputCtrl.text.trim().isNotEmpty) {
+            controller.addBoxItem(_boxInputCtrl.text.trim());
+            _boxInputCtrl.clear();
+          }
         }
         final pincode = _pincodeCtrl.text.trim();
         final place = controller.placeController.text.trim();
@@ -433,13 +457,16 @@ class _AddItemScreenState extends State<AddItemScreen> {
           _snack('Pin code must be 5–10 digits');
           return false;
         }
-        if (place.isEmpty) {
-          _snack('Enter place');
-          return false;
-        }
-        if (!_hasRealText(place)) {
-          _snack('Place must contain valid characters');
-          return false;
+        // Milk listings send only "zipcode" — no separate place name field.
+        if (!widget.isMilk) {
+          if (place.isEmpty) {
+            _snack('Enter place');
+            return false;
+          }
+          if (!_hasRealText(place)) {
+            _snack('Place must contain valid characters');
+            return false;
+          }
         }
         if (desc.isEmpty) {
           _snack('Enter description');
@@ -526,7 +553,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       icon: Icon(Icons.arrow_back_ios, color: Colors.black, size: 18),
     ),
     title: Text(
-      'List an Item'.tr,
+      (widget.isMilk ? 'List Breast Milk' : 'List an Item').tr,
       style: TextStyle(
         color: Colors.black,
         fontWeight: FontWeight.w700,
@@ -900,17 +927,19 @@ class _AddItemScreenState extends State<AddItemScreen> {
       ),
       SizedBox(height: 20),
 
-      _fieldLabel('Item Name *'.tr),
+      _fieldLabel((widget.isMilk ? 'Listing Title *' : 'Item Name *').tr),
       _inputField(
         controller: ctrl.titleController,
-        hint: 'e.g. Wooden Baby Cradle - Barely Used',
+        hint: widget.isMilk
+            ? 'e.g. Fresh Breast Milk - 500ml'
+            : 'e.g. Wooden Baby Cradle - Barely Used',
         maxLength: 60,
         showCounter: true,
       ),
       SizedBox(height: 16),
 
       _fieldLabel('Category *'.tr),
-      _dropdownField<String>(
+      widget.isMilk ? _lockedMilkCategoryField() : _dropdownField<String>(
         value: ctrl.selectedCategory,
         items: _categories,
         leadingIcon: Icons.category_outlined,
@@ -937,42 +966,64 @@ class _AddItemScreenState extends State<AddItemScreen> {
       ),
       SizedBox(height: 16),
 
-      Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _fieldLabel('Price *'.tr),
-                _inputField(
-                  controller: ctrl.priceController,
-                  hint: '1500',
-                  prefix: '₹ ',
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                ),
-              ],
-            ),
+      if (widget.isMilk) ...[
+        _fieldLabel('Quantity (ml) *'.tr),
+        _inputField(
+          controller: ctrl.quantityController,
+          hint: '500',
+          keyboardType: TextInputType.number,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          prefixIcon: Icon(
+            Icons.water_drop_outlined,
+            color: _kSubLabel,
+            size: 18,
           ),
-          SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _fieldLabel('Original Price'.tr),
-                _inputField(
-                  controller: ctrl.originalPriceController,
-                  hint: '2999',
-                  prefix: '₹ ',
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                ),
-              ],
+        ),
+        SizedBox(height: 16),
+
+        _donationToggleCard(ctrl),
+        SizedBox(height: 16),
+      ],
+
+      if (!(widget.isMilk && ctrl.isDonation)) ...[
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _fieldLabel('Price *'.tr),
+                  _inputField(
+                    controller: ctrl.priceController,
+                    hint: '1500',
+                    prefix: '₹ ',
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
+            SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _fieldLabel('Original Price'.tr),
+                  _inputField(
+                    controller: ctrl.originalPriceController,
+                    hint: '2999',
+                    prefix: '₹ ',
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ] else
+        _freeDonationPriceBadge(),
 
       if (ctrl.savings != null && ctrl.discountPercent != null)
         Container(
@@ -999,73 +1050,180 @@ class _AddItemScreenState extends State<AddItemScreen> {
           ),
         ),
 
-      SizedBox(height: 16),
-
-      Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _fieldLabel('Purchased On'.tr),
-                GestureDetector(
-                  onTap: _pickDate,
-                  child: Container(
-                    height: 50,
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: _kBorder),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.calendar_month_outlined,
-                          color: _kRed,
-                          size: 16,
-                        ),
-                        SizedBox(width: 8),
-                        Text(
-                          ctrl.purchasedOn != null
-                              ? DateFormat(
-                                  'dd MMM yyyy',
-                                ).format(ctrl.purchasedOn!)
-                              : '15 Jan 2024',
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: ctrl.purchasedOn != null ? _kLabel : _kHint,
+      // Purchased On / Brand — not part of the milk listing payload, so
+      // this row is only shown for regular baby-item listings.
+      if (!widget.isMilk) ...[
+        SizedBox(height: 16),
+        Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _fieldLabel('Purchased On'.tr),
+                  GestureDetector(
+                    onTap: _pickDate,
+                    child: Container(
+                      height: 50,
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: _kBorder),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.calendar_month_outlined,
+                            color: _kRed,
+                            size: 16,
                           ),
-                        ),
-                        Spacer(),
-                        Icon(
-                          Icons.keyboard_arrow_down,
-                          color: _kSubLabel,
-                          size: 18,
-                        ),
-                      ],
+                          SizedBox(width: 8),
+                          Text(
+                            ctrl.purchasedOn != null
+                                ? DateFormat(
+                                    'dd MMM yyyy',
+                                  ).format(ctrl.purchasedOn!)
+                                : '15 Jan 2024',
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: ctrl.purchasedOn != null
+                                  ? _kLabel
+                                  : _kHint,
+                            ),
+                          ),
+                          Spacer(),
+                          Icon(
+                            Icons.keyboard_arrow_down,
+                            color: _kSubLabel,
+                            size: 18,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _fieldLabel('Brand'.tr),
-                _inputField(
-                  controller: ctrl.brandController,
-                  hint: 'Fisher-Price',
-                ),
-              ],
+            SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _fieldLabel('Brand'.tr),
+                  _inputField(
+                    controller: ctrl.brandController,
+                    hint: 'Fisher-Price',
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
+      ],
     ],
+  );
+
+  // ── Milk-only: locked "Category" field (always MILK, matches dropdown look) ─
+  Widget _lockedMilkCategoryField() => Container(
+    height: 50,
+    padding: const EdgeInsets.symmetric(horizontal: 12),
+    decoration: BoxDecoration(
+      color: Color(0xFFF5F5F5),
+      borderRadius: BorderRadius.circular(10),
+      border: Border.all(color: _kBorder),
+    ),
+    child: Row(
+      children: [
+        Icon(Icons.water_drop_outlined, color: _kRed, size: 16),
+        SizedBox(width: 8),
+        Text(
+          'Milk'.tr,
+          style: TextStyle(fontSize: 14, color: _kLabel),
+        ),
+        Spacer(),
+        Icon(Icons.lock_outline, color: _kSubLabel, size: 16),
+      ],
+    ),
+  );
+
+  // ── Milk-only: "Free Donation" toggle card ───────────────────────────────
+  Widget _donationToggleCard(AddMarketplaceController ctrl) => Container(
+    padding: const EdgeInsets.all(12),
+    decoration: BoxDecoration(
+      color: ctrl.isDonation ? Color(0xFFF0FDF4) : Colors.white,
+      borderRadius: BorderRadius.circular(10),
+      border: Border.all(
+        color: ctrl.isDonation ? Color(0xFFBBF7D0) : _kBorder,
+      ),
+    ),
+    child: Row(
+      children: [
+        Container(
+          width: 36,
+          height: 36,
+          decoration: BoxDecoration(
+            color: ctrl.isDonation ? Color(0xFFEFFBF3) : _kRedLight,
+            borderRadius: BorderRadius.circular(9),
+          ),
+          child: Icon(
+            Icons.volunteer_activism_outlined,
+            color: ctrl.isDonation ? _kGreen : _kRed,
+            size: 18,
+          ),
+        ),
+        SizedBox(width: 10),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Free Donation'.tr,
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                  color: _kLabel,
+                ),
+              ),
+              SizedBox(height: 2),
+              Text(
+                'Mark this as a free donation — price will be set to ₹0'.tr,
+                style: TextStyle(fontSize: 11, color: _kSubLabel),
+              ),
+            ],
+          ),
+        ),
+        Switch(
+          value: ctrl.isDonation,
+          activeColor: _kGreen,
+          onChanged: (v) => ctrl.setIsDonation(v),
+        ),
+      ],
+    ),
+  );
+
+  // ── Milk-only: shown instead of the Price row when isDonation is true ───
+  Widget _freeDonationPriceBadge() => Container(
+    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+    decoration: BoxDecoration(
+      color: Color(0xFFF0FDF4),
+      borderRadius: BorderRadius.circular(10),
+      border: Border.all(color: Color(0xFFBBF7D0)),
+    ),
+    child: Row(
+      children: [
+        Icon(Icons.card_giftcard_outlined, color: _kGreen, size: 16),
+        SizedBox(width: 8),
+        Text(
+          'Free — ₹0 (Donation)'.tr,
+          style: TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.w700,
+            color: _kGreen,
+          ),
+        ),
+      ],
+    ),
   );
 
   // ══════════════════════════════════════════════════════════════════════════
@@ -1090,45 +1248,63 @@ class _AddItemScreenState extends State<AddItemScreen> {
       ),
       SizedBox(height: 20),
 
-      Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _fieldLabel('Pin Code *'.tr),
-                _inputField(
-                  controller: _pincodeCtrl,
-                  hint: '600001',
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                    LengthLimitingTextInputFormatter(10),
-                  ],
-                  prefixIcon: Icon(
-                    Icons.location_on_outlined,
-                    color: _kSubLabel,
-                    size: 18,
+      if (widget.isMilk) ...[
+        // Milk listings send only "zipcode" — no separate place name field.
+        _fieldLabel('Pin Code *'.tr),
+        _inputField(
+          controller: _pincodeCtrl,
+          hint: '600001',
+          keyboardType: TextInputType.number,
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+            LengthLimitingTextInputFormatter(10),
+          ],
+          prefixIcon: Icon(
+            Icons.location_on_outlined,
+            color: _kSubLabel,
+            size: 18,
+          ),
+        ),
+      ] else
+        Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _fieldLabel('Pin Code *'.tr),
+                  _inputField(
+                    controller: _pincodeCtrl,
+                    hint: '600001',
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(10),
+                    ],
+                    prefixIcon: Icon(
+                      Icons.location_on_outlined,
+                      color: _kSubLabel,
+                      size: 18,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _fieldLabel('Place *'.tr),
-                _inputField(
-                  controller: ctrl.placeController,
-                  hint: 'e.g. Alappuzha, Kerala',
-                ),
-              ],
+            SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _fieldLabel('Place *'.tr),
+                  _inputField(
+                    controller: ctrl.placeController,
+                    hint: 'e.g. Alappuzha, Kerala',
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
       SizedBox(height: 16),
 
       _fieldLabel('Description *'.tr),
@@ -1152,60 +1328,63 @@ class _AddItemScreenState extends State<AddItemScreen> {
           ),
         ),
       ),
-      SizedBox(height: 16),
-
-      _fieldLabel('Materials'.tr),
-      _tagInputField(
-        tags: ctrl.materials,
-        inputCtrl: _materialsInputCtrl,
-        focusNode: _materialsFocus,
-        hint: 'e.g. Wood, Plastic...',
-        onAdd: () {
-          controller.addMaterial(_materialsInputCtrl.text.trim());
-          _materialsInputCtrl.clear();
-        },
-        onRemove: ctrl.removeMaterial,
-      ),
-      SizedBox(height: 16),
-
-      _fieldLabel('Colors'.tr),
-      _tagInputField(
-        tags: ctrl.colors,
-        inputCtrl: _colorsInputCtrl,
-        focusNode: _colorsFocus,
-        hint: 'e.g. Red, Blue...',
-        onAdd: () {
-          controller.addColor(_colorsInputCtrl.text.trim());
-          _colorsInputCtrl.clear();
-        },
-        onRemove: ctrl.removeColor,
-      ),
-      SizedBox(height: 16),
-
-      _fieldLabel('Dimensions'.tr),
-      _inputField(
-        controller: ctrl.dimensionsController,
-        hint: '60cm x 40cm x 35cm',
-        prefixIcon: Icon(
-          Icons.straighten_outlined,
-          color: _kSubLabel,
-          size: 18,
+      // Materials / Colors / Dimensions / Box Contains aren't part of the
+      // milk listing payload, so they only apply to baby-item listings.
+      if (!widget.isMilk) ...[
+        SizedBox(height: 16),
+        _fieldLabel('Materials'.tr),
+        _tagInputField(
+          tags: ctrl.materials,
+          inputCtrl: _materialsInputCtrl,
+          focusNode: _materialsFocus,
+          hint: 'e.g. Wood, Plastic...',
+          onAdd: () {
+            controller.addMaterial(_materialsInputCtrl.text.trim());
+            _materialsInputCtrl.clear();
+          },
+          onRemove: ctrl.removeMaterial,
         ),
-      ),
-      SizedBox(height: 16),
+        SizedBox(height: 16),
 
-      _fieldLabel('Box Contains'.tr),
-      _tagInputField(
-        tags: ctrl.boxContains,
-        inputCtrl: _boxInputCtrl,
-        focusNode: _boxFocus,
-        hint: 'e.g. Manual, Charger...',
-        onAdd: () {
-          controller.addBoxItem(_boxInputCtrl.text.trim());
-          _boxInputCtrl.clear();
-        },
-        onRemove: ctrl.removeBoxItem,
-      ),
+        _fieldLabel('Colors'.tr),
+        _tagInputField(
+          tags: ctrl.colors,
+          inputCtrl: _colorsInputCtrl,
+          focusNode: _colorsFocus,
+          hint: 'e.g. Red, Blue...',
+          onAdd: () {
+            controller.addColor(_colorsInputCtrl.text.trim());
+            _colorsInputCtrl.clear();
+          },
+          onRemove: ctrl.removeColor,
+        ),
+        SizedBox(height: 16),
+
+        _fieldLabel('Dimensions'.tr),
+        _inputField(
+          controller: ctrl.dimensionsController,
+          hint: '60cm x 40cm x 35cm',
+          prefixIcon: Icon(
+            Icons.straighten_outlined,
+            color: _kSubLabel,
+            size: 18,
+          ),
+        ),
+        SizedBox(height: 16),
+
+        _fieldLabel('Box Contains'.tr),
+        _tagInputField(
+          tags: ctrl.boxContains,
+          inputCtrl: _boxInputCtrl,
+          focusNode: _boxFocus,
+          hint: 'e.g. Manual, Charger...',
+          onAdd: () {
+            controller.addBoxItem(_boxInputCtrl.text.trim());
+            _boxInputCtrl.clear();
+          },
+          onRemove: ctrl.removeBoxItem,
+        ),
+      ],
       SizedBox(height: 20),
 
       Container(
@@ -1233,7 +1412,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   ),
                   SizedBox(height: 2),
                   Text(
-                    'More details build trust and help you sell faster!'.tr,
+                    (widget.isMilk
+                            ? 'A clear description helps other moms trust your listing!'
+                            : 'More details build trust and help you sell faster!')
+                        .tr,
                     style: TextStyle(fontSize: 12, color: _kSubLabel),
                   ),
                 ],
@@ -1347,15 +1529,20 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     Row(
                       children: [
                         Text(
-                          '₹$price',
+                          (widget.isMilk && ctrl.isDonation)
+                              ? 'FREE'.tr
+                              : '₹$price',
                           style: TextStyle(
-                            color: _kRed,
+                            color: (widget.isMilk && ctrl.isDonation)
+                                ? _kGreen
+                                : _kRed,
                             fontSize: 18,
                             fontWeight: FontWeight.w800,
                           ),
                         ),
                         SizedBox(width: 6),
-                        if (origPrice != null)
+                        if (origPrice != null &&
+                            !(widget.isMilk && ctrl.isDonation))
                           Text(
                             '₹$origPrice',
                             style: TextStyle(
@@ -1409,7 +1596,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                 Icons.sell_outlined,
                 _kRed,
                 'Category'.tr,
-                _catLabel(ctrl.selectedCategory),
+                widget.isMilk ? 'Milk'.tr : _catLabel(ctrl.selectedCategory),
               ),
               _reviewDivider(),
               _reviewRow(
@@ -1418,37 +1605,60 @@ class _AddItemScreenState extends State<AddItemScreen> {
                 'Condition'.tr,
                 _condLabel(ctrl.selectedCondition),
               ),
-              _reviewDivider(),
-              _reviewRow(
-                Icons.branding_watermark_outlined,
-                _kSubLabel,
-                'Brand'.tr,
-                ctrl.brandController.text.isNotEmpty
-                    ? ctrl.brandController.text
-                    : '—',
-              ),
-              _reviewDivider(),
-              _reviewRow(
-                Icons.calendar_today_outlined,
-                _kSubLabel,
-                'Purchased On'.tr,
-                ctrl.purchasedOn != null
-                    ? DateFormat('dd MMM yyyy').format(ctrl.purchasedOn!)
-                    : '—',
-              ),
+              if (widget.isMilk) ...[
+                _reviewDivider(),
+                _reviewRow(
+                  Icons.water_drop_outlined,
+                  _kRed,
+                  'Quantity'.tr,
+                  '${ctrl.quantityController.text.trim()} ml',
+                ),
+                _reviewDivider(),
+                _reviewRow(
+                  Icons.volunteer_activism_outlined,
+                  ctrl.isDonation ? _kGreen : _kSubLabel,
+                  'Donation'.tr,
+                  ctrl.isDonation ? 'Yes — Free'.tr : 'No'.tr,
+                ),
+              ],
+              // Brand / Purchased On aren't part of the milk listing payload.
+              if (!widget.isMilk) ...[
+                _reviewDivider(),
+                _reviewRow(
+                  Icons.branding_watermark_outlined,
+                  _kSubLabel,
+                  'Brand'.tr,
+                  ctrl.brandController.text.isNotEmpty
+                      ? ctrl.brandController.text
+                      : '—',
+                ),
+                _reviewDivider(),
+                _reviewRow(
+                  Icons.calendar_today_outlined,
+                  _kSubLabel,
+                  'Purchased On'.tr,
+                  ctrl.purchasedOn != null
+                      ? DateFormat('dd MMM yyyy').format(ctrl.purchasedOn!)
+                      : '—',
+                ),
+              ],
               _reviewDivider(),
               _reviewRow(
                 Icons.location_on_outlined,
                 _kSubLabel,
-                'Location'.tr,
-                '${ctrl.placeController.text} (${_pincodeCtrl.text})',
+                widget.isMilk ? 'Pin Code'.tr : 'Location'.tr,
+                widget.isMilk
+                    ? _pincodeCtrl.text
+                    : '${ctrl.placeController.text} (${_pincodeCtrl.text})',
               ),
               _reviewDivider(),
               _reviewRow(
                 Icons.attach_money_outlined,
                 _kSubLabel,
                 'Price'.tr,
-                disc != null
+                (widget.isMilk && ctrl.isDonation)
+                    ? 'Free'.tr
+                    : disc != null
                     ? '₹$price (${disc}% off)\nOriginal: ₹${ctrl.originalPriceController.text}'
                     : '₹$price',
               ),

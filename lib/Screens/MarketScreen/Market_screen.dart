@@ -1,14 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Models/MarketListingModel.dart';
-import 'package:mommilk_user/Screens/MarketScreen/Additem_screen.dart';
+import 'package:mommilk_user/Screens/MarketScreen/ListingTypeSheet.dart';
 import 'package:mommilk_user/Screens/MarketScreen/MyListingScreen.dart';
 import 'package:mommilk_user/Screens/MarketScreen/ProductDetailScreen.dart';
+import 'package:mommilk_user/Screens/MarketScreen/SellerProfileScreen.dart';
 import 'package:mommilk_user/Screens/MarketScreen/Service/market_controller.dart';
 import 'package:mommilk_user/Screens/ChatListScreen/Controller/ChatController.dart';
 
 class MarketScreen extends StatefulWidget {
-  MarketScreen({super.key});
+  // Optional filter handed off by another screen (e.g. the Home dashboard's
+  // marketplace search bar / category chips via DashboardController) so the
+  // real API call fires with this filter already applied on open.
+  // [initialSearch] is the raw search text; [initialCategory] is the API
+  // category value (e.g. "CRADLES") — pass null/empty for "browse all".
+  final String? initialSearch;
+  final String? initialCategory;
+  // When true, the Filters bottom sheet (same one the tune icon on this
+  // screen opens) is shown automatically as soon as the screen lands —
+  // used when the user tapped a "filters" shortcut on another screen
+  // (e.g. Home dashboard's marketplace search box) instead of the plain
+  // "go to Marketplace" action.
+  final bool openFilterOnStart;
+
+  MarketScreen({
+    super.key,
+    this.initialSearch,
+    this.initialCategory,
+    this.openFilterOnStart = false,
+  });
   @override
   State<MarketScreen> createState() => _MarketScreenState();
 }
@@ -70,6 +90,19 @@ class _MarketScreenState extends State<MarketScreen> {
     super.initState();
     print("======= MARKET SCREEN INITSTATE =======");
 
+    // Apply the incoming filter (if any) so both the visible chips/search
+    // box and the actual API call reflect it from the first frame.
+    if (widget.initialSearch != null &&
+        widget.initialSearch!.trim().isNotEmpty) {
+      searchController.text = widget.initialSearch!.trim();
+    }
+    if (widget.initialCategory != null && widget.initialCategory!.isNotEmpty) {
+      selectedCategory = _allCats.firstWhere(
+        (c) => _catApiValue(c) == widget.initialCategory,
+        orElse: () => 'All',
+      );
+    }
+
     try {
       if (Get.isRegistered<MarketController>()) {
         print("======= OLD CONTROLLER EXISTS - DELETING =======");
@@ -84,7 +117,11 @@ class _MarketScreenState extends State<MarketScreen> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       print("======= POST FRAME CALLBACK - CALLING FETCH =======");
-      controller.fetchMarketplaceListings();
+      controller.fetchMarketplaceListings(
+        searchText: searchController.text.trim(),
+        category: _catApiValue(selectedCategory),
+      );
+      if (widget.openFilterOnStart) _showFilter();
     });
 
     // Pagination: load more when user scrolls near the bottom
@@ -200,8 +237,9 @@ class _MarketScreenState extends State<MarketScreen> {
     return Scaffold(
       backgroundColor: _pageBg,
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Get.to(() => AddItemScreen())?.then((_) {
-          controller.fetchMarketplaceListings(
+        onPressed: () => showListingTypeSheet(
+          context,
+          onListed: () => controller.fetchMarketplaceListings(
             searchText: searchController.text.trim(),
             category: _catApiValue(selectedCategory),
             condition: selectedCondition ?? '',
@@ -213,8 +251,8 @@ class _MarketScreenState extends State<MarketScreen> {
             sortByVal: _sortBy,
             page: 1,
             isRefresh: true,
-          );
-        }),
+          ),
+        ),
         backgroundColor: _red,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         child: Icon(Icons.add, color: Colors.white, size: 26),
@@ -1299,36 +1337,44 @@ class _MarketScreenState extends State<MarketScreen> {
                         ),
                       ),
                     SizedBox(height: 2),
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 10,
-                          backgroundColor: _red.withOpacity(0.15),
-                          child: Text(
-                            p.user.name.isNotEmpty
-                                ? p.user.name[0].toUpperCase()
-                                : 'U',
-                            style: TextStyle(
-                              fontSize: 9,
-                              fontWeight: FontWeight.w700,
-                              color: _red,
+                    // Tapping the seller name opens their public profile —
+                    // its own GestureDetector wins the tap over the card's
+                    // outer one, so this doesn't also open the product.
+                    GestureDetector(
+                      onTap: () => Get.to(
+                        () => SellerProfileScreen(userId: p.userId),
+                      ),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 10,
+                            backgroundColor: _red.withOpacity(0.15),
+                            child: Text(
+                              p.user.name.isNotEmpty
+                                  ? p.user.name[0].toUpperCase()
+                                  : 'U',
+                              style: TextStyle(
+                                fontSize: 9,
+                                fontWeight: FontWeight.w700,
+                                color: _red,
+                              ),
                             ),
                           ),
-                        ),
-                        SizedBox(width: 4),
-                        Flexible(
-                          child: Text(
-                            p.user.name,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black87,
+                          SizedBox(width: 4),
+                          Flexible(
+                            child: Text(
+                              p.user.name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black87,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     SizedBox(height: 5),
                     Row(
@@ -1582,6 +1628,45 @@ class _MarketScreenState extends State<MarketScreen> {
                           ),
                         ),
                       ],
+                    ),
+                    SizedBox(height: 4),
+                    // Seller name — tap opens their public profile (same
+                    // pattern as the grid card above).
+                    GestureDetector(
+                      onTap: () => Get.to(
+                        () => SellerProfileScreen(userId: p.userId),
+                      ),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 9,
+                            backgroundColor: _red.withOpacity(0.15),
+                            child: Text(
+                              p.user.name.isNotEmpty
+                                  ? p.user.name[0].toUpperCase()
+                                  : 'U',
+                              style: TextStyle(
+                                fontSize: 8,
+                                fontWeight: FontWeight.w700,
+                                color: _red,
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 4),
+                          Flexible(
+                            child: Text(
+                              p.user.name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black87,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(height: 6),
                     Container(

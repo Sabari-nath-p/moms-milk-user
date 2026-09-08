@@ -75,16 +75,8 @@ class _RequestScreenState extends State<RequestScreen>
     return Scaffold(
       backgroundColor: Colors.white,
 
-      appBar:
-          (user.userType == "BUYER")
-              ? AppBar(
-                title: Text(
-                  "Connections".tr,
-                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
-                ),
-                centerTitle: true,
-              )
-              : null,
+      // Embedded inside ConnectScreen, which already provides the appbar.
+      appBar: null,
       body: GetBuilder<Requestcontroller>(
         builder: (controller) {
           if (controller.isLoadingUserData || !controller.isUserDataLoaded) {

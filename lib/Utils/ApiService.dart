@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
@@ -21,7 +22,7 @@ class ResponseModel {
 enum Api { POST, GET, PATCH, PUT, DELETE }
 
 class ApiService {
-  static String baseUrl = (true)
+  static String baseUrl = (false)
       ? "https://api.momsmilk.app"
       : "https://staging.momsmilk.app";
 
@@ -58,42 +59,91 @@ class ApiService {
       }
     }
 
+    // ─── TIMEOUT GUARD ────────────────────────────────────────────────────
+    // Without a timeout, a hung/dropped connection (dead network, backend
+    // not responding) leaves this Future pending forever — callers that
+    // toggle a loading flag in a try/finally around this call never reach
+    // `finally`, so the UI is stuck on its loading spinner indefinitely.
+    const Duration requestTimeout = Duration(seconds: 20);
+
     http.Response response;
 
-    switch (method) {
-      case Api.GET:
-        response = await http.get(uri, headers: requestHeaders);
-        break;
-      case Api.POST:
-        response = await http.post(
-          uri,
-          headers: requestHeaders,
-          body: body != null ? json.encode(body) : null,
-        );
-        break;
-      case Api.PUT:
-        response = await http.put(
-          uri,
-          headers: requestHeaders,
-          body: body != null ? json.encode(body) : null,
-        );
-        break;
-      case Api.DELETE:
-        response = await http.delete(
-          uri,
-          headers: requestHeaders,
-          body: body != null ? json.encode(body) : null,
-        );
-        break;
-      case Api.PATCH:
-        response = await http.patch(
-          uri,
-          headers: requestHeaders,
-          body: body != null ? json.encode(body) : null,
-        );
-        break;
-      default:
-        throw Exception('Unsupported HTTP method: $method');
+    try {
+      switch (method) {
+        case Api.GET:
+          response = await http
+              .get(uri, headers: requestHeaders)
+              .timeout(requestTimeout);
+          break;
+        case Api.POST:
+          response = await http
+              .post(
+                uri,
+                headers: requestHeaders,
+                body: body != null ? json.encode(body) : null,
+              )
+              .timeout(requestTimeout);
+          break;
+        case Api.PUT:
+          response = await http
+              .put(
+                uri,
+                headers: requestHeaders,
+                body: body != null ? json.encode(body) : null,
+              )
+              .timeout(requestTimeout);
+          break;
+        case Api.DELETE:
+          response = await http
+              .delete(
+                uri,
+                headers: requestHeaders,
+                body: body != null ? json.encode(body) : null,
+              )
+              .timeout(requestTimeout);
+          break;
+        case Api.PATCH:
+          response = await http
+              .patch(
+                uri,
+                headers: requestHeaders,
+                body: body != null ? json.encode(body) : null,
+              )
+              .timeout(requestTimeout);
+          break;
+        default:
+          throw Exception('Unsupported HTTP method: $method');
+      }
+    } on TimeoutException {
+      log("[ $method ] $endpoint ==> TIMED OUT after ${requestTimeout.inSeconds}s");
+      const msg = 'Request timed out. Please check your connection and try again.';
+      if (onNetworkError != null) {
+        onNetworkError(msg);
+      } else if (onError != null) {
+        onError(msg);
+      } else {
+        Fluttertoast.showToast(msg: msg.tr);
+      }
+      return;
+    } on SocketException catch (e) {
+      log("[ $method ] $endpoint ==> NETWORK ERROR: $e");
+      const msg = 'No internet connection. Please try again.';
+      if (onNetworkError != null) {
+        onNetworkError(msg);
+      } else if (onError != null) {
+        onError(e);
+      } else {
+        Fluttertoast.showToast(msg: msg.tr);
+      }
+      return;
+    } catch (e) {
+      log("[ $method ] $endpoint ==> UNEXPECTED ERROR: $e");
+      if (onError != null) {
+        onError(e);
+      } else {
+        Fluttertoast.showToast(msg: 'Something went wrong. Please try again.'.tr);
+      }
+      return;
     }
 
     // ─── LOG EVERY RESPONSE SO WE CAN SEE REAL ERRORS ───────────────────

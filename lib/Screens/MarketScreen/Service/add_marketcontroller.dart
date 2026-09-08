@@ -35,6 +35,28 @@ class AddMarketplaceController extends GetxController {
   String selectedCategory = "CRADLES";
   String selectedCondition = "NEW";
 
+  // ── Milk listing ─────────────────────────────────────────────────────────
+  // When true, this listing is a milk listing (category is locked to "MILK"
+  // and the extra quantity/donation fields below apply).
+  bool isMilk = false;
+  final quantityController = TextEditingController(); // volume in ml
+  bool isDonation = false; // free donation — backend forces price to 0
+
+  void setMilkMode(bool milk) {
+    isMilk = milk;
+    if (milk) selectedCategory = 'MILK';
+    update();
+  }
+
+  void setIsDonation(bool value) {
+    isDonation = value;
+    if (value) {
+      priceController.text = '0';
+      originalPriceController.clear();
+    }
+    update();
+  }
+
   // ── Images ────────────────────────────────────────────────────────────────
   // imageUrls: populated by uploadImages() during step 0 photo picking.
   // createListing() uses these directly — no re-upload.
@@ -265,27 +287,45 @@ class AddMarketplaceController extends GetxController {
 
       final priceInt = int.tryParse(priceController.text.trim()) ?? 0;
       final originPriceInt = int.tryParse(originalPriceController.text.trim());
+      final quantityInt = int.tryParse(quantityController.text.trim());
 
-      final body = <String, dynamic>{
-        'title': titleController.text.trim(),
-        'description': descriptionController.text.trim(),
-        'price': priceInt,
-        'category': selectedCategory,
-        'condition': selectedCondition,
-        'zipcode': zipcodeController.text.trim(),
-        'placeName': placeController.text.trim(),
-        if (originPriceInt != null) 'originPrice': originPriceInt,
-        if (purchasedOn != null)
-          'purchasedOn': purchasedOn!.toUtc().toIso8601String(),
-        if (brandController.text.trim().isNotEmpty)
-          'brand': brandController.text.trim(),
-        if (materials.isNotEmpty) 'materials': materials,
-        if (colors.isNotEmpty) 'colors': colors,
-        if (dimensionsController.text.trim().isNotEmpty)
-          'dimensions': dimensionsController.text.trim(),
-        if (boxContains.isNotEmpty) 'boxContains': boxContains,
-        'images': imagesPayload,
-      };
+      // Milk listings send ONLY the fields the milk payload needs — no
+      // placeName / originPrice / purchasedOn / brand / materials / colors /
+      // dimensions / boxContains, matching the milk listing spec exactly.
+      final Map<String, dynamic> body = isMilk
+          ? {
+              'title': titleController.text.trim(),
+              'description': descriptionController.text.trim(),
+              // Backend forces price to 0 for isDonation:true regardless of
+              // what we send, but we send 0 anyway to match local state.
+              'price': isDonation ? 0 : priceInt,
+              'category': 'MILK',
+              'condition': selectedCondition,
+              'zipcode': zipcodeController.text.trim(),
+              if (quantityInt != null) 'quantity': quantityInt,
+              'isDonation': isDonation,
+              'images': imagesPayload,
+            }
+          : {
+              'title': titleController.text.trim(),
+              'description': descriptionController.text.trim(),
+              'price': priceInt,
+              'category': selectedCategory,
+              'condition': selectedCondition,
+              'zipcode': zipcodeController.text.trim(),
+              'placeName': placeController.text.trim(),
+              if (originPriceInt != null) 'originPrice': originPriceInt,
+              if (purchasedOn != null)
+                'purchasedOn': purchasedOn!.toUtc().toIso8601String(),
+              if (brandController.text.trim().isNotEmpty)
+                'brand': brandController.text.trim(),
+              if (materials.isNotEmpty) 'materials': materials,
+              if (colors.isNotEmpty) 'colors': colors,
+              if (dimensionsController.text.trim().isNotEmpty)
+                'dimensions': dimensionsController.text.trim(),
+              if (boxContains.isNotEmpty) 'boxContains': boxContains,
+              'images': imagesPayload,
+            };
 
       log('CREATE LISTING BODY: ${jsonEncode(body)}');
 
@@ -334,10 +374,12 @@ class AddMarketplaceController extends GetxController {
     materials = [];
     colors = [];
     boxContains = [];
-    selectedCategory = 'CRADLES';
+    selectedCategory = isMilk ? 'MILK' : 'CRADLES';
     selectedCondition = 'NEW';
     imageUrls.clear();
     selectedImages.clear();
+    quantityController.clear();
+    isDonation = false;
     update();
   }
 
@@ -351,6 +393,7 @@ class AddMarketplaceController extends GetxController {
     originalPriceController.dispose();
     brandController.dispose();
     dimensionsController.dispose();
+    quantityController.dispose();
     super.onClose();
   }
 }
