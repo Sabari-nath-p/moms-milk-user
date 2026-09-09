@@ -59,13 +59,13 @@ class ChatListCard extends StatelessWidget {
                     width: double.infinity,
                     child: Row(
                       children: [
-                        Container(
-                          alignment: Alignment.center,
+                        Flexible(
                           child: Text(
                             (session.lastMessage == null)
                                 ? ""
                                 : session.lastMessage!.content!,
                             maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 13,
