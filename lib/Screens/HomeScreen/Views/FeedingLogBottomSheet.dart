@@ -62,7 +62,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                   // Header
                   Row(
                     children: [
-                      Icon(
+                      FaIcon(
                         FontAwesomeIcons.personBreastfeeding,
                         color: Theme.of(context).colorScheme.primary,
                         size: 28,

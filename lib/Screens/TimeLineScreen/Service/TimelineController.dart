@@ -13,7 +13,7 @@ class TimeLineData {
   String descirpiton;
   DateTime dateTime;
   String activityType; // 'feeding', 'diaper', 'sleep'
-  IconData icon;
+  dynamic icon;
   Color color;
 
   TimeLineData({

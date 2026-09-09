@@ -207,7 +207,7 @@ class ActivityTimeLineBody extends StatelessWidget {
 }
 
   Widget _buildStatCard(
-    IconData icon,
+    dynamic icon,
     String value,
     String label,
     Color color,
@@ -221,7 +221,9 @@ class ActivityTimeLineBody extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Icon(icon, color: color, size: 24),
+          icon is IconData
+              ? Icon(icon, color: color, size: 24)
+              : FaIcon(icon as FaIconData, color: color, size: 24),
           SizedBox(height: 4),
           Text(
             value,
@@ -306,7 +308,7 @@ class ActivityTimeLineBody extends StatelessWidget {
 
   Widget _buildFilterChip(
     String label,
-    IconData icon,
+    dynamic icon,
     Color color,
     bool isSelected,
     VoidCallback onTap,
@@ -325,7 +327,13 @@ class ActivityTimeLineBody extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon, size: 16, color: isSelected ? Colors.white : color),
+              icon is IconData
+                  ? Icon(icon, size: 16, color: isSelected ? Colors.white : color)
+                  : FaIcon(
+                      icon as FaIconData,
+                      size: 16,
+                      color: isSelected ? Colors.white : color,
+                    ),
               SizedBox(width: 4),
               Flexible(
                 child: Text(
@@ -374,7 +382,9 @@ class ActivityTimeLineBody extends StatelessWidget {
                         color: item.color.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: Icon(item.icon, size: 16, color: item.color),
+                      child: item.icon is IconData
+                          ? Icon(item.icon, size: 16, color: item.color)
+                          : FaIcon(item.icon, size: 16, color: item.color),
                     ),
                     SizedBox(width: 12),
                     Expanded(
@@ -447,7 +457,9 @@ class ActivityTimeLineBody extends StatelessWidget {
                         color: item.color.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: Icon(item.icon, color: item.color, size: 28),
+                      child: item.icon is IconData
+                          ? Icon(item.icon, color: item.color, size: 28)
+                          : FaIcon(item.icon, color: item.color, size: 28),
                     ),
                     SizedBox(width: 16),
                     Expanded(

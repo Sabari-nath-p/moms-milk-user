@@ -440,7 +440,7 @@ class HDashboardHome extends StatelessWidget {
     required String value,
     required String label,
     required Color color,
-    required IconData icon,
+    required dynamic icon,
     bool isFa = false,
   }) {
     return Expanded(
@@ -467,8 +467,8 @@ class HDashboardHome extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           isFa
-              ? FaIcon(icon, color: color, size: 18)
-              : Icon(icon, color: color, size: 20),
+              ? FaIcon(icon as FaIconData, color: color, size: 18)
+              : Icon(icon as IconData, color: color, size: 20),
         ],
       ),
     );
@@ -673,8 +673,16 @@ class HDashboardHome extends StatelessWidget {
             ),
             child: Center(
               child: action.isFa
-                  ? FaIcon(action.icon, color: action.iconColor, size: 26.sp)
-                  : Icon(action.icon, color: action.iconColor, size: 28.sp),
+                  ? FaIcon(
+                      action.icon as FaIconData,
+                      color: action.iconColor,
+                      size: 26.sp,
+                    )
+                  : Icon(
+                      action.icon as IconData,
+                      color: action.iconColor,
+                      size: 28.sp,
+                    ),
             ),
           ),
 
@@ -1417,7 +1425,7 @@ class _MarketplaceSearchBoxState extends State<_MarketplaceSearchBox> {
 class _QuickAction {
   final String title;
   final String subtitle;
-  final IconData icon;
+  final dynamic icon;
   final Color bg;
   final Color iconColor;
   final VoidCallback? onTap;
