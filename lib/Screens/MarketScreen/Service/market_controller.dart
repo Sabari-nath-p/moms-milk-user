@@ -34,6 +34,14 @@ class MarketController extends GetxController {
   // Raw listings from API
   List<MarketplaceListing> _rawListings = [];
 
+  // Featured listings (isFeatured=true) — kept separate from the main
+  // listings/pagination above so the Home tab's "Featured Products" section
+  // (which shares this same controller instance with the Market tab) can
+  // fetch and hold its own list without disturbing the Market tab's browse
+  // results.
+  List<MarketplaceListing> featuredListings = [];
+  bool isLoadingFeatured = false;
+
   // Sorted view — what the UI reads via controller.listings
   List<MarketplaceListing> get listings => _sortedListings();
 
@@ -182,6 +190,54 @@ class MarketController extends GetxController {
   void applySort(String newSortBy) {
     sortBy = newSortBy;
     update();
+  }
+
+  /// GET /marketplace/listings?isFeatured=true&page=1&limit=20 — powers the
+  /// Home tab's "Featured Products" section.
+  Future<void> fetchFeaturedListings({int page = 1, int limit = 20}) async {
+    try {
+      isLoadingFeatured = true;
+      update();
+
+      final queryParams = <String, String>{
+        "isFeatured": "true",
+        "page": page.toString(),
+        "limit": limit.toString(),
+      };
+
+      final zipcode = (user.zipcode ?? '').trim();
+      final endpoint = zipcode.isNotEmpty
+          ? "/marketplace/listings?zipcode=$zipcode&${Uri(queryParameters: queryParams).query}"
+          : "/marketplace/listings?${Uri(queryParameters: queryParams).query}";
+
+      await ApiService.request(
+        endpoint: endpoint,
+        method: Api.GET,
+        requiresAuth: true,
+        onSuccess: (response) {
+          try {
+            final jsonData = response.data;
+            final List<dynamic> data = jsonData["data"] ?? [];
+            featuredListings = data
+                .map((e) => MarketplaceListing.fromJson(e))
+                .toList();
+          } catch (e, st) {
+            log("FEATURED PARSE ERROR: $e\n$st");
+          }
+        },
+        onServerError: (status, message) {
+          log("FEATURED SERVER ERROR $status: $message");
+        },
+        onError: (error) {
+          log("FEATURED ERROR: $error");
+        },
+      );
+    } catch (e, st) {
+      log("FEATURED FETCH ERROR: $e\n$st");
+    } finally {
+      isLoadingFeatured = false;
+      update();
+    }
   }
 
   Future<void> fetchMarketplaceDetails(int listingId) async {

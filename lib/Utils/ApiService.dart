@@ -22,7 +22,7 @@ class ResponseModel {
 enum Api { POST, GET, PATCH, PUT, DELETE }
 
 class ApiService {
-  static String baseUrl = (true)
+  static String baseUrl = (false)
       ? "https://api.momsmilk.app"
       : "https://staging.momsmilk.app";
 

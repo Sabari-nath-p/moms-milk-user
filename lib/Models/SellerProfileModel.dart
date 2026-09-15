@@ -10,6 +10,7 @@ class SellerProfileModel {
   final String? profilePhoto;
   final bool availableForDonation;
   final String userType;
+  final List<String> tags;
   final List<SellerListingItem> marketplaceListings;
 
   SellerProfileModel({
@@ -19,10 +20,35 @@ class SellerProfileModel {
     this.profilePhoto,
     this.availableForDonation = false,
     required this.userType,
+    this.tags = const [],
     this.marketplaceListings = const [],
   });
 
   bool get isDonor => userType.toUpperCase() == 'DONOR';
+
+  /// tags arrives as a real JSON array from the API, but is parsed
+  /// defensively the same way SellerListingItem's array fields are — some
+  /// backends serialize it as a JSON-encoded string instead.
+  static List<String> _stringList(dynamic value) {
+    if (value == null) return [];
+    if (value is List) {
+      return List<String>.from(value.map((e) => e.toString()));
+    }
+    if (value is String) {
+      final trimmed = value.trim();
+      if (trimmed.isEmpty) return [];
+      try {
+        final decoded = jsonDecode(trimmed);
+        if (decoded is List) {
+          return List<String>.from(decoded.map((e) => e.toString()));
+        }
+      } catch (_) {
+        // not JSON — treat the whole string as a single value
+      }
+      return [trimmed];
+    }
+    return [];
+  }
 
   factory SellerProfileModel.fromJson(Map<String, dynamic> json) {
     return SellerProfileModel(
@@ -32,6 +58,7 @@ class SellerProfileModel {
       profilePhoto: json["profilePhoto"] as String?,
       availableForDonation: json["availableForDonation"] ?? false,
       userType: json["userType"] ?? "",
+      tags: _stringList(json["tags"]),
       marketplaceListings: (json["marketplaceListings"] as List<dynamic>? ?? [])
           .map((e) => SellerListingItem.fromJson(e))
           .toList(),

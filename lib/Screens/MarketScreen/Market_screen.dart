@@ -6,6 +6,7 @@ import 'package:mommilk_user/Screens/MarketScreen/MyListingScreen.dart';
 import 'package:mommilk_user/Screens/MarketScreen/ProductDetailScreen.dart';
 import 'package:mommilk_user/Screens/MarketScreen/SellerProfileScreen.dart';
 import 'package:mommilk_user/Screens/MarketScreen/Service/market_controller.dart';
+import 'package:mommilk_user/theme/app_theme.dart';
 
 class MarketScreen extends StatefulWidget {
   // Optional filter handed off by another screen (e.g. the Home dashboard's
@@ -58,6 +59,7 @@ class _MarketScreenState extends State<MarketScreen> {
   ];
   final List<String> _allCats = [
     'All',
+    'Milk',
     'Cradles',
     'Toys',
     'Clothing',
@@ -162,6 +164,8 @@ class _MarketScreenState extends State<MarketScreen> {
 
   Color _catColor(String apiVal) {
     switch (apiVal) {
+      case 'MILK':
+        return AppTheme.primaryColor;
       case 'TOYS':
         return Color(0xFF7C3AED);
       case 'CRADLES':
@@ -376,8 +380,7 @@ class _MarketScreenState extends State<MarketScreen> {
         GestureDetector(
           onTap: () => Get.to(() => MyListingsScreen()),
           child: Container(
-            width: 38,
-            height: 38,
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
@@ -390,7 +393,21 @@ class _MarketScreenState extends State<MarketScreen> {
                 ),
               ],
             ),
-            child: Icon(Icons.inventory_2_outlined, color: _red, size: 20),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.inventory_2_outlined, color: _red, size: 17),
+                SizedBox(width: 6),
+                Text(
+                  'My Listings'.tr,
+                  style: TextStyle(
+                    color: _red,
+                    fontSize: 12.5,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ],

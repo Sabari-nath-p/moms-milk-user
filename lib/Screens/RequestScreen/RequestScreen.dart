@@ -75,8 +75,22 @@ class _RequestScreenState extends State<RequestScreen>
     return Scaffold(
       backgroundColor: Colors.white,
 
-      // Embedded inside ConnectScreen, which already provides the appbar.
-      appBar: null,
+      // Now pushed as its own screen (from the "Connections" action on the
+      // Find Donors / Find Buyers screen) rather than embedded under
+      // ConnectScreen's appbar — same for both BUYER and DONOR.
+      appBar: AppBar(
+        title: Text(
+          (user.userType == 'BUYER' ? "My Requests" : "Connections").tr,
+          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () => Get.back(),
+          icon: Icon(Icons.arrow_back),
+        ),
+      ),
       body: GetBuilder<Requestcontroller>(
         builder: (controller) {
           if (controller.isLoadingUserData || !controller.isUserDataLoaded) {
@@ -143,7 +157,7 @@ class _RequestScreenState extends State<RequestScreen>
                   thumbColor: AppTheme.primaryColor,
                 ),
 
-              SizedBox(height: 16),
+              SizedBox(height: 1),
 
               Expanded(child: _buildSelectedContent(controller)),
             ],

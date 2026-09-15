@@ -4,6 +4,7 @@ import 'package:mommilk_user/Models/SellerProfileModel.dart';
 import 'package:mommilk_user/Screens/ChatListScreen/Controller/ChatController.dart';
 import 'package:mommilk_user/Screens/MarketScreen/ProductDetailScreen.dart';
 import 'package:mommilk_user/Screens/MarketScreen/Service/seller_profile_controller.dart';
+import 'package:mommilk_user/theme/app_theme.dart';
 
 /// Public seller/donor profile — reached by tapping a seller's name on a
 /// marketplace listing card or on a product's detail page. Shows their bio
@@ -42,8 +43,33 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
     super.dispose();
   }
 
+  // Actual backend category value for milk listings.
+  static const String _milkCategory = 'MILK_BREAST';
+  static const Color _milkColor = Color(0xFFEC4899);
+  static const Color _milkLight = Color(0xFFFCE7F3);
+
+  // Cycled per-tag so a multi-tag bio doesn't read as one flat grey block —
+  // same soft pastel-bg/solid-fg pairing as the Market category tiles.
+  static const List<List<Color>> _tagPalette = [
+    [Color(0xFFE2F7E7), Color(0xFF16A34A)],
+    [Color(0xFFE2F0FF), Color(0xFF2563EB)],
+    [Color(0xFFF0E7FB), Color(0xFF7C3AED)],
+    [Color(0xFFFDF3E3), Color(0xFFB45309)],
+    [Color(0xFFFCE7F3), Color(0xFFDB2777)],
+  ];
+
+  String _tagLabel(String tag) {
+    return tag
+        .split('_')
+        .where((w) => w.isNotEmpty)
+        .map((w) => w[0].toUpperCase() + w.substring(1))
+        .join(' ');
+  }
+
   Color _catColor(String apiVal) {
     switch (apiVal) {
+      case 'MILK_BREAST':
+        return _milkColor;
       case 'TOYS':
         return Color(0xFF7C3AED);
       case 'CRADLES':
@@ -108,9 +134,10 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      // Same warm off-white ground as the Market/Home tabs, not plain white.
+      backgroundColor: const Color(0xFFF7F1F1),
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: const Color(0xFFF7F1F1),
         elevation: 0,
         centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.black),
@@ -131,93 +158,151 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
           }
 
           final profile = ctrl.profile;
-          if (profile == null) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(24),
-                child: Text(
-                  ctrl.errorMessage ?? 'Profile not found'.tr,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.grey.shade600, fontSize: 14),
-                ),
+          if (profile != null) {
+            final milkListings = profile.marketplaceListings
+                .where((l) => l.category == _milkCategory)
+                .toList();
+            final otherListings = profile.marketplaceListings
+                .where((l) => l.category != _milkCategory)
+                .toList();
+            return RefreshIndicator(
+              color: _red,
+              onRefresh: () => controller.fetchProfile(widget.userId),
+              child: CustomScrollView(
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+                      child: _profileHeader(profile),
+                    ),
+                  ),
+                  if (profile.marketplaceListings.isEmpty)
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 40),
+                        child: Center(
+                          child: Text(
+                            'No active listings'.tr,
+                            style: TextStyle(color: Colors.grey.shade500),
+                          ),
+                        ),
+                      ),
+                    )
+                  else ...[
+                    if (milkListings.isNotEmpty) ...[
+                      _sectionHeader(
+                        icon: Icons.water_drop_outlined,
+                        iconBg: _milkLight,
+                        iconFg: _milkColor,
+                        label: 'Milk'.tr,
+                        count: milkListings.length,
+                      ),
+                      _listingsGrid(milkListings),
+                    ],
+                    if (otherListings.isNotEmpty) ...[
+                      _sectionHeader(
+                        icon: Icons.storefront_outlined,
+                        iconBg: _redLight,
+                        iconFg: _red,
+                        label: 'Other Products'.tr,
+                        count: otherListings.length,
+                      ),
+                      _listingsGrid(otherListings),
+                    ],
+                  ],
+                  const SliverToBoxAdapter(child: SizedBox(height: 16)),
+                ],
               ),
             );
           }
-
-          return RefreshIndicator(
-            color: _red,
-            onRefresh: () => controller.fetchProfile(widget.userId),
-            child: CustomScrollView(
-              slivers: [
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
-                    child: _profileHeader(profile),
-                  ),
-                ),
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 18, 16, 10),
-                    child: Row(
-                      children: [
-                        Icon(Icons.storefront_outlined, size: 18, color: _red),
-                        SizedBox(width: 6),
-                        Text(
-                          'Listings'.tr,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black,
-                          ),
-                        ),
-                        SizedBox(width: 6),
-                        Text(
-                          '(${profile.marketplaceListings.length})',
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: Colors.grey.shade500,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                if (profile.marketplaceListings.isEmpty)
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 40),
-                      child: Center(
-                        child: Text(
-                          'No active listings'.tr,
-                          style: TextStyle(color: Colors.grey.shade500),
-                        ),
-                      ),
-                    ),
-                  )
-                else
-                  SliverPadding(
-                    padding: const EdgeInsets.fromLTRB(12, 0, 12, 16),
-                    sliver: SliverGrid(
-                      delegate: SliverChildBuilderDelegate(
-                        (_, i) =>
-                            _listingCard(profile.marketplaceListings[i]),
-                        childCount: profile.marketplaceListings.length,
-                      ),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10,
-                        // Sized to exactly fit the card's content (image +
-                        // 2-line title + price row + location row) — no
-                        // leftover blank space at the bottom of the card.
-                        mainAxisExtent: 214,
-                      ),
-                    ),
-                  ),
-              ],
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Text(
+                ctrl.errorMessage ?? 'Profile not found'.tr,
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.grey.shade600, fontSize: 14),
+              ),
             ),
           );
         },
+      ),
+    );
+  }
+
+  // ---------------------------------------------------------------------
+  // LISTING SECTION HELPERS
+  // ---------------------------------------------------------------------
+  Widget _sectionHeader({
+    required IconData icon,
+    required Color iconBg,
+    required Color iconFg,
+    required String label,
+    required int count,
+  }) {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 20, 16, 10),
+        child: Row(
+          children: [
+            Container(
+              width: 30,
+              height: 30,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: iconBg,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(icon, size: 16, color: iconFg),
+            ),
+            SizedBox(width: 8),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w800,
+                color: Colors.black,
+              ),
+            ),
+            SizedBox(width: 6),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Text(
+                '$count',
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.grey.shade600,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _listingsGrid(List<SellerListingItem> items) {
+    return SliverPadding(
+      padding: const EdgeInsets.fromLTRB(12, 0, 12, 16),
+      sliver: SliverGrid(
+        delegate: SliverChildBuilderDelegate(
+          (_, i) => _listingCard(items[i]),
+          childCount: items.length,
+        ),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          // Sized to exactly fit the card's content (image + 2-line title +
+          // price row + location row) — no leftover blank space at the
+          // bottom of the card.
+          mainAxisExtent: 214,
+        ),
       ),
     );
   }
@@ -229,9 +314,15 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Color(0xFFF9F9F9),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade200),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.06),
+            blurRadius: 12,
+            offset: Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -331,32 +422,74 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
               ),
             ),
           ],
+          if (profile.tags.isNotEmpty) ...[
+            SizedBox(height: 12),
+            Wrap(
+              spacing: 6,
+              runSpacing: 6,
+              children: profile.tags.asMap().entries.map((entry) {
+                final colors = _tagPalette[entry.key % _tagPalette.length];
+                return Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 5,
+                  ),
+                  decoration: BoxDecoration(
+                    color: colors[0],
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    _tagLabel(entry.value),
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w700,
+                      color: colors[1],
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+          ],
           SizedBox(height: 14),
           Divider(height: 1, color: Colors.grey.shade200),
           SizedBox(height: 12),
           SizedBox(
             width: double.infinity,
-            height: 44,
-            child: OutlinedButton.icon(
-              onPressed: () {
-                final c = Get.isRegistered<Chatcontroller>()
-                    ? Get.find<Chatcontroller>()
-                    : Get.put(Chatcontroller());
-                c.OpenChatUser(
-                  userID: profile.id,
-                  isDonar: profile.isDonor,
-                  userName: profile.name,
-                );
-              },
-              icon: Icon(Icons.chat_bubble_outline, size: 16, color: _red),
-              label: Text(
-                'Chat'.tr,
-                style: TextStyle(color: _red, fontWeight: FontWeight.w600),
+            height: 46,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: AppTheme.roundButtonGradient,
+                borderRadius: BorderRadius.circular(12),
               ),
-              style: OutlinedButton.styleFrom(
-                side: BorderSide(color: _red.withOpacity(0.4)),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  final c = Get.isRegistered<Chatcontroller>()
+                      ? Get.find<Chatcontroller>()
+                      : Get.put(Chatcontroller());
+                  c.OpenChatUser(
+                    userID: profile.id,
+                    isDonar: profile.isDonor,
+                    userName: profile.name,
+                  );
+                },
+                icon: Icon(
+                  Icons.chat_bubble_outline,
+                  size: 17,
+                  color: Colors.white,
+                ),
+                label: Text(
+                  'Chat'.tr,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
               ),
             ),
@@ -368,26 +501,42 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
 
   Widget _avatar(SellerProfileModel profile) {
     final photo = profile.profilePhoto;
-    if (photo != null && photo.isNotEmpty) {
-      return CircleAvatar(
-        radius: 32,
-        backgroundColor: Color(0xFFFFD7CF),
-        backgroundImage: NetworkImage(photo),
-      );
-    }
-    return CircleAvatar(
-      radius: 32,
-      backgroundColor: Color(0xFFFFD7CF),
-      child: Text(
-        profile.name.isNotEmpty ? profile.name[0].toUpperCase() : 'U',
-        style: TextStyle(
-          fontWeight: FontWeight.w700,
-          fontSize: 22,
-          color: Colors.black87,
-        ),
+    return Container(
+      padding: const EdgeInsets.all(3),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: AppTheme.roundButtonGradient,
       ),
+      child: (photo != null && photo.isNotEmpty)
+          ? CircleAvatar(
+              radius: 34,
+              backgroundColor: Colors.white,
+              child: ClipOval(
+                child: Image.network(
+                  photo,
+                  width: 68,
+                  height: 68,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) => _avatarInitial(profile),
+                ),
+              ),
+            )
+          : CircleAvatar(
+              radius: 34,
+              backgroundColor: Colors.white,
+              child: _avatarInitial(profile),
+            ),
     );
   }
+
+  Widget _avatarInitial(SellerProfileModel profile) => Text(
+    profile.name.isNotEmpty ? profile.name[0].toUpperCase() : 'U',
+    style: TextStyle(
+      fontWeight: FontWeight.w800,
+      fontSize: 24,
+      color: _red,
+    ),
+  );
 
   // ---------------------------------------------------------------------
   // LISTING CARD — same visual language as Market_screen's grid card

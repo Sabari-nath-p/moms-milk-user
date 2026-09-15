@@ -1202,6 +1202,61 @@ class _AddItemScreenState extends State<AddItemScreen> {
     ),
   );
 
+  // ── "Featured Listing" toggle card — all listing types ──────────────────
+  Widget _featuredToggleCard(AddMarketplaceController ctrl) => Container(
+    padding: const EdgeInsets.all(12),
+    decoration: BoxDecoration(
+      color: ctrl.isFeatured ? Color(0xFFFFF7ED) : Colors.white,
+      borderRadius: BorderRadius.circular(10),
+      border: Border.all(
+        color: ctrl.isFeatured ? Color(0xFFFED7AA) : _kBorder,
+      ),
+    ),
+    child: Row(
+      children: [
+        Container(
+          width: 36,
+          height: 36,
+          decoration: BoxDecoration(
+            color: ctrl.isFeatured ? Color(0xFFFFEDD5) : _kRedLight,
+            borderRadius: BorderRadius.circular(9),
+          ),
+          child: Icon(
+            Icons.star_outline_rounded,
+            color: ctrl.isFeatured ? Color(0xFFF97316) : _kRed,
+            size: 18,
+          ),
+        ),
+        SizedBox(width: 10),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Featured Listing'.tr,
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                  color: _kLabel,
+                ),
+              ),
+              SizedBox(height: 2),
+              Text(
+                'Show this listing in the Featured Products section'.tr,
+                style: TextStyle(fontSize: 11, color: _kSubLabel),
+              ),
+            ],
+          ),
+        ),
+        Switch(
+          value: ctrl.isFeatured,
+          activeColor: Color(0xFFF97316),
+          onChanged: (v) => ctrl.setIsFeatured(v),
+        ),
+      ],
+    ),
+  );
+
   // ── Milk-only: shown instead of the Price row when isDonation is true ───
   Widget _freeDonationPriceBadge() => Container(
     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
@@ -1385,6 +1440,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
           onRemove: ctrl.removeBoxItem,
         ),
       ],
+      SizedBox(height: 20),
+
+      _featuredToggleCard(ctrl),
       SizedBox(height: 20),
 
       Container(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:mommilk_user/Screens/RequestScreen/RequestScreen.dart';
 import 'package:mommilk_user/Screens/SearchBuyerScreen/Controller/SearchBuyerController.dart';
 import 'package:mommilk_user/Screens/SearchBuyerScreen/Views/SearchBuyerCard.dart';
 import 'package:mommilk_user/theme/app_theme.dart';
@@ -49,10 +50,54 @@ class _SearchBuyerScreenState extends State<SearchBuyerScreen> {
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: IconButton(
-          onPressed: () => Get.back(),
-          icon: Icon(Icons.arrow_back),
-        ),
+        // This screen doubles as the Connect tab's own body (no back stack
+        // to pop to there) and as a screen pushed from elsewhere — only
+        // show the back arrow when there's actually somewhere to go back to.
+        leading: Navigator.of(context).canPop()
+            ? IconButton(
+                onPressed: () => Get.back(),
+                icon: Icon(Icons.arrow_back),
+              )
+            : null,
+        actions: [
+          GestureDetector(
+            onTap: () => Get.to(
+              () => RequestScreen(),
+              transition: Transition.rightToLeft,
+            ),
+            child: Container(
+              margin: EdgeInsets.only(right: 16),
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              decoration: BoxDecoration(
+                color: AppTheme.primaryColor.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: AppTheme.primaryColor.withOpacity(0.3),
+                  width: 1,
+                ),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.people_alt_outlined,
+                    size: 16,
+                    color: AppTheme.primaryColor,
+                  ),
+                  SizedBox(width: 4),
+                  Text(
+                    'Connections'.tr,
+                    style: TextStyle(
+                      color: AppTheme.primaryColor,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
       body: CustomScrollView(
         controller: scrollController,

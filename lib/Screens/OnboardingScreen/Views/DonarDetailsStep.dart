@@ -209,6 +209,106 @@ Wrap(
 
                     SizedBox(height: 12),
 
+                    Material(
+                      type: MaterialType.transparency,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: RadioListTile<bool>(
+                              title: Text(
+                                'Yes'.tr,
+                                style: TextStyle(color: Colors.black),
+                              ),
+                              value: true,
+                              groupValue:
+                                  controller.isWillingToShareMedicalReport,
+                              onChanged: (value) {
+                                controller.isWillingToShareMedicalReport =
+                                    value ?? false;
+                                controller.update();
+                              },
+                              contentPadding: EdgeInsets.zero,
+                              // Use fillColor to control the color in different states.
+                              fillColor: MaterialStateProperty.resolveWith<
+                                Color
+                              >((states) {
+                                if (states.contains(MaterialState.selected)) {
+                                  return Theme.of(
+                                    context,
+                                  ).colorScheme.primary;
+                                }
+                                // This sets the unselected circle's border color to white.
+                                return Colors.black;
+                              }),
+                            ),
+                          ),
+                          Expanded(
+                            child: RadioListTile<bool>(
+                              title: Text(
+                                'No'.tr,
+                                style: TextStyle(color: Colors.black),
+                              ),
+                              value: false,
+                              groupValue:
+                                  controller.isWillingToShareMedicalReport,
+                              onChanged: (value) {
+                                controller.isWillingToShareMedicalReport =
+                                    value ?? false;
+
+                                controller.update();
+                              },
+                              contentPadding: EdgeInsets.zero,
+                              // Use fillColor to control the color in different states.
+                              fillColor: MaterialStateProperty.resolveWith<
+                                Color
+                              >((states) {
+                                if (states.contains(MaterialState.selected)) {
+                                  return Theme.of(
+                                    context,
+                                  ).colorScheme.primary;
+                                }
+                                // This sets the unselected circle's border color to white.
+                                return Colors.black;
+                              }),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              SizedBox(height: 24),
+
+              // Available for Donation
+              Container(
+                padding: EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade50,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.grey.shade200),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Available for Donation'.tr,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+
+                    SizedBox(height: 8),
+
+                    Text(
+                      'Are you currently able to donate breast milk? You can change this later.'
+                          .tr,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+
+                    SizedBox(height: 12),
+
                     Row(
                       children: [
                         Expanded(
@@ -218,22 +318,19 @@ Wrap(
                               style: TextStyle(color: Colors.black),
                             ),
                             value: true,
-                            groupValue:
-                                controller.isWillingToShareMedicalReport,
+                            groupValue: controller.isAvailableForDonation,
                             onChanged: (value) {
-                              controller.isWillingToShareMedicalReport =
-                                  value ?? false;
+                              controller.isAvailableForDonation =
+                                  value ?? true;
                               controller.update();
                             },
                             contentPadding: EdgeInsets.zero,
-                            // Use fillColor to control the color in different states.
                             fillColor: MaterialStateProperty.resolveWith<
                               Color
                             >((states) {
                               if (states.contains(MaterialState.selected)) {
                                 return Theme.of(context).colorScheme.primary;
                               }
-                              // This sets the unselected circle's border color to white.
                               return Colors.black;
                             }),
                           ),
@@ -245,23 +342,19 @@ Wrap(
                               style: TextStyle(color: Colors.black),
                             ),
                             value: false,
-                            groupValue:
-                                controller.isWillingToShareMedicalReport,
+                            groupValue: controller.isAvailableForDonation,
                             onChanged: (value) {
-                              controller.isWillingToShareMedicalReport =
-                                  value ?? false;
-
+                              controller.isAvailableForDonation =
+                                  value ?? true;
                               controller.update();
                             },
                             contentPadding: EdgeInsets.zero,
-                            // Use fillColor to control the color in different states.
                             fillColor: MaterialStateProperty.resolveWith<
                               Color
                             >((states) {
                               if (states.contains(MaterialState.selected)) {
                                 return Theme.of(context).colorScheme.primary;
                               }
-                              // This sets the unselected circle's border color to white.
                               return Colors.black;
                             }),
                           ),

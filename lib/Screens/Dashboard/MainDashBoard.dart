@@ -11,9 +11,12 @@ import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeDashboardController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/HomeScreen.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Views/HDashboardHome.dart';
+import 'package:mommilk_user/Screens/HomeScreen/Views/HomeMarketScreen.dart';
 import 'package:mommilk_user/Screens/MarketScreen/Market_screen.dart';
 import 'package:mommilk_user/Screens/ProfileScreen/ProfileScreen.dart';
 import 'package:mommilk_user/Screens/RequestScreen/Controller/RequestController.dart';
+import 'package:mommilk_user/Screens/SearchBuyerScreen/SearchBuyerScreen.dart';
+import 'package:mommilk_user/Screens/SearchDonarScreen/SearchDonarScreen.dart';
 import 'package:mommilk_user/Screens/TrackerScreen/TrackerScreen.dart';
 import 'package:mommilk_user/Utils/Constants.dart';
 import 'package:mommilk_user/theme/app_theme.dart';
@@ -44,13 +47,13 @@ class MainDashboard extends StatelessWidget {
 
         switch (controller.selectedMenu) {
           case 0:
-            // NOTE: Homescreen() (the original "Log" screen) is intentionally kept
-            // in the codebase and untouched — HDashboardHome() now renders in its
-            // place as the Buyer/Donor home dashboard.
-            // Refresh its summary/recent-activity data on every visit — same
-            // pattern as the Connect tab's request re-fetch below.
+            // NOTE: Homescreen() (the original "Log" screen) and
+            // HDashboardHome() (the previous Buyer/Donor dashboard) are both
+            // intentionally kept in the codebase, untouched, but unused —
+            // HomeMarketScreen() now renders in their place as the Home tab,
+            // matching the approved "Market"-style home mock pixel-for-pixel.
             Get.put(HomeDashboardController()).fetchDashboardData();
-            currentScreen = HDashboardHome();
+            currentScreen = const HomeMarketScreen();
             break;
           case 1:
             // Consume (and clear) any filter handed off by another screen
@@ -85,7 +88,14 @@ class MainDashboard extends StatelessWidget {
               // this tab until a manual pull-to-refresh.
               rctrl.fetchMyRequests();
             }
-            currentScreen = ConnectScreen();
+            // Connect tab now opens straight into the Find Donors / Find
+            // Buyers search (ConnectScreen — the old request-list-first
+            // layout — is kept, unused, per this codebase's convention).
+            // Its own "Connections" action (top-right) opens the request
+            // list that used to be this tab's default body.
+            currentScreen = user.userType == 'DONOR'
+                ? SearchBuyerScreen()
+                : Searchdonarscreen();
             break;
           case 3:
             currentScreen = ChatListScreen();

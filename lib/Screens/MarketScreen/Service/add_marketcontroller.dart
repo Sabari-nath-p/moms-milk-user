@@ -41,6 +41,9 @@ class AddMarketplaceController extends GetxController {
   bool isMilk = false;
   final quantityController = TextEditingController(); // volume in ml
   bool isDonation = false; // free donation — backend forces price to 0
+  // Shows this listing in the Home tab's Featured Products section —
+  // applies to both milk and regular baby-item listings.
+  bool isFeatured = false;
 
   void setMilkMode(bool milk) {
     isMilk = milk;
@@ -54,6 +57,11 @@ class AddMarketplaceController extends GetxController {
       priceController.text = '0';
       originalPriceController.clear();
     }
+    update();
+  }
+
+  void setIsFeatured(bool value) {
+    isFeatured = value;
     update();
   }
 
@@ -304,6 +312,7 @@ class AddMarketplaceController extends GetxController {
               'zipcode': zipcodeController.text.trim(),
               if (quantityInt != null) 'quantity': quantityInt,
               'isDonation': isDonation,
+              'isFeatured': isFeatured,
               'images': imagesPayload,
             }
           : {
@@ -324,6 +333,7 @@ class AddMarketplaceController extends GetxController {
               if (dimensionsController.text.trim().isNotEmpty)
                 'dimensions': dimensionsController.text.trim(),
               if (boxContains.isNotEmpty) 'boxContains': boxContains,
+              'isFeatured': isFeatured,
               'images': imagesPayload,
             };
 
@@ -380,6 +390,7 @@ class AddMarketplaceController extends GetxController {
     selectedImages.clear();
     quantityController.clear();
     isDonation = false;
+    isFeatured = false;
     update();
   }
 
