@@ -18,6 +18,7 @@ class UserModel {
   String? createdAt;
   String? updatedAt;
   String? language;
+  String? profilePhoto;
 
   UserModel({
     this.id,
@@ -38,6 +39,7 @@ class UserModel {
     this.isAvailable,
     this.createdAt,
     this.updatedAt,
+    this.profilePhoto,
   });
 
   UserModel.fromJson(Map<String, dynamic> json) {
@@ -60,6 +62,7 @@ class UserModel {
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     language = json['language'];
+    profilePhoto = json['profilePhoto'];
   }
 
   Map<String, dynamic> toJson() {
@@ -83,6 +86,7 @@ class UserModel {
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
     data['language'] = this.language;
+    data['profilePhoto'] = this.profilePhoto;
     return data;
   }
 }

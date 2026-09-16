@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mommilk_user/Models/UserModel.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/AuthenticationScreen.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
@@ -100,7 +101,19 @@ class ProfileScreen extends StatelessWidget {
                 gradient: AppTheme.buttonCardGradient,
                 shape: BoxShape.circle,
               ),
-              child: Icon(Icons.person, size: 40, color: Colors.white),
+              child: ClipOval(
+                child: (user.profilePhoto != null &&
+                        user.profilePhoto!.isNotEmpty)
+                    ? Image.network(
+                        user.profilePhoto!,
+                        width: 80,
+                        height: 80,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) =>
+                            Icon(Icons.person, size: 40, color: Colors.white),
+                      )
+                    : Icon(Icons.person, size: 40, color: Colors.white),
+              ),
             ),
             SizedBox(height: 16),
             Text('${user.name}', style: Theme.of(context).textTheme.bodyLarge),
@@ -108,22 +121,21 @@ class ProfileScreen extends StatelessWidget {
               '${user.email}',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
-            if (false) SizedBox(height: 20),
-            if (false)
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton.icon(
-                  onPressed: () => _showEditProfileDialog(context),
-                  icon: Icon(Icons.edit, size: 18),
-                  label: Text('Edit Profile'),
-                  style: OutlinedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
+            SizedBox(height: 20),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: () => _showEditProfileDialog(context),
+                icon: Icon(Icons.edit, size: 18),
+                label: Text('Edit Profile'.tr),
+                style: OutlinedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
                   ),
                 ),
               ),
+            ),
           ],
         ),
       ),
@@ -380,124 +392,284 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
+  Future<void> _pickProfilePhoto(
+    BuildContext context,
+    Homecontroller controller,
+  ) async {
+    final source = await showModalBottomSheet<ImageSource>(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (sheetContext) {
+        return SafeArea(
+          child: Wrap(
+            children: [
+              ListTile(
+                leading: Icon(Icons.photo_camera_outlined),
+                title: Text('Take a photo'.tr),
+                onTap: () => Navigator.pop(sheetContext, ImageSource.camera),
+              ),
+              ListTile(
+                leading: Icon(Icons.photo_library_outlined),
+                title: Text('Choose from gallery'.tr),
+                onTap: () => Navigator.pop(sheetContext, ImageSource.gallery),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+    if (source == null) return;
+
+    final picked = await ImagePicker().pickImage(
+      source: source,
+      imageQuality: 60,
+    );
+    if (picked == null) return;
+
+    await controller.updateProfilePhoto(File(picked.path));
+  }
+
+  static const Color _pink = Color(0xFFFB7185);
+
+  InputDecoration _editFieldDecoration(String label) => InputDecoration(
+    labelText: label,
+    isDense: true,
+    filled: true,
+    fillColor: Colors.grey.shade50,
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: Colors.grey.shade300),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: Colors.grey.shade300),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: _pink, width: 1.5),
+    ),
+  );
+
   void _showEditProfileDialog(BuildContext context) {
+    final nameController = TextEditingController(text: user.name ?? '');
+    final emailController = TextEditingController(text: user.email ?? '');
+    final phoneController = TextEditingController(text: user.phone ?? '');
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => Container(
-        height: MediaQuery.of(context).size.height * 0.85,
         decoration: BoxDecoration(
-          color: Theme.of(context).scaffoldBackgroundColor,
+          color: Colors.white,
           borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         ),
-        child: Column(
-          children: [
-            Container(
-              margin: EdgeInsets.only(top: 8),
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                color: Theme.of(context).dividerColor,
-                borderRadius: BorderRadius.circular(2),
+        child: SingleChildScrollView(
+          padding: EdgeInsets.fromLTRB(
+            20,
+            0,
+            20,
+            MediaQuery.of(context).viewInsets.bottom + 20,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Center(
+                child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 12),
+                  width: 36,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(20),
-              child: Row(
+              Row(
                 children: [
                   Text(
                     'Edit Profile'.tr,
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.w600,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black,
                     ),
                   ),
                   Spacer(),
                   IconButton(
+                    padding: EdgeInsets.zero,
+                    constraints: BoxConstraints(),
                     onPressed: () => Navigator.pop(context),
-                    icon: Icon(Icons.close),
+                    icon: Icon(Icons.close, size: 22),
                   ),
                 ],
               ),
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  children: [
-                    TextField(
-                      textInputAction: TextInputAction.next,
-                      decoration: InputDecoration(
-                        labelText: 'Name'.tr,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        filled: true,
-                        fillColor: Theme.of(context).colorScheme.surface,
-                      ),
-                    ),
-                    SizedBox(height: 16),
-                    TextField(
-                      textInputAction: TextInputAction.next,
-                      decoration: InputDecoration(
-                        labelText: 'Email'.tr,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        filled: true,
-                        fillColor: Theme.of(context).colorScheme.surface,
-                      ),
-                    ),
-                    SizedBox(height: 16),
-                    TextField(
-                      textInputAction: TextInputAction.done,
-                      decoration: InputDecoration(
-                        labelText: 'Phone'.tr,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        filled: true,
-                        fillColor: Theme.of(context).colorScheme.surface,
-                      ),
-                    ),
-                    SizedBox(height: 32),
-                    Row(
+              SizedBox(height: 20),
+              GetBuilder<Homecontroller>(
+                builder: (controller) => Center(
+                  child: GestureDetector(
+                    onTap: controller.isUploadingProfilePhoto
+                        ? null
+                        : () => _pickProfilePhoto(context, controller),
+                    child: Stack(
                       children: [
-                        Expanded(
-                          child: OutlinedButton(
-                            onPressed: () => Navigator.pop(context),
-                            style: OutlinedButton.styleFrom(
-                              padding: EdgeInsets.symmetric(vertical: 16),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                            child: Text('Cancel'.tr),
+                        CircleAvatar(
+                          radius: 40,
+                          backgroundColor: Colors.grey[200],
+                          child: ClipOval(
+                            child: controller.isUploadingProfilePhoto
+                                ? SizedBox(
+                                    width: 40,
+                                    height: 40,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: _pink,
+                                    ),
+                                  )
+                                : (user.profilePhoto != null &&
+                                          user.profilePhoto!.isNotEmpty)
+                                ? Image.network(
+                                    user.profilePhoto!,
+                                    width: 80,
+                                    height: 80,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (_, __, ___) => Icon(
+                                      Icons.person_outline,
+                                      size: 40,
+                                      color: Colors.grey[500],
+                                    ),
+                                  )
+                                : Icon(
+                                    Icons.person_outline,
+                                    size: 40,
+                                    color: Colors.grey[500],
+                                  ),
                           ),
                         ),
-                        SizedBox(width: 16),
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: () => Navigator.pop(context),
-                            style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.symmetric(vertical: 16),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: Container(
+                            padding: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              color: AppTheme.buttonCardGradient.colors.first,
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Colors.white, width: 2),
                             ),
-                            child: Text('Save'.tr),
+                            child: Icon(
+                              Icons.camera_alt,
+                              size: 14,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: MediaQuery.of(context).viewInsets.bottom + 20,
-                    ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ],
+              SizedBox(height: 20),
+              TextField(
+                controller: nameController,
+                textInputAction: TextInputAction.next,
+                decoration: _editFieldDecoration('Name'.tr),
+              ),
+              SizedBox(height: 12),
+              TextField(
+                controller: emailController,
+                textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.emailAddress,
+                decoration: _editFieldDecoration('Email'.tr),
+              ),
+              SizedBox(height: 12),
+              TextField(
+                controller: phoneController,
+                textInputAction: TextInputAction.done,
+                keyboardType: TextInputType.phone,
+                decoration: _editFieldDecoration('Phone'.tr),
+              ),
+              SizedBox(height: 20),
+              Row(
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      height: 46,
+                      child: OutlinedButton(
+                        onPressed: () => Navigator.pop(context),
+                        style: OutlinedButton.styleFrom(
+                          side: BorderSide(color: Colors.grey.shade300),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: Text(
+                          'Cancel'.tr,
+                          style: TextStyle(
+                            color: Colors.black87,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 12),
+                  Expanded(
+                    child: SizedBox(
+                      height: 46,
+                      child: GetBuilder<Homecontroller>(
+                        builder: (controller) => ElevatedButton(
+                          onPressed: controller.isSavingProfile
+                              ? null
+                              : () async {
+                                  final name = nameController.text.trim();
+                                  final email = emailController.text.trim();
+                                  final phone = phoneController.text.trim();
+                                  if (name.isEmpty || email.isEmpty) {
+                                    Fluttertoast.showToast(
+                                      msg: 'Name and email are required'.tr,
+                                    );
+                                    return;
+                                  }
+                                  await controller.updateProfile(
+                                    name: name,
+                                    email: email,
+                                    phone: phone,
+                                  );
+                                  Navigator.pop(context);
+                                },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: _pink,
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: controller.isSavingProfile
+                              ? SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : Text(
+                                  'Save'.tr,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

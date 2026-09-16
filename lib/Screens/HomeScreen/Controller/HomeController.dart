@@ -1,6 +1,12 @@
+import 'dart:convert';
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:mime/mime.dart';
 import 'package:mommilk_user/Models/BabyModel.dart';
 import 'package:mommilk_user/Models/BabyAnalyticsModel.dart';
 import 'package:mommilk_user/Models/DiaperLogModel.dart';
@@ -19,6 +25,8 @@ class Homecontroller extends GetxController {
   bool isLoading = false;
   bool isAnalyticsLoading = false;
   bool isSubmitLoading = false;
+  bool isUploadingProfilePhoto = false;
+  bool isSavingProfile = false;
   int connectionTabIndex = 0; // 0 = My Connections, 1 = Find Donors
 
   // 🔧 NEW: Individual loading states for logs
@@ -68,6 +76,104 @@ class Homecontroller extends GetxController {
         update();
       },
     );
+  }
+
+  Future<void> updateProfile({
+    required String name,
+    required String email,
+    required String phone,
+  }) async {
+    try {
+      isSavingProfile = true;
+      update();
+
+      await ApiService.request(
+        endpoint: "/auth/profile",
+        method: Api.PATCH,
+        body: {"name": name, "email": email, "phone": phone},
+        onSuccess: (body) {
+          user.name = name;
+          user.email = email;
+          user.phone = phone;
+          update();
+          Fluttertoast.showToast(msg: 'Profile updated'.tr);
+        },
+        onServerError: (status, message) {
+          Fluttertoast.showToast(msg: message.tr);
+        },
+        onNetworkError: (message) {
+          Fluttertoast.showToast(msg: message.tr);
+        },
+      );
+    } finally {
+      isSavingProfile = false;
+      update();
+    }
+  }
+
+  // Single-step: the picked file is uploaded directly to
+  // /users/:id/profile-photo — that endpoint both stores the image and
+  // updates the user's profilePhoto in one call.
+  Future<void> updateProfilePhoto(File image) async {
+    try {
+      isUploadingProfilePhoto = true;
+      update();
+
+      final mimeType = lookupMimeType(image.path);
+      if (mimeType == null || !mimeType.startsWith('image/')) {
+        Fluttertoast.showToast(msg: 'Invalid image selected'.tr);
+        return;
+      }
+
+      final token = await ApiService.getAuthToken();
+      final request = http.MultipartRequest(
+        'POST',
+        Uri.parse('${ApiService.baseUrl}/users/${user.id}/profile-photo'),
+      );
+      request.headers['Accept'] = 'application/json';
+      if (token != null) {
+        request.headers['Authorization'] = 'Bearer $token';
+      }
+      final parts = mimeType.split('/');
+      request.files.add(
+        await http.MultipartFile.fromPath(
+          'file',
+          image.path,
+          contentType: http.MediaType(parts[0], parts[1]),
+        ),
+      );
+
+      log('PROFILE PHOTO UPLOAD: ${request.method} ${request.url}');
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
+      log('PROFILE PHOTO UPLOAD STATUS: ${response.statusCode}');
+      log('PROFILE PHOTO UPLOAD BODY: ${response.body}');
+
+      if (response.statusCode != 200 && response.statusCode != 201) {
+        Fluttertoast.showToast(
+          msg: 'Photo upload failed (${response.statusCode})'.tr,
+        );
+        return;
+      }
+
+      final data = jsonDecode(response.body);
+      final photoUrl = data is Map ? data['profilePhoto']?.toString() : null;
+      if (photoUrl == null || photoUrl.isEmpty) {
+        Fluttertoast.showToast(msg: 'Invalid upload response'.tr);
+        return;
+      }
+
+      user.profilePhoto = photoUrl;
+      update();
+      Fluttertoast.showToast(msg: 'Profile photo updated'.tr);
+    } catch (e, stackTrace) {
+      log('PROFILE PHOTO UPLOAD ERROR: $e');
+      log('$stackTrace');
+      Fluttertoast.showToast(msg: 'Upload error: $e');
+    } finally {
+      isUploadingProfilePhoto = false;
+      update();
+    }
   }
 
   void changeLanguage(String languageName) async {
