@@ -9,6 +9,10 @@ import 'package:http/http.dart' as http;
 import 'package:mommilk_user/Utils/ApiService.dart';
 import 'package:mime/mime.dart';
 
+// Client-side cap so an oversized photo is rejected with a clear message
+// instead of hanging on a slow upload or failing with a raw server error.
+const int _kMaxImageSizeBytes = 10 * 1024 * 1024; // 10MB
+
 class AddMarketplaceController extends GetxController {
   bool isLoading = false;
   bool isUploadingImage = false;
@@ -40,6 +44,9 @@ class AddMarketplaceController extends GetxController {
   // and the extra quantity/donation fields below apply).
   bool isMilk = false;
   final quantityController = TextEditingController(); // volume in ml
+  // Donor's baby's age, in months, at the time of donation — backend field
+  // `donorBabyAge` (an int, e.g. 4 = 4 months old).
+  final donorBabyAgeController = TextEditingController();
   bool isDonation = false; // free donation — backend forces price to 0
   // Shows this listing in the Home tab's Featured Products section —
   // applies to both milk and regular baby-item listings.
@@ -178,13 +185,22 @@ class AddMarketplaceController extends GetxController {
 
     for (final image in images) {
       final mimeType = lookupMimeType(image.path);
+      final sizeBytes = await image.length();
 
       log('IMAGE PATH: ${image.path}');
-      log('IMAGE SIZE: ${await image.length()} bytes');
+      log('IMAGE SIZE: $sizeBytes bytes');
       log('MIME TYPE: $mimeType');
 
       if (mimeType == null || !mimeType.startsWith('image/')) {
         Fluttertoast.showToast(msg: 'Invalid image skipped');
+        continue;
+      }
+
+      if (sizeBytes > _kMaxImageSizeBytes) {
+        Fluttertoast.showToast(
+          msg:
+              'Image too large (${(sizeBytes / (1024 * 1024)).toStringAsFixed(1)}MB) — max size is ${_kMaxImageSizeBytes ~/ (1024 * 1024)}MB. Skipped.',
+        );
         continue;
       }
 
@@ -201,6 +217,12 @@ class AddMarketplaceController extends GetxController {
 
     log('TOTAL FILES: ${request.files.length}');
     log('=========================================');
+
+    if (request.files.isEmpty) {
+      // Every picked image was rejected above (bad type / too large) —
+      // nothing left to send.
+      return;
+    }
 
     final streamedResponse = await request.send();
 
@@ -236,6 +258,10 @@ class AddMarketplaceController extends GetxController {
           msg: 'Invalid upload response',
         );
       }
+    } else if (response.statusCode == 413) {
+      Fluttertoast.showToast(
+        msg: 'Image too large . Please choose a smaller photo.',
+      );
     } else {
       Fluttertoast.showToast(
         msg: 'Upload failed (${response.statusCode})',
@@ -296,6 +322,9 @@ class AddMarketplaceController extends GetxController {
       final priceInt = int.tryParse(priceController.text.trim()) ?? 0;
       final originPriceInt = int.tryParse(originalPriceController.text.trim());
       final quantityInt = int.tryParse(quantityController.text.trim());
+      final donorBabyAgeInt = int.tryParse(
+        donorBabyAgeController.text.trim(),
+      );
 
       // Milk listings send ONLY the fields the milk payload needs — no
       // placeName / originPrice / purchasedOn / brand / materials / colors /
@@ -311,6 +340,7 @@ class AddMarketplaceController extends GetxController {
               'condition': selectedCondition,
               'zipcode': zipcodeController.text.trim(),
               if (quantityInt != null) 'quantity': quantityInt,
+              if (donorBabyAgeInt != null) 'donorBabyAge': donorBabyAgeInt,
               'isDonation': isDonation,
               'isFeatured': isFeatured,
               'images': imagesPayload,
@@ -389,6 +419,7 @@ class AddMarketplaceController extends GetxController {
     imageUrls.clear();
     selectedImages.clear();
     quantityController.clear();
+    donorBabyAgeController.clear();
     isDonation = false;
     isFeatured = false;
     update();
@@ -405,6 +436,7 @@ class AddMarketplaceController extends GetxController {
     brandController.dispose();
     dimensionsController.dispose();
     quantityController.dispose();
+    donorBabyAgeController.dispose();
     super.onClose();
   }
 }

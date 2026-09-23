@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
@@ -13,7 +14,7 @@ class DonarDetailsStep extends StatelessWidget {
     return GetBuilder<Onboardingcontroller>(
       builder: (controller) {
         return SingleChildScrollView(
-          padding: EdgeInsets.all(24),
+          padding: EdgeInsets.all(24.r),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -25,7 +26,7 @@ class DonarDetailsStep extends StatelessWidget {
                 ),
               ),
 
-              SizedBox(height: 8),
+              SizedBox(height: 8.h),
 
               Text(
                 'Please provide additional information to help ensure safe milk donation.'.tr,
@@ -34,7 +35,7 @@ class DonarDetailsStep extends StatelessWidget {
                 ),
               ),
 
-              SizedBox(height: 32),
+              SizedBox(height: 32.h),
 
               // Delivery Location
               // TextField(
@@ -68,7 +69,7 @@ class DonarDetailsStep extends StatelessWidget {
                   controller.babyDeliveryDate = date;
                 },
               ),
-              SizedBox(height: 24),
+              SizedBox(height: 24.h),
               // Blood Group
               Text(
                 'Your Blood Group *'.tr,
@@ -77,10 +78,10 @@ class DonarDetailsStep extends StatelessWidget {
                 ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
               ),
 
-              SizedBox(height: 12),
+              SizedBox(height: 12.h),
 Wrap(
-  spacing: 8,
-  runSpacing: 8,
+  spacing: 8.w,
+  runSpacing: 8.h,
   children: BloodGroup.values.map((bloodGroup) {
     final isSelected = controller.seletecBloodGroup == bloodGroup;
 
@@ -119,7 +120,7 @@ Wrap(
 ),
 
 
-              SizedBox(height: 32),
+              SizedBox(height: 32.h),
 
               // Donor Qualities
               Text(
@@ -129,7 +130,7 @@ Wrap(
                 ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
               ),
 
-              SizedBox(height: 8),
+              SizedBox(height: 8.h),
 
               Text(
                 'Select all that apply to you (optional but recommended):'.tr,
@@ -138,7 +139,7 @@ Wrap(
                 ),
               ),
 
-              SizedBox(height: 16),
+              SizedBox(height: 16.h),
 
               Column(
                 children:
@@ -174,16 +175,16 @@ Wrap(
                     }).toList(),
               ),
 
-              SizedBox(height: 24),
+              SizedBox(height: 24.h),
 
               // Medical Report Sharing
               Container(
-                padding: EdgeInsets.all(16),
+                padding: EdgeInsets.all(16.r),
                 decoration: BoxDecoration(
                   color: Theme.of(
                     context,
                   ).colorScheme.secondary.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                   border: Border.all(
                     color: Theme.of(
                       context,
@@ -200,14 +201,14 @@ Wrap(
                       ),
                     ),
 
-                    SizedBox(height: 8),
+                    SizedBox(height: 8.h),
 
                     Text(
                       'Would you be willing to share your medical reports with potential milk recipients if requested?'.tr,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
 
-                    SizedBox(height: 12),
+                    SizedBox(height: 12.h),
 
                     Material(
                       type: MaterialType.transparency,
@@ -279,14 +280,14 @@ Wrap(
                 ),
               ),
 
-              SizedBox(height: 24),
+              SizedBox(height: 24.h),
 
               // Available for Donation
               Container(
-                padding: EdgeInsets.all(16),
+                padding: EdgeInsets.all(16.r),
                 decoration: BoxDecoration(
                   color: Colors.grey.shade50,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                   border: Border.all(color: Colors.grey.shade200),
                 ),
                 child: Column(
@@ -299,7 +300,7 @@ Wrap(
                       ),
                     ),
 
-                    SizedBox(height: 8),
+                    SizedBox(height: 8.h),
 
                     Text(
                       'Are you currently able to donate breast milk? You can change this later.'
@@ -307,7 +308,7 @@ Wrap(
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
 
-                    SizedBox(height: 12),
+                    SizedBox(height: 12.h),
 
                     Row(
                       children: [
@@ -365,14 +366,14 @@ Wrap(
                 ),
               ),
 
-              SizedBox(height: 24),
+              SizedBox(height: 24.h),
 
               // Safety Info
               Container(
-                padding: EdgeInsets.all(16),
+                padding: EdgeInsets.all(16.r),
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                   border: Border.all(
                     color: Theme.of(
                       context,
@@ -385,7 +386,7 @@ Wrap(
                       Icons.health_and_safety,
                       color: Theme.of(context).colorScheme.primary,
                     ),
-                    SizedBox(width: 12),
+                    SizedBox(width: 12.w),
                     Expanded(
                       child: Text(
                         'All donors join to support babies in need. We encourage a safe, honest, and trust-based community built on helping families.'.tr,

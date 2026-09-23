@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/utils.dart';
 import 'package:mommilk_user/Screens/TrackerScreen/Models/AnalyticsOverviewModel.dart';
 import 'package:mommilk_user/theme/app_theme.dart';
@@ -22,12 +23,12 @@ class SleepingActivityCard extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
 
         Container(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.sp),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
             border: Border.all(color: Color(0xFFFFF0EC).withOpacity(1)),
             color: Color(0xFFFFF0EC).withOpacity(1),
           ),
@@ -39,7 +40,7 @@ class SleepingActivityCard extends StatelessWidget {
                     Text(
                       (model.totalSleeps ?? 0).toString(),
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 20.sp,
                         fontWeight: FontWeight.bold,
                         color: Colors.orange,
                       ),
@@ -47,7 +48,7 @@ class SleepingActivityCard extends StatelessWidget {
                     Text(
                       'Total\nSessions'.tr,
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 12),
+                      style: TextStyle(fontSize: 12.sp),
                     ),
                   ],
                 ),
@@ -58,7 +59,7 @@ class SleepingActivityCard extends StatelessWidget {
                     Text(
                       '${model.totalSleepDuration ?? 0} hr',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 20.sp,
                         fontWeight: FontWeight.bold,
                         color: Colors.green,
                       ),
@@ -66,7 +67,7 @@ class SleepingActivityCard extends StatelessWidget {
                     Text(
                       'Total\nHours'.tr,
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 12),
+                      style: TextStyle(fontSize: 12.sp),
                     ),
                   ],
                 ),
@@ -77,7 +78,7 @@ class SleepingActivityCard extends StatelessWidget {
                     Text(
                       '${model.averageSleepDurationPerDay ?? 0} hr',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 20.sp,
                         fontWeight: FontWeight.bold,
                         color: Colors.blue,
                       ),
@@ -85,7 +86,7 @@ class SleepingActivityCard extends StatelessWidget {
                     Text(
                       'Average\nSleep/day'.tr,
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 12),
+                      style: TextStyle(fontSize: 12.sp),
                     ),
                   ],
                 ),
@@ -93,7 +94,7 @@ class SleepingActivityCard extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
       ],
     );
   }

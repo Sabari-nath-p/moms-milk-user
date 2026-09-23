@@ -9,6 +9,7 @@ import 'package:mommilk_user/Screens/MarketScreen/ProductDetailScreen.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/HomeScreen.dart' show getTimeOfDay;
 import 'package:mommilk_user/Screens/MarketScreen/Service/market_controller.dart';
+import 'package:mommilk_user/Screens/SearchDonarScreen/SearchDonarScreen.dart';
 
 /// Home tab (tab 0) screen — a pixel-matched rebuild of the "Market" mock:
 /// hero offer banner, category icon tiles, "Add Your Product" prompt, and a
@@ -367,7 +368,7 @@ class _HomeMarketScreenState extends State<HomeMarketScreen> {
                         borderRadius: BorderRadius.circular(8.r),
                       ),
                       child: Text(
-                        '₹${tempPrice.start.toInt()}  –  ${tempPrice.end.toInt() >= 50000 ? 'Any'.tr : '₹${tempPrice.end.toInt()}'}',
+                        '\$${tempPrice.start.toInt()}  –  ${tempPrice.end.toInt() >= 50000 ? 'Any'.tr : '\$${tempPrice.end.toInt()}'}',
                         style: TextStyle(
                           fontSize: 12.sp,
                           color: _red,
@@ -402,10 +403,10 @@ class _HomeMarketScreenState extends State<HomeMarketScreen> {
                   runSpacing: 6.h,
                   children: [
                     for (final preset in [
-                      ['${'Under'.tr} ₹500', const RangeValues(0, 500)],
-                      ['₹500–₹2000', const RangeValues(500, 2000)],
-                      ['₹2000–₹5000', const RangeValues(2000, 5000)],
-                      ['₹5000+', const RangeValues(5000, 50000)],
+                      ['${'Under'.tr} \$500', const RangeValues(0, 500)],
+                      ['\$500–\$2000', const RangeValues(500, 2000)],
+                      ['\$2000–\$5000', const RangeValues(2000, 5000)],
+                      ['\$5000+', const RangeValues(5000, 50000)],
                     ])
                       GestureDetector(
                         onTap: () => setSheet(
@@ -630,13 +631,26 @@ class _HomeMarketScreenState extends State<HomeMarketScreen> {
               padding: const EdgeInsets.only(bottom: 24),
               children: [
                 _header(),
+                // Buyer-only hero banner, placed first (before the promo
+                // carousel) so finding a donor is the first thing a Buyer
+                // sees on Home — Donor's screen is untouched below this.
+                // if (user.userType != 'DONOR') ...[
+                //   const SizedBox(height: 10),
+                //   _findDonorHeroBanner(),
+                // ],
                 _banner(),
                 const SizedBox(height: 14),
                 _searchBar(),
                 const SizedBox(height: 14),
                 _categoryTiles(),
                 const SizedBox(height: 16),
-                _addProductCard(),
+                // Donor keeps the existing "Add Your Product" prompt
+                // unchanged; Buyer sees a "Find a Donor" prompt instead —
+                // everything else on this screen (banner, search, category
+                // tiles, featured products) stays identical for both roles.
+                user.userType == 'DONOR'
+                    ? _addProductCard()
+                    :   _findDonorHeroBanner(),
                 const SizedBox(height: 20),
                 _featuredHeader(),
                 const SizedBox(height: 10),
@@ -665,7 +679,7 @@ class _HomeMarketScreenState extends State<HomeMarketScreen> {
             borderRadius: BorderRadius.circular(14),
           ),
           child: Image.asset(
-            'assets/momsmilk-launcher.png',
+            'assets/AppIcon.png',
             fit: BoxFit.contain,
           ),
         ),
@@ -799,7 +813,7 @@ class _HomeMarketScreenState extends State<HomeMarketScreen> {
                     style:  TextStyle(
                       color: Colors.black,
                       fontSize: 16.sp,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w600,
                       height: 1.2,
                       letterSpacing: -0.3,
                     ),
@@ -1193,8 +1207,8 @@ Widget _categoryTiles() => SizedBox(
                     Text(
                       'Add Your Product'.tr,
                       style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w800,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
                         color: Colors.black,
                       ),
                     ),
@@ -1244,6 +1258,102 @@ Widget _categoryTiles() => SizedBox(
     ),
   );
 
+  // ── FIND DONORS HERO (Buyer only) ─────────────────────────────────────
+  // First thing a Buyer sees on Home, ahead of the promo carousel — a bold
+  // standalone CTA distinct from the softer pastel banner slides below it.
+  Widget _findDonorHeroBanner() => Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 16),
+    child: GestureDetector(
+      onTap: () => Get.to(() => Searchdonarscreen()),
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(18, 16, 14, 16),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [Color(0xFFFF6B6B), Color(0xFFFF9472)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(18),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFFFF6B6B).withOpacity(0.35),
+              blurRadius: 14,
+              offset: const Offset(0, 6),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 46,
+              height: 46,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.22),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.volunteer_activism,
+                color: Colors.white,
+                size: 24,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Find Trusted Donors'.tr,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    'Connect with verified milk donors near you'.tr,
+                    maxLines: 2,
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.9),
+                      fontSize: 11.5,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 8),
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 9,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.search, color: Color(0xFFFF6B6B), size: 14),
+                  const SizedBox(width: 3),
+                  Text(
+                    'Search'.tr,
+                    style: const TextStyle(
+                      color: Color(0xFFFF6B6B),
+                      fontSize: 11.5,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
   // ── FEATURED HEADER ───────────────────────────────────────────────────
   Widget _featuredHeader() => Padding(
     padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -1251,9 +1361,9 @@ Widget _categoryTiles() => SizedBox(
       children: [
         Text(
           'Featured Products'.tr,
-          style: const TextStyle(
-            fontSize: 17,
-            fontWeight: FontWeight.w800,
+          style:  TextStyle(
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w500,
             color: Colors.black,
           ),
         ),
@@ -1268,7 +1378,7 @@ Widget _categoryTiles() => SizedBox(
                 style: const TextStyle(
                   color: _red,
                   fontSize: 12.5,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
               const SizedBox(width: 2),
@@ -1280,9 +1390,6 @@ Widget _categoryTiles() => SizedBox(
     ),
   );
 
-  // ── PRODUCT GRID ───────────────────────────────────────────────────────
-  // Backed by GET /marketplace/listings?isFeatured=true — real featured
-  // listings, not just the first N of the general browse list.
   Widget _productGrid() {
     if (controller.isLoadingFeatured && controller.featuredListings.isEmpty) {
       return const Padding(

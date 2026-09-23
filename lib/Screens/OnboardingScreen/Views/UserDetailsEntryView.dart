@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Screens/OnboardingScreen/Controller/OnboardingController.dart';
 
@@ -10,7 +11,7 @@ class UserDetailsStep extends StatelessWidget {
     return GetBuilder<Onboardingcontroller>(
       builder: (controller) {
         return SingleChildScrollView(
-          padding: EdgeInsets.all(24),
+          padding: EdgeInsets.all(24.r),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -20,7 +21,7 @@ class UserDetailsStep extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 8),
+              SizedBox(height: 8.h),
               Text(
                 'Please provide your basic information to create your profile.'
                     .tr,
@@ -28,26 +29,26 @@ class UserDetailsStep extends StatelessWidget {
                   color: Colors.black.withOpacity(.8),
                 ),
               ),
-              SizedBox(height: 32),
+              SizedBox(height: 32.h),
 
               // Name Field
               TextField(
                 controller: controller.nameController,
                 textInputAction: TextInputAction.next,
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 16.sp),
                 decoration: InputDecoration(
                   labelText: 'Full Name *'.tr,
                   hintText: 'Enter your full name'.tr,
                   prefixIcon: Icon(Icons.person_outline),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                     borderSide: BorderSide(color: Colors.grey[400]!),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                     borderSide: BorderSide(
                       color: Theme.of(context).colorScheme.primary,
                       width: 2,
@@ -58,22 +59,22 @@ class UserDetailsStep extends StatelessWidget {
               Obx(
                 () => controller.nameError.value.isNotEmpty
                     ? Padding(
-                        padding: EdgeInsets.only(top: 6, left: 4),
+                        padding: EdgeInsets.only(top: 6.h, left: 4.w),
                         child: Text(
                           controller.nameError.value,
-                          style: TextStyle(color: Colors.red, fontSize: 12),
+                          style: TextStyle(color: Colors.red, fontSize: 12.sp),
                         ),
                       )
                     : SizedBox.shrink(),
               ),
 
-              SizedBox(height: 20),
+              SizedBox(height: 20.h),
 
               // Phone Number with Country Code
               Row(
                 children: [
                   SizedBox(
-                    width: 120,
+                    width: 120.w,
                     child: DropdownButtonFormField<String>(
                       value: controller.selectedCountryCode.isEmpty
                           ? null
@@ -82,14 +83,14 @@ class UserDetailsStep extends StatelessWidget {
                         labelText: 'Code'.tr,
                         prefixIcon: Icon(Icons.flag_outlined),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                           borderSide: BorderSide(color: Colors.grey[400]!),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                           borderSide: BorderSide(
                             color: Theme.of(context).colorScheme.primary,
                             width: 2,
@@ -101,7 +102,7 @@ class UserDetailsStep extends StatelessWidget {
                           value: country['code'],
                           child: Text(
                             '${country['code']} ${country['country']}',
-                            style: TextStyle(fontSize: 14),
+                            style: TextStyle(fontSize: 14.sp),
                           ),
                         );
                       }).toList(),
@@ -113,13 +114,13 @@ class UserDetailsStep extends StatelessWidget {
                       icon: Icon(Icons.arrow_drop_down),
                     ),
                   ),
-                  SizedBox(width: 16),
+                  SizedBox(width: 16.w),
                   Expanded(
                     child: TextField(
                       controller: controller.phoneController,
                       keyboardType: TextInputType.phone,
                       textInputAction: TextInputAction.next,
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: 16.sp),
                       maxLength: 11,
                       buildCounter:
                           (
@@ -133,14 +134,14 @@ class UserDetailsStep extends StatelessWidget {
                         hintText: 'Enter phone number'.tr,
                         prefixIcon: Icon(Icons.phone_outlined),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                           borderSide: BorderSide(color: Colors.grey[400]!),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                           borderSide: BorderSide(
                             color: Theme.of(context).colorScheme.primary,
                             width: 2,
@@ -154,23 +155,23 @@ class UserDetailsStep extends StatelessWidget {
               Obx(
                 () => controller.phoneError.value.isNotEmpty
                     ? Padding(
-                        padding: EdgeInsets.only(top: 6, left: 4),
+                        padding: EdgeInsets.only(top: 6.h, left: 4.w),
                         child: Text(
                           controller.phoneError.value,
-                          style: TextStyle(color: Colors.red, fontSize: 12),
+                          style: TextStyle(color: Colors.red, fontSize: 12.sp),
                         ),
                       )
                     : SizedBox.shrink(),
               ),
 
-              SizedBox(height: 20),
+              SizedBox(height: 20.h),
 
               // Zip Code
               TextField(
                 controller: controller.zipCodeController,
                 keyboardType: TextInputType.number,
                 textInputAction: TextInputAction.done,
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 16.sp),
                 maxLength: 6,
                 buildCounter:
                     (
@@ -184,14 +185,14 @@ class UserDetailsStep extends StatelessWidget {
                   hintText: 'Enter your zip code'.tr,
                   prefixIcon: Icon(Icons.location_on_outlined),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                     borderSide: BorderSide(color: Colors.grey[400]!),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                     borderSide: BorderSide(
                       color: Theme.of(context).colorScheme.primary,
                       width: 2,
@@ -202,16 +203,16 @@ class UserDetailsStep extends StatelessWidget {
               Obx(
                 () => controller.zipError.value.isNotEmpty
                     ? Padding(
-                        padding: EdgeInsets.only(top: 6, left: 4),
+                        padding: EdgeInsets.only(top: 6.h, left: 4.w),
                         child: Text(
                           controller.zipError.value,
-                          style: TextStyle(color: Colors.red, fontSize: 12),
+                          style: TextStyle(color: Colors.red, fontSize: 12.sp),
                         ),
                       )
                     : SizedBox.shrink(),
               ),
 
-              SizedBox(height: 20),
+              SizedBox(height: 20.h),
 
               // ── LANGUAGE DROPDOWN FIX ──────────────────────────────────────
               // value is always the fixed key "English" or "Spanish" — NEVER the
@@ -223,14 +224,14 @@ class UserDetailsStep extends StatelessWidget {
                   labelText: 'Select Language'.tr,
                   prefixIcon: Icon(Icons.language),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                     borderSide: BorderSide(color: Colors.grey[400]!),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                     borderSide: BorderSide(
                       color: Theme.of(context).colorScheme.primary,
                       width: 2,
@@ -240,11 +241,11 @@ class UserDetailsStep extends StatelessWidget {
                 items: [
                   DropdownMenuItem<String>(
                     value: "English",
-                    child: Text('English'.tr, style: TextStyle(fontSize: 14)),
+                    child: Text('English'.tr, style: TextStyle(fontSize: 14.sp)),
                   ),
                   DropdownMenuItem<String>(
                     value: "Spanish",
-                    child: Text('Spanish'.tr, style: TextStyle(fontSize: 14)),
+                    child: Text('Spanish'.tr, style: TextStyle(fontSize: 14.sp)),
                   ),
                 ],
                 onChanged: (value) {
@@ -259,14 +260,14 @@ class UserDetailsStep extends StatelessWidget {
               ),
 
               // ──────────────────────────────────────────────────────────────
-              SizedBox(height: 32),
+              SizedBox(height: 32.h),
 
               // Info Card
               Container(
-                padding: EdgeInsets.all(16),
+                padding: EdgeInsets.all(16.r),
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                   border: Border.all(
                     color: Theme.of(
                       context,
@@ -279,7 +280,7 @@ class UserDetailsStep extends StatelessWidget {
                       Icons.info_outline,
                       color: Theme.of(context).colorScheme.primary,
                     ),
-                    SizedBox(width: 12),
+                    SizedBox(width: 12.w),
                     Expanded(
                       child: Text(
                         'Your information is secure and will only be used to connect you with other verified users.'

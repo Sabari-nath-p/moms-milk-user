@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:linked_scroll_controller/linked_scroll_controller.dart';
 import 'dart:math' as math;
 
@@ -517,12 +518,12 @@ class _TimeGanttChartState extends State<TimeGanttChart> {
         TextStyle(
           color: _style.headerTextColor,
           fontWeight: FontWeight.w600,
-          fontSize: 14,
+          fontSize: 14.sp,
         );
 
     final dateStyle =
         _style.dateTextStyle ??
-        TextStyle(color: _style.dateTextColor, fontSize: 12);
+        TextStyle(color: _style.dateTextColor, fontSize: 12.sp);
 
     return Container(
       height: _style.headerHeight,
@@ -590,12 +591,12 @@ class _TimeGanttChartState extends State<TimeGanttChart> {
                                 _getWeekdayName(date.weekday),
                                 style: headerStyle,
                               ),
-                              SizedBox(height: 4),
+                              SizedBox(height: 4.h),
                               Text(
                                 date.day.toString(),
                                 style: TextStyle(
                                   color: _style.dateTextColor,
-                                  fontSize: 16,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.w300,
                                 ),
                               ),
@@ -617,7 +618,7 @@ class _TimeGanttChartState extends State<TimeGanttChart> {
         _style.timeAxisTextStyle ??
         TextStyle(
           color: _style.timeAxisTextColor,
-          fontSize: 12,
+          fontSize: 12.sp,
           fontWeight: FontWeight.w500,
         );
 
@@ -769,7 +770,7 @@ class _TimeGanttChartState extends State<TimeGanttChart> {
               decoration: BoxDecoration(
                 color: _getActivityColor(activity),
                 borderRadius:
-                    _style.activityBorderRadius ?? BorderRadius.circular(3),
+                    _style.activityBorderRadius ?? BorderRadius.circular(3.r),
                 border:
                     _style.activityBorderWidth > 0
                         ? Border.all(
@@ -785,7 +786,7 @@ class _TimeGanttChartState extends State<TimeGanttChart> {
                       _style.activityTextStyle ??
                       TextStyle(
                         color: activity.textColor ?? Colors.white,
-                        fontSize: 12,
+                        fontSize: 12.sp,
                         fontWeight: FontWeight.bold,
                       ),
                   overflow: TextOverflow.ellipsis,
@@ -845,7 +846,7 @@ class _TimeGanttChartState extends State<TimeGanttChart> {
 
   Widget _buildZoomControls() {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+      padding: EdgeInsets.symmetric(vertical: 12.0.h, horizontal: 16.0.w),
       decoration: BoxDecoration(
         color: _style.backgroundColor,
         border: Border(
@@ -863,16 +864,16 @@ class _TimeGanttChartState extends State<TimeGanttChart> {
               foregroundColor: _style.headerTextColor,
             ),
           ),
-          SizedBox(width: 16),
+          SizedBox(width: 16.w),
           Text(
             '${(_zoomLevel * 100).toInt()}%',
             style: TextStyle(
               fontWeight: FontWeight.w600,
-              fontSize: 14,
+              fontSize: 14.sp,
               color: _style.headerTextColor,
             ),
           ),
-          SizedBox(width: 16),
+          SizedBox(width: 16.w),
           IconButton(
             icon: Icon(Icons.add, color: _style.headerTextColor),
             onPressed: _zoomLevel < _maxZoom ? () => _handleZoom(0.1) : null,

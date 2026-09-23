@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
@@ -41,7 +42,7 @@ class HQuickActions extends StatelessWidget {
               //),
               ///],
               //),
-              SizedBox(height: 16),
+              SizedBox(height: 16.h),
 
               if (controller.selectedBady == null)
                 Container()
@@ -49,9 +50,9 @@ class HQuickActions extends StatelessWidget {
                 Column(
                   children: [
                     _buildFeedingCard(context),
-                    SizedBox(height: 12),
+                    SizedBox(height: 12.h),
                     _buildDiaperCard(context),
-                    SizedBox(height: 12),
+                    SizedBox(height: 12.h),
                     _buildSleepCard(context),
                   ],
                 ),
@@ -63,7 +64,7 @@ class HQuickActions extends StatelessWidget {
   Widget _buildFeedingCard(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         gradient: LinearGradient(
           colors: [
             Colors.green.withOpacity(0.05),
@@ -77,25 +78,25 @@ class HQuickActions extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: Padding(
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.all(20.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
                   Container(
-                    padding: EdgeInsets.all(10),
+                    padding: EdgeInsets.all(10.w),
                     decoration: BoxDecoration(
                       color: Colors.green.withOpacity(0.15),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(12.r),
                     ),
                     child: FaIcon(
                       FontAwesomeIcons.personBreastfeeding,
                       color: Colors.green,
-                      size: 24,
+                      size: 24.sp,
                     ),
                   ),
-                  SizedBox(width: 12),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,32 +126,32 @@ class HQuickActions extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 16),
+              SizedBox(height: 16.h),
 
               Row(
                 children: [
                   Expanded(
                     child: SizedBox(
-                      height: 48,
+                      height: 48.h,
                       child: ElevatedButton.icon(
                         onPressed: () {
                           Homecontroller controller = Get.put(Homecontroller());
                           controller.showFeedingLogBottomSheet();
                         },
-                        icon: Icon(Icons.play_arrow, size: 20),
+                        icon: Icon(Icons.play_arrow, size: 20.sp),
                         label: Text('Log Feeding'.tr),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.green,
                           foregroundColor: Colors.white,
                           elevation: 2,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(12.r),
                           ),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(width: 12),
+                  SizedBox(width: 12.w),
                   // Expanded(
                   //   child: SizedBox(
                   //     height: 48,
@@ -180,7 +181,7 @@ class HQuickActions extends StatelessWidget {
   Widget _buildDiaperCard(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         gradient: LinearGradient(
           colors: [
             Colors.blue.withOpacity(0.05),
@@ -194,25 +195,25 @@ class HQuickActions extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: Padding(
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.all(20.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
                   Container(
-                    padding: EdgeInsets.all(10),
+                    padding: EdgeInsets.all(10.w),
                     decoration: BoxDecoration(
                       color: Colors.blue.withOpacity(0.15),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(12.r),
                     ),
                     child: Icon(
                       Icons.baby_changing_station,
                       color: Colors.blue,
-                      size: 24,
+                      size: 24.sp,
                     ),
                   ),
-                  SizedBox(width: 12),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -241,24 +242,24 @@ class HQuickActions extends StatelessWidget {
                   // ),
                 ],
               ),
-              SizedBox(height: 16),
+              SizedBox(height: 16.h),
               SizedBox(
                 width: double.infinity,
-                height: 48,
+                height: 48.h,
                 child: GetBuilder<Homecontroller>(
                   builder:
                       (controller) => ElevatedButton.icon(
                         onPressed: () {
                           controller.showDiaperChangeBottomSheet();
                         },
-                        icon: Icon(Icons.add, size: 20),
+                        icon: Icon(Icons.add, size: 20.sp),
                         label: Text('Log Diaper Change'.tr),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue,
                           foregroundColor: Colors.white,
                           elevation: 2,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(12.r),
                           ),
                         ),
                       ),
@@ -274,7 +275,7 @@ class HQuickActions extends StatelessWidget {
   Widget _buildSleepCard(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         gradient: LinearGradient(
           colors: [
             Colors.purple.withOpacity(0.05),
@@ -288,21 +289,21 @@ class HQuickActions extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: Padding(
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.all(20.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
                   Container(
-                    padding: EdgeInsets.all(10),
+                    padding: EdgeInsets.all(10.w),
                     decoration: BoxDecoration(
                       color: Colors.purple.withOpacity(0.15),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(12.r),
                     ),
-                    child: Icon(Icons.bedtime, color: Colors.purple, size: 24),
+                    child: Icon(Icons.bedtime, color: Colors.purple, size: 24.sp),
                   ),
-                  SizedBox(width: 12),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -331,25 +332,25 @@ class HQuickActions extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 16),
+              SizedBox(height: 16.h),
 
               SizedBox(
                 width: double.infinity,
-                height: 48,
+                height: 48.h,
                 child: GetBuilder<Homecontroller>(
                   builder:
                       (controller) => ElevatedButton.icon(
                         onPressed: () {
                           controller.showSleepLogBottomSheet();
                         },
-                        icon: Icon(Icons.bedtime_outlined, size: 20),
+                        icon: Icon(Icons.bedtime_outlined, size: 20.sp),
                         label: Text('Log Sleep'.tr),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.purple,
                           foregroundColor: Colors.white,
                           elevation: 2,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(12.r),
                           ),
                         ),
                       ),

@@ -1,6 +1,7 @@
 import 'package:date_picker_timeline/extra/color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Models/RequestModel.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
@@ -81,7 +82,7 @@ class _RequestScreenState extends State<RequestScreen>
       appBar: AppBar(
         title: Text(
           (user.userType == 'BUYER' ? "My Requests" : "Connections").tr,
-          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20.sp),
         ),
         centerTitle: true,
         backgroundColor: Colors.white,
@@ -99,7 +100,7 @@ class _RequestScreenState extends State<RequestScreen>
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CircularProgressIndicator(),
-                  SizedBox(height: 16),
+                  SizedBox(height: 16.h),
                   Text("Loading user data...".tr),
                 ],
               ),
@@ -113,14 +114,14 @@ class _RequestScreenState extends State<RequestScreen>
             return {
               for (int key in (user.userType == "DONOR" ? [0, 1] : [0]))
                 key: Container(
-                  width: 160,
-                  height: 46,
+                  width: 160.w,
+                  height: 46.h,
                   decoration: BoxDecoration(
                     color:
                         selectedIndex == key
                             ? AppTheme.primaryColor
                             : Colors.transparent,
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                   ),
                   child: Center(
                     child: Text(
@@ -142,7 +143,7 @@ class _RequestScreenState extends State<RequestScreen>
 
           return Column(
             children: [
-              SizedBox(height: 12),
+              SizedBox(height: 12.h),
 
               // DONOR → Sliding tabs
               if (user.userType == "DONOR")
@@ -157,7 +158,7 @@ class _RequestScreenState extends State<RequestScreen>
                   thumbColor: AppTheme.primaryColor,
                 ),
 
-              SizedBox(height: 1),
+              SizedBox(height: 1.h),
 
               Expanded(child: _buildSelectedContent(controller)),
             ],
@@ -203,7 +204,7 @@ class _RequestScreenState extends State<RequestScreen>
       onRefresh: () async => controller.fetchIncomingRequests(),
       child: ListView.builder(
         controller: incomingScrollController,
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.sp),
         itemCount:
             controller.incomingRequests.length +
             (controller.hasMoreIncoming ? 1 : 0),
@@ -212,7 +213,7 @@ class _RequestScreenState extends State<RequestScreen>
             return controller.isLoadingMoreIncoming
                 ? Center(
                   child: Padding(
-                    padding: EdgeInsets.all(16),
+                    padding: EdgeInsets.all(16.sp),
                     child: CircularProgressIndicator(),
                   ),
                 )
@@ -221,7 +222,7 @@ class _RequestScreenState extends State<RequestScreen>
 
           final request = controller.incomingRequests[index];
           return Padding(
-            padding: EdgeInsets.only(bottom: 12),
+            padding: EdgeInsets.only(bottom: 12.h),
             child: IncommingRequestCard(
               controller: controller,
               request: request,
@@ -253,7 +254,7 @@ class _RequestScreenState extends State<RequestScreen>
       onRefresh: () async => controller.fetchHistoryRequests(),
       child: ListView.builder(
         controller: historyScrollController,
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.sp),
         itemCount:
             controller.historyRequests.length +
             (controller.hasMoreHistory ? 1 : 0),
@@ -262,7 +263,7 @@ class _RequestScreenState extends State<RequestScreen>
             return controller.isLoadingMoreHistory
                 ? Center(
                   child: Padding(
-                    padding: EdgeInsets.all(16),
+                    padding: EdgeInsets.all(16.sp),
                     child: CircularProgressIndicator(),
                   ),
                 )
@@ -271,7 +272,7 @@ class _RequestScreenState extends State<RequestScreen>
 
           final request = controller.historyRequests[index];
           return Padding(
-            padding: EdgeInsets.only(bottom: 12),
+            padding: EdgeInsets.only(bottom: 12.h),
             child: HistoryRequestCard(request: request),
           );
         },
@@ -300,7 +301,7 @@ class _RequestScreenState extends State<RequestScreen>
       onRefresh: () async => controller.fetchMyRequests(),
       child: ListView.builder(
         controller: myRequestsScrollController,
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.sp),
         itemCount:
             controller.myRequests.length +
             (controller.hasMoreMyRequests ? 1 : 0),
@@ -309,7 +310,7 @@ class _RequestScreenState extends State<RequestScreen>
             return controller.isLoadingMoreMyRequests
                 ? Center(
                   child: Padding(
-                    padding: EdgeInsets.all(16),
+                    padding: EdgeInsets.all(16.sp),
                     child: CircularProgressIndicator(),
                   ),
                 )
@@ -318,7 +319,7 @@ class _RequestScreenState extends State<RequestScreen>
 
           final request = controller.myRequests[index];
           return Padding(
-            padding: EdgeInsets.only(bottom: 12),
+            padding: EdgeInsets.only(bottom: 12.h),
             child: MyRequestCard(request: request, controller: controller),
           );
         },
@@ -340,23 +341,23 @@ class _RequestScreenState extends State<RequestScreen>
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: EdgeInsets.all(24),
+            padding: EdgeInsets.all(24.sp),
             decoration: BoxDecoration(
               gradient: AppTheme.CardGradient,
               shape: BoxShape.circle,
             ),
-            child: Icon(icon, size: 45, color: Color(0xFFF43F5E)),
+            child: Icon(icon, size: 45.sp, color: Color(0xFFF43F5E)),
           ),
-          SizedBox(height: 24),
+          SizedBox(height: 24.h),
           Text(
             title,
             style: Theme.of(
               context,
             ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600),
           ),
-          SizedBox(height: 8),
+          SizedBox(height: 8.h),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
             child: Text(
               subtitle,
               textAlign: TextAlign.center,

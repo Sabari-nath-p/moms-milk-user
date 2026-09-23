@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -16,7 +17,7 @@ class MessageTypeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 10, left: 20, right: 12),
+      margin: EdgeInsets.only(bottom: 10.h, left: 20.w, right: 12.w),
       child: Row(
         children: [
           //  FaIcon(FontAwesomeIcons.keyboard, color: Colors.black45),
@@ -24,15 +25,15 @@ class MessageTypeCard extends StatelessWidget {
           Expanded(
             child: Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.symmetric(horizontal: 12),
+              padding: EdgeInsets.symmetric(horizontal: 12.w),
               decoration: BoxDecoration(
                 color: AppTheme.primaryColor.withOpacity(.05),
                 border: Border.all(
                   color: AppTheme.primaryColor.withOpacity(.1),
                 ),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(20.r),
               ),
-              constraints: BoxConstraints(maxHeight: 50, minHeight: 45),
+              constraints: BoxConstraints(maxHeight: 50.h, minHeight: 45.h),
               child: TextField(
                 controller: ctrl.messageText,
                 textAlign: TextAlign.start,
@@ -41,14 +42,14 @@ class MessageTypeCard extends StatelessWidget {
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   isCollapsed: true,
-                  hintStyle: TextStyle(fontSize: 13),
+                  hintStyle: TextStyle(fontSize: 13.sp),
                   hintText: "Enter Message".tr,
                   isDense: true,
                 ),
               ),
             ),
           ),
-          SizedBox(width: 10),
+          SizedBox(width: 10.w),
 
           InkWell(
             onTap: () {

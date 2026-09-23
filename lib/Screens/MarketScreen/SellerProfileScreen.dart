@@ -1,4 +1,6 @@
+import 'package:date_picker_timeline/extra/color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Models/SellerProfileModel.dart';
 import 'package:mommilk_user/Screens/ChatListScreen/Controller/ChatController.dart';
@@ -25,6 +27,11 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
 
   late final SellerProfileController controller;
 
+  // Which grid is shown when the seller has BOTH milk and other-product
+  // listings — toggled via _categoryToggle(). Irrelevant (and hidden) when
+  // they only have one kind, in which case that one is shown directly.
+  bool _showMilkTab = true;
+
   @override
   void initState() {
     super.initState();
@@ -43,8 +50,11 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
     super.dispose();
   }
 
-  // Actual backend category value for milk listings.
-  static const String _milkCategory = 'MILK_BREAST';
+  // Actual backend category value for milk listings — matches the value
+  // used everywhere else this app creates/filters milk listings (see
+  // Additem_screen.dart's setMilkMode, add_marketcontroller.dart,
+  // my_listing_controller.dart).
+  static const String _milkCategory = 'MILK';
   static const Color _milkColor = Color(0xFFEC4899);
   static const Color _milkLight = Color(0xFFFCE7F3);
 
@@ -68,7 +78,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
 
   Color _catColor(String apiVal) {
     switch (apiVal) {
-      case 'MILK_BREAST':
+      case 'MILK':
         return _milkColor;
       case 'TOYS':
         return Color(0xFF7C3AED);
@@ -146,7 +156,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w600,
-            fontSize: 17,
+            fontSize: 17.sp,
           ),
         ),
       ),
@@ -172,14 +182,14 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                 slivers: [
                   SliverToBoxAdapter(
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+                      padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 0),
                       child: _profileHeader(profile),
                     ),
                   ),
                   if (profile.marketplaceListings.isEmpty)
                     SliverToBoxAdapter(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 40),
+                        padding: EdgeInsets.symmetric(vertical: 40.h),
                         child: Center(
                           child: Text(
                             'No active listings'.tr,
@@ -188,40 +198,50 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                         ),
                       ),
                     )
-                  else ...[
-                    if (milkListings.isNotEmpty) ...[
-                      _sectionHeader(
-                        icon: Icons.water_drop_outlined,
-                        iconBg: _milkLight,
-                        iconFg: _milkColor,
-                        label: 'Milk'.tr,
-                        count: milkListings.length,
-                      ),
-                      _listingsGrid(milkListings),
-                    ],
-                    if (otherListings.isNotEmpty) ...[
-                      _sectionHeader(
-                        icon: Icons.storefront_outlined,
-                        iconBg: _redLight,
-                        iconFg: _red,
-                        label: 'Other Products'.tr,
-                        count: otherListings.length,
-                      ),
-                      _listingsGrid(otherListings),
-                    ],
+                  else if (milkListings.isNotEmpty &&
+                      otherListings.isNotEmpty) ...[
+                    // Seller has both kinds — toggle between the two
+                    // instead of stacking both grids.
+                    _categoryToggle(
+                      milkCount: milkListings.length,
+                      otherCount: otherListings.length,
+                    ),
+                    _listingsGrid(
+                      _showMilkTab ? milkListings : otherListings,
+                    ),
+                  ] else if (milkListings.isNotEmpty) ...[
+                    // Only milk listings — show them directly, no toggle.
+                    _sectionHeader(
+                      icon: Icons.water_drop_outlined,
+                      iconBg: _milkLight,
+                      iconFg: _milkColor,
+                      label: 'Milk'.tr,
+                      count: milkListings.length,
+                    ),
+                    _listingsGrid(milkListings),
+                  ] else ...[
+                    // Only other products — show them directly, no toggle.
+                    _sectionHeader(
+                      icon: Icons.storefront_outlined,
+                      iconBg: _redLight,
+                      iconFg: _red,
+                      label: ' Products'.tr,
+                      count: otherListings.length,
+                    ),
+                    _listingsGrid(otherListings),
                   ],
-                  const SliverToBoxAdapter(child: SizedBox(height: 16)),
+                  SliverToBoxAdapter(child: SizedBox(height: 16.h)),
                 ],
               ),
             );
           }
           return Center(
             child: Padding(
-              padding: const EdgeInsets.all(24),
+              padding: EdgeInsets.all(24.w),
               child: Text(
                 ctrl.errorMessage ?? 'Profile not found'.tr,
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.grey.shade600, fontSize: 14),
+                style: TextStyle(color: Colors.grey.shade600, fontSize: 14.sp),
               ),
             ),
           );
@@ -242,39 +262,39 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
   }) {
     return SliverToBoxAdapter(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 20, 16, 10),
+        padding: EdgeInsets.fromLTRB(16.w, 20.h, 16.w, 10.h),
         child: Row(
           children: [
             Container(
-              width: 30,
-              height: 30,
+              width: 30.w,
+              height: 30.h,
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 color: iconBg,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(10.r),
               ),
-              child: Icon(icon, size: 16, color: iconFg),
+              child: Icon(icon, size: 16.sp, color: iconFg),
             ),
-            SizedBox(width: 8),
+            SizedBox(width: 8.w),
             Text(
               label,
               style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w800,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w600,
                 color: Colors.black,
               ),
             ),
-            SizedBox(width: 6),
+            SizedBox(width: 6.w),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(20.r),
               ),
               child: Text(
                 '$count',
                 style: TextStyle(
-                  fontSize: 11,
+                  fontSize: 11.sp,
                   fontWeight: FontWeight.w700,
                   color: Colors.grey.shade600,
                 ),
@@ -286,9 +306,89 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
     );
   }
 
+  // Segmented pill toggle shown only when the seller has BOTH milk and
+  // other-product listings, so browsing one doesn't require scrolling past
+  // the other.
+  Widget _categoryToggle({required int milkCount, required int otherCount}) {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(16.w, 20.h, 16.w, 4.h),
+        child: Container(
+          padding: EdgeInsets.all(4.w),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(14.r),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: _toggleSegment(
+                  icon: Icons.water_drop_outlined,
+                  label: 'Milk'.tr,
+                  count: milkCount,
+                  selected: _showMilkTab,
+                  onTap: () => setState(() => _showMilkTab = true),
+                ),
+              ),
+              SizedBox(width: 4.w),
+              Expanded(
+                child: _toggleSegment(
+                  icon: Icons.storefront_outlined,
+                  label: 'Products'.tr,
+                  count: otherCount,
+                  selected: !_showMilkTab,
+                  onTap: () => setState(() => _showMilkTab = false),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _toggleSegment({
+    required IconData icon,
+    required String label,
+    required int count,
+    required bool selected,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 180),
+        padding: EdgeInsets.symmetric(vertical: 10.h),
+        decoration: BoxDecoration(
+          color: selected ? AppTheme.primaryColor : Colors.transparent,
+          borderRadius: BorderRadius.circular(10.r),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              size: 15.sp,
+              color: selected ? Colors.white : Colors.grey.shade600,
+            ),
+            SizedBox(width: 6.w),
+            Text(
+              '$label ($count)',
+              style: TextStyle(
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w700,
+                color: selected ? Colors.white : Colors.grey.shade600,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _listingsGrid(List<SellerListingItem> items) {
     return SliverPadding(
-      padding: const EdgeInsets.fromLTRB(12, 0, 12, 16),
+      padding: EdgeInsets.fromLTRB(16.w, 10.h, 16.w, 16.h),
       sliver: SliverGrid(
         delegate: SliverChildBuilderDelegate(
           (_, i) => _listingCard(items[i]),
@@ -296,12 +396,12 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
         ),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
+          crossAxisSpacing: 10.w,
+          mainAxisSpacing: 10.h,
           // Sized to exactly fit the card's content (image + 2-line title +
           // price row + location row) — no leftover blank space at the
           // bottom of the card.
-          mainAxisExtent: 214,
+          mainAxisExtent: 214.h,
         ),
       ),
     );
@@ -312,10 +412,10 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
   // ---------------------------------------------------------------------
   Widget _profileHeader(SellerProfileModel profile) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.06),
@@ -331,7 +431,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               _avatar(profile),
-              SizedBox(width: 14),
+              SizedBox(width: 14.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -339,30 +439,30 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                     Text(
                       profile.name.isNotEmpty ? profile.name : 'Unknown'.tr,
                       style: TextStyle(
-                        fontSize: 17,
+                        fontSize: 17.sp,
                         fontWeight: FontWeight.w700,
                         color: Colors.black,
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(height: 6),
+                    SizedBox(height: 6.h),
                     Row(
                       children: [
                         Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 9,
-                            vertical: 3,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 9.w,
+                            vertical: 3.h,
                           ),
                           decoration: BoxDecoration(
                             color: _redLight,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                           ),
                           child: Text(
                             profile.userType.isNotEmpty
                                 ? profile.userType.tr
                                 : '—',
                             style: TextStyle(
-                              fontSize: 10,
+                              fontSize: 10.sp,
                               fontWeight: FontWeight.w700,
                               color: _red,
                               letterSpacing: 0.3,
@@ -371,29 +471,29 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                         ),
                         if (profile.isDonor &&
                             profile.availableForDonation) ...[
-                          SizedBox(width: 6),
+                          SizedBox(width: 6.w),
                           Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 9,
-                              vertical: 3,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 9.w,
+                              vertical: 3.h,
                             ),
                             decoration: BoxDecoration(
                               color: Color(0xFFDCFCE7),
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(20.r),
                             ),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Icon(
                                   Icons.check_circle,
-                                  size: 10,
+                                  size: 10.sp,
                                   color: Color(0xFF16A34A),
                                 ),
-                                SizedBox(width: 3),
+                                SizedBox(width: 3.w),
                                 Text(
                                   'Available'.tr,
                                   style: TextStyle(
-                                    fontSize: 10,
+                                    fontSize: 10.sp,
                                     fontWeight: FontWeight.w700,
                                     color: Color(0xFF16A34A),
                                   ),
@@ -410,38 +510,38 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
             ],
           ),
           if (profile.description.trim().isNotEmpty) ...[
-            SizedBox(height: 14),
-            Divider(height: 1, color: Colors.grey.shade200),
-            SizedBox(height: 12),
+            SizedBox(height: 14.h),
+            Divider(height: 1.h, color: Colors.grey.shade200),
+            SizedBox(height: 12.h),
             Text(
               profile.description,
               style: TextStyle(
-                fontSize: 13,
+                fontSize: 13.sp,
                 color: Colors.grey.shade700,
-                height: 1.4,
+                height: 1.4.h,
               ),
             ),
           ],
           if (profile.tags.isNotEmpty) ...[
-            SizedBox(height: 12),
+            SizedBox(height: 12.h),
             Wrap(
               spacing: 6,
               runSpacing: 6,
               children: profile.tags.asMap().entries.map((entry) {
                 final colors = _tagPalette[entry.key % _tagPalette.length];
                 return Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 5,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 10.w,
+                    vertical: 5.h,
                   ),
                   decoration: BoxDecoration(
                     color: colors[0],
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(20.r),
                   ),
                   child: Text(
                     _tagLabel(entry.value),
                     style: TextStyle(
-                      fontSize: 11,
+                      fontSize: 11.sp,
                       fontWeight: FontWeight.w700,
                       color: colors[1],
                     ),
@@ -450,16 +550,16 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
               }).toList(),
             ),
           ],
-          SizedBox(height: 14),
-          Divider(height: 1, color: Colors.grey.shade200),
-          SizedBox(height: 12),
+          SizedBox(height: 14.h),
+          Divider(height: 1.h, color: Colors.grey.shade200),
+          SizedBox(height: 12.h),
           SizedBox(
             width: double.infinity,
-            height: 46,
+            height: 46.h,
             child: DecoratedBox(
               decoration: BoxDecoration(
                 gradient: AppTheme.roundButtonGradient,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
               child: ElevatedButton.icon(
                 onPressed: () {
@@ -474,7 +574,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                 },
                 icon: Icon(
                   Icons.chat_bubble_outline,
-                  size: 17,
+                  size: 17.sp,
                   color: Colors.white,
                 ),
                 label: Text(
@@ -488,7 +588,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                   backgroundColor: Colors.transparent,
                   shadowColor: Colors.transparent,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                 ),
               ),
@@ -502,27 +602,27 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
   Widget _avatar(SellerProfileModel profile) {
     final photo = profile.profilePhoto;
     return Container(
-      padding: const EdgeInsets.all(3),
+      padding: EdgeInsets.all(1.w),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        gradient: AppTheme.roundButtonGradient,
+       color: AppTheme.primaryColor,
       ),
       child: (photo != null && photo.isNotEmpty)
           ? CircleAvatar(
-              radius: 34,
+              radius: 30.r,
               backgroundColor: Colors.white,
               child: ClipOval(
                 child: Image.network(
                   photo,
-                  width: 68,
-                  height: 68,
+                  width: 68.w,
+                  height: 68.h,
                   fit: BoxFit.cover,
                   errorBuilder: (_, __, ___) => _avatarInitial(profile),
                 ),
               ),
             )
           : CircleAvatar(
-              radius: 34,
+              radius: 34.r,
               backgroundColor: Colors.white,
               child: _avatarInitial(profile),
             ),
@@ -533,7 +633,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
     profile.name.isNotEmpty ? profile.name[0].toUpperCase() : 'U',
     style: TextStyle(
       fontWeight: FontWeight.w800,
-      fontSize: 24,
+      fontSize: 24.sp,
       color: _red,
     ),
   );
@@ -554,7 +654,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(12.r),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.07),
@@ -569,11 +669,11 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
             Stack(
               children: [
                 ClipRRect(
-                  borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(16),
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(12.r),
                   ),
                   child: SizedBox(
-                    height: 110,
+                    height: 110.h,
                     width: double.infinity,
                     child: img.isNotEmpty
                         ? Image.network(
@@ -585,22 +685,22 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                   ),
                 ),
                 Positioned(
-                  top: 8,
-                  left: 8,
+                  top: 8.h,
+                  left: 8.w,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 7,
-                      vertical: 3,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 7.w,
+                      vertical: 3.h,
                     ),
                     decoration: BoxDecoration(
                       color: badgeColor,
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(6.r),
                     ),
                     child: Text(
                       catBadgeLabel,
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 9,
+                        fontSize: 9.sp,
                         fontWeight: FontWeight.w700,
                         letterSpacing: 0.3,
                       ),
@@ -609,22 +709,22 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                 ),
                 if (item.condition != null && item.condition!.isNotEmpty)
                   Positioned(
-                    bottom: 7,
-                    left: 8,
+                    bottom: 7.h,
+                    left: 8.w,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 6,
-                        vertical: 2,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 6.w,
+                        vertical: 2.h,
                       ),
                       decoration: BoxDecoration(
                         color: condColor.withOpacity(0.85),
-                        borderRadius: BorderRadius.circular(5),
+                        borderRadius: BorderRadius.circular(5.r),
                       ),
                       child: Text(
                         condLabel,
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 9,
+                          fontSize: 9.sp,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -633,7 +733,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
+              padding: EdgeInsets.fromLTRB(10.w, 8.h, 10.w, 8.h),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -643,31 +743,31 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 12.sp,
                       fontWeight: FontWeight.w700,
                       color: Colors.black,
-                      height: 1.25,
+                      height: 1.25.h,
                     ),
                   ),
-                  SizedBox(height: 6),
+                  SizedBox(height: 6.h),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       if (item.isDonation)
                         Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 7,
-                            vertical: 3,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 7.w,
+                            vertical: 3.h,
                           ),
                           decoration: BoxDecoration(
                             color: Color(0xFFDCFCE7),
-                            borderRadius: BorderRadius.circular(5),
+                            borderRadius: BorderRadius.circular(5.r),
                           ),
                           child: Text(
                             'FREE'.tr,
                             style: TextStyle(
                               color: Color(0xFF16A34A),
-                              fontSize: 11,
+                              fontSize: 11.sp,
                               fontWeight: FontWeight.w800,
                             ),
                           ),
@@ -677,17 +777,17 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                           '₹${item.price}',
                           style: TextStyle(
                             color: _red,
-                            fontSize: 14,
+                            fontSize: 14.sp,
                             fontWeight: FontWeight.w800,
                           ),
                         ),
                       if (!item.isDonation && discPct != null) ...[
-                        SizedBox(width: 4),
+                        SizedBox(width: 4.w),
                         Text(
                           '$discPct% OFF',
                           style: TextStyle(
                             color: Color(0xFF16A34A),
-                            fontSize: 9,
+                            fontSize: 9.sp,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -695,18 +795,18 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                     ],
                   ),
                   if ((item.placeName ?? '').isNotEmpty) ...[
-                    SizedBox(height: 3),
+                    SizedBox(height: 3.h),
                     Row(
                       children: [
-                        Icon(Icons.location_on, size: 11, color: _red),
-                        SizedBox(width: 2),
+                        Icon(Icons.location_on, size: 11.sp, color: _red),
+                        SizedBox(width: 2.w),
                         Flexible(
                           child: Text(
                             item.placeName!,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                              fontSize: 10,
+                              fontSize: 10.sp,
                               color: Colors.grey.shade600,
                             ),
                           ),
@@ -726,7 +826,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
   Widget _placeholder() => Container(
     color: Colors.grey.shade100,
     child: Center(
-      child: Icon(Icons.image_outlined, color: Colors.grey.shade400, size: 30),
+      child: Icon(Icons.image_outlined, color: Colors.grey.shade400, size: 30.sp),
     ),
   );
 }

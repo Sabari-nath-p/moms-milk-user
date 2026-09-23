@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/get_core.dart';
 import 'package:get/get_instance/get_instance.dart';
@@ -41,7 +42,7 @@ class Homescreen extends StatelessWidget {
       },
       child: SingleChildScrollView(
         physics: AlwaysScrollableScrollPhysics(),
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.all(20.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -52,7 +53,7 @@ class Homescreen extends StatelessWidget {
               _buildAddBabyCard(context),
 
             HQuickActions(),
-            SizedBox(height: 10),
+            SizedBox(height: 10.h),
           ],
         ),
       ),
@@ -61,28 +62,28 @@ class Homescreen extends StatelessWidget {
 
   Widget _buildAddBabyCard(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 24),
+      margin: EdgeInsets.only(top: 24.h),
       decoration: BoxDecoration(
         border: Border.all(color: AppTheme.primaryColor.withOpacity(.4)),
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(30.r),
       ),
       child: Padding(
-        padding: EdgeInsets.all(24),
+        padding: EdgeInsets.all(24.w),
         child: Row(
           children: [
             Icon(Icons.baby_changing_station, color: Colors.pink),
-            SizedBox(width: 12),
+            SizedBox(width: 12.w),
             Expanded(
               child: Text(
                 'Add your baby\'s profile to start tracking'.tr,
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
             ),
-            SizedBox(width: 12),
+            SizedBox(width: 12.w),
             Container(
               decoration: BoxDecoration(
                 gradient: AppTheme.roundButtonGradient,
-                borderRadius: BorderRadius.circular(24),
+                borderRadius: BorderRadius.circular(24.r),
               ),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
@@ -103,12 +104,12 @@ class Homescreen extends StatelessWidget {
             ),
 
             HQuickActions(),
-            SizedBox(height: 24),
+            SizedBox(height: 24.h),
 
             // _buildTodayStats(context),
             // SizedBox(height: 24),
             // _buildRecentActivity(context),
-            SizedBox(height: 10), // Bottom padding for navigation
+            SizedBox(height: 10.h), // Bottom padding for navigation
           ],
         ),
       ),

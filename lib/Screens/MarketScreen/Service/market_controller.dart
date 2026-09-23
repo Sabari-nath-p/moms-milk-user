@@ -97,7 +97,12 @@ class MarketController extends GetxController {
       }
       update();
 
-      if (isRefresh || page == 1) {
+      // Only clear immediately on an explicit pull-to-refresh — otherwise
+      // keep showing the previous results while this fetch is in flight so
+      // switching tabs/filters doesn't flash a blank spinner before landing
+      // on the (often identical) results. onSuccess below fully replaces
+      // _rawListings for page 1 regardless.
+      if (isRefresh) {
         _rawListings = [];
       }
 
@@ -192,9 +197,13 @@ class MarketController extends GetxController {
     update();
   }
 
-  /// GET /marketplace/listings?isFeatured=true&page=1&limit=20 — powers the
-  /// Home tab's "Featured Products" section.
-  Future<void> fetchFeaturedListings({int page = 1, int limit = 20}) async {
+  /// GET /marketplace/listings?isFeatured=true&page=1&limit=4 — powers the
+  /// Home tab's "Featured Products" section, which only ever renders the
+  /// first 4 results (see HomeMarketScreen's `.take(4)`). Requesting 20 and
+  /// discarding 16 of them was pure wasted work on a slow endpoint — the
+  /// smaller `limit` cuts down what the backend has to query/compute
+  /// (e.g. per-row distance) and send back.
+  Future<void> fetchFeaturedListings({int page = 1, int limit = 4}) async {
     try {
       isLoadingFeatured = true;
       update();

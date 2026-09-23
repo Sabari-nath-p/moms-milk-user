@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Models/SearchBuyerModel.dart';
@@ -31,10 +32,10 @@ class _SendRequestToBuyerBottomSheetState
           padding: MediaQuery.of(context).viewInsets,
           decoration: BoxDecoration(
             color: Theme.of(context).scaffoldBackgroundColor,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
           ),
           child: Padding(
-            padding: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
+            padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 20.h, bottom: 20.h),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -43,21 +44,21 @@ class _SendRequestToBuyerBottomSheetState
                   // Handle bar
                   Center(
                     child: Container(
-                      width: 40,
-                      height: 4,
+                      width: 40.w,
+                      height: 4.h,
                       decoration: BoxDecoration(
                         color: Theme.of(context).dividerColor,
-                        borderRadius: BorderRadius.circular(2),
+                        borderRadius: BorderRadius.circular(2.r),
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 20.h),
 
                   // Header
                   Row(
                     children: [
                       CircleAvatar(
-                        radius: 20,
+                        radius: 20.r,
                         backgroundColor: Theme.of(
                           context,
                         ).colorScheme.primary.withOpacity(0.1),
@@ -69,7 +70,7 @@ class _SendRequestToBuyerBottomSheetState
                           ),
                         ),
                       ),
-                      SizedBox(width: 12),
+                      SizedBox(width: 12.w),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,15 +96,15 @@ class _SendRequestToBuyerBottomSheetState
                           ],
                         ),
                       ),
-                      SizedBox(width: 12),
+                      SizedBox(width: 12.w),
                       IconButton(
                         icon: Icon(Icons.close),
-                        splashRadius: 20,
+                        splashRadius: 20.r,
                         onPressed: () => Navigator.pop(context),
                       ),
                     ],
                   ),
-                  SizedBox(height: 24),
+                  SizedBox(height: 24.h),
 
                   // Description field
                   Text(
@@ -112,7 +113,7 @@ class _SendRequestToBuyerBottomSheetState
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   TextField(
                     controller: descriptionController,
                     maxLines: 3,
@@ -120,23 +121,23 @@ class _SendRequestToBuyerBottomSheetState
                     decoration: InputDecoration(
                       hintText: 'Send a note...'.tr,
                       enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                         borderSide: BorderSide(
                           color: Colors.grey.shade400,
                           width: 1.2,
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                         borderSide: BorderSide(
                           color: Theme.of(context).colorScheme.primary,
                           width: 1.8,
                         ),
                       ),
-                      contentPadding: EdgeInsets.all(16),
+                      contentPadding: EdgeInsets.all(16.sp),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 20.h),
 
                   // Quantity field
                   Text(
@@ -145,7 +146,7 @@ class _SendRequestToBuyerBottomSheetState
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   UnitInputField(
                     controller: quantityController,
                     title: "",
@@ -155,7 +156,7 @@ class _SendRequestToBuyerBottomSheetState
                       Unit(name: 'ml', conversionFactorToMl: 1.0),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 20.h),
 
                   // Urgency selector
                   Text(
@@ -164,7 +165,7 @@ class _SendRequestToBuyerBottomSheetState
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   Row(
                     children: [
                       Expanded(
@@ -175,7 +176,7 @@ class _SendRequestToBuyerBottomSheetState
                           () => setState(() => selectedUrgency = 'LOW'),
                         ),
                       ),
-                      SizedBox(width: 8),
+                      SizedBox(width: 8.w),
                       Expanded(
                         child: _buildUrgencyChip(
                           'MEDIUM'.tr,
@@ -184,7 +185,7 @@ class _SendRequestToBuyerBottomSheetState
                           () => setState(() => selectedUrgency = 'MEDIUM'),
                         ),
                       ),
-                      SizedBox(width: 8),
+                      SizedBox(width: 8.w),
                       Expanded(
                         child: _buildUrgencyChip(
                           'HIGH'.tr,
@@ -195,7 +196,7 @@ class _SendRequestToBuyerBottomSheetState
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 20.h),
 
                   // Available by date (optional)
                   Text(
@@ -204,7 +205,7 @@ class _SendRequestToBuyerBottomSheetState
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   InkWell(
                     onTap: () async {
                       final DateTime? picked = await showDatePicker(
@@ -232,10 +233,10 @@ class _SendRequestToBuyerBottomSheetState
                       }
                     },
                     child: Container(
-                      padding: EdgeInsets.all(16),
+                      padding: EdgeInsets.all(16.sp),
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.black38),
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                       ),
                       child: Row(
                         children: [
@@ -243,7 +244,7 @@ class _SendRequestToBuyerBottomSheetState
                             Icons.schedule,
                             color: Theme.of(context).colorScheme.primary,
                           ),
-                          SizedBox(width: 12),
+                          SizedBox(width: 12.w),
                           Text(
                             selectedDate != null
                                 ? '${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year} ${selectedDate!.hour}:${selectedDate!.minute.toString().padLeft(2, '0')}'
@@ -262,14 +263,14 @@ class _SendRequestToBuyerBottomSheetState
                               child: Icon(
                                 Icons.clear,
                                 color: Theme.of(context).colorScheme.error,
-                                size: 20,
+                                size: 20.sp,
                               ),
                             ),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(height: 30),
+                  SizedBox(height: 30.h),
 
                   // Send button
                   SizedBox(
@@ -305,16 +306,16 @@ class _SendRequestToBuyerBottomSheetState
                         Navigator.pop(context);
                       },
                       child: Container(
-                        height: 48,
+                        height: 48.h,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                           gradient: AppTheme.roundButtonGradient,
                         ),
                         alignment: Alignment.center,
                         child: Text(
                           'Send Request'.tr,
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.w600,
                             color: Colors.white,
                           ),
@@ -341,10 +342,10 @@ Widget _buildUrgencyChip(
   return GestureDetector(
     onTap: onTap,
     child: Container(
-      padding: EdgeInsets.symmetric(vertical: 12),
+      padding: EdgeInsets.symmetric(vertical: 12.h),
       decoration: BoxDecoration(
         color: isSelected ? color : color.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(8.r),
         border: Border.all(color: color, width: isSelected ? 0 : 1),
       ),
       child: Center(
@@ -353,7 +354,7 @@ Widget _buildUrgencyChip(
           style: TextStyle(
             color: isSelected ? Colors.white : color,
             fontWeight: FontWeight.w600,
-            fontSize: 12,
+            fontSize: 12.sp,
           ),
         ),
       ),

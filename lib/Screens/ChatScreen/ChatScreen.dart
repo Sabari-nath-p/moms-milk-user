@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/list_notifier.dart';
@@ -46,16 +47,16 @@ class _ChatScreenState extends State<ChatScreen> {
                 MessageTitleCard(),
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
                     child: SingleChildScrollView(
                       reverse: true,
                       controller: __.scrollController,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.end,
-                        spacing: 20,
+                        spacing: 20.h,
                         children: [
-                          SizedBox(height: 20),
+                          SizedBox(height: 20.h),
                           for (var data in __.messageList)
                             MessageCard(
                               isRead: data.isRead,
@@ -63,7 +64,7 @@ class _ChatScreenState extends State<ChatScreen> {
                               message: data.content,
                               messageTime: data.createdAt.toLocal().toString(),
                             ),
-                          SizedBox(height: 20),
+                          SizedBox(height: 20.h),
                         ],
                       ),
                     ),

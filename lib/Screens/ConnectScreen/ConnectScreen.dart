@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
@@ -19,7 +20,7 @@ class ConnectScreen extends StatelessWidget {
           appBar: AppBar(
             title: Text(
               "Connections".tr,
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20.sp),
             ),
             centerTitle: true,
             backgroundColor: Colors.white,
@@ -35,11 +36,11 @@ class ConnectScreen extends StatelessWidget {
                     );
                   },
                   child: Container(
-                    margin: EdgeInsets.only(right: 16),
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    margin: EdgeInsets.only(right: 16.w),
+                    padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
                     decoration: BoxDecoration(
                       color: AppTheme.primaryColor.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20.r),
                       border: Border.all(
                         color: AppTheme.primaryColor.withOpacity(0.3),
                         width: 1,
@@ -50,15 +51,15 @@ class ConnectScreen extends StatelessWidget {
                       children: [
                         Icon(
                           Icons.search,
-                          size: 16,
+                          size: 16.sp,
                           color: AppTheme.primaryColor,
                         ),
-                        SizedBox(width: 4),
+                        SizedBox(width: 4.w),
                         Text(
                           'Find Buyers'.tr,
                           style: TextStyle(
                             color: AppTheme.primaryColor,
-                            fontSize: 13,
+                            fontSize: 13.sp,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -77,11 +78,11 @@ class ConnectScreen extends StatelessWidget {
                     );
                   },
                   child: Container(
-                    margin: EdgeInsets.only(right: 16),
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    margin: EdgeInsets.only(right: 16.w),
+                    padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
                     decoration: BoxDecoration(
                       color: AppTheme.primaryColor.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20.r),
                       border: Border.all(
                         color: AppTheme.primaryColor.withOpacity(0.3),
                         width: 1,
@@ -92,15 +93,15 @@ class ConnectScreen extends StatelessWidget {
                       children: [
                         Icon(
                           Icons.search,
-                          size: 16,
+                          size: 16.sp,
                           color: AppTheme.primaryColor,
                         ),
-                        SizedBox(width: 4),
+                        SizedBox(width: 4.w),
                         Text(
                           'Find Donors'.tr,
                           style: TextStyle(
                             color: AppTheme.primaryColor,
-                            fontSize: 13,
+                            fontSize: 13.sp,
                             fontWeight: FontWeight.w600,
                           ),
                         ),

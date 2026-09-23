@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/utils.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
@@ -14,11 +15,11 @@ class HHeaderCard extends StatelessWidget {
     return GetBuilder<Homecontroller>(
       builder:
           (controller) => Container(
-            padding: EdgeInsets.all(24),
+            padding: EdgeInsets.all(24.w),
             // margin: EdgeInsets.all(10),
             decoration: BoxDecoration(
               gradient: AppTheme.CardGradient,
-              borderRadius: BorderRadius.circular(24),
+              borderRadius: BorderRadius.circular(24.r),
 
               // Blended Deep Charcoal
               border: Border.all(color: AppTheme.borderColor, width: 1.5),
@@ -26,18 +27,18 @@ class HHeaderCard extends StatelessWidget {
             child: Row(
               children: [
                 Container(
-                  padding: EdgeInsets.all(12),
+                  padding: EdgeInsets.all(12.w),
                   decoration: BoxDecoration(
                     gradient: AppTheme.buttonCardGradient,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                   child: Icon(
                     Icons.child_care,
                     color: Theme.of(context).colorScheme.onPrimary,
-                    size: 24,
+                    size: 24.sp,
                   ),
                 ),
-                SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,7 +49,7 @@ class HHeaderCard extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      SizedBox(height: 4),
+                      SizedBox(height: 4.h),
                       Text(
                         user.userType == 'donor'
                             ? 'Help families in need today'.tr

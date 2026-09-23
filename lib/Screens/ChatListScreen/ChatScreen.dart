@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
@@ -72,7 +73,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    SizedBox(height: 25),
+                    SizedBox(height: 25.h),
 
                     if (__.chatSessionList.isEmpty)
                       Container(
@@ -83,13 +84,13 @@ class _ChatListScreenState extends State<ChatListScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Image.asset("lib/Assets/AppIcon.png", width: 80),
-                            SizedBox(height: 20),
+                            Image.asset("lib/Assets/AppIcon.png", width: 80.w),
+                            SizedBox(height: 20.h),
                             (user.userType == "DONOR")
                                 ? Text(
                                   "No buyer connected yet".tr,
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 16.sp,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 )
@@ -97,18 +98,18 @@ class _ChatListScreenState extends State<ChatListScreen> {
                                   "Not connected with\nany donor".tr,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 16.sp,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
 
                             if (user.userType != "DONOR")
                               Container(
-                                width: 200,
-                                margin: EdgeInsets.only(top: 20),
+                                width: 200.w,
+                                margin: EdgeInsets.only(top: 20.h),
                                 decoration: BoxDecoration(
                                   gradient: AppTheme.roundButtonGradient,
-                                  borderRadius: BorderRadius.circular(12),
+                                  borderRadius: BorderRadius.circular(12.r),
                                 ),
                                 child: ElevatedButton(
                                   onPressed: () {
@@ -125,7 +126,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
                                     shadowColor:
                                         Colors.transparent, // remove shadow
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
+                                      borderRadius: BorderRadius.circular(12.r),
                                     ),
                                   ),
                                   child: Row(
@@ -133,10 +134,10 @@ class _ChatListScreenState extends State<ChatListScreen> {
                                     children: [
                                       Icon(
                                         Icons.search,
-                                        size: 20,
+                                        size: 20.sp,
                                         color: Colors.white,
                                       ),
-                                      SizedBox(width: 8),
+                                      SizedBox(width: 8.w),
                                       Text(
                                         "Find Donors".tr,
                                         style: TextStyle(

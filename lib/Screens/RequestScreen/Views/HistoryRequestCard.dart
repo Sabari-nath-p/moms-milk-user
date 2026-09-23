@@ -1,6 +1,7 @@
 import 'package:date_picker_timeline/extra/color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/utils.dart';
 import 'package:mommilk_user/Models/RequestModel.dart';
@@ -18,9 +19,9 @@ class HistoryRequestCard extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
       // color: Theme.of(context).primaryColor.withOpacity(.1),
       elevation: .2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.sp),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -35,27 +36,27 @@ class HistoryRequestCard extends StatelessWidget {
                       Text(
                         request.title ?? 'No Title'.tr,
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.bold,
                           color: Colors.black54,
                         ),
                       ),
-                      SizedBox(height: 4),
+                      SizedBox(height: 4.h),
                       Text(
                         request.description ?? 'No description available'.tr,
-                        style: TextStyle(color: Colors.black54, fontSize: 14),
+                        style: TextStyle(color: Colors.black54, fontSize: 14.sp),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
                 ),
-                SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
                   decoration: BoxDecoration(
                     color: getStatusColor(request.status ?? 'pending'),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                   child: Text(
                     (request.status ?? 'pending')
@@ -64,7 +65,7 @@ class HistoryRequestCard extends StatelessWidget {
                         .toUpperCase(),
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 11,
+                      fontSize: 11.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -72,33 +73,33 @@ class HistoryRequestCard extends StatelessWidget {
               ],
             ),
 
-            SizedBox(height: 12),
+            SizedBox(height: 12.h),
 
             // Info Row
             Row(
               children: [
-                Icon(Icons.person, size: 16, color: Colors.black54),
-                SizedBox(width: 4),
+                Icon(Icons.person, size: 16.sp, color: Colors.black54),
+                SizedBox(width: 4.w),
                 Text(
                   request.requester?.name ?? 'Unknown'.tr,
-                  style: TextStyle(color: Colors.black54, fontSize: 12),
+                  style: TextStyle(color: Colors.black54, fontSize: 12.sp),
                 ),
-                SizedBox(width: 16),
-                Icon(Icons.schedule, size: 16, color: Colors.black54),
-                SizedBox(width: 4),
+                SizedBox(width: 16.w),
+                Icon(Icons.schedule, size: 16.sp, color: Colors.black54),
+                SizedBox(width: 4.w),
                 Text(
                   formatDate(request.createdAt ?? ''),
-                  style: TextStyle(color: Colors.black54, fontSize: 12),
+                  style: TextStyle(color: Colors.black54, fontSize: 12.sp),
                 ),
                 Spacer(),
                 if (false)
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
                     decoration: BoxDecoration(
                       color: getUrgencyColor(
                         request.urgency ?? 'low',
                       ).withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(8.r),
                       border: Border.all(
                         color: getUrgencyColor(request.urgency ?? 'low'),
                         width: 1,
@@ -108,7 +109,7 @@ class HistoryRequestCard extends StatelessWidget {
                       (request.urgency ?? 'low').toUpperCase(),
                       style: TextStyle(
                         color: getUrgencyColor(request.urgency ?? 'low'),
-                        fontSize: 10,
+                        fontSize: 10.sp,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -116,18 +117,18 @@ class HistoryRequestCard extends StatelessWidget {
               ],
             ),
 
-            SizedBox(height: 8),
+            SizedBox(height: 8.h),
 
             // Bottom Row with Quantity
             Row(
               children: [
-                Icon(Icons.local_drink, size: 16, color: Colors.black54),
-                SizedBox(width: 4),
+                Icon(Icons.local_drink, size: 16.sp, color: Colors.black54),
+                SizedBox(width: 4.w),
                 Text(
                   '${request.quantity ?? 0} ml',
                   style: TextStyle(
                     color: Colors.black54,
-                    fontSize: 12,
+                    fontSize: 12.sp,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -146,19 +147,19 @@ class HistoryRequestCard extends StatelessWidget {
                     },
                     child: Container(
                       padding: EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 5,
+                        horizontal: 10.w,
+                        vertical: 5.h,
                       ),
                       decoration: BoxDecoration(
                         color: AppTheme.primaryColor,
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(10.r),
                       ),
                       child: Text(
                         "Send a message".tr,
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w700,
-                          fontSize: 12,
+                          fontSize: 12.sp,
                         ),
                       ),
                     ),

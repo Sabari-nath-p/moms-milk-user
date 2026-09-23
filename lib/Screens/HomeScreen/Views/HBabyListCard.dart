@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Models/BabyModel.dart';
 import 'package:mommilk_user/Screens/CreateBabyScreen/Controller/BabyCreateController.dart';
@@ -20,11 +21,11 @@ class HBabyCard extends StatelessWidget {
 
         final gradientBox =
             (Widget child) => ClipRRect(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                   border: Border.all(
                     color: Color(0xffFFE4E6),
                     width: 1.5,
@@ -45,33 +46,33 @@ class HBabyCard extends StatelessWidget {
         if (controller.myBabies.isEmpty) {
           return gradientBox(
             Padding(
-              padding: EdgeInsets.all(24),
+              padding: EdgeInsets.all(24.w),
               child: Row(
                 children: [
                   Icon(Icons.baby_changing_station, color: Colors.pink),
-                  SizedBox(width: 12),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: Text(
                       'Add your baby\'s profile to start tracking'.tr,
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ),
-                  SizedBox(width: 12),
+                  SizedBox(width: 12.w),
                   Container(
                     decoration: BoxDecoration(
                       gradient: AppTheme.roundButtonGradient,
-                      borderRadius: BorderRadius.circular(24),
+                      borderRadius: BorderRadius.circular(24.r),
                     ),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.transparent,
                         shadowColor: Colors.transparent,
                         padding: EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 2,
+                          horizontal: 20.w,
+                          vertical: 2.h,
                         ),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
+                          borderRadius: BorderRadius.circular(24.r),
                         ),
                       ),
                       onPressed: () {
@@ -95,14 +96,14 @@ class HBabyCard extends StatelessWidget {
         // ========= WHEN BABIES EXIST ==========
         return gradientBox(
           Padding(
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
                     //   Icon(Icons.baby_changing_station, color: Colors.pink),
-                    SizedBox(width: 8),
+                    SizedBox(width: 8.w),
                     Text(
                       'Baby Profile'.tr,
                       style: Theme.of(context).textTheme.titleLarge,
@@ -111,18 +112,18 @@ class HBabyCard extends StatelessWidget {
                     Container(
                       decoration: BoxDecoration(
                         gradient: AppTheme.roundButtonGradient,
-                        borderRadius: BorderRadius.circular(24),
+                        borderRadius: BorderRadius.circular(24.r),
                       ),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.transparent,
                           shadowColor: Colors.transparent,
                           padding: EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 2,
+                            horizontal: 20.w,
+                            vertical: 2.h,
                           ),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24),
+                            borderRadius: BorderRadius.circular(24.r),
                           ),
                         ),
                         onPressed: () {
@@ -140,16 +141,16 @@ class HBabyCard extends StatelessWidget {
                   ],
                 ),
 
-                SizedBox(height: 16),
+                SizedBox(height: 16.h),
 
                 // ▼▼ Dropdown ▼▼
                 Container(
                   padding: EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 4,
+                    horizontal: 12.w,
+                    vertical: 4.h,
                   ),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                     border: Border.all(color: Colors.pink.withOpacity(0.4)),
                   ),
                   child: Row(
@@ -170,17 +171,17 @@ class HBabyCard extends StatelessWidget {
                                   child: Row(
                                     children: [
                                       CircleAvatar(
-                                        radius: 16,
+                                        radius: 16.r,
                                         backgroundColor: Colors.pink,
                                         child: Text(
                                           baby.name![0],
                                           style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 12,
+                                            fontSize: 12.sp,
                                           ),
                                         ),
                                       ),
-                                      SizedBox(width: 12),
+                                      SizedBox(width: 12.w),
                                       Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -228,9 +229,9 @@ class HBabyCard extends StatelessWidget {
                                     Icon(
                                       Icons.delete,
                                       color: Colors.red,
-                                      size: 18,
+                                      size: 18.sp,
                                     ),
-                                    SizedBox(width: 8),
+                                    SizedBox(width: 8.w),
                                     Text(
                                       "Delete".tr,
                                       style: TextStyle(color: Colors.red),

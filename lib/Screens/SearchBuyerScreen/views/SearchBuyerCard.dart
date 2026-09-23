@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Models/SearchBuyerModel.dart';
 import 'package:mommilk_user/Screens/ChatListScreen/Controller/ChatController.dart';
@@ -15,18 +16,18 @@ class SearchBuyerCard extends StatelessWidget {
       builder: (controller) {
         return Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
             border: Border.all(color: Color(0xffFB7185).withOpacity(0.5)),
           ),
           child: Padding(
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.sp),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
                     CircleAvatar(
-                      radius: 25,
+                      radius: 25.r,
                       backgroundColor: AppTheme.primaryColor.withOpacity(.4),
                       child: Text(
                         (buyer.buyer!.name ?? "U".tr)[0],
@@ -36,7 +37,7 @@ class SearchBuyerCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(width: 12),
+                    SizedBox(width: 12.w),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,7 +49,7 @@ class SearchBuyerCard extends StatelessWidget {
                           ),
                           if (buyer.location!.placeName != "Unknown")
                             Padding(
-                              padding: EdgeInsets.only(bottom: 10),
+                              padding: EdgeInsets.only(bottom: 10.h),
                               child: Text(
                                 (buyer.location!.placeName! +
                                         ", ${buyer.location!.country}"
@@ -58,7 +59,7 @@ class SearchBuyerCard extends StatelessWidget {
                                 style: Theme.of(context).textTheme.bodySmall!
                                     .copyWith(
                                       color: Colors.black,
-                                      fontSize: 10,
+                                      fontSize: 10.sp,
                                     ),
                               ),
                             ),
@@ -66,10 +67,10 @@ class SearchBuyerCard extends StatelessWidget {
                             children: [
                               Icon(
                                 Icons.location_on,
-                                size: 16,
+                                size: 16.sp,
                                 color: Theme.of(context).colorScheme.primary,
                               ),
-                              SizedBox(width: 4),
+                              SizedBox(width: 4.w),
                               Text(
                                 "${buyer.distanceText ?? "unknown"}".tr,
                                 style: Theme.of(context).textTheme.bodySmall!
@@ -83,7 +84,7 @@ class SearchBuyerCard extends StatelessWidget {
                     // ✅ Availability badge removed per team lead request
                   ],
                 ),
-                SizedBox(height: 12),
+                SizedBox(height: 12.h),
                 SizedBox(
                   width: double.infinity,
                   child: GestureDetector(
@@ -96,16 +97,16 @@ class SearchBuyerCard extends StatelessWidget {
                       );
                     },
                     child: Container(
-                      height: 48,
+                      height: 48.h,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(8.r),
                         gradient: AppTheme.buttonCardGradient,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.message, size: 16, color: Colors.white),
-                          SizedBox(width: 6),
+                          Icon(Icons.message, size: 16.sp, color: Colors.white),
+                          SizedBox(width: 6.w),
                           Text(
                             'Send Message'.tr,
                             style: TextStyle(

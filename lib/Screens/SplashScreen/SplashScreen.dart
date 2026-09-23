@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/utils.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/AuthenticationScreen.dart';
@@ -139,7 +140,7 @@ class _SplashScreenState extends State<SplashScreen> {
             children: [
               // ---------------- TOP BAR (SKIP) ----------------
               Padding(
-                padding: EdgeInsets.only(right: 20),
+                padding: EdgeInsets.only(right: 20.w),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -153,7 +154,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       child: Text(
                         "Skip".tr,
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.w600,
                           color: Colors.black,
                         ),
@@ -191,14 +192,14 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
               ),
 
-              SizedBox(height: 20),
+              SizedBox(height: 20.h),
 
               // ---------------- TABS (Carousel) ----------------
               CarouselSlider(
                 carouselController: tabController,
                 options: CarouselOptions(
                   viewportFraction: .35,
-                  height: 40,
+                  height: 40.h,
                   enableInfiniteScroll: false,
                   scrollPhysics:
                       NeverScrollableScrollPhysics(), // Locked, controlled by buttons/swipe only
@@ -212,11 +213,11 @@ class _SplashScreenState extends State<SplashScreen> {
                         duration: Duration(
                           milliseconds: 300,
                         ), // Smooth color transition
-                        height: 30,
-                        width: 120,
-                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        height: 30.h,
+                        width: 120.w,
+                        padding: EdgeInsets.symmetric(horizontal: 8.w),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(20.r),
                           color: (currentIndex == data.index)
                               ? Color(0xffF1D2D9)
                               : Color(0xffE7E7E7),
@@ -226,16 +227,16 @@ class _SplashScreenState extends State<SplashScreen> {
                           children: [
                             Image.asset(
                               data.IconPath,
-                              width: 20,
+                              width: 20.w,
                               color: (currentIndex == data.index)
                                   ? Color(0xffED7754)
                                   : Color(0xffB2A9A4),
                             ),
-                            SizedBox(width: 10),
+                            SizedBox(width: 10.w),
                             Text(
                               data.tabText,
                               style: TextStyle(
-                                fontSize: 12,
+                                fontSize: 12.sp,
                                 fontWeight: FontWeight.w600,
                                 color: (currentIndex == data.index)
                                     ? Color(0xffED7754)
@@ -249,7 +250,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 ],
               ),
 
-              SizedBox(height: 20),
+              SizedBox(height: 20.h),
 
               // ---------------- TEXT CONTENT ----------------
               Expanded(
@@ -267,17 +268,17 @@ class _SplashScreenState extends State<SplashScreen> {
                               data.title,
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontSize: 24,
+                                fontSize: 24.sp,
                                 fontWeight: FontWeight.w600,
                                 color: Color(0xff2C2C2C),
                               ),
                             ),
-                            SizedBox(height: 10),
+                            SizedBox(height: 10.h),
                             Text(
                               data.description,
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 16.sp,
                                 fontWeight: FontWeight.w400,
                                 color: Color(0xff2C2C2C),
                               ),
@@ -297,9 +298,9 @@ class _SplashScreenState extends State<SplashScreen> {
                 count: splashItem.length,
                 effect: ExpandingDotsEffect(
                   expansionFactor: 3.2,
-                  dotHeight: 8,
-                  dotWidth: 8,
-                  spacing: 8,
+                  dotHeight: 8.h,
+                  dotWidth: 8.w,
+                  spacing: 8.w,
                   dotColor: Color(0xffD1D5DC),
                   activeDotColor: Color(0xffFF9B9B),
                 ),
@@ -322,11 +323,14 @@ class _SplashScreenState extends State<SplashScreen> {
                 focusColor: Colors.transparent,
                 splashColor: Colors.transparent,
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 40, vertical: 30),
-                  height: 60,
+                  margin: EdgeInsets.symmetric(
+                    horizontal: 40.w,
+                    vertical: 30.h,
+                  ),
+                  height: 60.h,
                   decoration: BoxDecoration(
                     color: Colors.black,
-                    borderRadius: BorderRadius.circular(40),
+                    borderRadius: BorderRadius.circular(40.r),
                   ),
                   alignment: Alignment.center,
                   child: Text(
@@ -338,7 +342,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       color: Colors.white,
-                      fontSize: 16,
+                      fontSize: 16.sp,
                     ),
                   ),
                 ),

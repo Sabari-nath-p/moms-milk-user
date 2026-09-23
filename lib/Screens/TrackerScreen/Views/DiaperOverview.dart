@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/utils.dart';
 import 'package:mommilk_user/Screens/TrackerScreen/Models/AnalyticsOverviewModel.dart';
 import 'package:mommilk_user/theme/app_theme.dart';
@@ -19,10 +20,10 @@ class DiaperOverviewCard extends StatelessWidget {
             context,
           ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
         ),
-        SizedBox(height: 10),
+        SizedBox(height: 10.h),
         SizedBox(
-          height: 150,
-          width: 390,
+          height: 150.h,
+          width: 390.w,
           child: _buildDiaperTypeChart(context, model.diaperTypeBreakdown!!),
         ),
       ],
@@ -47,9 +48,9 @@ Widget _buildDiaperTypeChart(BuildContext context, DiaperTypeBreakdown model) {
           color: colors[i],
           value: data[i].$2.toDouble(),
           title: '${data[i].$2}',
-          radius: 30,
+          radius: 30.r,
           titleStyle: TextStyle(
-            fontSize: 14,
+            fontSize: 14.sp,
             fontWeight: FontWeight.bold,
             color: Colors.white,
           ),
@@ -59,10 +60,10 @@ Widget _buildDiaperTypeChart(BuildContext context, DiaperTypeBreakdown model) {
   }
 
   return Container(
-    height: 200,
+    height: 200.h,
     decoration: BoxDecoration(
      // gradient: AppTheme.CardGradient,
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(16.r),
       //boxShadow: [
         //BoxShadow(
           //color: Colors.black.withOpacity(0.05),
@@ -80,8 +81,8 @@ Widget _buildDiaperTypeChart(BuildContext context, DiaperTypeBreakdown model) {
                   child: PieChart(
                     PieChartData(
                       sections: sections,
-                      centerSpaceRadius: 30,
-                      sectionsSpace: 2,
+                      centerSpaceRadius: 30.r,
+                      sectionsSpace: 2.w,
                     ),
                   ),
                 ),
@@ -95,21 +96,21 @@ Widget _buildDiaperTypeChart(BuildContext context, DiaperTypeBreakdown model) {
                           final index = entry.key;
                           final item = entry.value;
                           return Padding(
-                            padding: EdgeInsets.symmetric(vertical: 4),
+                            padding: EdgeInsets.symmetric(vertical: 4.h),
                             child: Row(
                               children: [
                                 Container(
-                                  width: 12,
-                                  height: 12,
+                                  width: 12.w,
+                                  height: 12.h,
                                   decoration: BoxDecoration(
                                     color: colors[index],
                                     shape: BoxShape.circle,
                                   ),
                                 ),
-                                SizedBox(width: 8),
+                                SizedBox(width: 8.w),
                                 Text(
                                   '${item.$1}: ${item.$2}',
-                                  style: TextStyle(fontSize: 12),
+                                  style: TextStyle(fontSize: 12.sp),
                                 ),
                               ],
                             ),

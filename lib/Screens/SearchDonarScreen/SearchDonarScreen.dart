@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Screens/RequestScreen/RequestScreen.dart';
 import 'package:mommilk_user/Screens/SearchDonarScreen/Controller/SearchDonarController.dart';
@@ -61,7 +62,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
       appBar: AppBar(
         title: Text(
           'Find Donors'.tr,
-          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20.sp),
         ),
         centerTitle: true,
         backgroundColor: Colors.white,
@@ -83,11 +84,11 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
               transition: Transition.rightToLeft,
             ),
             child: Container(
-              margin: EdgeInsets.only(right: 16),
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              margin: EdgeInsets.only(right: 16.w),
+              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
               decoration: BoxDecoration(
                 color: AppTheme.primaryColor.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(20.r),
                 border: Border.all(
                   color: AppTheme.primaryColor.withOpacity(0.3),
                   width: 1,
@@ -98,15 +99,15 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
                 children: [
                   Icon(
                     Icons.assignment_outlined,
-                    size: 16,
+                    size: 16.sp,
                     color: AppTheme.primaryColor,
                   ),
-                  SizedBox(width: 4),
+                  SizedBox(width: 4.w),
                   Text(
                     'My Requests'.tr,
                     style: TextStyle(
                       color: AppTheme.primaryColor,
-                      fontSize: 13,
+                      fontSize: 13.sp,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -120,22 +121,22 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
         controller: scrollController,
         slivers: [
           SliverPadding(
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.sp),
             sliver: SliverList(
               delegate: SliverChildListDelegate([
                 _buildSearchSection(context),
-                SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 _buildActiveFilters(context),
-                SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 _buildDonorsList(context),
-                SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 Container(
-                  padding: EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16.sp),
                   decoration: BoxDecoration(
                     color: Theme.of(
                       context,
                     ).colorScheme.primary.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                     border: Border.all(
                       color: Theme.of(
                         context,
@@ -148,7 +149,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
                         Icons.privacy_tip_outlined,
                         color: Theme.of(context).colorScheme.primary,
                       ),
-                      SizedBox(width: 12),
+                      SizedBox(width: 12.w),
                       Expanded(
                         child: Text(
                           'We’re actively welcoming milk donors. If no donors appear in your area yet, don’t worry more will be joining shortly. Thank you for your patience and support and if new donars comes near you we will notify'
@@ -189,33 +190,33 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
                   hintStyle: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.w400,
-                    fontSize: 12,
+                    fontSize: 12.sp,
                   ),
                   hintText: "Zip Code".tr,
                   prefixIcon: Icon(Icons.location_on),
                   enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                     borderSide: BorderSide(
                       color: Color(0xFFFFE4E6),
                       width: 1.4,
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                     borderSide: BorderSide(
                       color: Color(0xFFFFE4E6),
                       width: 1.6,
                     ),
                   ),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                   filled: true,
                   fillColor: Colors.white,
                 ),
               ),
             ),
-            SizedBox(width: 12),
+            SizedBox(width: 12.w),
             Expanded(
               flex: 3,
               child: TextField(
@@ -224,26 +225,26 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
                 style: TextStyle(color: Colors.black87),
                 decoration: InputDecoration(
                   hintText: 'Search donors...'.tr,
-                  hintStyle: TextStyle(color: Colors.black, fontSize: 12),
+                  hintStyle: TextStyle(color: Colors.black, fontSize: 12.sp),
                   prefixIcon: Icon(Icons.search),
 
                   // 👇 Updated Borders
                   enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                     borderSide: BorderSide(
                       color: Color(0xFFFFE4E6),
                       width: 1.4,
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                     borderSide: BorderSide(
                       color: Color(0xFFFFE4E6),
                       width: 1.6,
                     ),
                   ),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
 
                   filled: true,
@@ -258,14 +259,14 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
             ),
           ],
         ),
-        SizedBox(height: 25),
+        SizedBox(height: 25.h),
         SizedBox(
           width: double.infinity,
-          height: 48,
+          height: 48.h,
           child: Container(
             decoration: BoxDecoration(
               gradient: AppTheme.roundButtonGradient,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
             child: ElevatedButton(
               onPressed: () {
@@ -276,14 +277,14 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
                     Colors.transparent, // remove default background
                 shadowColor: Colors.transparent, // remove shadow
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.search, size: 20, color: Colors.white),
-                  SizedBox(width: 8),
+                  Icon(Icons.search, size: 20.sp, color: Colors.white),
+                  SizedBox(width: 8.w),
                   Text(
                     "Search Donors".tr,
                     style: TextStyle(
@@ -327,10 +328,10 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
                 ),
               ],
             ),
-            SizedBox(height: 8),
+            SizedBox(height: 8.h),
             Wrap(
-              spacing: 8,
-              runSpacing: 4,
+              spacing: 8.w,
+              runSpacing: 4.h,
               children: controller.activeFilters
                   .map(
                     (filter) => _buildFilterChip(
@@ -404,7 +405,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
                   return GetBuilder<SearchDonarController>(
                     builder: (controller) => controller.isLoadingMore
                         ? Padding(
-                            padding: EdgeInsets.all(16.0),
+                            padding: EdgeInsets.all(16.sp),
                             child: Center(child: CircularProgressIndicator()),
                           )
                         : SizedBox.shrink(),
@@ -413,7 +414,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
 
                 final donor = donors[index];
                 return Padding(
-                  padding: EdgeInsets.only(bottom: 12),
+                  padding: EdgeInsets.only(bottom: 12.h),
                   child: SearchDonarCard(donar: donor),
                 );
               },
@@ -430,25 +431,25 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: EdgeInsets.all(24),
+            padding: EdgeInsets.all(24.sp),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(
               Icons.search_off,
-              size: 64,
+              size: 64.sp,
               color: Theme.of(context).colorScheme.primary,
             ),
           ),
-          SizedBox(height: 24),
+          SizedBox(height: 24.h),
           Text(
             'No Donors Found'.tr,
             style: Theme.of(
               context,
             ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600),
           ),
-          SizedBox(height: 8),
+          SizedBox(height: 8.h),
           Text(
             'Try adjusting your search criteria or filters.'.tr,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -472,21 +473,21 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
         height: MediaQuery.of(context).size.height * 0.7,
         decoration: BoxDecoration(
           color: Theme.of(context).scaffoldBackgroundColor,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
         ),
         child: Column(
           children: [
             Container(
-              margin: EdgeInsets.only(top: 8),
-              width: 40,
-              height: 4,
+              margin: EdgeInsets.only(top: 8.h),
+              width: 40.w,
+              height: 4.h,
               decoration: BoxDecoration(
                 color: Theme.of(context).dividerColor,
-                borderRadius: BorderRadius.circular(2),
+                borderRadius: BorderRadius.circular(2.r),
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(20.sp),
               child: Row(
                 children: [
                   Text(
@@ -511,7 +512,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
             ),
             Expanded(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -572,7 +573,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
                     //     },
                     //   ),
                     // ),
-                    SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                     Row(
                       children: [
                         Expanded(
@@ -599,7 +600,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
                       ],
                     ),
 
-                    SizedBox(height: 20),
+                    SizedBox(height: 20.h),
 
                     Row(
                       children: [
@@ -633,17 +634,17 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(20.sp),
               child: GestureDetector(
                 onTap: () {
                   Navigator.pop(context);
                   controller.applyFilters();
                 },
                 child: Container(
-                  height: 48,
+                  height: 48.h,
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                     gradient: AppTheme.roundButtonGradient,
                   ),
                   child: Center(
@@ -652,7 +653,7 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                        fontSize: 16.sp,
                       ),
                     ),
                   ),
@@ -671,10 +672,10 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
     VoidCallback onRemove,
   ) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primaryContainer,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         border: Border.all(
           color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
         ),
@@ -686,16 +687,16 @@ class _SearchdonarscreenState extends State<Searchdonarscreen> {
             label,
             style: TextStyle(
               color: Theme.of(context).colorScheme.onPrimaryContainer,
-              fontSize: 12,
+              fontSize: 12.sp,
               fontWeight: FontWeight.w500,
             ),
           ),
-          SizedBox(width: 4),
+          SizedBox(width: 4.w),
           GestureDetector(
             onTap: onRemove,
             child: Icon(
               Icons.close,
-              size: 14,
+              size: 14.sp,
               color: Theme.of(context).colorScheme.onPrimaryContainer,
             ),
           ),

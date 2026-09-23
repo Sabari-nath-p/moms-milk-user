@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -44,8 +45,8 @@ class ContactBottomSheet extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(24),
-          topRight: Radius.circular(24),
+          topLeft: Radius.circular(24.r),
+          topRight: Radius.circular(24.r),
         ),
         boxShadow: [
           BoxShadow(
@@ -57,7 +58,7 @@ class ContactBottomSheet extends StatelessWidget {
       ),
       child: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(24.0),
+          padding: EdgeInsets.all(24.sp),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -65,22 +66,22 @@ class ContactBottomSheet extends StatelessWidget {
               // Handle bar
               _buildHandleBar(context),
 
-              SizedBox(height: 24),
+              SizedBox(height: 24.h),
 
               // Profile section
               _buildProfileSection(context),
 
-              SizedBox(height: 32),
+              SizedBox(height: 32.h),
 
               // Contact details
               _buildContactDetails(context),
 
-              SizedBox(height: 32),
+              SizedBox(height: 32.h),
 
               // Action buttons
               _buildActionButtons(context),
 
-              SizedBox(height: 16),
+              SizedBox(height: 16.h),
             ],
           ),
         ),
@@ -91,11 +92,11 @@ class ContactBottomSheet extends StatelessWidget {
   Widget _buildHandleBar(BuildContext context) {
     return Center(
       child: Container(
-        width: 40,
-        height: 4,
+        width: 40.w,
+        height: 4.h,
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.onSurface.withOpacity(0.3),
-          borderRadius: BorderRadius.circular(2),
+          borderRadius: BorderRadius.circular(2.r),
         ),
       ),
     );
@@ -106,11 +107,11 @@ class ContactBottomSheet extends StatelessWidget {
       children: [
         // Profile Image
         Container(
-          width: 80,
-          height: 80,
+          width: 80.w,
+          height: 80.h,
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(20.r),
             border: Border.all(
               color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
               width: 2,
@@ -119,7 +120,7 @@ class ContactBottomSheet extends StatelessWidget {
           child:
               profileImageUrl != null && profileImageUrl!.isNotEmpty
                   ? ClipRRect(
-                    borderRadius: BorderRadius.circular(18),
+                    borderRadius: BorderRadius.circular(18.r),
                     child: Image.network(
                       profileImageUrl!,
                       fit: BoxFit.cover,
@@ -131,7 +132,7 @@ class ContactBottomSheet extends StatelessWidget {
                   : _buildDefaultAvatar(context),
         ),
 
-        SizedBox(width: 16),
+        SizedBox(width: 16.w),
 
         // Name and basic info
         Expanded(
@@ -148,13 +149,13 @@ class ContactBottomSheet extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
 
-              SizedBox(height: 4),
+              SizedBox(height: 4.h),
 
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(8.r),
                 ),
                 child: Text(
                   'Contact'.tr,
@@ -174,7 +175,7 @@ class ContactBottomSheet extends StatelessWidget {
   Widget _buildDefaultAvatar(BuildContext context) {
     return Icon(
       Icons.person,
-      size: 40,
+      size: 40.sp,
       color: Theme.of(context).colorScheme.primary,
     );
   }
@@ -191,7 +192,7 @@ class ContactBottomSheet extends StatelessWidget {
           onTap: () => _sendEmail(email),
         ),
 
-        SizedBox(height: 16),
+        SizedBox(height: 16.h),
 
         // Phone
         _buildContactItem(
@@ -213,10 +214,10 @@ class ContactBottomSheet extends StatelessWidget {
     required VoidCallback onTap,
   }) {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.sp),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12.r),
         border: Border.all(
           color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
         ),
@@ -230,23 +231,23 @@ class ContactBottomSheet extends StatelessWidget {
       ),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12.r),
         child: Row(
           children: [
             Container(
-              padding: EdgeInsets.all(8),
+              padding: EdgeInsets.all(8.sp),
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(8.r),
               ),
               child: Icon(
                 icon,
                 color: Theme.of(context).colorScheme.primary,
-                size: 20,
+                size: 20.sp,
               ),
             ),
 
-            SizedBox(width: 16),
+            SizedBox(width: 16.w),
 
             Expanded(
               child: Column(
@@ -261,7 +262,7 @@ class ContactBottomSheet extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  SizedBox(height: 2),
+                  SizedBox(height: 2.h),
                   Text(
                     value,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -275,7 +276,7 @@ class ContactBottomSheet extends StatelessWidget {
 
             Icon(
               Icons.arrow_forward_ios,
-              size: 16,
+              size: 16.sp,
               color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
             ),
           ],
@@ -290,7 +291,7 @@ class ContactBottomSheet extends StatelessWidget {
         // Call Button
         Expanded(
           child: Container(
-            height: 56,
+            height: 56.h,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
@@ -298,7 +299,7 @@ class ContactBottomSheet extends StatelessWidget {
                   Theme.of(context).colorScheme.primary.withOpacity(0.8),
                 ],
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
                   color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
@@ -313,7 +314,7 @@ class ContactBottomSheet extends StatelessWidget {
                 backgroundColor: Colors.transparent,
                 shadowColor: Colors.transparent,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(16.r),
                 ),
               ),
               child: Row(
@@ -322,13 +323,13 @@ class ContactBottomSheet extends StatelessWidget {
                   Icon(
                     Icons.phone,
                     color: Theme.of(context).colorScheme.onPrimary,
-                    size: 20,
+                    size: 20.sp,
                   ),
-                  SizedBox(width: 8),
+                  SizedBox(width: 8.w),
                   Text(
                     'Call'.tr,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.w600,
                       color: Theme.of(context).colorScheme.onPrimary,
                     ),
@@ -339,18 +340,18 @@ class ContactBottomSheet extends StatelessWidget {
           ),
         ),
 
-        SizedBox(width: 16),
+        SizedBox(width: 16.w),
 
         // Email Button
         Expanded(
           child: Container(
-            height: 56,
+            height: 56.h,
             decoration: BoxDecoration(
               border: Border.all(
                 color: Theme.of(context).colorScheme.primary,
                 width: 2,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
             ),
             child: ElevatedButton(
               onPressed: () => _sendEmail(email),
@@ -358,7 +359,7 @@ class ContactBottomSheet extends StatelessWidget {
                 backgroundColor: Colors.transparent,
                 shadowColor: Colors.transparent,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(14.r),
                 ),
               ),
               child: Row(
@@ -367,13 +368,13 @@ class ContactBottomSheet extends StatelessWidget {
                   Icon(
                     Icons.email_outlined,
                     color: Theme.of(context).colorScheme.primary,
-                    size: 20,
+                    size: 20.sp,
                   ),
-                  SizedBox(width: 8),
+                  SizedBox(width: 8.w),
                   Text(
                     'Email'.tr,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.w600,
                       color: Theme.of(context).colorScheme.primary,
                     ),

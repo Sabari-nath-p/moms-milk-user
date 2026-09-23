@@ -50,7 +50,7 @@ class MyListingsScreen extends StatelessWidget {
             onRefresh: () => controller.fetchMyListings(isRefresh: true),
 
             child: ListView.builder(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16.w),
               itemCount: controller.listings.length,
               itemBuilder: (context, index) {
                 final item = controller.listings[index];
@@ -61,12 +61,12 @@ class MyListingsScreen extends StatelessWidget {
                     : "";
 
                 return Container(
-                  margin: const EdgeInsets.only(bottom: 14),
+                  margin: EdgeInsets.only(bottom: 14.h),
 
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(18),
-                    border: Border.all(color: Colors.grey.shade200, width: 1),
+                    borderRadius: BorderRadius.circular(18.r),
+                    border: Border.all(color: Colors.grey.shade200, width: 1.w),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.03),
@@ -76,30 +76,30 @@ class MyListingsScreen extends StatelessWidget {
                     ],
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(12),
+                    padding: EdgeInsets.all(12.w),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         /// IMAGE
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(14),
+                          borderRadius: BorderRadius.circular(14.r),
                           child: Image.network(
                             image,
-                            height: 110,
-                            width: 110,
+                            height: 110.h,
+                            width: 110.w,
                             fit: BoxFit.cover,
                             errorBuilder: (context, error, stackTrace) {
                               return Container(
-                                height: 110,
-                                width: 110,
+                                height: 110.h,
+                                width: 110.w,
                                 color: Colors.grey.shade200,
-                                child: const Icon(Icons.image, size: 35),
+                                child: Icon(Icons.image, size: 35.sp),
                               );
                             },
                           ),
                         ),
 
-                        const SizedBox(width: 12),
+                        SizedBox(width: 12.w),
 
                         /// DETAILS
                         Expanded(
@@ -115,9 +115,9 @@ class MyListingsScreen extends StatelessWidget {
                                       item["title"] ?? "",
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontWeight: FontWeight.w700,
-                                        fontSize: 16,
+                                        fontSize: 16.sp,
                                       ),
                                     ),
                                   ),
@@ -135,20 +135,20 @@ class MyListingsScreen extends StatelessWidget {
                                       );
                                     },
                                     child: Container(
-                                      padding: const EdgeInsets.all(6),
+                                      padding: EdgeInsets.all(6.w),
                                       decoration: BoxDecoration(
                                         color: Colors.blue.shade50,
-                                        borderRadius: BorderRadius.circular(8),
+                                        borderRadius: BorderRadius.circular(8.r),
                                       ),
                                       child: Icon(
                                         Icons.edit_outlined,
                                         color: Colors.blue.shade700,
-                                        size: 18,
+                                        size: 18.sp,
                                       ),
                                     ),
                                   ),
 
-                                  const SizedBox(width: 8),
+                                  SizedBox(width: 8.w),
 
                                   /// DELETE
                                   InkWell(
@@ -182,15 +182,15 @@ class MyListingsScreen extends StatelessWidget {
                                       );
                                     },
                                     child: Container(
-                                      padding: const EdgeInsets.all(6),
+                                      padding: EdgeInsets.all(6.w),
                                       decoration: BoxDecoration(
                                         color: Colors.red.shade50,
-                                        borderRadius: BorderRadius.circular(8),
+                                        borderRadius: BorderRadius.circular(8.r),
                                       ),
                                       child: Icon(
                                         Icons.delete_outline,
                                         color: Colors.red.shade700,
-                                        size: 18,
+                                        size: 18.sp,
                                       ),
                                     ),
                                   ),
@@ -208,16 +208,16 @@ class MyListingsScreen extends StatelessWidget {
                                 ),
                               ),
 
-                              const SizedBox(height: 10),
+                              SizedBox(height: 10.h),
 
                               /// PRICE + STATUS
                               Row(
                                 children: [
                                   Text(
                                     "₹${item["price"]}",
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 18,
+                                      fontSize: 18.sp,
                                       color: Color(0xFFE8453C),
                                     ),
                                   ),
@@ -225,20 +225,20 @@ class MyListingsScreen extends StatelessWidget {
                                   const Spacer(),
 
                                   Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 10,
-                                      vertical: 4,
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 10.w,
+                                      vertical: 4.h,
                                     ),
                                     decoration: BoxDecoration(
                                       color: item["status"] == "ACTIVE"
                                           ? Colors.green.shade100
                                           : Colors.orange.shade100,
-                                      borderRadius: BorderRadius.circular(20),
+                                      borderRadius: BorderRadius.circular(20.r),
                                     ),
                                     child: Text(
                                       _translateStatus(item["status"] ?? ""),
                                       style: TextStyle(
-                                        fontSize: 12,
+                                        fontSize: 12.sp,
                                         color: item["status"] == "ACTIVE"
                                             ? Colors.green
                                             : Colors.orange,
@@ -249,18 +249,18 @@ class MyListingsScreen extends StatelessWidget {
                                 ],
                               ),
 
-                              const SizedBox(height: 8),
+                              SizedBox(height: 8.h),
 
                               /// LOCATION
                               Row(
                                 children: [
                                   Icon(
                                     Icons.location_on_outlined,
-                                    size: 16,
+                                    size: 16.sp,
                                     color: Colors.grey.shade600,
                                   ),
 
-                                  const SizedBox(width: 4),
+                                  SizedBox(width: 4.w),
 
                                   Expanded(
                                     child: Text(
@@ -269,7 +269,7 @@ class MyListingsScreen extends StatelessWidget {
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
                                         color: Colors.grey.shade700,
-                                        fontSize: 12,
+                                        fontSize: 12.sp,
                                       ),
                                     ),
                                   ),

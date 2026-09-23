@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
@@ -24,7 +25,7 @@ class CreateBabyScreen extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.w400,
             fontFamily: "Inter",
-            fontSize: 22,
+            fontSize: 22.sp,
           ),
         ),
         backgroundColor: Colors.transparent,
@@ -34,10 +35,10 @@ class CreateBabyScreen extends StatelessWidget {
             Get.back();
           },
           child: Padding(
-            padding: EdgeInsets.all(10.0),
+            padding: EdgeInsets.all(10.r),
             child: Container(
-              height: 20,
-              width: 20,
+              height: 20.h,
+              width: 20.w,
               decoration: BoxDecoration(
                 color: Color.fromARGB(255, 239, 212, 214),
                 shape: BoxShape.circle,
@@ -45,7 +46,7 @@ class CreateBabyScreen extends StatelessWidget {
               child: Icon(
                 Icons.arrow_back_ios_new_outlined,
                 color: Color(0xFFF43F5E),
-                size: 20,
+                size: 20.sp,
               ),
             ),
           ),
@@ -64,14 +65,14 @@ class CreateBabyScreen extends StatelessWidget {
                 ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
               ),
             ),
-          SizedBox(width: 20),
+          SizedBox(width: 20.w),
         ],
       ),
       body: SafeArea(
         child: GetBuilder<CreateBabyController>(
           builder: (controller) {
             return SingleChildScrollView(
-              padding: EdgeInsets.all(24),
+              padding: EdgeInsets.all(24.r),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -83,7 +84,7 @@ class CreateBabyScreen extends StatelessWidget {
                     ),
                   ),
 
-                  SizedBox(height: 8),
+                  SizedBox(height: 8.h),
 
                   Text(
                     'Please provide information about your baby to complete your profile.'.tr,
@@ -92,7 +93,7 @@ class CreateBabyScreen extends StatelessWidget {
                     ).textTheme.bodyLarge?.copyWith(color: Colors.grey[600]),
                   ),
 
-                  SizedBox(height: 32),
+                  SizedBox(height: 32.h),
 
                   // Baby Name
                   TextField(
@@ -101,7 +102,7 @@ class CreateBabyScreen extends StatelessWidget {
   maxLines: 2,
   minLines: 1,
   keyboardType: TextInputType.name,
-  style: TextStyle(fontSize: 16),
+  style: TextStyle(fontSize: 16.sp),
                     decoration: InputDecoration(
                       labelText: 'Baby\'s Name *'.tr,
                       hintText: 'Enter baby\'s name'.tr,
@@ -110,15 +111,15 @@ class CreateBabyScreen extends StatelessWidget {
                         color: Color(0xffFDA4AF),
                       ),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
 
                         borderSide: BorderSide(color: Colors.grey[400]!),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                         borderSide: BorderSide(
                           color: Theme.of(context).colorScheme.primary,
                           width: 2,
@@ -127,17 +128,17 @@ class CreateBabyScreen extends StatelessWidget {
                     ),
                   ),
 
-                  SizedBox(height: 24),
+                  SizedBox(height: 24.h),
 
                   // Baby Gender
-                  Text( 
+                  Text(
                     'Gender'.tr,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
                   ),
 
-                  SizedBox(height: 12),
+                  SizedBox(height: 12.h),
 
                   Row(
                     children:
@@ -145,7 +146,7 @@ class CreateBabyScreen extends StatelessWidget {
                           final isSelected = controller.babyGender == gender;
                           return Expanded(
                             child: Padding(
-                              padding: EdgeInsets.only(right: 8),
+                              padding: EdgeInsets.only(right: 8.w),
                               child: FilterChip(
                                 label: SizedBox(
                                   width: double.infinity,
@@ -187,7 +188,7 @@ class CreateBabyScreen extends StatelessWidget {
                         }).toList(),
                   ),
 
-                  SizedBox(height: 24),
+                  SizedBox(height: 24.h),
 
                   // Delivery Date
                   DatePickerField(
@@ -232,7 +233,7 @@ class CreateBabyScreen extends StatelessWidget {
                   //         }).toList(),
                   //   ),
                   // ),
-                  SizedBox(height: 24),
+                  SizedBox(height: 24.h),
 
                   // Baby Weight
                   UnitInputField(
@@ -251,7 +252,7 @@ class CreateBabyScreen extends StatelessWidget {
                     ],
                   ),
                   //SizedBox(height: 24),
-                  SizedBox(height: 24),
+                  SizedBox(height: 24.h),
                   // Baby Height
                   UnitInputField(
                     controller: controller.babyHeightController,
@@ -269,10 +270,10 @@ class CreateBabyScreen extends StatelessWidget {
                     ],
                   ),
 
-                  SizedBox(height: 32),
+                  SizedBox(height: 32.h),
                   SizedBox(
                     width: double.infinity,
-                    height: 50,
+                    height: 50.h,
                     child: ElevatedButton(
                       onPressed:
                           controller.isLoading
@@ -283,7 +284,7 @@ class CreateBabyScreen extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.zero,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                         ),
                         backgroundColor: Colors.transparent,
                         shadowColor: Colors.transparent,
@@ -296,15 +297,15 @@ class CreateBabyScreen extends StatelessWidget {
                                     colors: [Colors.grey, Colors.grey],
                                   )
                                   : AppTheme.roundButtonGradient,
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                         ),
                         child: Container(
                           alignment: Alignment.center,
                           child:
                               controller.isLoading
                                   ? SizedBox(
-                                    height: 20,
-                                    width: 20,
+                                    height: 20.h,
+                                    width: 20.w,
                                     child: CircularProgressIndicator(
                                       valueColor: AlwaysStoppedAnimation(
                                         Colors.white,
@@ -315,7 +316,7 @@ class CreateBabyScreen extends StatelessWidget {
                                   : Text(
                                     'Save Baby Details'.tr,
                                     style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 16.sp,
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -325,16 +326,16 @@ class CreateBabyScreen extends StatelessWidget {
                     ),
                   ),
 
-                  SizedBox(height: 24),
+                  SizedBox(height: 24.h),
 
                   // Info Card
                   Container(
-                    padding: EdgeInsets.all(16),
+                    padding: EdgeInsets.all(16.r),
                     decoration: BoxDecoration(
                       color: Theme.of(
                         context,
                       ).colorScheme.primary.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(12.r),
                       border: Border.all(
                         color: Theme.of(
                           context,
@@ -347,7 +348,7 @@ class CreateBabyScreen extends StatelessWidget {
                           Icons.privacy_tip_outlined,
                           color: Theme.of(context).colorScheme.primary,
                         ),
-                        SizedBox(width: 12),
+                        SizedBox(width: 12.w),
                         Expanded(
                           child: Text(
                             'Baby information is kept private and secure. It\'s only used for matching and safety purposes.'.tr,

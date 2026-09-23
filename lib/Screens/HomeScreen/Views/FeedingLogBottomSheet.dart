@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -44,12 +45,17 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
+            topLeft: Radius.circular(20.r),
+            topRight: Radius.circular(20.r),
           ),
         ),
         child: Padding(
-          padding: EdgeInsets.only(left: 24, right: 24, top: 24, bottom: 24),
+          padding: EdgeInsets.only(
+            left: 24.w,
+            right: 24.w,
+            top: 24.h,
+            bottom: 24.h,
+          ),
           child: ConstrainedBox(
             constraints: BoxConstraints(
               maxHeight: MediaQuery.of(context).size.height * 0.85,
@@ -65,9 +71,9 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                       FaIcon(
                         FontAwesomeIcons.personBreastfeeding,
                         color: Theme.of(context).colorScheme.primary,
-                        size: 28,
+                        size: 28.sp,
                       ),
-                      SizedBox(width: 12),
+                      SizedBox(width: 12.w),
                       Text(
                         'Log Feeding'.tr,
                         style: Theme.of(context).textTheme.headlineSmall
@@ -81,7 +87,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                     ],
                   ),
 
-                  SizedBox(height: 24),
+                  SizedBox(height: 24.h),
 
                   DatePickerField(
                     title: "Select Feeding Date".tr,
@@ -91,7 +97,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                     },
                   ),
 
-                  SizedBox(height: 24),
+                  SizedBox(height: 24.h),
 
                   // Time Selection Row
                   Row(
@@ -108,7 +114,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                         ),
                       ),
 
-                      SizedBox(width: 12),
+                      SizedBox(width: 12.w),
                       // End Time (Optional)
                       Expanded(
                         child: TimePickerField(
@@ -122,7 +128,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                     ],
                   ),
 
-                  SizedBox(height: 16),
+                  SizedBox(height: 16.h),
 
                   // Feed Type Selection
                   Text(
@@ -132,7 +138,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                     ),
                   ),
 
-                  SizedBox(height: 12),
+                  SizedBox(height: 12.h),
                   Row(
                     children:
                         FeedType.values.map((type) {
@@ -140,7 +146,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
 
                           return Expanded(
                             child: Padding(
-                              padding: EdgeInsets.only(right: 8),
+                              padding: EdgeInsets.only(right: 8.w),
                               child: FilterChip(
                                 label: SizedBox(
                                   width: double.infinity,
@@ -203,14 +209,14 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
 
                   // Position Selection (only for breast feeding)
                   if (selectedFeedType == FeedType.BREAST) ...[
-                    SizedBox(height: 16),
+                    SizedBox(height: 16.h),
                     Text(
                       'Position'.tr,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    SizedBox(height: 12),
+                    SizedBox(height: 12.h),
                     Row(
                       children:
                           FeedPosition.values.map((position) {
@@ -218,7 +224,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
 
                             return Expanded(
                               child: Padding(
-                                padding: EdgeInsets.only(right: 8),
+                                padding: EdgeInsets.only(right: 8.w),
                                 child: FilterChip(
                                   label: SizedBox(
                                     width: double.infinity,
@@ -276,7 +282,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                     ),
                   ],
 
-                  SizedBox(height: 16),
+                  SizedBox(height: 16.h),
 
                   // Amount Field (Optional)
                   UnitInputField(
@@ -318,30 +324,30 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                   //     ),
                   //   ),
                   // ),
-                  if (false) SizedBox(height: 16),
+                  if (false) SizedBox(height: 16.h),
 
                   // Note Field (Optional)
                   if (false)
                     TextField(
                       controller: noteController,
                       maxLines: 3,
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: 16.sp),
                       decoration: InputDecoration(
                         labelText: 'Note (Optional)',
                         hintText:
                             'Add any additional notes about the feeding...',
                         prefixIcon: Icon(Icons.note_outlined),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                           borderSide: BorderSide(
                             color: Theme.of(context).colorScheme.outline,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                           borderSide: BorderSide(
                             color: Theme.of(context).colorScheme.primary,
                             width: 2,
@@ -350,7 +356,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                       ),
                     ),
 
-                  SizedBox(height: 24),
+                  SizedBox(height: 24.h),
 
                   // Action Buttons
                   Row(
@@ -359,9 +365,9 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                         child: OutlinedButton(
                           onPressed: () => Get.back(),
                           style: OutlinedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(vertical: 16),
+                            padding: EdgeInsets.symmetric(vertical: 16.h),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(12.r),
                             ),
                             side: BorderSide(
                               color: Theme.of(context).colorScheme.primary,
@@ -376,7 +382,7 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                           ),
                         ),
                       ),
-                      SizedBox(width: 16),
+                      SizedBox(width: 16.w),
                       Expanded(
                         child: ElevatedButton(
                           onPressed: _saveFeedingLog,
@@ -385,9 +391,9 @@ class _FeedingLogBottomSheetState extends State<FeedingLogBottomSheet> {
                                 Theme.of(context).colorScheme.primary,
                             foregroundColor:
                                 Theme.of(context).colorScheme.onPrimary,
-                            padding: EdgeInsets.symmetric(vertical: 16),
+                            padding: EdgeInsets.symmetric(vertical: 16.h),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(12.r),
                             ),
                           ),
                           child: Text(

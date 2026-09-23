@@ -53,7 +53,7 @@ class MarketplaceDetailsModel {
     required this.images,
     required this.count,
     required this.savedBy,
-    this.currencySymbol = '₹',
+    this.currencySymbol = '\$',
     this.currencyCode = 'INR',
   });
 
@@ -107,7 +107,7 @@ class MarketplaceDetailsModel {
           .toList(),
       count: MarketplaceCount.fromJson(json["_count"] ?? {}),
       savedBy: json["savedBy"] ?? [],
-      currencySymbol: json["currency"]?["symbol"] ?? '₹',
+      currencySymbol: json["currency"]?["symbol"] ?? '\$',
       currencyCode: json["currency"]?["code"] ?? 'INR',
     );
   }

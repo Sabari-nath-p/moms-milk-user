@@ -50,61 +50,61 @@ class _EditListingScreenState extends State<EditListingScreen> {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
       ),
       builder: (_) => SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
+          padding: EdgeInsets.fromLTRB(20.w, 8.h, 20.w, 20.h),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Center(
                 child: Container(
-                  width: 40,
-                  height: 4,
-                  margin: const EdgeInsets.symmetric(vertical: 12),
+                  width: 40.w,
+                  height: 4.h,
+                  margin: EdgeInsets.symmetric(vertical: 12.h),
                   decoration: BoxDecoration(
                     color: Colors.grey.shade300,
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                   ),
                 ),
               ),
               Text(
                 'Add Photo'.tr,
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.w700,
                   color: Color(0xFF1A1A1A),
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               ListTile(
-                contentPadding: const EdgeInsets.symmetric(horizontal: 4),
+                contentPadding: EdgeInsets.symmetric(horizontal: 4.w),
                 leading: Container(
-                  width: 44,
-                  height: 44,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     color: const Color(0xFFFFE5E3),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.camera_alt_outlined,
                     color: primaryRed,
-                    size: 22,
+                    size: 22.sp,
                   ),
                 ),
                 title: Text(
                   'Take a Photo'.tr,
-                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14.sp),
                 ),
                 subtitle: Text(
                   'Open camera and click a photo'.tr,
-                  style: TextStyle(fontSize: 12, color: Color(0xFF6B7280)),
+                  style: TextStyle(fontSize: 12.sp, color: Color(0xFF6B7280)),
                 ),
-                trailing: const Icon(
+                trailing: Icon(
                   Icons.arrow_forward_ios,
-                  size: 14,
+                  size: 14.sp,
                   color: Color(0xFF6B7280),
                 ),
                 onTap: () async {
@@ -118,33 +118,33 @@ class _EditListingScreenState extends State<EditListingScreen> {
                   }
                 },
               ),
-              const Divider(height: 1),
+              Divider(height: 1.h),
               ListTile(
-                contentPadding: const EdgeInsets.symmetric(horizontal: 4),
+                contentPadding: EdgeInsets.symmetric(horizontal: 4.w),
                 leading: Container(
-                  width: 44,
-                  height: 44,
+                  width: 44.w,
+                  height: 44.h,
                   decoration: BoxDecoration(
                     color: const Color(0xFFFFE5E3),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.photo_library_outlined,
                     color: primaryRed,
-                    size: 22,
+                    size: 22.sp,
                   ),
                 ),
                 title: Text(
                   'Choose from Gallery'.tr,
-                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14.sp),
                 ),
                 subtitle: Text(
                   'Select one or more photos'.tr,
-                  style: TextStyle(fontSize: 12, color: Color(0xFF6B7280)),
+                  style: TextStyle(fontSize: 12.sp, color: Color(0xFF6B7280)),
                 ),
-                trailing: const Icon(
+                trailing: Icon(
                   Icons.arrow_forward_ios,
-                  size: 14,
+                  size: 14.sp,
                   color: Color(0xFF6B7280),
                 ),
                 onTap: () async {
@@ -186,7 +186,7 @@ class _EditListingScreenState extends State<EditListingScreen> {
           iconTheme: const IconThemeData(color: Colors.black),
         ),
         bottomNavigationBar: Container(
-          padding: EdgeInsets.fromLTRB(14.w, 10, 14.w, 20),
+          padding: EdgeInsets.fromLTRB(14.w, 10.h, 14.w, 20.h),
           color: Colors.white,
           child: SizedBox(
             height: 52.h,
@@ -337,7 +337,7 @@ class _EditListingScreenState extends State<EditListingScreen> {
             decoration: BoxDecoration(
               color: _redLight,
               borderRadius: BorderRadius.circular(18.r),
-              border: Border.all(color: _redBorder, width: 1.5),
+              border: Border.all(color: _redBorder, width: 1.5.w),
             ),
             child: !hasImages
                 ? Column(
@@ -365,7 +365,7 @@ class _EditListingScreenState extends State<EditListingScreen> {
                           fontSize: 16.sp,
                         ),
                       ),
-                      SizedBox(height: 4),
+                      SizedBox(height: 4.h),
                       Text(
                         "At least 1 photo required",
                         style: TextStyle(
@@ -394,9 +394,9 @@ class _EditListingScreenState extends State<EditListingScreen> {
                               fit: BoxFit.cover,
                               errorBuilder: (_, __, ___) => Container(
                                 color: Colors.grey.shade200,
-                                child: const Icon(
+                                child: Icon(
                                   Icons.image_outlined,
-                                  size: 40,
+                                  size: 40.sp,
                                   color: Colors.grey,
                                 ),
                               ),
@@ -409,8 +409,8 @@ class _EditListingScreenState extends State<EditListingScreen> {
                       // FIX #2505: show delete only if more than 1 image;
                       // if only 1 remains, show disabled greyed-out button so user knows
                       Positioned(
-                        top: 10,
-                        right: 10,
+                        top: 10.h,
+                        right: 10.w,
                         child: images.length > 1
                             ? GestureDetector(
                                 onTap: () {
@@ -425,15 +425,15 @@ class _EditListingScreenState extends State<EditListingScreen> {
                                   controller.update();
                                 },
                                 child: Container(
-                                  padding: const EdgeInsets.all(6),
+                                  padding: EdgeInsets.all(6.w),
                                   decoration: const BoxDecoration(
                                     color: Colors.red,
                                     shape: BoxShape.circle,
                                   ),
-                                  child: const Icon(
+                                  child: Icon(
                                     Icons.close,
                                     color: Colors.white,
-                                    size: 18,
+                                    size: 18.sp,
                                   ),
                                 ),
                               )
@@ -447,20 +447,20 @@ class _EditListingScreenState extends State<EditListingScreen> {
                                     colorText: Colors.white,
                                     snackPosition: SnackPosition.BOTTOM,
                                     duration: const Duration(seconds: 2),
-                                    margin: const EdgeInsets.all(12),
-                                    borderRadius: 10,
+                                    margin: EdgeInsets.all(12.w),
+                                    borderRadius: 10.r,
                                   );
                                 },
                                 child: Container(
-                                  padding: const EdgeInsets.all(6),
+                                  padding: EdgeInsets.all(6.w),
                                   decoration: BoxDecoration(
                                     color: Colors.grey.shade400,
                                     shape: BoxShape.circle,
                                   ),
-                                  child: const Icon(
+                                  child: Icon(
                                     Icons.close,
                                     color: Colors.white,
-                                    size: 18,
+                                    size: 18.sp,
                                   ),
                                 ),
                               ),
@@ -469,23 +469,23 @@ class _EditListingScreenState extends State<EditListingScreen> {
                       // Dot indicators
                       if (images.length > 1)
                         Positioned(
-                          bottom: 10,
-                          left: 0,
-                          right: 0,
+                          bottom: 10.h,
+                          left: 0.w,
+                          right: 0.w,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: List.generate(images.length, (i) {
                               final active = currentImageIndex == i;
                               return AnimatedContainer(
                                 duration: const Duration(milliseconds: 250),
-                                margin: const EdgeInsets.symmetric(
-                                  horizontal: 3,
+                                margin: EdgeInsets.symmetric(
+                                  horizontal: 3.w,
                                 ),
-                                height: 8,
-                                width: active ? 20 : 8,
+                                height: 8.h,
+                                width: active ? 20.w : 8.w,
                                 decoration: BoxDecoration(
                                   color: active ? Colors.white : Colors.white54,
-                                  borderRadius: BorderRadius.circular(20),
+                                  borderRadius: BorderRadius.circular(20.r),
                                 ),
                               );
                             }),
@@ -495,22 +495,22 @@ class _EditListingScreenState extends State<EditListingScreen> {
                       // Image counter
                       if (images.length > 1)
                         Positioned(
-                          bottom: 10,
-                          right: 12,
+                          bottom: 10.h,
+                          right: 12.w,
                           child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 4,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 8.w,
+                              vertical: 4.h,
                             ),
                             decoration: BoxDecoration(
                               color: Colors.black45,
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(10.r),
                             ),
                             child: Text(
                               '${currentImageIndex + 1}/${images.length}',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 11,
+                                fontSize: 11.sp,
                               ),
                             ),
                           ),
@@ -527,10 +527,10 @@ class _EditListingScreenState extends State<EditListingScreen> {
             children: [
               Icon(
                 hasImages ? Icons.check_circle_outline : Icons.error_outline,
-                size: 14,
+                size: 14.sp,
                 color: hasImages ? Colors.green : primaryRed,
               ),
-              const SizedBox(width: 5),
+              SizedBox(width: 5.w),
               Text(
                 hasImages
                     ? '${images.length} photo${images.length == 1 ? '' : 's'} • Swipe to browse • Tap image to add more'
@@ -549,7 +549,7 @@ class _EditListingScreenState extends State<EditListingScreen> {
         if (images.length > 1) ...[
           SizedBox(height: 10.h),
           SizedBox(
-            height: 56,
+            height: 56.h,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: images.length,
@@ -564,26 +564,26 @@ class _EditListingScreenState extends State<EditListingScreen> {
                     );
                   },
                   child: Container(
-                    width: 56,
-                    height: 56,
-                    margin: const EdgeInsets.only(right: 8),
+                    width: 56.w,
+                    height: 56.h,
+                    margin: EdgeInsets.only(right: 8.w),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(8.r),
                       border: Border.all(
                         color: active ? primaryRed : Colors.grey.shade300,
-                        width: active ? 2 : 1,
+                        width: active ? 2.w : 1.w,
                       ),
                     ),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(7),
+                      borderRadius: BorderRadius.circular(7.r),
                       child: Image.network(
                         images[i]["url"],
                         fit: BoxFit.cover,
                         errorBuilder: (_, __, ___) => Container(
                           color: Colors.grey.shade200,
-                          child: const Icon(
+                          child: Icon(
                             Icons.image_outlined,
-                            size: 18,
+                            size: 18.sp,
                             color: Colors.grey,
                           ),
                         ),
@@ -625,7 +625,7 @@ class _EditListingScreenState extends State<EditListingScreen> {
 
   // ── Milk-only: locked "Category" field (always MILK) ────────────────────
   Widget _lockedMilkCategoryField() => Container(
-    height: 52,
+    height: 52.h,
     padding: EdgeInsets.symmetric(horizontal: 14.w),
     decoration: BoxDecoration(
       color: const Color(0xFFF5F5F5),
@@ -634,11 +634,11 @@ class _EditListingScreenState extends State<EditListingScreen> {
     ),
     child: Row(
       children: [
-        const Icon(Icons.water_drop_outlined, color: primaryRed, size: 18),
-        const SizedBox(width: 8),
-        const Text("Milk", style: TextStyle(fontSize: 14)),
+        Icon(Icons.water_drop_outlined, color: primaryRed, size: 18.sp),
+        SizedBox(width: 8.w),
+        Text("Milk", style: TextStyle(fontSize: 14.sp)),
         const Spacer(),
-        const Icon(Icons.lock_outline, color: Color(0xFF6B7280), size: 16),
+        Icon(Icons.lock_outline, color: Color(0xFF6B7280), size: 16.sp),
       ],
     ),
   );
@@ -656,18 +656,18 @@ class _EditListingScreenState extends State<EditListingScreen> {
     child: Row(
       children: [
         Container(
-          width: 36,
-          height: 36,
+          width: 36.w,
+          height: 36.h,
           decoration: BoxDecoration(
             color: controller.isDonation
                 ? const Color(0xFFEFFBF3)
                 : const Color(0xFFFFE5E3),
-            borderRadius: BorderRadius.circular(9),
+            borderRadius: BorderRadius.circular(9.r),
           ),
           child: Icon(
             Icons.volunteer_activism_outlined,
             color: controller.isDonation ? const Color(0xFF16A34A) : primaryRed,
-            size: 18,
+            size: 18.sp,
           ),
         ),
         SizedBox(width: 10.w),
@@ -706,12 +706,12 @@ class _EditListingScreenState extends State<EditListingScreen> {
     ),
     child: Row(
       children: [
-        const Icon(
+        Icon(
           Icons.card_giftcard_outlined,
           color: Color(0xFF16A34A),
-          size: 16,
+          size: 16.sp,
         ),
-        const SizedBox(width: 8),
+        SizedBox(width: 8.w),
         Text(
           "Free — ₹0 (Donation)",
           style: TextStyle(
@@ -748,7 +748,7 @@ class _EditListingScreenState extends State<EditListingScreen> {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14.r),
-          borderSide: const BorderSide(color: Color(0xFFE8453C), width: 1.5),
+          borderSide: BorderSide(color: Color(0xFFE8453C), width: 1.5.w),
         ),
       );
 }

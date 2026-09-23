@@ -1,5 +1,6 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:mommilk_user/Screens/TimeLineScreen/Service/TimelineController.dart';
@@ -21,7 +22,7 @@ class Activitytimelinescreen extends StatelessWidget {
       appBar: AppBar(
         centerTitle: false,
         title: Image.asset(fullIcon),
-        actions: [SizedBox(width: 10)],
+        actions: [SizedBox(width: 10.w)],
       ),
       body: ActivityTimeLineBody(),
     );

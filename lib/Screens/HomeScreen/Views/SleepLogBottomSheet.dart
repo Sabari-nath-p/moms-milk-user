@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Models/SleepLogModel.dart';
@@ -38,16 +39,16 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
+            topLeft: Radius.circular(20.r),
+            topRight: Radius.circular(20.r),
           ),
         ),
         child: Padding(
           padding: EdgeInsets.only(
-            left: 24,
-            right: 24,
-            top: 24,
-            bottom: MediaQuery.of(context).viewInsets.bottom + 24,
+            left: 24.w,
+            right: 24.w,
+            top: 24.h,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 24.h,
           ),
           child: SingleChildScrollView(
             child: Column(
@@ -60,9 +61,9 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                     Icon(
                       Icons.bedtime,
                       color: Theme.of(context).colorScheme.primary,
-                      size: 28,
+                      size: 28.sp,
                     ),
-                    SizedBox(width: 12),
+                    SizedBox(width: 12.w),
                     Text(
                       'Log Sleep'.tr,
                       style: Theme.of(context).textTheme.headlineSmall
@@ -78,7 +79,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                   ],
                 ),
 
-                SizedBox(height: 24),
+                SizedBox(height: 24.h),
 
                 // Date Selection
                 DatePickerField(
@@ -88,7 +89,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                   },
                 ),
 
-                SizedBox(height: 16),
+                SizedBox(height: 16.h),
 
                 // Time Selection Row
                 Row(
@@ -102,7 +103,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                         },
                       ),
                     ),
-                    SizedBox(width: 12),
+                    SizedBox(width: 12.w),
                     // End Time
                     Expanded(
                       child: TimePickerField(
@@ -167,7 +168,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                 //         );
                 //       }).toList(),
                 // ),
-                SizedBox(height: 16),
+                SizedBox(height: 16.h),
 
                 // Sleep Location Selection
                 Text(
@@ -177,7 +178,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                   ),
                 ),
 
-                SizedBox(height: 12),
+                SizedBox(height: 12.h),
 
                 Row(
                   children:
@@ -185,7 +186,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                         final isSelected = selectedLocation == location;
                         return Expanded(
                           child: Padding(
-                            padding: EdgeInsets.only(right: 8),
+                            padding: EdgeInsets.only(right: 8.w),
                             child: FilterChip(
                               label: SizedBox(
                                 width: double.infinity,
@@ -231,27 +232,27 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                       }).toList(),
                 ),
 
-                if (false) SizedBox(height: 16),
+                if (false) SizedBox(height: 16.h),
 
                 // Note Field
                 if (false)
                   TextField(
                     controller: noteController,
                     maxLines: 3,
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: 16.sp),
                     decoration: InputDecoration(
                       labelText: 'Note (Optional)',
                       hintText: 'Add any additional notes about the sleep...',
                       prefixIcon: Icon(Icons.note_outlined),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                         borderSide: BorderSide(color: Colors.grey[300]!),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                         borderSide: BorderSide(
                           color: Theme.of(context).colorScheme.primary,
                           width: 2,
@@ -260,7 +261,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                     ),
                   ),
 
-                SizedBox(height: 24),
+                SizedBox(height: 24.h),
 
                 // Action Buttons
                 Row(
@@ -269,9 +270,9 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                       child: OutlinedButton(
                         onPressed: () => Get.back(),
                         style: OutlinedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(vertical: 16),
+                          padding: EdgeInsets.symmetric(vertical: 16.h),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(12.r),
                           ),
                           side: BorderSide(
                             color: Theme.of(context).colorScheme.primary,
@@ -286,7 +287,7 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                         ),
                       ),
                     ),
-                    SizedBox(width: 16),
+                    SizedBox(width: 16.w),
                     Expanded(
                       child: ElevatedButton(
                         onPressed: _saveSleepLog,
@@ -294,9 +295,9 @@ class _SleepLogBottomSheetState extends State<SleepLogBottomSheet> {
                           backgroundColor:
                               Theme.of(context).colorScheme.primary,
                           foregroundColor: Colors.white,
-                          padding: EdgeInsets.symmetric(vertical: 16),
+                          padding: EdgeInsets.symmetric(vertical: 16.h),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(12.r),
                           ),
                         ),
                         child: Text(

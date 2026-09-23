@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
@@ -119,7 +120,7 @@ class MainDashboard extends StatelessWidget {
                   title: Text(
                     "My Connections".tr,
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 20.sp,
                       fontWeight: FontWeight.w600,
                       color: Colors.black,
                       fontFamily: "Inter",
@@ -135,13 +136,13 @@ class MainDashboard extends StatelessWidget {
                 if (states.contains(WidgetState.selected)) {
                   return TextStyle(
                     color: AppTheme.primaryColor,
-                    fontSize: 13,
+                    fontSize: 13.sp,
                     fontWeight: FontWeight.w500,
                   );
                 }
                 return TextStyle(
                   color: Colors.black.withOpacity(.6),
-                  fontSize: 12,
+                  fontSize: 12.sp,
                   fontWeight: FontWeight.w500,
                 );
               }),
@@ -160,12 +161,12 @@ class MainDashboard extends StatelessWidget {
                 NavigationDestination(
                   icon: FaIcon(
                     FontAwesomeIcons.house,
-                    size: 20,
+                    size: 20.sp,
                     color: Colors.black.withOpacity(.5),
                   ),
                   selectedIcon: FaIcon(
                     FontAwesomeIcons.house,
-                    size: 20,
+                    size: 20.sp,
                     color: AppTheme.primaryColor,
                   ),
                   label: 'Home'.tr,
@@ -173,12 +174,12 @@ class MainDashboard extends StatelessWidget {
                 NavigationDestination(
                   icon: FaIcon(
                     FontAwesomeIcons.squarePollVertical,
-                    size: 20,
+                    size: 20.sp,
                     color: Colors.black.withOpacity(.3),
                   ),
                   selectedIcon: FaIcon(
                     FontAwesomeIcons.squarePollVertical,
-                    size: 20,
+                    size: 20.sp,
                     color: AppTheme.primaryColor,
                   ),
                   label: 'Market'.tr,
@@ -187,20 +188,20 @@ class MainDashboard extends StatelessWidget {
                   icon: GetBuilder<Homecontroller>(
                     builder: (__) => Badge(
                       label: Text(__.pendingRequest.toString()),
-                      textStyle: TextStyle(fontSize: 10),
-                      largeSize: 10,
-                      smallSize: 10,
+                      textStyle: TextStyle(fontSize: 10.sp),
+                      largeSize: 10.r,
+                      smallSize: 10.r,
                       isLabelVisible: __.pendingRequest != 0,
                       child: Image.asset(
                         "lib/Assets/AppIcon.png",
-                        width: 25,
+                        width: 25.w,
                         color: Colors.black.withOpacity(.3),
                       ),
                     ),
                   ),
                   selectedIcon: Image.asset(
                     "lib/Assets/AppIcon.png",
-                    width: 25,
+                    width: 25.w,
                     color: AppTheme.primaryColor,
                   ),
                   label: 'Connect'.tr,
@@ -209,20 +210,20 @@ class MainDashboard extends StatelessWidget {
                   icon: GetBuilder<Chatcontroller>(
                     builder: (__) => Badge(
                       label: Text(__.unReadMessage.toString()),
-                      textStyle: TextStyle(fontSize: 10),
-                      largeSize: 10,
-                      smallSize: 6,
+                      textStyle: TextStyle(fontSize: 10.sp),
+                      largeSize: 10.r,
+                      smallSize: 6.r,
                       isLabelVisible: __.unReadMessage != 0,
                       child: FaIcon(
                         FontAwesomeIcons.telegram,
-                        size: 25,
+                        size: 25.sp,
                         color: Colors.black.withOpacity(.3),
                       ),
                     ),
                   ),
                   selectedIcon: FaIcon(
                     FontAwesomeIcons.telegram,
-                    size: 20,
+                    size: 20.sp,
                     color: AppTheme.primaryColor,
                   ),
                   label: 'Message'.tr,
@@ -230,12 +231,12 @@ class MainDashboard extends StatelessWidget {
                 NavigationDestination(
                   icon: FaIcon(
                     FontAwesomeIcons.baby,
-                    size: 20,
+                    size: 20.sp,
                     color: Colors.black.withOpacity(.3),
                   ),
                   selectedIcon: FaIcon(
                     FontAwesomeIcons.baby,
-                    size: 20,
+                    size: 20.sp,
                     color: AppTheme.primaryColor,
                   ),
                   label: 'Profile'.tr,
@@ -260,7 +261,7 @@ class MainDashboard extends StatelessWidget {
         children: [
           Image.asset(
             "lib/Assets/fullIcon.png",
-            height: 200,
+            height: 200.h,
             color: AppTheme.primaryColor,
           ),
         ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'package:mommilk_user/Screens/MarketScreen/Additem_screen.dart';
@@ -17,60 +18,60 @@ void showListingTypeSheet(BuildContext context, {VoidCallback? onListed}) {
     context: context,
     backgroundColor: Colors.white,
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
     ),
     builder: (sheetContext) => SafeArea(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
+        padding: EdgeInsets.fromLTRB(20.w, 8.h, 20.w, 20.h),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Center(
               child: Container(
-                width: 40,
-                height: 4,
-                margin: const EdgeInsets.symmetric(vertical: 12),
+                width: 40.w,
+                height: 4.h,
+                margin: EdgeInsets.symmetric(vertical: 12.h),
                 decoration: BoxDecoration(
                   color: Colors.grey.shade300,
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(10.r),
                 ),
               ),
             ),
             Text(
               'What would you like to list?'.tr,
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.w700,
                 color: Colors.black,
               ),
             ),
-            SizedBox(height: 16),
+            SizedBox(height: 16.h),
             ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 4),
+              contentPadding: EdgeInsets.symmetric(horizontal: 4.w),
               leading: Container(
-                width: 44,
-                height: 44,
+                width: 44.w,
+                height: 44.w,
                 decoration: BoxDecoration(
                   color: _kRedLight,
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(10.r),
                 ),
                 child: Icon(
                   Icons.shopping_bag_outlined,
                   color: _kRed,
-                  size: 22,
+                  size: 22.sp,
                 ),
               ),
               title: Text(
                 'Baby Item'.tr,
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14.sp),
               ),
               subtitle: Text(
                 'List a pre-loved baby product'.tr,
-                style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+                style: TextStyle(fontSize: 12.sp, color: Colors.grey.shade600),
               ),
               trailing: Icon(
                 Icons.arrow_forward_ios,
-                size: 14,
+                size: 14.sp,
                 color: Colors.grey.shade400,
               ),
               onTap: () {
@@ -82,27 +83,27 @@ void showListingTypeSheet(BuildContext context, {VoidCallback? onListed}) {
             ),
             Divider(height: 1),
             ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 4),
+              contentPadding: EdgeInsets.symmetric(horizontal: 4.w),
               leading: Container(
-                width: 44,
-                height: 44,
+                width: 44.w,
+                height: 44.w,
                 decoration: BoxDecoration(
                   color: _kRedLight,
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(10.r),
                 ),
-                child: Icon(Icons.water_drop_outlined, color: _kRed, size: 22),
+                child: Icon(Icons.water_drop_outlined, color: _kRed, size: 22.sp),
               ),
               title: Text(
                 'Breast Milk'.tr,
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14.sp),
               ),
               subtitle: Text(
                 'List milk to sell or donate for free'.tr,
-                style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+                style: TextStyle(fontSize: 12.sp, color: Colors.grey.shade600),
               ),
               trailing: Icon(
                 Icons.arrow_forward_ios,
-                size: 14,
+                size: 14.sp,
                 color: Colors.grey.shade400,
               ),
               onTap: () {

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/state_manager.dart';
@@ -26,7 +27,7 @@ class OnboardingScreen extends StatelessWidget {
         title: Text(
           'Setup Your Profile'.tr,
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 20.sp,
             fontWeight: FontWeight.w600,
             color: Colors.black,
             fontFamily: "Inter",
@@ -43,7 +44,7 @@ class OnboardingScreen extends StatelessWidget {
               children: [
                 // Progress Indicator
                 Container(
-                  padding: EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16.r),
                   child: Column(
                     children: [
                       Row(
@@ -61,7 +62,7 @@ class OnboardingScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(height: 8),
+                      SizedBox(height: 8.h),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -85,24 +86,24 @@ class OnboardingScreen extends StatelessWidget {
 
                 // Navigation Buttons
                 Container(
-                  padding: EdgeInsets.all(16),
-                  margin: EdgeInsets.only(bottom: 20, left: 16, right: 16),
+                  padding: EdgeInsets.all(16.r),
+                  margin: EdgeInsets.only(bottom: 20.h, left: 16.w, right: 16.w),
                   child: Row(
                     children: [
-                     
-                      if (controller.currentStep > 0) 
+
+                      if (controller.currentStep > 0)
                       Expanded(
                         child: OutlinedButton(
                           onPressed: controller.previousStep,
                           child: Text('Previous'.tr),
                         ),
                       ),
-                    if (controller.currentStep > 0) SizedBox(width: 16),
+                    if (controller.currentStep > 0) SizedBox(width: 16.w),
                     Expanded(
                       child: Container(
                         decoration: BoxDecoration(
                           gradient: AppTheme.roundButtonGradient,
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(8.r),
                         ),
                         child: ElevatedButton(
                          onPressed: controller.isLoading ? null : () {
@@ -113,7 +114,7 @@ class OnboardingScreen extends StatelessWidget {
                             backgroundColor: Colors.transparent,
                             shadowColor: Colors.transparent,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(8.r),
                             ),
                           ),
                           child: ElevatedButton(
@@ -128,14 +129,14 @@ class OnboardingScreen extends StatelessWidget {
                               backgroundColor: Colors.transparent,
                               shadowColor: Colors.transparent,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
+                                borderRadius: BorderRadius.circular(8.r),
                               ),
                             ),
                             child:
                                 controller.isLoading
                                     ? SizedBox(
-                                      height: 20,
-                                      width: 20,
+                                      height: 20.h,
+                                      width: 20.w,
                                       child: CircularProgressIndicator(
                                         strokeWidth: 2,
                                         color: Colors.white,

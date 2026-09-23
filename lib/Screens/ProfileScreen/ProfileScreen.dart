@@ -36,7 +36,7 @@ class ProfileScreen extends StatelessWidget {
             title: Text(
               "Profile".tr,
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 20.sp,
                 fontWeight: FontWeight.w600,
                 color: Colors.black,
                 fontFamily: "Inter",
@@ -54,20 +54,20 @@ class ProfileScreen extends StatelessWidget {
             child: CustomScrollView(
               slivers: [
                 SliverPadding(
-                  padding: EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16.h),
                   sliver: SliverList(
                     delegate: SliverChildListDelegate([
                       _buildUserCard(context),
-                      SizedBox(height: 20),
+                      SizedBox(height: 20.h),
                       if (user.userType == "DONOR")
                         buildUserTypeSection(context),
-                      SizedBox(height: 20),
+                      SizedBox(height: 20.h),
                       HBabyCard(),
 
-                      SizedBox(height: 20),
+                      SizedBox(height: 20.h),
 
                       _buildSettingsSection(context),
-                      SizedBox(height: 20),
+                      SizedBox(height: 20.h),
 
                       _buildAppInfoSection(context),
                     ]),
@@ -83,77 +83,122 @@ class ProfileScreen extends StatelessWidget {
 
   // ------- your existing widgets below (NO CHANGE) ---------
 
-  Widget _buildUserCard(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        gradient: AppTheme.CardGradient,
-        border: Border.all(color: AppTheme.borderColor, width: 1.5),
+Widget _buildUserCard(BuildContext context) {
+  return Container(
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(16.r),
+      gradient: AppTheme.CardGradient,
+      border: Border.all(
+        color: AppTheme.borderColor,
+        width: 1.5.w,
       ),
-      child: Padding(
-        padding: EdgeInsets.all(24),
-        child: Column(
-          children: [
-            Container(
-              width: 80,
-              height: 80,
-              decoration: BoxDecoration(
-                gradient: AppTheme.buttonCardGradient,
-                shape: BoxShape.circle,
-              ),
-              child: ClipOval(
-                child: (user.profilePhoto != null &&
-                        user.profilePhoto!.isNotEmpty)
-                    ? Image.network(
-                        user.profilePhoto!,
-                        width: 80,
-                        height: 80,
-                        fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) =>
-                            Icon(Icons.person, size: 40, color: Colors.white),
-                      )
-                    : Icon(Icons.person, size: 40, color: Colors.white),
-              ),
-            ),
-            SizedBox(height: 16),
-            Text('${user.name}', style: Theme.of(context).textTheme.bodyLarge),
-            Text(
-              '${user.email}',
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-            SizedBox(height: 20),
-            SizedBox(
-              width: double.infinity,
-              child: OutlinedButton.icon(
-                onPressed: () => _showEditProfileDialog(context),
-                icon: Icon(Icons.edit, size: 18),
-                label: Text('Edit Profile'.tr),
-                style: OutlinedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+    ),
+    child: Stack(
+      children: [
+        Padding(
+          padding:  EdgeInsets.symmetric(
+            horizontal: 20.w,
+            vertical: 28.h,
+          ),
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Profile Image
+                Container(
+                  width: 80.w,
+                  height: 80.h,
+                  decoration: BoxDecoration(
+                    gradient: AppTheme.buttonCardGradient,
+                    shape: BoxShape.circle,
+                  ),
+                  child: ClipOval(
+                    child: (user.profilePhoto != null &&
+                            user.profilePhoto!.isNotEmpty)
+                        ? Image.network(
+                            user.profilePhoto!,
+                            width: 80.w,
+                            height: 80.h,
+                            fit: BoxFit.cover,
+                            errorBuilder: (_, __, ___) => Icon(
+                              Icons.person,
+                              size: 40.sp,
+                              color: Colors.white,
+                            ),
+                          )
+                        : Icon(
+                            Icons.person,
+                            size: 40.sp,
+                            color: Colors.white,
+                          ),
                   ),
                 ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 
+             SizedBox(height: 16.h),
+
+                // User Name
+                Text(
+                  user.name ?? '',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+
+             SizedBox(height: 4.h),
+
+                // User Email
+                Text(
+                  user.email ?? '',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ],
+            ),
+          ),
+        ),
+
+        // Edit Button
+        Positioned(
+          top: 10.h,
+          right: 10.w,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: AppTheme.buttonCardGradient,
+              borderRadius: BorderRadius.circular(10.r),
+            ),
+            child: IconButton(
+              onPressed: () =>
+                  _showEditProfileDialog(context),
+              icon:  Icon(
+                Icons.edit,
+                size: 16.sp,
+                color: Colors.white,
+              ),
+              constraints:  BoxConstraints(
+                minWidth: 24.sp,
+                minHeight: 24.sp,
+              ),
+              padding: EdgeInsets.zero,
+              tooltip: 'Edit Profile'.tr,
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
   Widget _buildSettingsSection(
     BuildContext context,
     // HomeController controller,
   ) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         color: Theme.of(context).primaryColor.withOpacity(.05),
-        border: Border.all(color: Color(0xFFFFE4E6), width: 1.5),
+        border: Border.all(color: Color(0xFFFFE4E6), width: 1.5.w),
       ),
       child: Padding(
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.all(20.h),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -175,7 +220,7 @@ class ProfileScreen extends StatelessWidget {
               },
             ),
 
-            Divider(height: 24),
+            Divider(height: 24.h),
             _buildSettingItem(
               context,
               'Language'.tr,
@@ -185,7 +230,7 @@ class ProfileScreen extends StatelessWidget {
                 _showLanguageDialog(context);
               },
             ),
-            Divider(height: 24),
+            Divider(height: 24.h),
             // _buildSettingItem(
             //   context,
             //   'Notifications',
@@ -203,7 +248,7 @@ class ProfileScreen extends StatelessWidget {
                 launchUrl(Uri.parse("https://momsmilk.app/privacy-policy"));
               },
             ),
-            Divider(height: 24),
+            Divider(height: 24.h),
             _buildSettingItem(
               context,
               'Rate Us'.tr,
@@ -217,7 +262,7 @@ class ProfileScreen extends StatelessWidget {
                 }
               },
             ),
-            Divider(height: 24),
+            Divider(height: 24.h),
             _buildSettingItem(
               context,
               'Help & Support'.tr,
@@ -227,7 +272,7 @@ class ProfileScreen extends StatelessWidget {
                 launchUrl(Uri.parse("https://momsmilk.app/privacy-policy"));
               },
             ),
-            Divider(height: 24),
+            Divider(height: 24.h),
             _buildSettingItem(
               context,
               'Delete Account'.tr,
@@ -237,7 +282,7 @@ class ProfileScreen extends StatelessWidget {
                 _showDeleteAccount(context);
               },
             ),
-            Divider(height: 24),
+            Divider(height: 24.h),
             _buildSettingItem(
               context,
               'Logout'.tr,
@@ -266,21 +311,21 @@ class ProfileScreen extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(8.r),
         onTap: onTap,
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 8),
+          padding: EdgeInsets.symmetric(vertical: 8.h),
           child: Row(
             children: [
               Container(
-                padding: EdgeInsets.all(8),
+                padding: EdgeInsets.all(8.sp),
                 decoration: BoxDecoration(
                   color: settingColor.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(8.r),
                 ),
-                child: Icon(icon, color: settingColor, size: 20),
+                child: Icon(icon, color: settingColor, size: 20.sp),
               ),
-              SizedBox(width: 12),
+              SizedBox(width: 12.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -314,12 +359,12 @@ class ProfileScreen extends StatelessWidget {
   Widget _buildAppInfoSection(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         color: Theme.of(context).primaryColor.withOpacity(.05),
-        border: Border.all(color: Color(0xFFFFE4E6), width: 1.5),
+        border: Border.all(color: Color(0xFFFFE4E6), width: 1.5.w),
       ),
       child: Padding(
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.all(20.sp),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -329,7 +374,7 @@ class ProfileScreen extends StatelessWidget {
                 context,
               ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
             ),
-            SizedBox(height: 16),
+            SizedBox(height: 16.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -347,7 +392,7 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 12),
+            SizedBox(height: 12.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -362,7 +407,7 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 20.h),
             SizedBox(
               width: double.infinity,
               child: OutlinedButton(
@@ -376,9 +421,9 @@ class ProfileScreen extends StatelessWidget {
                   ), // Text color white on colored background
                 ),
                 style: OutlinedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 12),
+                  padding: EdgeInsets.symmetric(vertical: 12.h),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                   backgroundColor: Color(
                     0xFFFB7185,
@@ -399,7 +444,7 @@ class ProfileScreen extends StatelessWidget {
     final source = await showModalBottomSheet<ImageSource>(
       context: context,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
       ),
       builder: (sheetContext) {
         return SafeArea(
@@ -439,16 +484,16 @@ class ProfileScreen extends StatelessWidget {
     filled: true,
     fillColor: Colors.grey.shade50,
     border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(12.r),
       borderSide: BorderSide(color: Colors.grey.shade300),
     ),
     enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(12.r),
       borderSide: BorderSide(color: Colors.grey.shade300),
     ),
     focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12),
-      borderSide: BorderSide(color: _pink, width: 1.5),
+      borderRadius: BorderRadius.circular(12.r),
+      borderSide: BorderSide(color: _pink, width: 1.5.w),
     ),
   );
 
@@ -464,26 +509,26 @@ class ProfileScreen extends StatelessWidget {
       builder: (context) => Container(
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
         ),
         child: SingleChildScrollView(
           padding: EdgeInsets.fromLTRB(
-            20,
+            20.w,
             0,
-            20,
-            MediaQuery.of(context).viewInsets.bottom + 20,
+            20.w,
+            MediaQuery.of(context).viewInsets.bottom + 20.h,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Center(
                 child: Container(
-                  margin: EdgeInsets.symmetric(vertical: 12),
-                  width: 36,
-                  height: 4,
+                  margin: EdgeInsets.symmetric(vertical: 12.h),
+                  width: 36.w,
+                  height: 4.h,
                   decoration: BoxDecoration(
                     color: Colors.grey.shade300,
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                   ),
                 ),
               ),
@@ -492,7 +537,7 @@ class ProfileScreen extends StatelessWidget {
                   Text(
                     'Edit Profile'.tr,
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w700,
                       color: Colors.black,
                     ),
@@ -502,11 +547,11 @@ class ProfileScreen extends StatelessWidget {
                     padding: EdgeInsets.zero,
                     constraints: BoxConstraints(),
                     onPressed: () => Navigator.pop(context),
-                    icon: Icon(Icons.close, size: 22),
+                    icon: Icon(Icons.close, size: 22.sp),
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 20.h),
               GetBuilder<Homecontroller>(
                 builder: (controller) => Center(
                   child: GestureDetector(
@@ -516,15 +561,15 @@ class ProfileScreen extends StatelessWidget {
                     child: Stack(
                       children: [
                         CircleAvatar(
-                          radius: 40,
+                          radius: 40.r,
                           backgroundColor: Colors.grey[200],
                           child: ClipOval(
                             child: controller.isUploadingProfilePhoto
                                 ? SizedBox(
-                                    width: 40,
-                                    height: 40,
+                                    width: 40.w,
+                                    height: 40.h,
                                     child: CircularProgressIndicator(
-                                      strokeWidth: 2,
+                                      strokeWidth: 2.w,
                                       color: _pink,
                                     ),
                                   )
@@ -532,18 +577,18 @@ class ProfileScreen extends StatelessWidget {
                                           user.profilePhoto!.isNotEmpty)
                                 ? Image.network(
                                     user.profilePhoto!,
-                                    width: 80,
-                                    height: 80,
+                                    width: 80.w,
+                                    height: 80.h,
                                     fit: BoxFit.cover,
                                     errorBuilder: (_, __, ___) => Icon(
                                       Icons.person_outline,
-                                      size: 40,
+                                      size: 40.sp,
                                       color: Colors.grey[500],
                                     ),
                                   )
                                 : Icon(
                                     Icons.person_outline,
-                                    size: 40,
+                                    size: 40.sp,
                                     color: Colors.grey[500],
                                   ),
                           ),
@@ -552,15 +597,15 @@ class ProfileScreen extends StatelessWidget {
                           bottom: 0,
                           right: 0,
                           child: Container(
-                            padding: EdgeInsets.all(5),
+                            padding: EdgeInsets.all(5.sp),
                             decoration: BoxDecoration(
                               color: AppTheme.buttonCardGradient.colors.first,
                               shape: BoxShape.circle,
-                              border: Border.all(color: Colors.white, width: 2),
+                              border: Border.all(color: Colors.white, width: 2.w),
                             ),
                             child: Icon(
                               Icons.camera_alt,
-                              size: 14,
+                              size: 14.sp,
                               color: Colors.white,
                             ),
                           ),
@@ -570,38 +615,38 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 20.h),
               TextField(
                 controller: nameController,
                 textInputAction: TextInputAction.next,
                 decoration: _editFieldDecoration('Name'.tr),
               ),
-              SizedBox(height: 12),
+              SizedBox(height: 12.h),
               TextField(
                 controller: emailController,
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.emailAddress,
                 decoration: _editFieldDecoration('Email'.tr),
               ),
-              SizedBox(height: 12),
+              SizedBox(height: 12.h),
               TextField(
                 controller: phoneController,
                 textInputAction: TextInputAction.done,
                 keyboardType: TextInputType.phone,
                 decoration: _editFieldDecoration('Phone'.tr),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 20.h),
               Row(
                 children: [
                   Expanded(
                     child: SizedBox(
-                      height: 46,
+                      height: 46.h,
                       child: OutlinedButton(
                         onPressed: () => Navigator.pop(context),
                         style: OutlinedButton.styleFrom(
                           side: BorderSide(color: Colors.grey.shade300),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(12.r),
                           ),
                         ),
                         child: Text(
@@ -614,10 +659,10 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(width: 12),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: SizedBox(
-                      height: 46,
+                      height: 46.h,
                       child: GetBuilder<Homecontroller>(
                         builder: (controller) => ElevatedButton(
                           onPressed: controller.isSavingProfile
@@ -643,15 +688,15 @@ class ProfileScreen extends StatelessWidget {
                             backgroundColor: _pink,
                             elevation: 0,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(12.r),
                             ),
                           ),
                           child: controller.isSavingProfile
                               ? SizedBox(
-                                  width: 20,
-                                  height: 20,
+                                  width: 20.w,
+                                  height: 20.h,
                                   child: CircularProgressIndicator(
-                                    strokeWidth: 2,
+                                    strokeWidth: 2.w,
                                     color: Colors.white,
                                   ),
                                 )
@@ -724,23 +769,23 @@ class ProfileScreen extends StatelessWidget {
     Get.bottomSheet(
       SafeArea(
         child: Container(
-          padding: const EdgeInsets.all(20),
-          decoration: const BoxDecoration(
+          padding: EdgeInsets.all(20.sp),
+          decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
                 "Select Language".tr,
-                style: const TextStyle(
-                  fontSize: 18,
+                style: TextStyle(
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
                 ),
               ),
 
-              const SizedBox(height: 20),
+              SizedBox(height: 20.h),
 
               ListTile(
                 title: Text("English".tr),
@@ -786,13 +831,13 @@ class ProfileScreen extends StatelessWidget {
       applicationName: 'Mom\'s Milk'.tr,
       applicationVersion: '1.0.7',
       applicationIcon: Container(
-        width: 64,
-        height: 64,
+        width: 64.w,
+        height: 64.h,
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.primary,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(16.r),
         ),
-        child: Icon(Icons.child_care, color: Colors.white, size: 32),
+        child: Icon(Icons.child_care, color: Colors.white, size: 32.sp),
       ),
       children: [
         Text(
@@ -811,8 +856,8 @@ class ProfileScreen extends StatelessWidget {
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           title: Row(
             children: [
-              Icon(Icons.logout, color: Colors.red, size: 24),
-              SizedBox(width: 12),
+              Icon(Icons.logout, color: Colors.red, size: 24.sp),
+              SizedBox(width: 12.w),
               Text('Logout'.tr),
             ],
           ),
@@ -849,12 +894,12 @@ class ProfileScreen extends StatelessWidget {
         Center(
           child: Card(
             child: Padding(
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(20.sp),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   CircularProgressIndicator(),
-                  SizedBox(height: 16),
+                  SizedBox(height: 16.h),
                   Text('Account Delete'.tr),
                 ],
               ),
@@ -910,12 +955,12 @@ Future<void> _performLogout(BuildContext context) async {
       Center(
         child: Card(
           child: Padding(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(20.sp),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 CircularProgressIndicator(),
-                SizedBox(height: 16),
+                SizedBox(height: 16.h),
                 Text('Logging out...'.tr),
               ],
             ),
@@ -959,16 +1004,16 @@ Future<void> _performLogout(BuildContext context) async {
 Widget buildUserTypeSection(BuildContext context) {
   return Container(
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(16.r),
       color: Theme.of(context).primaryColor.withOpacity(.1),
-      border: Border.all(color: AppTheme.borderColor, width: 1.5),
+      border: Border.all(color: AppTheme.borderColor, width: 1.5.w),
     ),
     child: Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 16),
+          SizedBox(height: 16.h),
 
           // Show switch only for DONOR
           if (user.userType == "DONOR") ...[
@@ -984,7 +1029,7 @@ Widget buildUserTypeSection(BuildContext context) {
                 subtitle: Text(
                   'Allow others to see your donation availability'.tr,
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize: 12.sp,
                     color: Colors.black,
                     fontWeight: FontWeight.w500,
                   ),

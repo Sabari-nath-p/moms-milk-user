@@ -94,6 +94,7 @@ class SellerListingItem {
   final DateTime updatedAt;
   final List<ListingImage> images;
   final int savedByCount;
+  final String currencySymbol;
 
   SellerListingItem({
     required this.id,
@@ -119,6 +120,7 @@ class SellerListingItem {
     required this.updatedAt,
     this.images = const [],
     this.savedByCount = 0,
+    this.currencySymbol = '\$',
   });
 
   /// Discount % from originPrice vs price — same formula as the other
@@ -180,6 +182,7 @@ class SellerListingItem {
           .map((e) => ListingImage.fromJson(e))
           .toList(),
       savedByCount: (json["_count"] as Map<String, dynamic>?)?["savedBy"] ?? 0,
+      currencySymbol: json["currency"]?["symbol"] ?? '\$',
     );
   }
 }

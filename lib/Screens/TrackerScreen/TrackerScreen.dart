@@ -1,6 +1,7 @@
 import 'package:date_picker_timeline/extra/color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mommilk_user/Screens/TimeLineScreen/View/ActivityTimeLineScreen.dart';
 import 'package:mommilk_user/Screens/TrackerScreen/Service/TrackerController.dart';
@@ -15,12 +16,12 @@ class Trackerscreen extends StatelessWidget {
   Map<int, Widget> buildMenus(int selectedIndex, BuildContext context) {
     return {
       0: Container(
-        width: 200,
-        height: 46,
+        width: 200.w,
+        height: 46.h,
         decoration: BoxDecoration(
           color:
               selectedIndex == 0 ? AppTheme.primaryColor : Colors.transparent,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(12.r),
         ),
         child: Center(
           child: Text(
@@ -36,12 +37,12 @@ class Trackerscreen extends StatelessWidget {
         ),
       ),
       1: Container(
-        width: 200,
-        height: 46,
+        width: 200.w,
+        height: 46.h,
         decoration: BoxDecoration(
           color:
               selectedIndex == 1 ? AppTheme.primaryColor : Colors.transparent,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(12.r),
         ),
         child: Center(
           child: Text(
@@ -81,7 +82,7 @@ class Trackerscreen extends StatelessWidget {
   title:  Text(
     "Activity Report".tr,
     style: TextStyle(
-      fontSize: 20,
+      fontSize: 20.sp,
       fontWeight: FontWeight.w600,
       color: Colors.black,
       fontFamily: "Inter",
@@ -94,11 +95,11 @@ class Trackerscreen extends StatelessWidget {
           builder: (__) {
             return Column(
               children: [
-                SizedBox(height: 10),
+                SizedBox(height: 10.h),
 
                 /// ---------- SEGMENT CONTROL ---------- ///
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: CupertinoTheme(
                     data: CupertinoThemeData(
                       primaryColor: Colors.transparent,
@@ -123,7 +124,7 @@ class Trackerscreen extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: 30),
+                SizedBox(height: 30.h),
 
                 if (tctrl.selectedbaby == 0)
                   Expanded(
@@ -132,7 +133,7 @@ class Trackerscreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                            padding: EdgeInsets.all(24),
+                            padding: EdgeInsets.all(24.sp),
                             decoration: BoxDecoration(
                               color: Theme.of(
                                 context,
@@ -141,17 +142,17 @@ class Trackerscreen extends StatelessWidget {
                             ),
                             child: Icon(
                               Icons.child_care,
-                              size: 64,
+                              size: 64.sp,
                               color: Theme.of(context).colorScheme.primary,
                             ),
                           ),
-                          SizedBox(height: 24),
+                          SizedBox(height: 24.h),
                           Text(
                             'No Babies Added Yet'.tr,
                             style: Theme.of(context).textTheme.headlineSmall
                                 ?.copyWith(fontWeight: FontWeight.w600),
                           ),
-                          SizedBox(height: 8),
+                          SizedBox(height: 8.h),
                           Text(
                             'Add your first baby profile to start tracking'.tr,
                             style: Theme.of(

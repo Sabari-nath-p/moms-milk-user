@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
@@ -10,9 +11,9 @@ import 'package:mommilk_user/Screens/TrackerScreen/Views/SleepingActivityCard.da
 import 'package:mommilk_user/theme/app_theme.dart';
 
 Map<int, Widget> _menus = <int, Widget>{
-  0: SizedBox(width: 178, height: 46, child: Center(child: Text("Last Day".tr))),
-  1: SizedBox(width: 178, height: 46, child: Center(child: Text("Last Week".tr))),
-  2: SizedBox(width: 178, height: 46, child: Center(child: Text("Last Month".tr))),
+  0: SizedBox(width: 178.w, height: 46.h, child: Center(child: Text("Last Day".tr))),
+  1: SizedBox(width: 178.w, height: 46.h, child: Center(child: Text("Last Week".tr))),
+  2: SizedBox(width: 178.w, height: 46.h, child: Center(child: Text("Last Month".tr))),
 };
 
 class Overviewscreen extends StatelessWidget {
@@ -23,7 +24,7 @@ class Overviewscreen extends StatelessWidget {
     return GetBuilder<TrackerController>(
       builder: (__) {
         return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 25),
+          padding: EdgeInsets.symmetric(horizontal: 25.w),
           child:
               (__.isOverviewLoading)
                   ? Center(
@@ -57,8 +58,8 @@ class Overviewscreen extends StatelessWidget {
                             Get.dialog(
                               Center(
                                 child: SizedBox(
-                                  height: 50,
-                                  width: 50,
+                                  height: 50.h,
+                                  width: 50.w,
                                   child: CircularProgressIndicator(
                                     color: AppTheme.primaryColor,
                                   ),
@@ -73,23 +74,23 @@ class Overviewscreen extends StatelessWidget {
                           },
                           children: _menus,
                         ),
-                        SizedBox(height: 20),
+                        SizedBox(height: 20.h),
 
                         Text(
                           'Feeding Analytics'.tr,
                           style: Theme.of(context).textTheme.titleLarge
                               ?.copyWith(fontWeight: FontWeight.w600),
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: 10.h),
 
                         Feedingoverviewcard(
                           model: __.overviewModel.feedAnalytics!,
                         ),
-                        SizedBox(height: 20),
+                        SizedBox(height: 20.h),
                         SleepingActivityCard(
                           model: __.overviewModel.sleepAnalytics!!,
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: 10.h),
                         DiaperOverviewCard(
                           model: __.overviewModel.diaperAnalytics!!,
                         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/utils.dart';
 import 'package:mommilk_user/Models/RequestModel.dart';
@@ -60,10 +61,10 @@ class MyRequestCard extends StatelessWidget {
         status.toLowerCase() == 'accepted' && request.donor != null;
 
     return Container(
-      padding: EdgeInsets.all(14),
+      padding: EdgeInsets.all(14.sp),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(14.r),
         border: Border.all(color: AppTheme.cardGradientStart, width: 1),
       ),
       child: Column(
@@ -80,42 +81,42 @@ class MyRequestCard extends StatelessWidget {
                     Text(
                       request.title ?? 'No Title'.tr,
                       style: TextStyle(
-                        fontSize: 15,
+                        fontSize: 15.sp,
                         fontWeight: FontWeight.w700,
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(height: 3),
+                    SizedBox(height: 3.h),
                     Text(
                       request.description ?? 'No description available'.tr,
-                      style: TextStyle(color: Colors.black54, fontSize: 13),
+                      style: TextStyle(color: Colors.black54, fontSize: 13.sp),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
               ),
-              SizedBox(width: 10),
+              SizedBox(width: 10.w),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
                 decoration: BoxDecoration(
                   color: _statusBg(status),
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(16.r),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(
                       _statusIcon(status),
-                      size: 12,
+                      size: 12.sp,
                       color: _statusColor(status),
                     ),
-                    SizedBox(width: 4),
+                    SizedBox(width: 4.w),
                     Text(
                       status.toUpperCase(),
                       style: TextStyle(
                         color: _statusColor(status),
-                        fontSize: 10,
+                        fontSize: 10.sp,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -125,36 +126,36 @@ class MyRequestCard extends StatelessWidget {
             ],
           ),
 
-          SizedBox(height: 12),
+          SizedBox(height: 12.h),
 
           // Info Row
           Row(
             children: [
-              Icon(Icons.schedule, size: 14, color: Colors.black54),
-              SizedBox(width: 4),
+              Icon(Icons.schedule, size: 14.sp, color: Colors.black54),
+              SizedBox(width: 4.w),
               Text(
                 formatDate(request.createdAt ?? ''),
-                style: TextStyle(color: Colors.black54, fontSize: 12),
+                style: TextStyle(color: Colors.black54, fontSize: 12.sp),
               ),
-              SizedBox(width: 14),
-              Icon(Icons.local_drink, size: 14, color: Colors.black54),
-              SizedBox(width: 4),
+              SizedBox(width: 14.w),
+              Icon(Icons.local_drink, size: 14.sp, color: Colors.black54),
+              SizedBox(width: 4.w),
               Text(
                 '${request.quantity ?? 0} ml',
                 style: TextStyle(
                   color: Colors.black54,
-                  fontSize: 12,
+                  fontSize: 12.sp,
                   fontWeight: FontWeight.w500,
                 ),
               ),
               Spacer(),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
                 decoration: BoxDecoration(
                   color: getUrgencyColor(
                     request.urgency ?? 'low',
                   ).withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(8.r),
                   border: Border.all(
                     color: getUrgencyColor(request.urgency ?? 'low'),
                     width: 1,
@@ -164,7 +165,7 @@ class MyRequestCard extends StatelessWidget {
                   (request.urgency ?? 'low').toUpperCase(),
                   style: TextStyle(
                     color: getUrgencyColor(request.urgency ?? 'low'),
-                    fontSize: 10,
+                    fontSize: 10.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -174,18 +175,18 @@ class MyRequestCard extends StatelessWidget {
 
           // Contact prompt — only until the buyer taps "Message" once.
           if (canContact) ...[
-            SizedBox(height: 12),
+            SizedBox(height: 12.h),
             Container(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.all(10.sp),
               decoration: BoxDecoration(
                 color: Color(0xFFFFF5F5),
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(10.r),
                 border: Border.all(color: AppTheme.cardGradientStart),
               ),
               child: Row(
                 children: [
                   CircleAvatar(
-                    radius: 18,
+                    radius: 18.r,
                     backgroundColor: _red,
                     child: Text(
                       (request.donor?.name ?? '').isNotEmpty
@@ -197,7 +198,7 @@ class MyRequestCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(width: 10),
+                  SizedBox(width: 10.w),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -206,21 +207,21 @@ class MyRequestCard extends StatelessWidget {
                           'Donor accepted your request'.tr,
                           style: TextStyle(
                             color: AppTheme.textSecondaryColor,
-                            fontSize: 11,
+                            fontSize: 11.sp,
                           ),
                         ),
                         Text(
                           request.donor?.name ?? 'Unknown Donor'.tr,
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 14,
+                            fontSize: 14.sp,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(width: 8),
+                  SizedBox(width: 8.w),
                   GestureDetector(
                     onTap: () {
                       final cctrl = Get.isRegistered<Chatcontroller>()
@@ -234,28 +235,28 @@ class MyRequestCard extends StatelessWidget {
                     },
                     child: Container(
                       padding: EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 8,
+                        horizontal: 12.w,
+                        vertical: 8.h,
                       ),
                       decoration: BoxDecoration(
                         gradient: AppTheme.roundButtonGradient,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(20.r),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(
                             Icons.chat_bubble_outline,
-                            size: 13,
+                            size: 13.sp,
                             color: Colors.white,
                           ),
-                          SizedBox(width: 6),
+                          SizedBox(width: 6.w),
                           Text(
                             'Message'.tr,
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w600,
-                              fontSize: 12,
+                              fontSize: 12.sp,
                             ),
                           ),
                         ],

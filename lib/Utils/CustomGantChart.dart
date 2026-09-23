@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
 //-///////////////////////////////////////////////////////////////////////////
@@ -387,9 +388,9 @@ class _GridPainter extends CustomPainter {
     // Draw text inside the activity block
     final textSpan = TextSpan(
       text: activity.description,
-      style: const TextStyle(
+      style: TextStyle(
         color: Colors.white,
-        fontSize: 12,
+        fontSize: 12.sp,
         fontWeight: FontWeight.bold,
       ),
     );

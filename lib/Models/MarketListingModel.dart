@@ -50,7 +50,7 @@ class MarketplaceListing {
     this.dimensions,
     this.boxContains = const [],
     this.distanceKm,
-    this.currencySymbol = '₹',
+    this.currencySymbol = '\$',
     this.currencyCode = 'INR',
     required this.user,
     required this.images,
@@ -107,7 +107,7 @@ class MarketplaceListing {
       distanceKm: json["distanceKm"] != null
           ? (json["distanceKm"] as num).toDouble()
           : null,
-      currencySymbol: json["currency"]?["symbol"] ?? '₹',
+      currencySymbol: json["currency"]?["symbol"] ?? '\$',
       currencyCode: json["currency"]?["code"] ?? 'INR',
       user: MarketplaceUser.fromJson(json["user"] ?? {}),
       images: (json["images"] as List<dynamic>? ?? [])

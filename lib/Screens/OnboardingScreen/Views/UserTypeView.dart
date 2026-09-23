@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/utils.dart';
 import 'package:mommilk_user/Screens/OnboardingScreen/Controller/OnboardingController.dart';
@@ -12,7 +13,7 @@ class UserTypeStep extends StatelessWidget {
     return GetBuilder<Onboardingcontroller>(
       builder: (controller) {
         return SingleChildScrollView(
-          padding: EdgeInsets.all(24),
+          padding: EdgeInsets.all(24.r),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -24,7 +25,7 @@ class UserTypeStep extends StatelessWidget {
                 ),
               ),
 
-              SizedBox(height: 8),
+              SizedBox(height: 8.h),
 
               Text(
                 'Choose your role to personalize your app experience.'.tr,
@@ -33,7 +34,7 @@ class UserTypeStep extends StatelessWidget {
                 ),
               ),
 
-              SizedBox(height: 40),
+              SizedBox(height: 40.h),
 
               // Donor Option
               _buildUserTypeCard(
@@ -56,7 +57,7 @@ class UserTypeStep extends StatelessWidget {
                 ],
               ),
 
-              SizedBox(height: 24),
+              SizedBox(height: 24.h),
 
               // Buyer Option
               _buildUserTypeCard(
@@ -82,18 +83,18 @@ class UserTypeStep extends StatelessWidget {
               //   SizedBox(height: 24),
 
               // Tracker Option
-              SizedBox(height: 32),
+              SizedBox(height: 32.h),
 
               // Info Card
               Container(
-                padding: EdgeInsets.all(16),
+                padding: EdgeInsets.all(16.r),
                 decoration: BoxDecoration(
                   gradient: AppTheme.buttonCardGradient,
                    color: Theme.of(context)
                       .colorScheme
                       .primary
                       .withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                   border: Border.all(
                     color: Theme.of(context)
                         .colorScheme
@@ -107,7 +108,7 @@ class UserTypeStep extends StatelessWidget {
                       Icons.security,
                       color: Theme.of(context).colorScheme.primary,
                     ),
-                    SizedBox(width: 12),
+                    SizedBox(width: 12.w),
                     Expanded(
                       child: Text(
                         'Find milk donors near you. Review profiles and connect safely based on your comfort and judgment.'.tr,
@@ -139,12 +140,12 @@ class UserTypeStep extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.all(20.r),
         decoration: BoxDecoration(
          // color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
           gradient: AppTheme.CardGradient,
 
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(16.r),
           border: Border.all(
             color:
                 isSelected
@@ -166,22 +167,22 @@ class UserTypeStep extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  padding: EdgeInsets.all(12),
+                  padding: EdgeInsets.all(12.r),
                   decoration: BoxDecoration(
                     color:
                         isSelected
                             ? Theme.of(context).colorScheme.primary
                             : Colors.grey[100],
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                   child: Icon(
                     icon,
                     color: isSelected ? Colors.white : Color(0xffF43F5E),
-                    size: 24,
+                    size: 24.sp,
                   ),
                 ),
 
-                SizedBox(width: 16),
+                SizedBox(width: 16.w),
 
                 Expanded(
                   child: Column(
@@ -215,27 +216,27 @@ class UserTypeStep extends StatelessWidget {
               ],
             ),
 
-            SizedBox(height: 16),
+            SizedBox(height: 16.h),
 
             Text(description, style: Theme.of(context).textTheme.bodyMedium),
 
-            SizedBox(height: 16),
+            SizedBox(height: 16.h),
 
             ...benefits
                 .map(
                   (benefit) => Padding(
-                    padding: EdgeInsets.only(bottom: 4),
+                    padding: EdgeInsets.only(bottom: 4.h),
                     child: Row(
                       children: [
                         Icon(
                           Icons.check,
-                          size: 16,
+                          size: 16.sp,
                           color:
                               isSelected
                                   ? Theme.of(context).colorScheme.primary
                                   : Colors.white.withOpacity(.9),
                         ),
-                        SizedBox(width: 8),
+                        SizedBox(width: 8.w),
                         Text(
                           benefit,
                           style: Theme.of(context).textTheme.bodySmall

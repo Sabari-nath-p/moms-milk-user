@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/utils.dart';
 import 'package:mommilk_user/Screens/Dashboard/MainDashBoard.dart';
@@ -33,35 +34,35 @@ class UpdateScreen extends StatelessWidget {
             child: Image.asset("assets/updateApp.png"),
           ),
           Positioned(
-            top: 300,
-            left: 20,
+            top: 300.h,
+            left: 20.w,
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(18),
+              borderRadius: BorderRadius.circular(18.r),
               child: Image.asset(
                 "assets/AppIcon.png",
                 fit: BoxFit.cover,
 
-                height: 70,
+                height: 70.h,
               ),
             ),
           ),
           Positioned(
-            top: 390,
-            left: 25,
-            right: 22,
+            top: 390.h,
+            left: 25.w,
+            right: 22.w,
             child: Text(
               "Update your application to the\nlatest version".tr,
               style: TextStyle(
                 fontWeight: FontWeight.w500,
                 color: Colors.black,
-                fontSize: 18,
+                fontSize: 18.sp,
               ),
             ),
           ),
           if (!isForce)
             Positioned(
-              top: 40,
-              right: 20,
+              top: 40.h,
+              right: 20.w,
               child: InkWell(
                 onTap: () async {
                   SharedPreferences pref =
@@ -80,29 +81,29 @@ class UpdateScreen extends StatelessWidget {
               ),
             ),
           Positioned(
-            top: 450,
-            left: 25,
-            right: 10,
+            top: 450.h,
+            left: 25.w,
+            right: 10.w,
             child: Text(
               "We added some new features and fix some bug to make your experience as smooth as possible"
                   .tr,
               style: TextStyle(
                 fontWeight: FontWeight.w400,
                 color: Colors.black,
-                fontSize: 12,
+                fontSize: 12.sp,
               ),
             ),
           ),
           Positioned(
-            bottom: 60,
-            left: 22,
-            right: 22,
+            bottom: 60.h,
+            left: 22.w,
+            right: 22.w,
             child: Container(
-              width: 200,
-              margin: EdgeInsets.only(top: 20),
+              width: 200.w,
+              margin: EdgeInsets.only(top: 20.h),
               decoration: BoxDecoration(
                 gradient: AppTheme.roundButtonGradient,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
               child: ElevatedButton(
                 onPressed: () {
@@ -127,7 +128,7 @@ class UpdateScreen extends StatelessWidget {
                       Colors.transparent, // remove default background
                   shadowColor: Colors.transparent, // remove shadow
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                 ),
                 child: Row(

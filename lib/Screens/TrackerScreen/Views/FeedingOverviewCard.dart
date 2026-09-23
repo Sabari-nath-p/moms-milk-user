@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gauge_chart/gauge_chart.dart';
 import 'package:get/utils.dart';
 import 'package:mommilk_user/Screens/TrackerScreen/Models/AnalyticsOverviewModel.dart';
@@ -33,17 +34,17 @@ class _FeedingoverviewcardState extends State<Feedingoverviewcard> {
     return Container(
       key: ValueKey(totalFeeds), // <-- Ensures proper rebuild
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12.r),
         gradient: AppTheme.CardGradient,
       ),
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.sp),
         child:
             (totalFeeds == 0)
                 ? Center(
                   child: Container(
                     alignment: Alignment.center,
-                    height: 100,
+                    height: 100.h,
                     child: Text('No data available'.tr),
                   ),
                 )
@@ -54,11 +55,11 @@ class _FeedingoverviewcardState extends State<Feedingoverviewcard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          SizedBox(height: 60),
+                          SizedBox(height: 60.h),
                           RepaintBoundary(
                             child: SizedBox(
-                              height: 100,
-                              width: 170,
+                              height: 100.h,
+                              width: 170.w,
                               child: GaugeChart(
                                 key: ValueKey(
                                   totalFeeds,
@@ -67,7 +68,7 @@ class _FeedingoverviewcardState extends State<Feedingoverviewcard> {
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 10,
+                                  fontSize: 10.sp,
                                 ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -75,15 +76,15 @@ class _FeedingoverviewcardState extends State<Feedingoverviewcard> {
                                     Text(
                                       "$totalFeeds".tr,
                                       style: TextStyle(
-                                        fontSize: 14,
+                                        fontSize: 14.sp,
                                         color: Colors.black,
                                       ),
                                     ),
                                     Text(
                                       "Total Feeds".tr,
-                                      style: TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize: 12.sp),
                                     ),
-                                    SizedBox(height: 5),
+                                    SizedBox(height: 5.h),
                                     Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
@@ -91,37 +92,37 @@ class _FeedingoverviewcardState extends State<Feedingoverviewcard> {
                                           MainAxisAlignment.center,
                                       children: [
                                         CircleAvatar(
-                                          radius: 2,
+                                          radius: 2.r,
                                           backgroundColor: Colors.amber,
                                         ),
-                                        SizedBox(width: 2),
+                                        SizedBox(width: 2.w),
                                         Text(
                                           "Breast".tr,
-                                          style: TextStyle(fontSize: 9),
+                                          style: TextStyle(fontSize: 9.sp),
                                         ),
-                                        SizedBox(width: 5),
+                                        SizedBox(width: 5.w),
                                         CircleAvatar(
-                                          radius: 2,
+                                          radius: 2.r,
                                           backgroundColor: Colors.red,
                                         ),
-                                        SizedBox(width: 2),
+                                        SizedBox(width: 2.w),
                                         Text(
                                           "Bottle",
-                                          style: TextStyle(fontSize: 9),
+                                          style: TextStyle(fontSize: 9.sp),
                                         ),
-                                        SizedBox(width: 5),
+                                        SizedBox(width: 5.w),
                                         CircleAvatar(
-                                          radius: 2,
+                                          radius: 2.r,
                                           backgroundColor: Colors.indigo,
                                         ),
-                                        SizedBox(width: 2),
+                                        SizedBox(width: 2.w),
                                         Text(
                                           "Solid".tr,
-                                          style: TextStyle(fontSize: 9),
+                                          style: TextStyle(fontSize: 9.sp),
                                         ),
                                       ],
                                     ),
-                                    SizedBox(height: 12),
+                                    SizedBox(height: 12.h),
                                     Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
@@ -131,7 +132,7 @@ class _FeedingoverviewcardState extends State<Feedingoverviewcard> {
                                         Text(
                                           "Avg feed / Day : ".tr,
                                           style: TextStyle(
-                                            fontSize: 12,
+                                            fontSize: 12.sp,
                                             color: Colors.black,
                                           ),
                                         ),
@@ -243,9 +244,9 @@ class TicketCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 4),
+      margin: EdgeInsets.symmetric(vertical: 4.h),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(4.0),
+        borderRadius: BorderRadius.circular(4.0.r),
         gradient: LinearGradient(
           colors: gradientColors,
           begin: Alignment.topLeft,
@@ -253,25 +254,25 @@ class TicketCard extends StatelessWidget {
         ),
       ),
       child: Container(
-        width: 100,
-        height: 35,
+        width: 100.w,
+        height: 35.h,
         //  padding: EdgeInsets.symmetric(vertical: 10),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             // 1. Colored Vertical Bar
             Container(
-              width: 6,
-              height: 35,
+              width: 6.w,
+              height: 35.h,
               decoration: BoxDecoration(
                 color: barColor,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(8.0),
-                  bottomLeft: Radius.circular(8.0),
+                  topLeft: Radius.circular(8.0.r),
+                  bottomLeft: Radius.circular(8.0.r),
                 ),
               ),
             ),
-            SizedBox(width: 10),
+            SizedBox(width: 10.w),
             // 2. Icon + Text
             Row(
               children: [
@@ -297,7 +298,7 @@ class TicketCard extends StatelessWidget {
                 Text(
                   "$title  : ",
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize: 12.sp,
                     color: Colors.white,
                     fontWeight: FontWeight.w600,
                   ),
@@ -305,7 +306,7 @@ class TicketCard extends StatelessWidget {
                 Text(
                   count,
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize: 12.sp,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),

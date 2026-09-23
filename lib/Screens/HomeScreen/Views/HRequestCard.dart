@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/utils.dart';
 import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
 import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
@@ -14,7 +15,7 @@ class HRequestCard extends StatelessWidget {
     final Color bg = Color(0xFFFFE4E6);
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      padding: EdgeInsets.symmetric(horizontal: 10.w),
       child: Row(
         children: [
           // -----------------------------------
@@ -27,10 +28,10 @@ class HRequestCard extends StatelessWidget {
                 controller.update();
               },
               child: Container(
-                padding: EdgeInsets.symmetric(vertical: 12),
+                padding: EdgeInsets.symmetric(vertical: 12.h),
                 decoration: BoxDecoration(
                   color: controller.connectionTabIndex == 0 ? bg : Colors.white,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.r),
                   border: Border.all(
                     color: selectedColor.withOpacity(0.4),
                     width: 1,
@@ -50,7 +51,7 @@ class HRequestCard extends StatelessWidget {
             ),
           ),
 
-          SizedBox(width: 12),
+          SizedBox(width: 12.w),
 
           // -----------------------------------
           // FIND DONORS TAB BUTTON
@@ -63,10 +64,10 @@ class HRequestCard extends StatelessWidget {
                   controller.update();
                 },
                 child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 12),
+                  padding: EdgeInsets.symmetric(vertical: 12.h),
                   decoration: BoxDecoration(
                     color: controller.connectionTabIndex == 1 ? bg : Colors.white,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(20.r),
                     border: Border.all(
                       color: selectedColor.withOpacity(0.4),
                       width: 1,

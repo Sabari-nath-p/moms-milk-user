@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // A simple class to hold unit information.
 class Unit {
@@ -103,7 +104,7 @@ class _UnitInputFieldState extends State<UnitInputField> {
       inputFormatters: [
         FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
       ],
-      style: TextStyle(fontSize: 16),
+      style: TextStyle(fontSize: 16.sp),
 
       decoration: InputDecoration(
         labelText: widget.title,
@@ -117,19 +118,19 @@ class _UnitInputFieldState extends State<UnitInputField> {
             items: _units.map((unit) {
               return DropdownMenuItem<Unit>(
                 value: unit,
-                child: Text(unit.name, style: TextStyle(fontSize: 16)),
+                child: Text(unit.name, style: TextStyle(fontSize: 16.sp)),
               );
             }).toList(),
           ),
         ),
 
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.r)),
          enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                           borderSide: BorderSide(color: Colors.grey[400]!),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                           borderSide: BorderSide(
                             color: Theme.of(context).colorScheme.primary,
                             width: 2,
