@@ -774,7 +774,7 @@ class _SellerProfileScreenState extends State<SellerProfileScreen> {
                         )
                       else
                         Text(
-                          '₹${item.price}',
+                          '\$${item.price}',
                           style: TextStyle(
                             color: _red,
                             fontSize: 14.sp,

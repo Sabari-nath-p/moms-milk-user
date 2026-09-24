@@ -214,7 +214,7 @@ class MyListingsScreen extends StatelessWidget {
                               Row(
                                 children: [
                                   Text(
-                                    "₹${item["price"]}",
+                                    "\$${item["price"]}",
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18.sp,

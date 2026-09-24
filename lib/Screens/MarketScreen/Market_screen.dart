@@ -665,7 +665,7 @@ class _MarketScreenState extends State<MarketScreen> {
                         borderRadius: BorderRadius.circular(8.r),
                       ),
                       child: Text(
-                        '₹${_tempPrice.start.toInt()}  –  ${_tempPrice.end.toInt() >= 50000 ? 'Any'.tr : '₹${_tempPrice.end.toInt()}'}',
+                        '\$${_tempPrice.start.toInt()}  –  ${_tempPrice.end.toInt() >= 50000 ? 'Any'.tr : '\$${_tempPrice.end.toInt()}'}',
                         style: TextStyle(
                           fontSize: 12.sp,
                           color: _red,
@@ -700,10 +700,10 @@ class _MarketScreenState extends State<MarketScreen> {
                   runSpacing: 6,
                   children: [
                     for (final preset in [
-                      ['${'Under'.tr} ₹500', RangeValues(0, 500)],
-                      ['₹500–₹2000', RangeValues(500, 2000)],
-                      ['₹2000–₹5000', RangeValues(2000, 5000)],
-                      ['₹5000+', RangeValues(5000, 50000)],
+                      ['${'Under'.tr} \$500', RangeValues(0, 500)],
+                      ['\$500–\$2000', RangeValues(500, 2000)],
+                      ['\$2000–\$5000', RangeValues(2000, 5000)],
+                      ['\$5000+', RangeValues(5000, 50000)],
                     ])
                       GestureDetector(
                         onTap: () => setSheet(

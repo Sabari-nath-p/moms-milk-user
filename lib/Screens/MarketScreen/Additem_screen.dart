@@ -1014,7 +1014,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   _inputField(
                     controller: ctrl.priceController,
                     hint: '1500',
-                    prefix: '₹ ',
+                    prefix: '\$ ',
                     keyboardType: TextInputType.number,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   ),
@@ -1030,7 +1030,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   _inputField(
                     controller: ctrl.originalPriceController,
                     hint: '2999',
-                    prefix: '₹ ',
+                    prefix: '\$ ',
                     keyboardType: TextInputType.number,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   ),
@@ -1056,7 +1056,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
               Icon(Icons.local_offer_outlined, color: _kGreen, size: 14.sp),
               SizedBox(width: 6.w),
               Text(
-                '${'Buyers save'.tr} ₹${ctrl.savings} (${ctrl.discountPercent}% ${'off'.tr})',
+                '${'Buyers save'.tr} \$${ctrl.savings} (${ctrl.discountPercent}% ${'off'.tr})',
                 style: TextStyle(
                   fontSize: 11.sp,
                   color: _kGreen,
@@ -1204,7 +1204,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
               ),
               SizedBox(height: 2.h),
               Text(
-                'Mark this as a free donation — price will be set to ₹0'.tr,
+                'Mark this as a free donation — price will be set to \$0'.tr,
                 style: TextStyle(fontSize: 11.sp, color: _kSubLabel),
               ),
             ],
@@ -1287,7 +1287,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
         Icon(Icons.card_giftcard_outlined, color: _kGreen, size: 16.sp),
         SizedBox(width: 8.w),
         Text(
-          'Free — ₹0 (Donation)'.tr,
+          'Free — \$0 (Donation)'.tr,
           style: TextStyle(
             fontSize: 13.sp,
             fontWeight: FontWeight.w700,
@@ -1606,7 +1606,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                         Text(
                           (widget.isMilk && ctrl.isDonation)
                               ? 'FREE'.tr
-                              : '₹$price',
+                              : '\$$price',
                           style: TextStyle(
                             color: (widget.isMilk && ctrl.isDonation)
                                 ? _kGreen
@@ -1619,7 +1619,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                         if (origPrice != null &&
                             !(widget.isMilk && ctrl.isDonation))
                           Text(
-                            '₹$origPrice',
+                            '\$$origPrice',
                             style: TextStyle(
                               color: _kSubLabel,
                               fontSize: 13.sp,
@@ -1745,8 +1745,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
                 (widget.isMilk && ctrl.isDonation)
                     ? 'Free'.tr
                     : disc != null
-                    ? '₹$price (${disc}% off)\nOriginal: ₹${ctrl.originalPriceController.text}'
-                    : '₹$price',
+                    ? '\$$price (${disc}% off)\nOriginal: \$${ctrl.originalPriceController.text}'
+                    : '\$$price',
               ),
               if (ctrl.materials.isNotEmpty) ...[
                 _reviewDivider(),

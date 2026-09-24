@@ -280,7 +280,7 @@ class _EditListingScreenState extends State<EditListingScreen> {
                         controller: controller.priceController,
                         hint: "e.g. 1500",
                         keyboardType: TextInputType.number,
-                        prefix: "₹ ",
+                        prefix: "\$ ",
                       ),
                     ] else
                       _freeDonationBadge(),
@@ -681,7 +681,7 @@ class _EditListingScreenState extends State<EditListingScreen> {
               ),
               SizedBox(height: 2.h),
               Text(
-                "Mark this as a free donation — price will be set to ₹0",
+                "Mark this as a free donation — price will be set to \$0",
                 style: TextStyle(fontSize: 11.sp, color: Colors.grey.shade600),
               ),
             ],
@@ -713,7 +713,7 @@ class _EditListingScreenState extends State<EditListingScreen> {
         ),
         SizedBox(width: 8.w),
         Text(
-          "Free — ₹0 (Donation)",
+          "Free — \$0 (Donation)",
           style: TextStyle(
             fontSize: 13.sp,
             fontWeight: FontWeight.w700,
