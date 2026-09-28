@@ -54,7 +54,7 @@ class ProfileScreen extends StatelessWidget {
             child: CustomScrollView(
               slivers: [
                 SliverPadding(
-                  padding: EdgeInsets.all(16.h),
+                  padding: EdgeInsets.all(10.h),
                   sliver: SliverList(
                     delegate: SliverChildListDelegate([
                       _buildUserCard(context),
