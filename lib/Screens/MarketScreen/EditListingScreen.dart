@@ -176,7 +176,7 @@ class _EditListingScreenState extends State<EditListingScreen> {
           elevation: 0,
           centerTitle: true,
           title: Text(
-            "Edit Listing",
+            "Edit Listing".tr,
             style: TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.w700,
@@ -204,7 +204,7 @@ class _EditListingScreenState extends State<EditListingScreen> {
               child: controller.isUpdating
                   ? const CircularProgressIndicator(color: Colors.white)
                   : Text(
-                      "Update Listing",
+                      "Update Listing".tr,
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w700,
@@ -224,14 +224,14 @@ class _EditListingScreenState extends State<EditListingScreen> {
                     _imageSection(),
                     SizedBox(height: 20.h),
 
-                    _label("Item Name *"),
+                    _label("Item Name *".tr),
                     _textField(
                       controller: controller.titleController,
-                      hint: "e.g. Wooden Baby Cradle",
+                      hint: "e.g. Wooden Baby Cradle".tr,
                     ),
                     SizedBox(height: 16.h),
 
-                    _label("Category *"),
+                    _label("Category *".tr),
                     // A listing already saved as "MILK" can't be re-pointed
                     // at the baby-item category dropdown — that list doesn't
                     // (and shouldn't) contain "MILK", and feeding a dropdown
@@ -251,7 +251,7 @@ class _EditListingScreenState extends State<EditListingScreen> {
                           ),
                     SizedBox(height: 16.h),
 
-                    _label("Condition *"),
+                    _label("Condition *".tr),
                     _dropdownField(
                       value: controller.selectedCondition,
                       items: conditions,
@@ -263,10 +263,10 @@ class _EditListingScreenState extends State<EditListingScreen> {
                     SizedBox(height: 16.h),
 
                     if (controller.isMilk) ...[
-                      _label("Quantity (ml) *"),
+                      _label("Quantity (ml) *".tr),
                       _textField(
                         controller: controller.quantityController,
-                        hint: "e.g. 500",
+                        hint: "e.g. 500".tr,
                         keyboardType: TextInputType.number,
                       ),
                       SizedBox(height: 16.h),
@@ -275,10 +275,10 @@ class _EditListingScreenState extends State<EditListingScreen> {
                     ],
 
                     if (!(controller.isMilk && controller.isDonation)) ...[
-                      _label("Price *"),
+                      _label("Price *".tr),
                       _textField(
                         controller: controller.priceController,
-                        hint: "e.g. 1500",
+                        hint: "e.g. 1500".tr,
                         keyboardType: TextInputType.number,
                         prefix: "\$ ",
                       ),
@@ -286,30 +286,30 @@ class _EditListingScreenState extends State<EditListingScreen> {
                       _freeDonationBadge(),
                     SizedBox(height: 16.h),
 
-                    _label("Description *"),
+                    _label("Description *".tr),
                     TextField(
                       controller: controller.descriptionController,
                       maxLines: 5,
                       decoration: _inputDecoration(
-                        hintText: "Tell us more about the item",
+                        hintText: "Tell us more about the item".tr,
                       ),
                     ),
                     SizedBox(height: 16.h),
 
-                    _label("Zipcode *"),
+                    _label("Zipcode *".tr),
                     _textField(
                       controller: controller.zipcodeController,
-                      hint: "e.g. 600001",
+                      hint: "e.g. 600001".tr,
                       keyboardType: TextInputType.number,
                     ),
                     SizedBox(height: 16.h),
 
                     // Milk listings send only "zipcode" — no place name.
                     if (!controller.isMilk) ...[
-                      _label("Place Name *"),
+                      _label("Place Name *".tr),
                       _textField(
                         controller: controller.placeController,
-                        hint: "e.g. Chennai, Tamil Nadu",
+                        hint: "e.g. Chennai, Tamil Nadu".tr,
                       ),
                       SizedBox(height: 16.h),
                     ],
@@ -358,7 +358,7 @@ class _EditListingScreenState extends State<EditListingScreen> {
                       ),
                       SizedBox(height: 12.h),
                       Text(
-                        "Tap to Add Photos",
+                        "Tap to Add Photos".tr,
                         style: TextStyle(
                           color: primaryRed,
                           fontWeight: FontWeight.w700,
@@ -367,7 +367,7 @@ class _EditListingScreenState extends State<EditListingScreen> {
                       ),
                       SizedBox(height: 4.h),
                       Text(
-                        "At least 1 photo required",
+                        "At least 1 photo required".tr,
                         style: TextStyle(
                           color: Colors.grey.shade500,
                           fontSize: 12.sp,
@@ -442,7 +442,7 @@ class _EditListingScreenState extends State<EditListingScreen> {
                                   // Absorb tap so parent GestureDetector (pickImages) is NOT triggered
                                   Get.snackbar(
                                     'Cannot Remove'.tr,
-                                    'At least 1 photo is required.',
+                                    'At least 1 photo is required.'.tr,
                                     backgroundColor: const Color(0xFFE8453C),
                                     colorText: Colors.white,
                                     snackPosition: SnackPosition.BOTTOM,
@@ -636,7 +636,7 @@ class _EditListingScreenState extends State<EditListingScreen> {
       children: [
         Icon(Icons.water_drop_outlined, color: primaryRed, size: 18.sp),
         SizedBox(width: 8.w),
-        Text("Milk", style: TextStyle(fontSize: 14.sp)),
+        Text("Milk".tr, style: TextStyle(fontSize: 14.sp)),
         const Spacer(),
         Icon(Icons.lock_outline, color: Color(0xFF6B7280), size: 16.sp),
       ],
@@ -676,12 +676,12 @@ class _EditListingScreenState extends State<EditListingScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Free Donation",
+                "Free Donation".tr,
                 style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w700),
               ),
               SizedBox(height: 2.h),
               Text(
-                "Mark this as a free donation — price will be set to \$0",
+                "Mark this as a free donation — price will be set to \$0".tr,
                 style: TextStyle(fontSize: 11.sp, color: Colors.grey.shade600),
               ),
             ],
@@ -713,7 +713,7 @@ class _EditListingScreenState extends State<EditListingScreen> {
         ),
         SizedBox(width: 8.w),
         Text(
-          "Free — \$0 (Donation)",
+          "Free — \$0 (Donation)".tr,
           style: TextStyle(
             fontSize: 13.sp,
             fontWeight: FontWeight.w700,

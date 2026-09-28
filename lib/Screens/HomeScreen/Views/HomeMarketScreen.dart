@@ -1782,3 +1782,16 @@ Widget _placeholder() => Container(
     child: Icon(Icons.image_outlined, size: 26, color: Colors.grey.shade400),
   ),
 );
+
+String getTimeOfDay() {
+  final hour = DateTime.now().hour;
+  if (hour >= 5 && hour < 12) {
+    return 'Morning'.tr;
+  } else if (hour >= 12 && hour < 17) {
+    return 'Afternoon'.tr;
+  } else if (hour >= 17 && hour < 21) {
+    return 'Evening'.tr;
+  } else {
+    return 'Night'.tr;
+  }
+}

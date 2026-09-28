@@ -1,75 +1,75 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:get/utils.dart';
-import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
-import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
-import 'package:mommilk_user/Screens/HomeScreen/HomeScreen.dart';
-import 'package:mommilk_user/theme/app_theme.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:get/get_state_manager/get_state_manager.dart';
+// import 'package:get/utils.dart';
+// import 'package:mommilk_user/Screens/AuthenticationScreen/Controller/AuthController.dart';
+// import 'package:mommilk_user/Screens/HomeScreen/Controller/HomeController.dart';
+// import 'package:mommilk_user/Screens/HomeScreen/HomeScreen.dart';
+// import 'package:mommilk_user/theme/app_theme.dart';
 
-class HHeaderCard extends StatelessWidget {
-  HHeaderCard({super.key});
+// class HHeaderCard extends StatelessWidget {
+//   HHeaderCard({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return GetBuilder<Homecontroller>(
-      builder:
-          (controller) => Container(
-            padding: EdgeInsets.all(24.w),
-            // margin: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              gradient: AppTheme.CardGradient,
-              borderRadius: BorderRadius.circular(24.r),
+//   @override
+//   Widget build(BuildContext context) {
+//     return GetBuilder<Homecontroller>(
+//       builder:
+//           (controller) => Container(
+//             padding: EdgeInsets.all(24.w),
+//             // margin: EdgeInsets.all(10),
+//             decoration: BoxDecoration(
+//               gradient: AppTheme.CardGradient,
+//               borderRadius: BorderRadius.circular(24.r),
 
-              // Blended Deep Charcoal
-              border: Border.all(color: AppTheme.borderColor, width: 1.5),
-            ),
-            child: Row(
-              children: [
-                Container(
-                  padding: EdgeInsets.all(12.w),
-                  decoration: BoxDecoration(
-                    gradient: AppTheme.buttonCardGradient,
-                    borderRadius: BorderRadius.circular(12.r),
-                  ),
-                  child: Icon(
-                    Icons.child_care,
-                    color: Theme.of(context).colorScheme.onPrimary,
-                    size: 24.sp,
-                  ),
-                ),
-                SizedBox(width: 16.w),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Good".tr + ' ${getTimeOfDay()}, ${user.name}!'.tr,
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      SizedBox(height: 4.h),
-                      Text(
-                        user.userType == 'donor'
-                            ? 'Help families in need today'.tr
-                            : controller.selectedBady != null
-                            ? ('Tracking'.tr +
-                                ' ${controller.selectedBady!.name}\'s ' +
-                                'journey'.tr)
-                            : 'Add your baby to start tracking'.tr,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(
-                            context,
-                          ).textTheme.bodyMedium?.color?.withOpacity(0.7),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-    );
-  }
-}
+//               // Blended Deep Charcoal
+//               border: Border.all(color: AppTheme.borderColor, width: 1.5),
+//             ),
+//             child: Row(
+//               children: [
+//                 Container(
+//                   padding: EdgeInsets.all(12.w),
+//                   decoration: BoxDecoration(
+//                     gradient: AppTheme.buttonCardGradient,
+//                     borderRadius: BorderRadius.circular(12.r),
+//                   ),
+//                   child: Icon(
+//                     Icons.child_care,
+//                     color: Theme.of(context).colorScheme.onPrimary,
+//                     size: 24.sp,
+//                   ),
+//                 ),
+//                 SizedBox(width: 16.w),
+//                 Expanded(
+//                   child: Column(
+//                     crossAxisAlignment: CrossAxisAlignment.start,
+//                     children: [
+//                       Text(
+//                         "Good".tr + ' ${getTimeOfDay()}, ${user.name}!'.tr,
+//                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
+//                           fontWeight: FontWeight.w600,
+//                         ),
+//                       ),
+//                       SizedBox(height: 4.h),
+//                       Text(
+//                         user.userType == 'donor'
+//                             ? 'Help families in need today'.tr
+//                             : controller.selectedBady != null
+//                             ? ('Tracking'.tr +
+//                                 ' ${controller.selectedBady!.name}\'s ' +
+//                                 'journey'.tr)
+//                             : 'Add your baby to start tracking'.tr,
+//                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+//                           color: Theme.of(
+//                             context,
+//                           ).textTheme.bodyMedium?.color?.withOpacity(0.7),
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//     );
+//   }
+// }
